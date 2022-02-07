@@ -3,7 +3,8 @@
   "scripts": {
     "postinstall": "elm-tooling install",
     "start": "elm-pages dev --port 3000",
-    "build": "elm-pages build"
+    "build": "elm-pages build",
+    "format": "elm-format src"
   },
   "devDependencies": {
     "elm-optimize-level-2": "0.2.3",
