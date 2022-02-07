@@ -66,4 +66,4 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    View.placeholder "Index"
+    View.placeholder "The Trans Dimension"
