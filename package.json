@@ -4,7 +4,8 @@
     "postinstall": "elm-tooling install",
     "start": "elm-pages dev --port 3000",
     "build": "elm-pages build",
-    "format": "elm-format src"
+    "format": "elm-format src",
+    "test": "elm-test-rs"
   },
   "devDependencies": {
     "elm-optimize-level-2": "0.2.3",
