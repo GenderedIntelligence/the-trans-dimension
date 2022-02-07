@@ -11,3 +11,8 @@
 - make a branch that includes the issue type (fix/feat/chore etc & number)
 - make sure you understand the acceptance criteria
 - ask questions & make plan
+
+### Code review & merge
+- check the acceptance criteria have been met
+- add comments & questions
+- once apporved, leave for the author to squash and merge
