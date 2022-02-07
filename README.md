@@ -1,6 +1,10 @@
 # The Trans Dimension
 ## A [PlaceCal](https://placecal.org/) community site
 
+## Testing
+- we're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://github.com/elm-explorations/test/)
+- run tests with `npm test`
+
 ## Development workflow
 ### Adding issues
  - add effort & value labels (if you know enough about it)
