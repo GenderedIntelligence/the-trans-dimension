@@ -2,7 +2,6 @@
 
 ## A [PlaceCal](https://placecal.org/) community site
 
-
 Front-end for [The Trans Dimension](http://transdimension.uk/), an online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between [Gendered Intelligence](https://genderedintelligence.co.uk/) and [Geeks for Social Change](https://gfsc.studio/).
 
 Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodhub.co.uk/build-fund-2021). Read more about the project [here](https://gfsc.studio/2021/12/14/enter-trans-dimension.html).
@@ -17,10 +16,14 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 ## Setup & install instructions
 
 ## Testing
+We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://github.com/elm-explorations/test/)
+- run tests with `npm test`
 
 ## Deployment
-
-Deploys to Netlify.
+Deploys to Netlify
+- code is tested and linted automatically before deploy
+- when a pull request is created, a preview site is deployed
+- when a pull request is merged into `main`, the prodtion site is deployed
 
 ## Development workflow
 ### Adding issues
