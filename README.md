@@ -12,14 +12,56 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 # Development
 
 ## Prerequisites
+- [node](https://nodejs.org/)
+- [nvm for macOS & Linux](https://github.com/nvm-sh/nvm) or [nvm for Windows](https://github.com/coreybutler/nvm-windows)
 
 ## Setup & install instructions
+
+- make sure you are using the correct node version with `nvm use`
+- install with `npm install`i
+
+## Build
+- `npm start` to start a dev server on http://localhost:3000
+- `npm build` generate a production build in `dist/`
+
+## Formatting
+
+We recommend integrating `elm-format@0.8.3` into your code editor, but if you don't...
+- Please run `npm format` to format `.elm` files in `src` before committing code.
 
 ## Testing
 
 We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://github.com/elm-explorations/test/)
 
 -  run tests with `npm test`
+
+## Code & configs
+
+## This site is built with `elm-pages`
+
+- [Documentation site](https://elm-pages.com)
+- [Elm Package docs](https://package.elm-lang.org/packages/dillonkearns/elm-pages/latest/)
+- [`elm-pages` blog](https://elm-pages.com/blog)
+
+## What it's for
+
+- `elm.json` for elm packages used for site
+- `elm-tooling.json` for elm packages used for code
+- `package.json` for node scripts and packages
+- `package-lock.json` for current versions of node packages
+- `.nvmrc` contains project node version
+- `.netlify.toml` for deploy config
+- `tests/*` contains test files
+- `public/*` contains static files to be copied direct to build
+- `src/*` contains app source files
+
+## Content & Pages
+
+- TBC
+
+## Styling & layouts
+
+- TBC
 
 ## Deployment
 
