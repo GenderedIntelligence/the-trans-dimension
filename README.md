@@ -12,6 +12,7 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 # Development
 
 ## Prerequisites
+
 - [node](https://nodejs.org/)
 - [nvm for macOS & Linux](https://github.com/nvm-sh/nvm) or [nvm for Windows](https://github.com/coreybutler/nvm-windows)
 
@@ -21,6 +22,7 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 - install with `npm install`i
 
 ## Build
+
 - `npm start` to start a dev server on http://localhost:3000
 - `npm build` generate a production build in `dist/`
 
@@ -37,13 +39,13 @@ We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm t
 
 ## Code & configs
 
-## This site is built with `elm-pages`
+### This site is built with `elm-pages`
 
 - [Documentation site](https://elm-pages.com)
 - [Elm Package docs](https://package.elm-lang.org/packages/dillonkearns/elm-pages/latest/)
 - [`elm-pages` blog](https://elm-pages.com/blog)
 
-## What it's for
+### What it's for
 
 - `elm.json` for elm packages used for site
 - `elm-tooling.json` for elm packages used for code
@@ -55,11 +57,11 @@ We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm t
 - `public/*` contains static files to be copied direct to build
 - `src/*` contains app source files
 
-## Content & Pages
+### Content & Pages
 
 - TBC
 
-## Styling & layouts
+### Styling & layouts
 
 - TBC
 
