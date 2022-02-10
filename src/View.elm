@@ -1,6 +1,8 @@
 module View exposing (View, map, placeholder)
 
 import Html.Styled
+import Html.Styled.Attributes
+import Theme
 
 
 type alias View msg =
@@ -19,5 +21,10 @@ map fn doc =
 placeholder : String -> View msg
 placeholder moduleName =
     { title = "Placeholder - " ++ moduleName
-    , body = [ Html.Styled.text moduleName ]
+    , body =
+        [ Html.Styled.h1
+            [ Html.Styled.Attributes.css [ Theme.pageHeadingStyle ]
+            ]
+            [ Html.Styled.text moduleName ]
+        ]
     }
