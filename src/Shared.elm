@@ -9,6 +9,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
+import Theme
 import View exposing (View)
 
 
@@ -96,6 +97,8 @@ view :
     -> View msg
     -> { body : Html.Html msg, title : String }
 view sharedData page model toMsg pageView =
-    { body = Html.div [] (List.map Html.Styled.toUnstyled pageView.body)
+    { body =
+        Html.Styled.toUnstyled
+            (Theme.container ([ Theme.globalStyles ] ++ pageView.body))
     , title = pageView.title
     }

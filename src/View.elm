@@ -1,6 +1,5 @@
 module View exposing (View, map, placeholder)
 
-import Html
 import Html.Styled
 
 
