@@ -2,7 +2,8 @@ module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template)
 
 import Browser.Navigation
 import DataSource
-import Html exposing (Html)
+import Html
+import Html.Styled
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
@@ -93,8 +94,8 @@ view :
     -> Model
     -> (Msg -> msg)
     -> View msg
-    -> { body : Html msg, title : String }
+    -> { body : Html.Html msg, title : String }
 view sharedData page model toMsg pageView =
-    { body = Html.div [] pageView.body
+    { body = Html.div [] (List.map Html.Styled.toUnstyled pageView.body)
     , title = pageView.title
     }
