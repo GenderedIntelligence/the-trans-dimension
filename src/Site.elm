@@ -14,7 +14,7 @@ type alias Data =
 config : SiteConfig Data
 config =
     { data = data
-    , canonicalUrl = "http://transdimension.uk/"
+    , canonicalUrl = "https://transdimension.uk/"
     , manifest = manifest
     , head = head
     }
