@@ -8,6 +8,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import View exposing (View)
+import PageHeader exposing (..)
 
 
 type alias Model =
@@ -66,4 +67,4 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    View.placeholder "The Trans Dimension"
+    PageHeader.pageheader "The Trans Dimension"
