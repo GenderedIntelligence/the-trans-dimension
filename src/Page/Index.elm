@@ -1,5 +1,7 @@
 module Page.Index exposing (Data, Model, Msg, page)
 
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -49,9 +51,9 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
+        , description = t IndexPageMetaDescription
         , locale = Nothing
-        , title = "The Trans Dimension" -- metadata.title
+        , title = t IndexPageMetaTitle -- metadata.title
         }
         |> Seo.website
 
