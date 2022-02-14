@@ -1,13 +1,13 @@
 module View exposing (View, map, placeholder)
 
-import Html.Styled
-import Html.Styled.Attributes
+import Html.Styled exposing (Html, div, h1, text)
+import Html.Styled.Attributes exposing (css, id)
 import Theme
 
 
 type alias View msg =
     { title : String
-    , body : List (Html.Styled.Html msg)
+    , body : List (Html msg)
     }
 
 
@@ -22,9 +22,9 @@ placeholder : String -> View msg
 placeholder moduleName =
     { title = "Placeholder - " ++ moduleName
     , body =
-        [ Html.Styled.h1
-            [ Html.Styled.Attributes.css [ Theme.pageHeadingStyle ]
+        [ h1
+            [ css [ Theme.pageHeadingStyle ]
             ]
-            [ Html.Styled.text moduleName ]
+            [ text moduleName ]
         ]
     }

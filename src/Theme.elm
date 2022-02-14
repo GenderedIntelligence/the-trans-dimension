@@ -1,10 +1,10 @@
-module Theme exposing (blue, container, containerContent, darkBlue, generateId, globalStyles, gridStyle, maxMobile, oneColumn, pageHeadingStyle, pink, threeColumn, twoColumn, verticalSpacing, white, withMediaDesktop, withMediaLargeDevice, withMediaTablet)
+module Theme exposing (blue, containerContent, containerPage, darkBlue, generateId, globalStyles, gridStyle, maxMobile, oneColumn, pageHeadingStyle, pink, threeColumn, twoColumn, verticalSpacing, white, withMediaDesktop, withMediaLargeDevice, withMediaTablet)
 
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)
 import Css.Media as Media exposing (minWidth, only, screen, withMedia)
 import Html.Styled exposing (Html, div, text)
-import Html.Styled.Attributes exposing (css)
+import Html.Styled.Attributes exposing (css, id)
 
 
 
@@ -111,9 +111,13 @@ globalStyles =
         ]
 
 
-container : List (Html msg) -> Html msg
-container children =
-    div [ css [ margin2 zero auto, maxWidth (px 1200), width (pct 100) ] ] children
+containerPage : String -> List (Html msg) -> Html msg
+containerPage pageTitle content =
+    div
+        [ id ("page-" ++ generateId pageTitle)
+        , css [ margin2 zero auto, maxWidth (px 1200), width (pct 100) ]
+        ]
+        content
 
 
 containerContent : List (Html msg) -> Html msg
