@@ -18,4 +18,4 @@ t key =
             "Home"
 
         IndexPageMetaDescription ->
-            ""
+            "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
