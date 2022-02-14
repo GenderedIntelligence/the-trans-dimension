@@ -4,6 +4,7 @@ import Browser.Navigation
 import DataSource
 import Html
 import Html.Styled
+import PageHeader exposing (viewPageHeader)
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
@@ -99,6 +100,12 @@ view :
 view sharedData page model toMsg pageView =
     { body =
         Html.Styled.toUnstyled
-            (Theme.containerPage pageView.title ([ Theme.globalStyles ] ++ pageView.body))
+            (Theme.containerPage pageView.title
+                [ Theme.globalStyles
+                , viewPageHeader pageView.title
+                , Html.Styled.main_ [] pageView.body
+                , viewPageHeader pageView.title
+                ]
+            )
     , title = pageView.title
     }

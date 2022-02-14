@@ -6,11 +6,11 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Page exposing (Page, StaticPayload)
+import PageHeader exposing (..)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import View exposing (View)
-import PageHeader exposing (..)
 
 
 type alias Model =
@@ -69,4 +69,4 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    PageHeader.pageheader "The Trans Dimension"
+    View.placeholder "The Trans Dimension"

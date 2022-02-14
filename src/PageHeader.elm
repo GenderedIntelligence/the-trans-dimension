@@ -1,19 +1,16 @@
-module PageHeader exposing (..)
+module PageHeader exposing (viewPageHeader)
 
-import Css exposing (Style, color, fontSize, rem, hex, batch)
-import Html.Styled exposing (h1, header, text)
+import Css exposing (Style, batch, color, fontSize, hex, rem)
+import Html.Styled exposing (Html, h1, header, text)
 import Html.Styled.Attributes exposing (css)
 import View exposing (..)
 
-pageheader : String -> View msg
-pageheader moduleName =
-    { title = "Header - " ++ moduleName
-    , body =
-        [ header []
-            [ h1 [ css [ titleStyle ] ] [ text "The Trans Dimension" ]
-            ]
+
+viewPageHeader : String -> Html msg
+viewPageHeader pageTitle =
+    header []
+        [ h1 [ css [ titleStyle ] ] [ text pageTitle ]
         ]
-    }
 
 
 titleStyle : Style
