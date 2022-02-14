@@ -1,0 +1,3 @@
+This is so we can ignore the contents of `.elm-pages` in git but keep the dir.
+We don't want to version control the generated files, but the elm compiler
+fails if it is missing a dir that is listed in `elm.json` `src`.
