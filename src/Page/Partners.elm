@@ -40,17 +40,17 @@ type alias Data =
 
 type alias Partner =
     { name : String
-    , shortDescription : String
+    , summary : String
     }
 
 
 data : DataSource (List Partner)
 data =
     DataSource.succeed
-        [ { name = "Partner one", shortDescription = "Partner one Info" }
-        , { name = "Partner two", shortDescription = "Partner two Info" }
-        , { name = "Partner three", shortDescription = "Partner three Info" }
-        , { name = "Partner four", shortDescription = "Partner four Info" }
+        [ { name = "Partner one", summary = "Partner one Info" }
+        , { name = "Partner two", summary = "Partner two Info" }
+        , { name = "Partner three", summary = "Partner three Info" }
+        , { name = "Partner four", summary = "Partner four Info" }
         ]
 
 
@@ -114,7 +114,7 @@ viewPartner partner =
         [ h3 []
             [ text partner.name
             , p []
-                [ text partner.shortDescription
+                [ text partner.summary
                 , a [{- [fFf] get href slug -}] [ text "[cCc] Read more" ]
                 ]
             ]
