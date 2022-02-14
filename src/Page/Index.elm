@@ -1,5 +1,7 @@
 module Page.Index exposing (Data, Model, Msg, page)
 
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -49,9 +51,9 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = "TODO"
+        , description = t IndexPageMetaDescription
         , locale = Nothing
-        , title = "TODO title" -- metadata.title -- TODO
+        , title = t IndexPageMetaTitle -- metadata.title
         }
         |> Seo.website
 
