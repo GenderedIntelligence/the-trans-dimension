@@ -1,8 +1,11 @@
-module Page.Partners exposing (Model, Msg, Data, page)
+module Page.Partners exposing (Data, Model, Msg, page)
 
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Html.Styled exposing (Html, a, div, h2, h3, li, p, section, text, ul)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
@@ -17,8 +20,10 @@ type alias Model =
 type alias Msg =
     Never
 
+
 type alias RouteParams =
     {}
+
 
 page : Page RouteParams Data
 page =
@@ -30,30 +35,41 @@ page =
 
 
 type alias Data =
-    ()
+    List Partner
 
 
-data : DataSource Data
+type alias Partner =
+    { name : String
+    , shortDescription : String
+    }
+
+
+data : DataSource (List Partner)
 data =
-    DataSource.succeed ()
+    DataSource.succeed
+        [ { name = "Partner one", shortDescription = "Partner one Info" }
+        , { name = "Partner two", shortDescription = "Partner two Info" }
+        , { name = "Partner three", shortDescription = "Partner three Info" }
+        , { name = "Partner four", shortDescription = "Partner four Info" }
+        ]
 
 
 head :
-    StaticPayload Data RouteParams
+    StaticPayload (List Partner) RouteParams
     -> List Head.Tag
 head static =
     Seo.summary
         { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
+        , siteName = t SiteTitle
         , image =
             { url = Pages.Url.external "TODO"
             , alt = "elm-pages logo"
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = "TODO"
+        , description = t PartnersMetaDescription
         , locale = Nothing
-        , title = "TODO title" -- metadata.title -- TODO
+        , title = t PartnersMetaTitle
         }
         |> Seo.website
 
@@ -61,7 +77,50 @@ head static =
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload Data RouteParams
+    -> StaticPayload (List Partner) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    View.placeholder "Partners"
+    { title = t PartnersMetaTitle
+    , body =
+        [ viewHeader
+        , viewIntro
+        , viewPartners static
+        ]
+    }
+
+
+viewHeader : Html msg
+viewHeader =
+    section [] [ h2 [] [ text (t PartnersMetaTitle) ] ]
+
+
+viewIntro : Html msg
+viewIntro =
+    section [] [ p [] [ text (t PartnersIntro) ] ]
+
+
+viewPartners : StaticPayload (List Partner) RouteParams -> Html msg
+viewPartners static =
+    section []
+        [ div [] [ text "[fFf] Filters" ]
+        , ul [] (List.map (\partner -> viewPartner partner) static.data)
+        , viewMap
+        ]
+
+
+viewPartner : Partner -> Html msg
+viewPartner partner =
+    li []
+        [ h3 []
+            [ text partner.name
+            , p []
+                [ text partner.shortDescription
+                , a [{- [fFf] get href slug -}] [ text "[cCc] Read more" ]
+                ]
+            ]
+        ]
+
+
+viewMap : Html msg
+viewMap =
+    div [] [ text "[fFf] Map" ]

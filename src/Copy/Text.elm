@@ -14,8 +14,18 @@ t key =
             "The Trans Dimension"
 
         --- Site Meta
-        IndexPageMetaTitle ->
+        IndexMetaTitle ->
             "Home"
 
-        IndexPageMetaDescription ->
+        IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
+
+        PartnersMetaTitle ->
+            "Partners"
+
+        PartnersMetaDescription ->
+            "[cCc] Partners description"
+
+        --- Page content
+        PartnersIntro ->
+            "[cCc] Introduction box / explainer"
