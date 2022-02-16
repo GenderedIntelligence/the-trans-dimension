@@ -34,9 +34,9 @@ type Msg
 
 
 
--------
--- Data
--------
+-------------
+-- Data Types
+-------------
 
 
 type alias Data =
@@ -61,9 +61,9 @@ emptyPartner =
 
 
 
-----------
---Messages
-----------
+--------------------
+-- Messages & Update
+--------------------
 
 
 type SharedMsg
