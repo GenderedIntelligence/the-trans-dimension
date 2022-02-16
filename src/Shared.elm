@@ -5,6 +5,7 @@ import DataSource
 import Html
 import Html.Styled
 import PageHeader exposing (viewPageHeader)
+import PageFooter exposing (viewPageFooter)
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
@@ -104,7 +105,7 @@ view sharedData page model toMsg pageView =
                 [ Theme.globalStyles
                 , viewPageHeader pageView.title
                 , Html.Styled.main_ [] pageView.body
-                , viewPageHeader pageView.title
+                , viewPageFooter
                 ]
             )
     , title = pageView.title
