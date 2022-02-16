@@ -35,27 +35,16 @@ page =
 
 
 type alias Data =
-    List Partner
+    List Shared.Partner
 
 
-type alias Partner =
-    { name : String
-    , summary : String
-    }
-
-
-data : DataSource (List Partner)
+data : DataSource (List Shared.Partner)
 data =
-    DataSource.succeed
-        [ { name = "Partner one", summary = "Partner one Info" }
-        , { name = "Partner two", summary = "Partner two Info" }
-        , { name = "Partner three", summary = "Partner three Info" }
-        , { name = "Partner four", summary = "Partner four Info" }
-        ]
+    DataSource.map (\sharedData -> sharedData.partners) Shared.data
 
 
 head :
-    StaticPayload (List Partner) RouteParams
+    StaticPayload (List Shared.Partner) RouteParams
     -> List Head.Tag
 head static =
     Seo.summary
@@ -77,7 +66,7 @@ head static =
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload (List Partner) RouteParams
+    -> StaticPayload (List Shared.Partner) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = t PartnersMetaTitle
@@ -99,7 +88,7 @@ viewIntro =
     section [] [ p [] [ text (t PartnersIntro) ] ]
 
 
-viewPartners : StaticPayload (List Partner) RouteParams -> Html msg
+viewPartners : StaticPayload (List Shared.Partner) RouteParams -> Html msg
 viewPartners static =
     section []
         [ div [] [ text "[fFf] Filters" ]
@@ -108,7 +97,7 @@ viewPartners static =
         ]
 
 
-viewPartner : Partner -> Html msg
+viewPartner : Shared.Partner -> Html msg
 viewPartner partner =
     li []
         [ h3 []
