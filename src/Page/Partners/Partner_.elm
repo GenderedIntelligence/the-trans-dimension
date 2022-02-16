@@ -1,8 +1,12 @@
 module Page.Partners.Partner_ exposing (Data, Model, Msg, page)
 
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Html.Styled exposing (Html, a, div, h2, h3, p, section, text)
+import Html.Styled.Attributes exposing (href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
@@ -73,9 +77,9 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = "TODO"
+        , description = t (PartnerMetaDescription static.data.name)
         , locale = Nothing
-        , title = "TODO title" -- metadata.title -- TODO
+        , title = t (PartnerMetaTitle static.data.name)
         }
         |> Seo.website
 
@@ -87,7 +91,30 @@ type alias Data =
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload Data RouteParams
+    -> StaticPayload Shared.Partner RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    View.placeholder "Partners.Partner_"
+    { title = static.data.name
+    , body =
+        [ viewHeader static.data
+        , viewInfo static.data
+
+        -- There is probably a way to use Typed Pages routes
+        , a [ href "/partners" ] [ text (t BackToPartnersLinkText) ]
+        ]
+    }
+
+
+viewHeader : Shared.Partner -> Html msg
+viewHeader partner =
+    section [] [ h2 [] [ text partner.name ] ]
+
+
+viewInfo : Shared.Partner -> Html msg
+viewInfo partner =
+    section []
+        [ h3 [] [ text "[cCc] wireframe has partner name here what is h2 in that case?" ]
+        , p [] [ text partner.description ]
+        , p [] [ text "[fFf] partner contact info (from API?)" ]
+        , div [] [ text "[fFf] Map" ]
+        ]
