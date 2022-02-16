@@ -1,4 +1,4 @@
-module Page.Partners.Partner_ exposing (Model, Msg, Data, page)
+module Page.Partners.Partner_ exposing (Data, Model, Msg, page)
 
 import DataSource exposing (DataSource)
 import Head
@@ -17,8 +17,10 @@ type alias Model =
 type alias Msg =
     Never
 
+
 type alias RouteParams =
     { partner : String }
+
 
 page : Page RouteParams Data
 page =
@@ -32,13 +34,30 @@ page =
 
 routes : DataSource (List RouteParams)
 routes =
-    DataSource.succeed []
+    DataSource.map
+        (\sharedData ->
+            sharedData.partners
+                |> List.map (\partner -> { partner = partner.id })
+        )
+        Shared.data
 
 
 data : RouteParams -> DataSource Data
 data routeParams =
-    DataSource.succeed ()
-
+    DataSource.map
+        (\sharedData ->
+            -- There probably a better patter than succeed with empty.
+            -- In theory all will succeed since routes mapped from same list.
+            Maybe.withDefault Shared.emptyPartner
+                ((sharedData.partners
+                    -- Filter for partner with matching id
+                    |> List.filter (\partner -> partner.id == routeParams.partner)
+                 )
+                    -- There should only be one, so take the head
+                    |> List.head
+                )
+        )
+        Shared.data
 
 
 head :
@@ -62,7 +81,7 @@ head static =
 
 
 type alias Data =
-    ()
+    Shared.Partner
 
 
 view :
