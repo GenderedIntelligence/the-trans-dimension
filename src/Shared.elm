@@ -1,4 +1,4 @@
-module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template)
+module Shared exposing (Data, Model, Msg(..), Partner, SharedMsg(..), data, template)
 
 import Browser.Navigation
 import DataSource
@@ -33,8 +33,20 @@ type Msg
     | SharedMsg SharedMsg
 
 
+
+-------
+-- Data
+-------
+
+
 type alias Data =
-    ()
+    { partners : List Partner }
+
+
+type alias Partner =
+    { name : String
+    , summary : String
+    }
 
 
 type SharedMsg
@@ -83,7 +95,14 @@ subscriptions _ _ =
 
 data : DataSource.DataSource Data
 data =
-    DataSource.succeed ()
+    DataSource.succeed
+        { partners =
+            [ { name = "Partner one", summary = "Partner one Info" }
+            , { name = "Partner two", summary = "Partner two Info" }
+            , { name = "Partner three", summary = "Partner three Info" }
+            , { name = "Partner four", summary = "Partner four Info" }
+            ]
+        }
 
 
 view :
