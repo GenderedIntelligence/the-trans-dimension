@@ -51,9 +51,9 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t IndexPageMetaDescription
+        , description = t IndexMetaDescription
         , locale = Nothing
-        , title = t IndexPageMetaTitle -- metadata.title
+        , title = t IndexMetaTitle -- metadata.title
         }
         |> Seo.website
 

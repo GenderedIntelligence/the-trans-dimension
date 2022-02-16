@@ -59,11 +59,14 @@ We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm t
 
 ### Content & Pages
 
-- TBC
+- Pages are in `Page/` and automatic route based on file name
+- Copy is not from a datasource (e.g. UI or SEO text) is in `Copy/Text.elm`
+- We are using `[cCc] to denote placeholder copy`
+- We are using `[fFf] to denote placeholder UI feature or section`
 
 ### Styling & layouts
 
-- TBC
+- We are using [elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Css) for styling
 
 ## Deployment
 
