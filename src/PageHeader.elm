@@ -11,8 +11,8 @@ viewPageHeader : Html msg
 viewPageHeader =
     header []
         [ viewPageHeaderNavigation ""
-        , viewPageHeaderAsk "Donate" "donate.com"
-        , viewPageHeaderTitle (t SiteTitle) "Strapline"
+        , viewPageHeaderAsk (t SiteHeaderAskButton) "http://donate.com"
+        , viewPageHeaderTitle (t SiteTitle) (t SiteStrapline)
         ]
 
 

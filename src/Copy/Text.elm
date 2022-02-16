@@ -13,6 +13,29 @@ t key =
         SiteTitle ->
             "The Trans Dimension"
 
+        SiteStrapline ->
+            "Space and spaces for us"
+
+        --- Site Header
+        SiteHeaderAskButton ->
+            "Donate"
+
+        --- Site Footer
+        SiteFooterSignupText ->
+            "Sign up to our email list for updates"
+
+        SiteFooterSignupButton ->
+            "Sign up"
+
+        SiteFooterInfoText ->
+            "The Trans Dimension, c/o Gendered Intelligence"
+
+        SiteFooterInfoContact ->
+            "Address and contact info [cCc]"
+
+        SiteFooterCredit ->
+            "Built using PlaceCal"
+
         --- Site Meta
         IndexPageMetaTitle ->
             "Home"

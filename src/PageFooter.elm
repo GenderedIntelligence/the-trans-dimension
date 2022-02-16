@@ -1,5 +1,7 @@
 module PageFooter exposing (viewPageFooter)
 
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import Html.Styled exposing (Html, a, button, div, footer, form, h1, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href, target, type_)
 
@@ -9,9 +11,9 @@ viewPageFooter =
     footer []
         [ viewPageFooterNavigation ""
         , viewPageFooterLogos
-        , viewPageFooterSignup "Sign up to our email list for updates" "Sign up"
-        , viewPageFooterInfo "The Trans Dimension, c/o Gendered Intelligence" "Address and contact info"
-        , viewPageFooterCredit "Built using Placecal"
+        , viewPageFooterSignup (t SiteFooterSignupText) (t SiteFooterSignupButton)
+        , viewPageFooterInfo (t SiteFooterInfoText) (t SiteFooterInfoContact)
+        , viewPageFooterCredit (t SiteFooterCredit)
         ]
 
 

@@ -6,3 +6,10 @@ type Key
       --- Site Meta
     | IndexPageMetaTitle
     | IndexPageMetaDescription
+    | SiteHeaderAskButton
+    | SiteStrapline
+    | SiteFooterSignupText
+    | SiteFooterSignupButton
+    | SiteFooterInfoText
+    | SiteFooterInfoContact
+    | SiteFooterCredit
