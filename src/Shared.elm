@@ -44,8 +44,10 @@ type alias Data =
 
 
 type alias Partner =
-    { name : String
+    { id : String
+    , name : String
     , summary : String
+    , description : String
     }
 
 
@@ -97,10 +99,26 @@ data : DataSource.DataSource Data
 data =
     DataSource.succeed
         { partners =
-            [ { name = "Partner one", summary = "Partner one Info" }
-            , { name = "Partner two", summary = "Partner two Info" }
-            , { name = "Partner three", summary = "Partner three Info" }
-            , { name = "Partner four", summary = "Partner four Info" }
+            [ { id = "1"
+              , name = "Partner one"
+              , summary = "Partner one Info"
+              , description = "Partner one intro"
+              }
+            , { id = "2"
+              , name = "Partner two"
+              , summary = "Partner two Info"
+              , description = "Partner two intro"
+              }
+            , { id = "3"
+              , name = "Partner three"
+              , summary = "Partner three Info"
+              , description = "Partner three intro"
+              }
+            , { id = "4"
+              , name = "Partner four"
+              , summary = "Partner four Info"
+              , description = "Partner four intro"
+              }
             ]
         }
 
