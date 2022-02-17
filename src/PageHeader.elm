@@ -15,8 +15,10 @@ import Css.Media exposing (grid)
 viewPageHeader : Html msg
 viewPageHeader =
     header [ css [ headerStyle ]]
-        [ viewPageHeaderNavigation ""
-        , viewPageHeaderAsk (t SiteHeaderAskButton) "http://donate.com"
+        [ div [ css [ barStyle ]] [ 
+                    viewPageHeaderNavigation ""
+                    , viewPageHeaderAsk (t SiteHeaderAskButton) "http://donate.com"
+        ]
         , viewPageHeaderTitle (t SiteTitle) (t SiteStrapline)
         ]
 
@@ -60,6 +62,13 @@ titleStyle =
         [ fontSize (rem 2)
         , color (hex "000000")
         ]
+
+barStyle : Style
+barStyle =
+    batch
+        [ displayFlex
+        , justifyContent spaceBetween
+         ]
 
 navigationListStyle : Style
 navigationListStyle =
