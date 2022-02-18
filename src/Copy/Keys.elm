@@ -4,15 +4,24 @@ module Copy.Keys exposing (Key(..))
 type Key
     = SiteTitle
     | SiteStrapline
-      --- Site Meta
-    | IndexPageMetaTitle
-    | IndexPageMetaDescription
-      --- Site Header
-    | SiteHeaderAskButton
-    | SiteHeaderAskLink
+      --- Header
+    | HeaderAskButton
+    | HeaderAskLink
       --- Site Footer
-    | SiteFooterSignupText
-    | SiteFooterSignupButton
-    | SiteFooterInfoText
-    | SiteFooterInfoContact
-    | SiteFooterCredit
+    | FooterSignupText
+    | FooterSignupButton
+    | FooterInfoText
+    | FooterInfoContact
+    | FooterCredit
+      --- Links
+    | BackToPartnersLinkText
+      --- Index Page
+    | IndexMetaTitle
+    | IndexMetaDescription
+      --- Partners Page
+    | PartnersMetaTitle
+    | PartnersMetaDescription
+    | PartnersIntro
+      --- Partner Page
+    | PartnerMetaTitle String
+    | PartnerMetaDescription String

@@ -16,32 +16,53 @@ t key =
         SiteStrapline ->
             "Space and spaces for us"
 
-        --- Site Header
-        SiteHeaderAskButton ->
+        --- Header
+        HeaderAskButton ->
             "Donate"
 
-        SiteHeaderAskLink ->
+        HeaderAskLink ->
             "http://donate.com [cCc]"
 
-        --- Site Footer
-        SiteFooterSignupText ->
+        --- Footer
+        FooterSignupText ->
             "Sign up to our email list for updates [cCc]"
 
-        SiteFooterSignupButton ->
+        FooterSignupButton ->
             "Sign up"
 
-        SiteFooterInfoText ->
+        FooterInfoText ->
             "The Trans Dimension, c/o Gendered Intelligence [cCc]"
 
-        SiteFooterInfoContact ->
+        FooterInfoContact ->
             "Address and contact info [cCc]"
 
-        SiteFooterCredit ->
+        FooterCredit ->
             "Built using PlaceCal [cCc]"
 
-        --- Site Meta
-        IndexPageMetaTitle ->
+        --- Link Text
+        BackToPartnersLinkText ->
+            "Go back to partners"
+
+        --- Index Page
+        IndexMetaTitle ->
             "Home"
 
-        IndexPageMetaDescription ->
-            "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change. [cCc]"
+        IndexMetaDescription ->
+            "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
+
+        --- Partners Page
+        PartnersMetaTitle ->
+            "Partners"
+
+        PartnersMetaDescription ->
+            "[cCc] Partners description"
+
+        PartnersIntro ->
+            "[cCc] Introduction box / explainer"
+
+        --- Partner Page
+        PartnerMetaTitle partnerName ->
+            "[cCc] PlaceCal Partner - " ++ partnerName
+
+        PartnerMetaDescription partnerName ->
+            "[cCc] Partner description for " ++ partnerName

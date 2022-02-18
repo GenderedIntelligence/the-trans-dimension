@@ -14,7 +14,7 @@ viewPageHeader =
     header [ css [ headerStyle ] ]
         [ div [ css [ barStyle ] ]
             [ viewPageHeaderNavigation ""
-            , viewPageHeaderAsk (t SiteHeaderAskButton) "http://donate.com"
+            , viewPageHeaderAsk (t HeaderAskButton) "http://donate.com"
             ]
         , viewPageHeaderTitle (t SiteTitle) (t SiteStrapline)
         ]

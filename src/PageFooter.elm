@@ -13,10 +13,10 @@ viewPageFooter =
     footer [ css [ footerStyle ] ]
         [ viewPageFooterNavigation ""
         , viewPageFooterLogos
-        , viewPageFooterSignup (t SiteFooterSignupText) (t SiteFooterSignupButton)
+        , viewPageFooterSignup (t FooterSignupText) (t FooterSignupButton)
         , viewPageFooterSocial
-        , viewPageFooterInfo (t SiteFooterInfoText) (t SiteFooterInfoContact)
-        , viewPageFooterCredit (t SiteFooterCredit)
+        , viewPageFooterInfo (t FooterInfoText) (t FooterInfoContact)
+        , viewPageFooterCredit (t FooterCredit)
         ]
 
 
