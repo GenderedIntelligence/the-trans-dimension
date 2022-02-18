@@ -19,7 +19,7 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 ## Setup & install instructions
 
 - make sure you are using the correct node version with `nvm use`
-- install with `npm install`i
+- install with `npm install`
 
 ## Build
 
@@ -88,10 +88,11 @@ Deploys to Netlify
 -  assign it to yourself before starting work
 -  make a branch that includes the issue type (fix/feat/chore etc & number)
 -  make sure you understand the acceptance criteria
+-  don't forget to include tests if it's a new feature
 -  ask questions & make plan
 
 ### Code review & merge
 
--  check the acceptance criteria have been met
+-  check the acceptance criteria have been met (with tests if appropriate)
 -  add comments & questions
 -  once approved, leave for the author to squash and merge
