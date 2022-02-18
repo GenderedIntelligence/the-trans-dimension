@@ -3,10 +3,15 @@ module Copy.Keys exposing (Key(..))
 
 type Key
     = SiteTitle
-      --- Page Meta
+      --- Links
+    | BackToPartnersLinkText
+      --- Index Page
     | IndexMetaTitle
     | IndexMetaDescription
+      --- Partners Page
     | PartnersMetaTitle
     | PartnersMetaDescription
-      --- Page Content
     | PartnersIntro
+      --- Partner Page
+    | PartnerMetaTitle String
+    | PartnerMetaDescription String

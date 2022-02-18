@@ -6,6 +6,7 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Html.Styled exposing (Html, a, div, h2, h3, li, p, section, text, ul)
+import Html.Styled.Attributes exposing (href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
@@ -104,7 +105,7 @@ viewPartner partner =
             [ text partner.name
             , p []
                 [ text partner.summary
-                , a [{- [fFf] get href slug -}] [ text "[cCc] Read more" ]
+                , a [ href ("/partners/" ++ partner.id) ] [ text "[cCc] Read more" ]
                 ]
             ]
         ]

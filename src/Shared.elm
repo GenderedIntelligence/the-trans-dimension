@@ -1,4 +1,4 @@
-module Shared exposing (Data, Model, Msg(..), Partner, SharedMsg(..), data, template)
+module Shared exposing (Data, Model, Msg(..), Partner, SharedMsg(..), data, emptyPartner, template)
 
 import Browser.Navigation
 import DataSource
@@ -34,9 +34,9 @@ type Msg
 
 
 
--------
--- Data
--------
+-------------
+-- Data Types
+-------------
 
 
 type alias Data =
@@ -49,6 +49,21 @@ type alias Partner =
     , summary : String
     , description : String
     }
+
+
+emptyPartner : Partner
+emptyPartner =
+    { id = ""
+    , name = ""
+    , summary = ""
+    , description = ""
+    }
+
+
+
+--------------------
+-- Messages & Update
+--------------------
 
 
 type SharedMsg
