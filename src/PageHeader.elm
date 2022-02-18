@@ -6,7 +6,7 @@ import Css exposing (Style, backgroundColor, batch, block, bold, center, color, 
 import Css.Media exposing (grid)
 import Html.Styled exposing (Html, a, div, h1, header, li, nav, p, text, ul)
 import Html.Styled.Attributes exposing (css, href)
-import Theme exposing (blue, darkBlue, pink, white)
+import Theme exposing (black, blue, darkBlue, pink, white)
 
 
 viewPageHeader : Html msg
@@ -89,7 +89,7 @@ navigationListItemStyle =
     batch
         [ marginRight (rem 1)
         , marginTop (rem 1)
-        , color (hex "000000")
+        , color black
         ]
 
 
@@ -98,7 +98,7 @@ askButtonStyle =
     batch
         [ display block
         , backgroundColor pink
-        , color (hex "000000")
+        , color black
         , textDecoration none
         , padding (rem 1)
         , width (rem 5)

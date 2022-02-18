@@ -9,6 +9,7 @@ type Key
     | IndexPageMetaDescription
       --- Site Header
     | SiteHeaderAskButton
+    | SiteHeaderAskLink
       --- Site Footer
     | SiteFooterSignupText
     | SiteFooterSignupButton

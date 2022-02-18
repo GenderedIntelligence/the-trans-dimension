@@ -6,7 +6,6 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Page exposing (Page, StaticPayload)
-import PageHeader exposing (..)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
