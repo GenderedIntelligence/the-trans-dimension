@@ -43,7 +43,7 @@ viewBodyHtml viewParams =
 
 suite : Test
 suite =
-    describe "Partners page"
+    describe "Partners page body"
         [ test "Has expected h2 heading" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartners
@@ -63,4 +63,14 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithoutPartners
                     |> Query.hasNot [ Selector.tag "ul" ]
+        , test "Contains filter controls" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartners
+                    -- Note this is currently a placeholder
+                    |> Query.contains [ Html.text "[fFf] Filters" ]
+        , test "Contains map" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartners
+                    -- Note this is currently a placeholder
+                    |> Query.contains [ Html.text "[fFf] Map" ]
         ]
