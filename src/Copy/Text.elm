@@ -50,6 +50,13 @@ t key =
         IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
 
+        -- Events Page
+        EventsMetaTitle ->
+            "Events"
+
+        EventsMetaDescription ->
+            "[cCc] Events description"
+
         --- Partners Page
         PartnersMetaTitle ->
             "Partners"

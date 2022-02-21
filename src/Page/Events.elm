@@ -2,7 +2,7 @@ module Page.Events exposing (Data, Model, Msg, page)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, backgroundColor, batch, bold, center, color, displayFlex, fontSize, fontWeight, justifyContent, margin2, margin4, marginTop, padding, padding2, padding4, rem, spaceAround, spaceBetween, textAlign)
+import Css exposing (Style, backgroundColor, batch, bold, center, color, displayFlex, fontSize, fontWeight, justifyContent, margin2, margin4, marginTop, padding4, rem, spaceBetween, textAlign)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -12,7 +12,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme exposing (blue, darkBlue, pink)
+import Theme exposing (blue, darkBlue)
 import View exposing (View)
 
 
@@ -52,16 +52,16 @@ head :
 head static =
     Seo.summary
         { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
+        , siteName = t SiteTitle
         , image =
             { url = Pages.Url.external "TODO"
             , alt = "elm-pages logo"
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = "TODO"
+        , description = t EventsMetaDescription
         , locale = Nothing
-        , title = "TODO title" -- metadata.title -- TODO
+        , title = t EventsMetaTitle
         }
         |> Seo.website
 
@@ -72,9 +72,9 @@ view :
     -> StaticPayload (List Shared.Event) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = "Events"
+    { title = t EventsMetaTitle
     , body =
-        [ viewHeader "Events"
+        [ viewHeader (t EventsMetaTitle)
         , viewEvents static
         ]
     }
@@ -105,7 +105,7 @@ viewEventsFilters =
 viewEventsList : StaticPayload (List Shared.Event) RouteParams -> Html msg
 viewEventsList events =
     div []
-        [ h3 [ css [ eventsHeadingStyle ] ] [ text "Upcoming events" ]
+        [ h3 [ css [ eventsHeadingStyle ] ] [ text "[cCc] Upcoming events" ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Pagination by day/week" ]
         , ul [] (List.map (\event -> viewEvent event) events.data)
         ]
