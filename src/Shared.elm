@@ -12,6 +12,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
+import TestFixtures as Fixtures
 import Theme
 import View exposing (View)
 
@@ -145,50 +146,8 @@ subscriptions _ _ =
 data : DataSource.DataSource Data
 data =
     DataSource.succeed
-        { partners =
-            [ { id = "1"
-              , name = "Partner one"
-              , summary = "Partner one Info"
-              , description = "Partner one intro"
-              }
-            , { id = "2"
-              , name = "Partner two"
-              , summary = "Partner two Info"
-              , description = "Partner two intro"
-              }
-            , { id = "3"
-              , name = "Partner three"
-              , summary = "Partner three Info"
-              , description = "Partner three intro"
-              }
-            , { id = "4"
-              , name = "Partner four"
-              , summary = "Partner four Info"
-              , description = "Partner four intro"
-              }
-            ]
-        , events =
-            [ { id = "1"
-              , name = "Event name"
-              , summary = "A summary of the event"
-              , description = "Longer description of the event"
-              , startDatetime = ""
-              , endDatetime = ""
-              , location = "Venue"
-              , online = False
-              , partnerId = "1"
-              }
-            , { id = "2"
-              , name = "Event name"
-              , summary = "A summary of the event"
-              , description = "Longer description of the event"
-              , startDatetime = ""
-              , endDatetime = ""
-              , location = "Venue"
-              , online = False
-              , partnerId = "2"
-              }
-            ]
+        { partners = Fixtures.partners
+        , events = Fixtures.events
         }
 
 
