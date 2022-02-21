@@ -1,8 +1,9 @@
-module Shared exposing (Data, Model, Msg(..), Partner, SharedMsg(..), data, emptyPartner, template)
+module Shared exposing (Data, Event, Model, Msg(..), Partner, SharedMsg(..), data, emptyEvent, emptyPartner, template)
 
 import Browser.Navigation
 import DataSource
 import Html
+import Html.Attributes exposing (name)
 import Html.Styled
 import PageFooter exposing (viewPageFooter)
 import PageHeader exposing (viewPageHeader)
@@ -42,7 +43,9 @@ type Msg
 
 
 type alias Data =
-    { partners : List Partner }
+    { partners : List Partner
+    , events : List Event
+    }
 
 
 type alias Partner =
@@ -59,6 +62,33 @@ emptyPartner =
     , name = ""
     , summary = ""
     , description = ""
+    }
+
+
+type alias Event =
+    { id : String
+    , name : String
+    , summary : String
+    , description : String
+    , startDatetime : String
+    , endDatetime : String
+    , location : String
+    , online : Bool
+    , partnerId : String
+    }
+
+
+emptyEvent : Event
+emptyEvent =
+    { id = ""
+    , name = ""
+    , summary = ""
+    , description = ""
+    , startDatetime = ""
+    , endDatetime = ""
+    , location = ""
+    , online = False
+    , partnerId = ""
     }
 
 
@@ -135,6 +165,28 @@ data =
               , name = "Partner four"
               , summary = "Partner four Info"
               , description = "Partner four intro"
+              }
+            ]
+        , events =
+            [ { id = "1"
+              , name = "Event name"
+              , summary = "A summary of the event"
+              , description = "Longer description of the event"
+              , startDatetime = ""
+              , endDatetime = ""
+              , location = "Venue"
+              , online = False
+              , partnerId = "1"
+              }
+            , { id = "2"
+              , name = "Event name"
+              , summary = "A summary of the event"
+              , description = "Longer description of the event"
+              , startDatetime = ""
+              , endDatetime = ""
+              , location = "Venue"
+              , online = False
+              , partnerId = "2"
               }
             ]
         }

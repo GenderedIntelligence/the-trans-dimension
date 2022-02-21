@@ -18,6 +18,9 @@ type Key
       --- Index Page
     | IndexMetaTitle
     | IndexMetaDescription
+      --- Events Page
+    | EventsMetaTitle
+    | EventsMetaDescription
       --- Partners Page
     | PartnersMetaTitle
     | PartnersMetaDescription
