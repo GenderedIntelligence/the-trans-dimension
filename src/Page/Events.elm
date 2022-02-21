@@ -13,6 +13,8 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme exposing (blue, darkBlue)
+import Time
+import TransDate
 import View exposing (View)
 
 
@@ -116,8 +118,8 @@ viewEvent event =
     li []
         [ article [ css [ eventStyle ] ]
             [ h4 [ css [ eventTitleStyle ] ] [ text event.name ]
-            , time [] [ text "Date" ]
-            , time [] [ text "Time" ]
+            , time [] [ text (TransDate.humanDateFromPosix event.startDatetime) ]
+            , time [] [ text (TransDate.humanTimeFromPosix event.startDatetime) ]
             , p [ css [ eventParagraphStyle ] ] [ text "Online?" ]
             , p [ css [ eventParagraphStyle ] ] [ text event.location ]
             ]
