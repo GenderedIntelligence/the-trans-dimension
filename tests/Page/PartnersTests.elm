@@ -4,7 +4,7 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Expect
 import Html
-import Page.Partners exposing (page, view)
+import Page.Partners exposing (view)
 import Pages.Url
 import Path
 import Test exposing (Test, describe, test)
