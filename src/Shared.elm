@@ -154,7 +154,8 @@ view sharedData page model toMsg pageView =
     { body =
         Html.Styled.toUnstyled
             (Theme.containerPage pageView.title
-                [ Theme.globalStyles
+                [ View.fontPreload
+                , Theme.globalStyles
                 , viewPageHeader
                 , Html.Styled.main_ [] pageView.body
                 , viewPageFooter

@@ -1,7 +1,8 @@
-module View exposing (View, map, placeholder)
+module View exposing (View, fontPreload, map, placeholder)
 
-import Html.Styled exposing (Html, div, h1, text)
-import Html.Styled.Attributes exposing (css, id)
+import Css.Global exposing (html)
+import Html.Styled exposing (Attribute, Html, div, h1, node, text)
+import Html.Styled.Attributes exposing (css, href, id, rel)
 import Theme
 
 
@@ -28,3 +29,12 @@ placeholder moduleName =
             [ text moduleName ]
         ]
     }
+
+
+fontPreload : Html msg
+fontPreload =
+    node "link"
+        [ rel "stylesheet preload"
+        , href "https://use.typekit.net/qwi3qrw.css"
+        ]
+        []
