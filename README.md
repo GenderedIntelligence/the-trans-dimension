@@ -33,7 +33,7 @@ We recommend integrating `elm-format@0.8.3` into your code editor, but if you do
 
 ## Testing
 
-We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://github.com/elm-explorations/test/)
+We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/)
 
 -  run tests with `npm test`
 

@@ -1,4 +1,4 @@
-module Page.Partners.Partner_ exposing (Data, Model, Msg, page)
+module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

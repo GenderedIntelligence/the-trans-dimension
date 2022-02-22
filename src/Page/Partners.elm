@@ -1,4 +1,4 @@
-module Page.Partners exposing (Data, Model, Msg, page)
+module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -93,7 +93,11 @@ viewPartners : StaticPayload (List Shared.Partner) RouteParams -> Html msg
 viewPartners static =
     section []
         [ div [] [ text "[fFf] Filters" ]
-        , ul [] (List.map (\partner -> viewPartner partner) static.data)
+        , if List.length static.data > 0 then
+            ul [] (List.map (\partner -> viewPartner partner) static.data)
+
+          else
+            p [] [ text (t PartnersListEmpty) ]
         , viewMap
         ]
 
