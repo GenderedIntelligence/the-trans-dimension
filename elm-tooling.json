@@ -5,6 +5,7 @@
     "tools": {
         "elm": "0.19.1",
         "elm-format": "0.8.5",
+        "elm-pages": "2.1.10",
         "elm-test-rs": "2.0.0"
     }
 }
