@@ -14,6 +14,7 @@ import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
 import TestFixtures as Fixtures
 import Theme
+import Time
 import View exposing (View)
 
 
@@ -71,8 +72,8 @@ type alias Event =
     , name : String
     , summary : String
     , description : String
-    , startDatetime : String
-    , endDatetime : String
+    , startDatetime : Time.Posix
+    , endDatetime : Time.Posix
     , location : String
     , online : Bool
     , partnerId : String
@@ -85,8 +86,8 @@ emptyEvent =
     , name = ""
     , summary = ""
     , description = ""
-    , startDatetime = ""
-    , endDatetime = ""
+    , startDatetime = Time.millisToPosix 0
+    , endDatetime = Time.millisToPosix 0
     , location = ""
     , online = False
     , partnerId = ""
@@ -94,9 +95,9 @@ emptyEvent =
 
 
 
---------------------
--- Messages & Update
---------------------
+----------------------------
+-- Model, Messages & Update
+----------------------------
 
 
 type SharedMsg
@@ -149,6 +150,12 @@ data =
         { partners = Fixtures.partners
         , events = Fixtures.events
         }
+
+
+
+-------
+-- View
+-------
 
 
 view :
