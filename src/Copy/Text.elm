@@ -57,6 +57,13 @@ t key =
         EventsMetaDescription ->
             "[cCc] Events description"
 
+        --- Event Page
+        EventMetaTitle eventName ->
+            "[cCc] Event - " ++ eventName
+
+        EventMetaDescription eventName ->
+            "[cCc] Event description for " ++ eventName
+
         --- Partners Page
         PartnersMetaTitle ->
             "Partners"
