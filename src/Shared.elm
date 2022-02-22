@@ -13,6 +13,7 @@ import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
 import Theme
+import Time
 import View exposing (View)
 
 
@@ -70,8 +71,8 @@ type alias Event =
     , name : String
     , summary : String
     , description : String
-    , startDatetime : String
-    , endDatetime : String
+    , startDatetime : Time.Posix
+    , endDatetime : Time.Posix
     , location : String
     , online : Bool
     , partnerId : String
@@ -84,8 +85,8 @@ emptyEvent =
     , name = ""
     , summary = ""
     , description = ""
-    , startDatetime = ""
-    , endDatetime = ""
+    , startDatetime = Time.millisToPosix 0
+    , endDatetime = Time.millisToPosix 0
     , location = ""
     , online = False
     , partnerId = ""
@@ -93,9 +94,9 @@ emptyEvent =
 
 
 
---------------------
--- Messages & Update
---------------------
+----------------------------
+-- Model, Messages & Update
+----------------------------
 
 
 type SharedMsg
@@ -169,27 +170,33 @@ data =
             ]
         , events =
             [ { id = "1"
-              , name = "Event name"
-              , summary = "A summary of the event"
-              , description = "Longer description of the event"
-              , startDatetime = ""
-              , endDatetime = ""
+              , name = "Event 1 name"
+              , summary = "A summary of the first event"
+              , description = "Longer description of the first event"
+              , startDatetime = Time.millisToPosix 1645466400000
+              , endDatetime = Time.millisToPosix 1650564000000
               , location = "Venue"
               , online = False
               , partnerId = "1"
               }
             , { id = "2"
-              , name = "Event name"
-              , summary = "A summary of the event"
-              , description = "Longer description of the event"
-              , startDatetime = ""
-              , endDatetime = ""
+              , name = "Event 2 name"
+              , summary = "A summary of the second event"
+              , description = "Longer description of the second event"
+              , startDatetime = Time.millisToPosix 1645448400000
+              , endDatetime = Time.millisToPosix 1658408400000
               , location = "Venue"
               , online = False
               , partnerId = "2"
               }
             ]
         }
+
+
+
+-------
+-- View
+-------
 
 
 view :
