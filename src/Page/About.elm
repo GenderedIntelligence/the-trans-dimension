@@ -80,5 +80,5 @@ view :
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.title
-    , body = [ Html.text static.data.body ]
+    , body = [ Html.text static.data.withoutFrontmatter ]
     }

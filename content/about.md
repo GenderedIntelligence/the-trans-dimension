@@ -1,7 +1,7 @@
 ---
-title: [cCc] About
+title: About
 ---
-About page content [cCc]
+About page content
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fames ac turpis egestas sed tempus urna. Arcu cursus vitae congue mauris rhoncus aenean vel. Sed vulputate odio ut enim. 
 
