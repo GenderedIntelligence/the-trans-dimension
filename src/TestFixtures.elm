@@ -1,5 +1,9 @@
 module TestFixtures exposing (events, partners)
 
+import Time
+
+
+
 {- These are temporarily part of our src while we build wireframes.
    Once API is functional, we will move this module into `../tests` for use there
 -}
@@ -34,8 +38,8 @@ events =
       , name = "Event name"
       , summary = "A summary of the event"
       , description = "Longer description of the event"
-      , startDatetime = ""
-      , endDatetime = ""
+      , startDatetime = Time.millisToPosix 1645466400000
+      , endDatetime = Time.millisToPosix 1650564000000
       , location = "Venue"
       , online = False
       , partnerId = "1"
@@ -44,8 +48,8 @@ events =
       , name = "Event name"
       , summary = "A summary of the event"
       , description = "Longer description of the event"
-      , startDatetime = ""
-      , endDatetime = ""
+      , startDatetime = Time.millisToPosix 1645448400000
+      , endDatetime = Time.millisToPosix 1658408400000
       , location = "Venue"
       , online = False
       , partnerId = "2"
