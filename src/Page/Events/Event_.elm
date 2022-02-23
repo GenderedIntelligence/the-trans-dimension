@@ -2,15 +2,17 @@ module Page.Events.Event_ exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Css exposing (Style, batch, bold, center, fontSize, fontWeight, margin, margin4, marginBottom, marginTop, num, rem, textAlign)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Html.Styled exposing (Html, a, div, h2, h3, li, main_, p, section, text, ul)
-import Html.Styled.Attributes exposing (href)
+import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
+import Theme
 import TransDate
 import View exposing (View)
 
@@ -103,21 +105,50 @@ view maybeUrl sharedModel static =
 
 viewHeader : String -> Html msg
 viewHeader headerText =
-    section [] [ h2 [] [ text headerText ] ]
+    section [] [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text headerText ] ]
 
 
 viewInfo : Shared.Event -> Html msg
 viewInfo event =
     section []
-        [ h3 [] [ text event.name ]
+        [ h3 [ css [ eventSubheadingStyle ] ] [ text event.name ]
         , div []
-            [ p [] [ text (TransDate.humanDateFromPosix event.startDatetime) ]
-            , p [] [ text (TransDate.humanTimeFromPosix event.startDatetime), text " - ", text (TransDate.humanTimeFromPosix event.endDatetime) ]
-            , p [] [ text event.location ]
-            , p [] [ text "online/offline" ]
+            [ p [ css [ eventMetaStyle ] ] [ text (TransDate.humanDateFromPosix event.startDatetime) ]
+            , p [ css [ eventMetaStyle ] ] [ text (TransDate.humanTimeFromPosix event.startDatetime), text " - ", text (TransDate.humanTimeFromPosix event.endDatetime) ]
+            , p [ css [ eventMetaStyle ] ] [ text event.location ]
+            , p [ css [ eventMetaStyle ] ]
+                [ text
+                    (Shared.getRealm event)
+                ]
             ]
-        , div []
+        , div [ css [ eventDescriptionStyle ] ]
             [ p [] [ text event.description ]
-            , ul [] [ li [] [ a [ href "/" ] [ text "link" ] ] ]
+            , ul [] [ li [] [ a [ href "/" ] [ text "link [fFf]" ] ] ]
             ]
+        ]
+
+
+eventSubheadingStyle : Style
+eventSubheadingStyle =
+    batch
+        [ fontSize (rem 2)
+        , textAlign center
+        , margin4 (rem 0) (rem 0) (rem 1) (rem 0)
+        ]
+
+
+eventDescriptionStyle : Style
+eventDescriptionStyle =
+    batch
+        [ marginTop (rem 1)
+        , marginBottom (rem 2)
+        ]
+
+
+eventMetaStyle : Style
+eventMetaStyle =
+    batch
+        [ fontWeight bold
+        , margin (rem 0)
+        , textAlign center
         ]
