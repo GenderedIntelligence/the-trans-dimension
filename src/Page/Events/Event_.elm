@@ -96,10 +96,8 @@ view :
 view maybeUrl sharedModel static =
     { title = static.data.name
     , body =
-        [ main_ []
-            [ viewHeader "Events"
-            , viewInfo static.data
-            ]
+        [ viewHeader "Events"
+        , viewInfo static.data
         ]
     }
 
