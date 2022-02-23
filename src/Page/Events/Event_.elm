@@ -11,6 +11,7 @@ import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
+import PlaceCalTypes
 import Shared
 import Theme
 import TransDate
@@ -53,7 +54,7 @@ data : RouteParams -> DataSource Data
 data routeParams =
     DataSource.map
         (\sharedData ->
-            Maybe.withDefault Shared.emptyEvent
+            Maybe.withDefault PlaceCalTypes.emptyEvent
                 ((sharedData.events
                     |> List.filter (\event -> event.id == routeParams.event)
                  )
@@ -84,13 +85,13 @@ head static =
 
 
 type alias Data =
-    Shared.Event
+    PlaceCalTypes.Event
 
 
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload Shared.Event RouteParams
+    -> StaticPayload PlaceCalTypes.Event RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.name
@@ -108,7 +109,7 @@ viewHeader headerText =
     section [] [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text headerText ] ]
 
 
-viewInfo : Shared.Event -> Html msg
+viewInfo : PlaceCalTypes.Event -> Html msg
 viewInfo event =
     section []
         [ h3 [ css [ eventSubheadingStyle ] ] [ text event.name ]
@@ -118,7 +119,7 @@ viewInfo event =
             , p [ css [ eventMetaStyle ] ] [ text event.location ]
             , p [ css [ eventMetaStyle ] ]
                 [ text
-                    (Shared.getRealm event)
+                    (PlaceCalTypes.realmToString event)
                 ]
             ]
         , div [ css [ eventDescriptionStyle ] ]

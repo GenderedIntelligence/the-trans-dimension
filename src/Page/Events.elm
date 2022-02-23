@@ -11,6 +11,7 @@ import Html.Styled.Attributes exposing (css)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
+import PlaceCalTypes
 import Shared
 import Theme exposing (blue, darkBlue)
 import Time
@@ -40,10 +41,10 @@ page =
 
 
 type alias Data =
-    List Shared.Event
+    List PlaceCalTypes.Event
 
 
-data : DataSource (List Shared.Event)
+data : DataSource (List PlaceCalTypes.Event)
 data =
     DataSource.map (\sharedData -> sharedData.events) Shared.data
 
@@ -71,7 +72,7 @@ head static =
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload (List Shared.Event) RouteParams
+    -> StaticPayload (List PlaceCalTypes.Event) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = t EventsMetaTitle
@@ -89,7 +90,7 @@ viewHeader title =
         ]
 
 
-viewEvents : StaticPayload (List Shared.Event) RouteParams -> Html msg
+viewEvents : StaticPayload (List PlaceCalTypes.Event) RouteParams -> Html msg
 viewEvents events =
     section []
         [ viewEventsFilters
@@ -104,7 +105,7 @@ viewEventsFilters =
         ]
 
 
-viewEventsList : StaticPayload (List Shared.Event) RouteParams -> Html msg
+viewEventsList : StaticPayload (List PlaceCalTypes.Event) RouteParams -> Html msg
 viewEventsList events =
     div []
         [ h3 [ css [ eventsHeadingStyle ] ] [ text "[cCc] Upcoming events" ]
@@ -113,7 +114,7 @@ viewEventsList events =
         ]
 
 
-viewEvent : Shared.Event -> Html msg
+viewEvent : PlaceCalTypes.Event -> Html msg
 viewEvent event =
     li []
         [ article [ css [ eventStyle ] ]

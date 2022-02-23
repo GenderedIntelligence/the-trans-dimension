@@ -28,6 +28,7 @@ type Key
     | PartnersMetaTitle
     | PartnersMetaDescription
     | PartnersIntro
+    | PartnersListEmpty
       --- Partner Page
     | PartnerMetaTitle String
     | PartnerMetaDescription String

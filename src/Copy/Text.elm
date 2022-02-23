@@ -74,6 +74,9 @@ t key =
         PartnersIntro ->
             "[cCc] Introduction box / explainer"
 
+        PartnersListEmpty ->
+            "[cCc] There are currently no partners"
+
         --- Partner Page
         PartnerMetaTitle partnerName ->
             "[cCc] PlaceCal Partner - " ++ partnerName

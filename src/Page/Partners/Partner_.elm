@@ -1,4 +1,4 @@
-module Page.Partners.Partner_ exposing (Data, Model, Msg, page)
+module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -10,6 +10,7 @@ import Html.Styled.Attributes exposing (href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
+import PlaceCalTypes
 import Shared
 import View exposing (View)
 
@@ -52,7 +53,7 @@ data routeParams =
         (\sharedData ->
             -- There probably a better patter than succeed with empty.
             -- In theory all will succeed since routes mapped from same list.
-            Maybe.withDefault Shared.emptyPartner
+            Maybe.withDefault PlaceCalTypes.emptyPartner
                 ((sharedData.partners
                     -- Filter for partner with matching id
                     |> List.filter (\partner -> partner.id == routeParams.partner)
@@ -85,13 +86,13 @@ head static =
 
 
 type alias Data =
-    Shared.Partner
+    PlaceCalTypes.Partner
 
 
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload Shared.Partner RouteParams
+    -> StaticPayload PlaceCalTypes.Partner RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.name
@@ -105,12 +106,12 @@ view maybeUrl sharedModel static =
     }
 
 
-viewHeader : Shared.Partner -> Html msg
+viewHeader : PlaceCalTypes.Partner -> Html msg
 viewHeader partner =
     section [] [ h2 [] [ text partner.name ] ]
 
 
-viewInfo : Shared.Partner -> Html msg
+viewInfo : PlaceCalTypes.Partner -> Html msg
 viewInfo partner =
     section []
         [ h3 [] [ text "[cCc] wireframe has partner name here what is h2 in that case?" ]
