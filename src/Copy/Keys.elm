@@ -29,3 +29,8 @@ type Key
       --- Partner Page
     | PartnerMetaTitle String
     | PartnerMetaDescription String
+      --- News Listing Page
+    | NewsTitle
+    | NewsReadMore
+    | NewsMetaTitle
+    | NewsMetaDescription
