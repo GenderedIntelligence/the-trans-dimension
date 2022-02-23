@@ -21,6 +21,9 @@ type Key
       --- Events Page
     | EventsMetaTitle
     | EventsMetaDescription
+      --- Event Page
+    | EventMetaTitle String
+    | EventMetaDescription String
       --- Partners Page
     | PartnersMetaTitle
     | PartnersMetaDescription
