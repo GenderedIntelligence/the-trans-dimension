@@ -119,7 +119,7 @@ viewInfo event =
             , p [ css [ eventMetaStyle ] ] [ text event.location ]
             , p [ css [ eventMetaStyle ] ]
                 [ text
-                    (PlaceCalTypes.realmToString event)
+                    (PlaceCalTypes.realmToString event.realm)
                 ]
             ]
         , div [ css [ eventDescriptionStyle ] ]

@@ -52,9 +52,9 @@ type Realm
     | Offline
 
 
-realmToString : Event -> String
-realmToString event =
-    case event.realm of
+realmToString : Realm -> String
+realmToString realm =
+    case realm of
         Online ->
             "Online"
 
