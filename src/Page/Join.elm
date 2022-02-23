@@ -96,7 +96,8 @@ viewDescription description =
 viewForm : Html msg
 viewForm =
     form [ css [ formStyle ] ]
-        [ label [ css [ formLabelStyling ] ] [ span [] [ text "Name: " ], input [] [] ]
+        [ text "[fFf]"
+        , label [ css [ formLabelStyling ] ] [ span [] [ text "Name: " ], input [] [] ]
         , label [ css [ formLabelStyling ] ] [ span [] [ text "Title: " ], input [] [] ]
         , label [ css [ formLabelStyling ] ] [ span [] [ text "Organisation: " ], input [] [] ]
         , label [ css [ formLabelStyling ] ] [ span [] [ text "Contact details: " ], input [] [] ]
