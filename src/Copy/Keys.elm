@@ -29,3 +29,7 @@ type Key
       --- Partner Page
     | PartnerMetaTitle String
     | PartnerMetaDescription String
+      --- Join Page
+    | JoinMetaTitle
+    | JoinMetaDescription
+    | JoinDescription
