@@ -10,6 +10,7 @@ import Html.Styled.Attributes exposing (href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
+import PlaceCalTypes
 import Shared
 import View exposing (View)
 
@@ -36,16 +37,16 @@ page =
 
 
 type alias Data =
-    List Shared.Partner
+    List PlaceCalTypes.Partner
 
 
-data : DataSource (List Shared.Partner)
+data : DataSource (List PlaceCalTypes.Partner)
 data =
     DataSource.map (\sharedData -> sharedData.partners) Shared.data
 
 
 head :
-    StaticPayload (List Shared.Partner) RouteParams
+    StaticPayload (List PlaceCalTypes.Partner) RouteParams
     -> List Head.Tag
 head static =
     Seo.summary
@@ -67,7 +68,7 @@ head static =
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload (List Shared.Partner) RouteParams
+    -> StaticPayload (List PlaceCalTypes.Partner) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = t PartnersMetaTitle
@@ -89,7 +90,7 @@ viewIntro =
     section [] [ p [] [ text (t PartnersIntro) ] ]
 
 
-viewPartners : StaticPayload (List Shared.Partner) RouteParams -> Html msg
+viewPartners : StaticPayload (List PlaceCalTypes.Partner) RouteParams -> Html msg
 viewPartners static =
     section []
         [ div [] [ text "[fFf] Filters" ]
@@ -102,7 +103,7 @@ viewPartners static =
         ]
 
 
-viewPartner : Shared.Partner -> Html msg
+viewPartner : PlaceCalTypes.Partner -> Html msg
 viewPartner partner =
     li []
         [ h3 []

@@ -1,4 +1,4 @@
-module Shared exposing (Data, Event, Model, Msg(..), Partner, SharedMsg(..), data, emptyEvent, emptyPartner, template)
+module Shared exposing (Data, Model, Msg(..), SharedMsg(..), data, template)
 
 import Browser.Navigation
 import DataSource
@@ -10,6 +10,7 @@ import PageHeader exposing (viewPageHeader)
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
+import PlaceCalTypes
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
 import TestFixtures as Fixtures
@@ -45,52 +46,8 @@ type Msg
 
 
 type alias Data =
-    { partners : List Partner
-    , events : List Event
-    }
-
-
-type alias Partner =
-    { id : String
-    , name : String
-    , summary : String
-    , description : String
-    }
-
-
-emptyPartner : Partner
-emptyPartner =
-    { id = ""
-    , name = ""
-    , summary = ""
-    , description = ""
-    }
-
-
-type alias Event =
-    { id : String
-    , name : String
-    , summary : String
-    , description : String
-    , startDatetime : Time.Posix
-    , endDatetime : Time.Posix
-    , location : String
-    , online : Bool
-    , partnerId : String
-    }
-
-
-emptyEvent : Event
-emptyEvent =
-    { id = ""
-    , name = ""
-    , summary = ""
-    , description = ""
-    , startDatetime = Time.millisToPosix 0
-    , endDatetime = Time.millisToPosix 0
-    , location = ""
-    , online = False
-    , partnerId = ""
+    { partners : List PlaceCalTypes.Partner
+    , events : List PlaceCalTypes.Event
     }
 
 
