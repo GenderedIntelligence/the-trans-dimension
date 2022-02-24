@@ -46,11 +46,13 @@ type Key
     | JoinFormInputMessageLabel
     | JoinFormSubmitButton
       --- News Listing Page
-    | NewsListTitle
+    | NewsTitle
     | NewsReadMore
-    | NewsMetaDescription
+    | NewsDescription
       --- News Single Article Page
-    | NewsTitle String
+    | NewsItemTitle String
+    | NewsItemDescription String
+    | NewsItemReturnButton
       --- Resources Page
     | ResourcesTitle
     | ResourcesMetaDescription

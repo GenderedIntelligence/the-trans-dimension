@@ -1,4 +1,4 @@
-module Shared exposing (Data,  Model, Msg(..), News,  SharedMsg(..), data, emptyNews, template)
+module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNews, template)
 
 import Browser.Navigation
 import DataSource

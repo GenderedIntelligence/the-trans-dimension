@@ -102,18 +102,25 @@ t key =
             "[cCc] This is why you should join as a Trans Dimension partner and this is how it works and this is what you do. Fill out our form below etc."
 
         --- News Listing Page
-        NewsListTitle ->
+        NewsTitle ->
             "News"
 
         NewsReadMore ->
             "[cCc] Read more"
 
-        NewsMetaDescription ->
+        NewsDescription ->
             "[cCc] News listing for The Trans Dimension"
 
-        --- News Single Page
-        NewsTitle title ->
-            title
+        --- News Single Article Page
+
+        NewsItemTitle title ->
+            "[cCc] News -" ++ title
+
+        NewsItemDescription author ->
+            "[cCc] A news post by" ++ author ++ "for The Trans Dimension"
+
+        NewsItemReturnButton ->
+            "Go back to news"
 
         -- Resources Page
         ResourcesTitle ->

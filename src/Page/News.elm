@@ -61,9 +61,9 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t NewsMetaDescription
+        , description = t NewsDescription
         , locale = Nothing
-        , title = t NewsListTitle
+        , title = t NewsTitle
         }
         |> Seo.website
 
@@ -74,9 +74,9 @@ view :
     -> StaticPayload (List Shared.News) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t NewsListTitle
+    { title = t NewsTitle
     , body =
-        [ viewHeader (t NewsListTitle), viewNewsList static ]
+        [ viewHeader (t NewsTitle), viewNewsList static ]
     }
 
 

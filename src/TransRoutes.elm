@@ -39,10 +39,10 @@ toPageTitle route =
             t JoinTitle
 
         News title ->
-            t (NewsTitle title)
+            t (NewsItemTitle title)
 
         NewsList ->
-            t NewsListTitle
+            t NewsTitle
 
         Partner name ->
             t (PartnerTitle name)
