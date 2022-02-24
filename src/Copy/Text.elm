@@ -57,6 +57,13 @@ t key =
         EventsMetaDescription ->
             "[cCc] Events description"
 
+        --- Event Page
+        EventMetaTitle eventName ->
+            "[cCc] Event - " ++ eventName
+
+        EventMetaDescription eventName ->
+            "[cCc] Event description for " ++ eventName
+
         --- Partners Page
         PartnersMetaTitle ->
             "Partners"
@@ -86,3 +93,16 @@ t key =
 
         JoinDescription ->
             "[cCc] This is why you should join as a Trans Dimension partner and this is how it works and this is what you do. Fill out our form below etc."
+
+        --- News Listing Page
+        NewsTitle ->
+            "News"
+
+        NewsReadMore ->
+            "[cCc] Read more"
+
+        NewsMetaTitle ->
+            "[cCc] News"
+
+        NewsMetaDescription ->
+            "[cCc] News listing for The Trans Dimension"

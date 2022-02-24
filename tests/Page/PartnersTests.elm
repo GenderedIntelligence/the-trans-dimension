@@ -21,6 +21,7 @@ viewParamsWithPartners =
     , sharedData =
         { partners = Fixtures.partners
         , events = Fixtures.events
+        , news = Fixtures.news
         }
     }
 
@@ -32,6 +33,7 @@ viewParamsWithoutPartners =
     , sharedData =
         { partners = []
         , events = Fixtures.events
+        , news = Fixtures.news
         }
     }
 

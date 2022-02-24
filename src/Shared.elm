@@ -1,4 +1,4 @@
-module Shared exposing (Data, Event, Model, Msg(..), Partner, SharedMsg(..), data, emptyEvent, emptyPartner, template)
+module Shared exposing (Data,  Model, Msg(..), News,  SharedMsg(..), data, emptyNews, template)
 
 import Browser.Navigation
 import DataSource
@@ -10,6 +10,7 @@ import PageHeader exposing (viewPageHeader)
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
+import PlaceCalTypes
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
 import TestFixtures as Fixtures
@@ -45,52 +46,30 @@ type Msg
 
 
 type alias Data =
-    { partners : List Partner
-    , events : List Event
+    { partners : List PlaceCalTypes.Partner
+    , events : List PlaceCalTypes.Event
+    , news : List News
     }
 
 
-type alias Partner =
+type alias News =
     { id : String
-    , name : String
+    , title : String
     , summary : String
-    , description : String
+    , body : String
+    , datetime : Time.Posix
+    , author : String
     }
 
 
-emptyPartner : Partner
-emptyPartner =
+emptyNews : News
+emptyNews =
     { id = ""
-    , name = ""
+    , title = ""
     , summary = ""
-    , description = ""
-    }
-
-
-type alias Event =
-    { id : String
-    , name : String
-    , summary : String
-    , description : String
-    , startDatetime : Time.Posix
-    , endDatetime : Time.Posix
-    , location : String
-    , online : Bool
-    , partnerId : String
-    }
-
-
-emptyEvent : Event
-emptyEvent =
-    { id = ""
-    , name = ""
-    , summary = ""
-    , description = ""
-    , startDatetime = Time.millisToPosix 0
-    , endDatetime = Time.millisToPosix 0
-    , location = ""
-    , online = False
-    , partnerId = ""
+    , body = ""
+    , datetime = Time.millisToPosix 0
+    , author = ""
     }
 
 
@@ -149,6 +128,7 @@ data =
     DataSource.succeed
         { partners = Fixtures.partners
         , events = Fixtures.events
+        , news = Fixtures.news
         }
 
 
