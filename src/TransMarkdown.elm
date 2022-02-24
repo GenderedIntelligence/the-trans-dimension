@@ -1,7 +1,8 @@
 module TransMarkdown exposing (transHtmlRenderer)
 
+import Css exposing (Style, batch, decimal, disc, em, listStyleType, marginBlockEnd, marginBlockStart, paddingLeft)
 import Html.Styled as Html
-import Html.Styled.Attributes as Attr
+import Html.Styled.Attributes as Attr exposing (css)
 import Markdown.Block as Block exposing (Block)
 import Markdown.Html
 import Markdown.Renderer
@@ -13,23 +14,23 @@ transHtmlRenderer =
         \{ level, children } ->
             case level of
                 Block.H1 ->
-                    Html.h1 [] children
+                    Html.h1 [ css [ headerStyle ] ] children
 
                 Block.H2 ->
-                    Html.h2 [] children
+                    Html.h2 [ css [ headerStyle ] ] children
 
                 Block.H3 ->
-                    Html.h3 [] children
+                    Html.h3 [ css [ headerStyle ] ] children
 
                 Block.H4 ->
-                    Html.h4 [] children
+                    Html.h4 [ css [ headerStyle ] ] children
 
                 Block.H5 ->
-                    Html.h5 [] children
+                    Html.h5 [ css [ headerStyle ] ] children
 
                 Block.H6 ->
-                    Html.h6 [] children
-    , paragraph = Html.p []
+                    Html.h6 [ css [ headerStyle ] ] children
+    , paragraph = Html.p [ css [ paragraphStyle ] ]
     , hardLineBreak = Html.br [] []
     , strikethrough =
         -- todo add lineThrough style
@@ -74,7 +75,7 @@ transHtmlRenderer =
         Html.text
     , unorderedList =
         \items ->
-            Html.ul []
+            Html.ul [ css [ ulStyle ] ]
                 (items
                     |> List.map
                         (\item ->
@@ -102,7 +103,7 @@ transHtmlRenderer =
                                                         ]
                                                         []
                                     in
-                                    Html.li [] (checkbox :: children)
+                                    Html.li [ css [ liStyle ] ] (checkbox :: children)
                         )
                 )
     , orderedList =
@@ -110,7 +111,7 @@ transHtmlRenderer =
             Html.ol
                 (case startingIndex of
                     1 ->
-                        [ Attr.start startingIndex ]
+                        [ Attr.start startingIndex, css [ olStyle ] ]
 
                     _ ->
                         []
@@ -118,7 +119,7 @@ transHtmlRenderer =
                 (items
                     |> List.map
                         (\itemBlocks ->
-                            Html.li []
+                            Html.li [ css [ liStyle ] ]
                                 itemBlocks
                         )
                 )
@@ -180,3 +181,39 @@ transHtmlRenderer =
             in
             Html.td attrs
     }
+
+
+headerStyle : Style
+headerStyle =
+    batch [ marginBlockStart (em 1), marginBlockEnd (em 1) ]
+
+
+paragraphStyle : Style
+paragraphStyle =
+    batch [ marginBlockStart (em 1), marginBlockEnd (em 1) ]
+
+
+ulStyle : Style
+ulStyle =
+    batch
+        [ listStyleType disc
+        , paddingLeft (em 2)
+        , marginBlockStart (em 1)
+        , marginBlockEnd (em 1)
+        ]
+
+
+olStyle : Style
+olStyle =
+    batch
+        [ listStyleType decimal
+        , marginBlockStart (em 1)
+        , marginBlockEnd (em 1)
+        , paddingLeft (em 2)
+        ]
+
+
+liStyle : Style
+liStyle =
+    batch
+        [ paddingLeft (em 1) ]

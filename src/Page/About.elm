@@ -1,10 +1,13 @@
 module Page.About exposing (Data, Model, Msg, page)
 
+import Css exposing (Style, batch, height, rem)
 import DataSource exposing (DataSource)
 import DataSource.File
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html
+import Html.Styled as Html exposing (Html, div, h2, hr, section, text)
+import Html.Styled.Attributes exposing (css)
+import List exposing (concat)
 import Markdown.Parser
 import Markdown.Renderer
 import OptimizedDecoder as Decode exposing (Decoder)
@@ -12,6 +15,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
+import Theme
 import TransMarkdown
 import View exposing (View)
 
@@ -104,5 +108,22 @@ view :
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.title
-    , body = static.data.body
+    , body = concat [ [ viewHeader static.data.title ], static.data.body, [ viewPageEnd ] ]
     }
+
+
+viewHeader : String -> Html msg
+viewHeader title =
+    section []
+        [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text title ]
+        ]
+
+
+viewPageEnd : Html msg
+viewPageEnd =
+    div [ css [ pageEndStyle ] ] []
+
+
+pageEndStyle : Style
+pageEndStyle =
+    batch [ height (rem 3) ]
