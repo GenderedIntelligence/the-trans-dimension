@@ -2,6 +2,7 @@ module Page.PartnerTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Data.TestFixtures as Fixtures
 import Expect
 import Html
 import Page.Partners.Partner_ exposing (view)
@@ -10,7 +11,6 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
-import TestFixtures as Fixtures
 import TestUtils exposing (queryFromStyledList)
 
 
