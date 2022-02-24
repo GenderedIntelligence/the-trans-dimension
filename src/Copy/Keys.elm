@@ -18,6 +18,9 @@ type Key
       --- Index Page
     | IndexMetaTitle
     | IndexMetaDescription
+      --- About Page
+    | AboutMetaTitle
+    | AboutMetaDescription
       --- Events Page
     | EventsMetaTitle
     | EventsMetaDescription
@@ -32,3 +35,18 @@ type Key
       --- Partner Page
     | PartnerMetaTitle String
     | PartnerMetaDescription String
+      --- Join Page
+    | JoinMetaTitle
+    | JoinMetaDescription
+    | JoinDescription
+    | JoinFormInputNameLabel
+    | JoinFormInputTitleLabel
+    | JoinFormInputOrgLabel
+    | JoinFormInputContactLabel
+    | JoinFormInputMessageLabel
+    | JoinFormSubmitButton
+      --- News Listing Page
+    | NewsTitle
+    | NewsReadMore
+    | NewsMetaTitle
+    | NewsMetaDescription

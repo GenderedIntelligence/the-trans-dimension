@@ -50,6 +50,13 @@ t key =
         IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
 
+        -- About Page (NOTE: might want these to come from md for static pages)
+        AboutMetaTitle ->
+            "About"
+
+        AboutMetaDescription ->
+            "[cCc] About description"
+
         -- Events Page
         EventsMetaTitle ->
             "Events"
@@ -83,3 +90,44 @@ t key =
 
         PartnerMetaDescription partnerName ->
             "[cCc] Partner description for " ++ partnerName
+
+        --- Join Page
+        JoinMetaTitle ->
+            "[cCc] Join Us"
+
+        JoinMetaDescription ->
+            "[cCc] Join The Trans Dimension as a partner"
+
+        JoinDescription ->
+            "[cCc] This is why you should join as a Trans Dimension partner and this is how it works and this is what you do. Fill out our form below etc."
+
+        --- News Listing Page
+        NewsTitle ->
+            "News"
+
+        NewsReadMore ->
+            "[cCc] Read more"
+
+        NewsMetaTitle ->
+            "[cCc] News"
+
+        NewsMetaDescription ->
+            "[cCc] News listing for The Trans Dimension"
+
+        JoinFormInputNameLabel ->
+            "Name"
+
+        JoinFormInputTitleLabel ->
+            "Title"
+
+        JoinFormInputOrgLabel ->
+            "Organisation"
+
+        JoinFormInputContactLabel ->
+            "Contact details"
+
+        JoinFormInputMessageLabel ->
+            "Message"
+
+        JoinFormSubmitButton ->
+            "Submit"
