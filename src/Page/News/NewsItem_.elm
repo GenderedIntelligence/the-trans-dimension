@@ -76,9 +76,9 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t (NewsItemMetaDescription static.data.title)
+        , description = t (NewsItemDescription static.data.title)
         , locale = Nothing
-        , title = t (NewsItemMetaTitle static.data.title)
+        , title = t (NewsItemTitle static.data.title)
         }
         |> Seo.website
 

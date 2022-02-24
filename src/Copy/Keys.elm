@@ -16,27 +16,27 @@ type Key
       --- Links
     | BackToPartnersLinkText
       --- Index Page
-    | IndexMetaTitle
+    | IndexTitle
     | IndexMetaDescription
       --- About Page
-    | AboutMetaTitle
+    | AboutTitle
     | AboutMetaDescription
       --- Events Page
-    | EventsMetaTitle
+    | EventsTitle
     | EventsMetaDescription
       --- Event Page
-    | EventMetaTitle String
+    | EventTitle String
     | EventMetaDescription String
       --- Partners Page
-    | PartnersMetaTitle
+    | PartnersTitle
     | PartnersMetaDescription
     | PartnersIntro
     | PartnersListEmpty
       --- Partner Page
-    | PartnerMetaTitle String
+    | PartnerTitle String
     | PartnerMetaDescription String
       --- Join Page
-    | JoinMetaTitle
+    | JoinTitle
     | JoinMetaDescription
     | JoinDescription
     | JoinFormInputNameLabel
@@ -48,14 +48,17 @@ type Key
       --- News Listing Page
     | NewsTitle
     | NewsReadMore
-    | NewsMetaTitle
-    | NewsMetaDescription
-      --- Individual News Page
-    | NewsItemMetaTitle String
-    | NewsItemMetaDescription String
+    | NewsDescription
+      --- News Single Article Page
+    | NewsItemTitle String
+    | NewsItemDescription String
     | NewsItemReturnButton
       --- Resources Page
-    | ResourcesMetaTitle
+    | ResourcesTitle
     | ResourcesMetaDescription
     | ResourcesIntro
     | ResourcesEmptyText
+      --- Privacy
+    | PrivacyTitle
+      --- Terms and Conditions
+    | TermsAndConditionsTitle

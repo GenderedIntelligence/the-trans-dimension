@@ -7,6 +7,7 @@ import Css.Media exposing (grid)
 import Html.Styled exposing (Html, a, div, h1, header, li, nav, p, text, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Theme exposing (black, blue, darkBlue, pink, white)
+import TransRoutes exposing (Route(..))
 
 
 viewPageHeader : Html msg
@@ -32,9 +33,17 @@ viewPageHeaderNavigation : String -> Html msg
 viewPageHeaderNavigation listItems =
     nav []
         [ ul [ css [ navigationListStyle ] ]
-            [ li [ css [ navigationListItemStyle ] ] [ text "Item 1" ]
-            , li [ css [ navigationListItemStyle ] ] [ text "Item 2" ]
-            , li [ css [ navigationListItemStyle ] ] [ text "Item 3" ]
+            (List.map viewHeaderNavigationItem
+                [ Home, Partners, Events, NewsList, About, Resources ]
+            )
+        ]
+
+
+viewHeaderNavigationItem : TransRoutes.Route -> Html msg
+viewHeaderNavigationItem route =
+    li [ css [ navigationListItemStyle ] ]
+        [ a [ href (TransRoutes.toAbsoluteUrl route) ]
+            [ text (TransRoutes.toPageTitle route)
             ]
         ]
 

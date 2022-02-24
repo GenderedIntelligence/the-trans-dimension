@@ -64,7 +64,7 @@ head static =
             }
         , description = t EventsMetaDescription
         , locale = Nothing
-        , title = t EventsMetaTitle
+        , title = t EventsTitle
         }
         |> Seo.website
 
@@ -75,9 +75,9 @@ view :
     -> StaticPayload (List PlaceCalTypes.Event) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t EventsMetaTitle
+    { title = t EventsTitle
     , body =
-        [ viewHeader (t EventsMetaTitle)
+        [ viewHeader (t EventsTitle)
         , viewEvents static
         ]
     }
