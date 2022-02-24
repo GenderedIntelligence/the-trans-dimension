@@ -6,12 +6,13 @@ import Css exposing (Style, backgroundColor, batch, block, borderBox, boxSizing,
 import Html.Styled exposing (Html, a, button, div, footer, form, h1, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href, target, type_)
 import Theme exposing (darkBlue, pink, white)
+import TransRoutes exposing (Route(..))
 
 
 viewPageFooter : Html msg
 viewPageFooter =
     footer [ css [ footerStyle ] ]
-        [ viewPageFooterNavigation ""
+        [ viewPageFooterNavigation
         , viewPageFooterLogos
         , viewPageFooterSignup (t FooterSignupText) (t FooterSignupButton)
         , viewPageFooterSocial
@@ -20,14 +21,20 @@ viewPageFooter =
         ]
 
 
-viewPageFooterNavigation : String -> Html msg
-viewPageFooterNavigation _ =
+viewPageFooterNavigation : Html msg
+viewPageFooterNavigation =
     nav [ css [ navStyle ] ]
         [ ul [ css [ navListStyle ] ]
-            [ li [ css [ navListItemStyle ] ] [ text "Item 1" ]
-            , li [ css [ navListItemStyle ] ] [ text "Item 2" ]
-            , li [ css [ navListItemStyle ] ] [ text "Item 3" ]
-            ]
+            (List.map viewPageFooterNavigationItem
+                [ Home, Partners, Events, NewsList, About, Resources, Privacy, TermsAndConditions ]
+            )
+        ]
+
+
+viewPageFooterNavigationItem : TransRoutes.Route -> Html msg
+viewPageFooterNavigationItem route =
+    li [ css [ navListItemStyle ] ]
+        [ a [ href (TransRoutes.toAbsoluteUrl route) ] [ text (TransRoutes.toPageTitle route) ]
         ]
 
 

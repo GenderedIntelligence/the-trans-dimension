@@ -14,6 +14,7 @@ import Pages.Url
 import Shared
 import Theme
 import TransDate
+import TransRoutes exposing (Route(..))
 import View exposing (View)
 
 
@@ -62,7 +63,7 @@ head static =
             }
         , description = t NewsMetaDescription
         , locale = Nothing
-        , title = t NewsMetaTitle
+        , title = t NewsListTitle
         }
         |> Seo.website
 
@@ -73,9 +74,9 @@ view :
     -> StaticPayload (List Shared.News) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t EventsMetaTitle
+    { title = t NewsListTitle
     , body =
-        [ viewHeader (t NewsTitle), viewNewsList static ]
+        [ viewHeader (t NewsListTitle), viewNewsList static ]
     }
 
 
@@ -103,7 +104,7 @@ viewNewsItem newsItem =
                 , span [] [ text newsItem.author ]
                 ]
             , p [] [ text newsItem.summary ]
-            , a [ href "/" ] [ text (t NewsReadMore) ]
+            , a [ href (TransRoutes.toAbsoluteUrl (News newsItem.id)) ] [ text (t NewsReadMore) ]
             ]
         ]
 

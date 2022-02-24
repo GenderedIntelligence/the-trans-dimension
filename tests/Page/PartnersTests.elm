@@ -50,7 +50,7 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithPartners
                     |> Query.find [ Selector.tag "h2" ]
-                    |> Query.contains [ Html.text (t PartnersMetaTitle) ]
+                    |> Query.contains [ Html.text (t PartnersTitle) ]
         , test "Has intro text" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartners

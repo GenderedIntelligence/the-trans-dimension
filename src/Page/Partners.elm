@@ -12,6 +12,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import PlaceCalTypes
 import Shared
+import TransRoutes exposing (Route(..))
 import View exposing (View)
 
 
@@ -60,7 +61,7 @@ head static =
             }
         , description = t PartnersMetaDescription
         , locale = Nothing
-        , title = t PartnersMetaTitle
+        , title = t PartnersTitle
         }
         |> Seo.website
 
@@ -71,7 +72,7 @@ view :
     -> StaticPayload (List PlaceCalTypes.Partner) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t PartnersMetaTitle
+    { title = t PartnersTitle
     , body =
         [ viewHeader
         , viewIntro
@@ -82,7 +83,7 @@ view maybeUrl sharedModel static =
 
 viewHeader : Html msg
 viewHeader =
-    section [] [ h2 [] [ text (t PartnersMetaTitle) ] ]
+    section [] [ h2 [] [ text (t PartnersTitle) ] ]
 
 
 viewIntro : Html msg
@@ -110,7 +111,7 @@ viewPartner partner =
             [ text partner.name
             , p []
                 [ text partner.summary
-                , a [ href ("/partners/" ++ partner.id) ] [ text "[cCc] Read more" ]
+                , a [ href (TransRoutes.toAbsoluteUrl (Partner partner.id)) ] [ text "[cCc] Read more" ]
                 ]
             ]
         ]
