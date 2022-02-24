@@ -75,8 +75,7 @@ view :
 view maybeUrl sharedModel static =
     { title = t EventsMetaTitle
     , body =
-        [ main_ [] [ viewHeader (t NewsTitle), viewNewsList static ]
-        ]
+        [ viewHeader (t NewsTitle), viewNewsList static ]
     }
 
 
@@ -100,7 +99,7 @@ viewNewsItem newsItem =
             [ h3 [] [ text newsItem.title ]
             , p []
                 [ time [] [ text (TransDate.humanDateFromPosix newsItem.datetime) ]
-                , text " by "
+                , text " by [cCc]"
                 , span [] [ text newsItem.author ]
                 ]
             , p [] [ text newsItem.summary ]
