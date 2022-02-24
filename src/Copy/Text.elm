@@ -84,6 +84,16 @@ t key =
         PartnerMetaDescription partnerName ->
             "[cCc] Partner description for " ++ partnerName
 
+        --- Join Page
+        JoinMetaTitle ->
+            "[cCc] Join Us"
+
+        JoinMetaDescription ->
+            "[cCc] Join The Trans Dimension as a partner"
+
+        JoinDescription ->
+            "[cCc] This is why you should join as a Trans Dimension partner and this is how it works and this is what you do. Fill out our form below etc."
+
         --- News Listing Page
         NewsTitle ->
             "News"
@@ -96,3 +106,21 @@ t key =
 
         NewsMetaDescription ->
             "[cCc] News listing for The Trans Dimension"
+
+        JoinFormInputNameLabel ->
+            "Name"
+
+        JoinFormInputTitleLabel ->
+            "Title"
+
+        JoinFormInputOrgLabel ->
+            "Organisation"
+
+        JoinFormInputContactLabel ->
+            "Contact details"
+
+        JoinFormInputMessageLabel ->
+            "Message"
+
+        JoinFormSubmitButton ->
+            "Submit"
