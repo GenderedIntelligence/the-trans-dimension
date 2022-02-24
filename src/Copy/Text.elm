@@ -112,7 +112,6 @@ t key =
             "[cCc] News listing for The Trans Dimension"
 
         --- News Single Article Page
-
         NewsItemTitle title ->
             "[cCc] News -" ++ title
 
