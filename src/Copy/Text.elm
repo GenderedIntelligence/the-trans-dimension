@@ -50,6 +50,13 @@ t key =
         IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
 
+        -- About Page (NOTE: might want these to come from md for static pages)
+        AboutMetaTitle ->
+            "About"
+
+        AboutMetaDescription ->
+            "[cCc] About description"
+
         -- Events Page
         EventsMetaTitle ->
             "Events"
