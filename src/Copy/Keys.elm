@@ -50,6 +50,10 @@ type Key
     | NewsReadMore
     | NewsMetaTitle
     | NewsMetaDescription
+      --- Individual News Page
+    | NewsItemMetaTitle String
+    | NewsItemMetaDescription String
+    | NewsItemReturnButton
       --- Resources Page
     | ResourcesMetaTitle
     | ResourcesMetaDescription

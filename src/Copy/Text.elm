@@ -114,6 +114,17 @@ t key =
         NewsMetaDescription ->
             "[cCc] News listing for The Trans Dimension"
 
+        --- Individual News Page
+
+        NewsItemMetaTitle title ->
+            "[cCc] News -" ++ title
+
+        NewsItemMetaDescription author ->
+            "[cCc] A news post by" ++ author ++ "for The Trans Dimension"
+
+        NewsItemReturnButton ->
+            "Go back to news"
+
         -- Resources Page
         ResourcesMetaTitle ->
             "Resources"
