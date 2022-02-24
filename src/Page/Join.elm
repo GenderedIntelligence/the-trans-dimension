@@ -57,7 +57,7 @@ head static =
             }
         , description = t JoinMetaDescription
         , locale = Nothing
-        , title = t JoinMetaTitle -- metadata.title
+        , title = t JoinTitle -- metadata.title
         }
         |> Seo.website
 
@@ -72,9 +72,9 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t JoinMetaTitle
+    { title = t JoinTitle
     , body =
-        [ viewHeader (t JoinMetaTitle)
+        [ viewHeader (t JoinTitle)
         , viewDescription (t JoinDescription)
         , viewForm
         ]

@@ -12,6 +12,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import PlaceCalTypes
 import Shared
+import TransRoutes exposing (Route(..))
 import View exposing (View)
 
 
@@ -80,7 +81,7 @@ head static =
             }
         , description = t (PartnerMetaDescription static.data.name)
         , locale = Nothing
-        , title = t (PartnerMetaTitle static.data.name)
+        , title = t (PartnerTitle static.data.name)
         }
         |> Seo.website
 
@@ -101,7 +102,7 @@ view maybeUrl sharedModel static =
         , viewInfo static.data
 
         -- There is probably a way to use Typed Pages routes
-        , a [ href "/partners" ] [ text (t BackToPartnersLinkText) ]
+        , a [ href (TransRoutes.toAbsoluteUrl Partners) ] [ text (t BackToPartnersLinkText) ]
         ]
     }
 

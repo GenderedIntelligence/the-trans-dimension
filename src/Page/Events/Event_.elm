@@ -79,7 +79,7 @@ head static =
             }
         , description = t (EventMetaDescription static.data.name)
         , locale = Nothing
-        , title = t (EventMetaTitle static.data.name)
+        , title = t (EventTitle static.data.name)
         }
         |> Seo.website
 
@@ -122,7 +122,7 @@ viewInfo event =
             ]
         , div [ css [ eventDescriptionStyle ] ]
             [ p [] [ text event.description ]
-            , ul [] [ li [] [ a [ href "/" ] [ text "link [fFf]" ] ] ]
+            , ul [] [ li [] [ a [ href "https://example.com/[cCc]" ] [ text "link [fFf]" ] ] ]
             ]
         ]
 

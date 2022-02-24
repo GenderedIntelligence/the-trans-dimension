@@ -44,35 +44,35 @@ t key =
             "Go back to partners"
 
         --- Index Page
-        IndexMetaTitle ->
+        IndexTitle ->
             "Home"
 
         IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
 
-        -- About Page (NOTE: might want these to come from md for static pages)
-        AboutMetaTitle ->
+        -- About Page (NOTE: also comes from md)
+        AboutTitle ->
             "About"
 
         AboutMetaDescription ->
             "[cCc] About description"
 
         -- Events Page
-        EventsMetaTitle ->
+        EventsTitle ->
             "Events"
 
         EventsMetaDescription ->
             "[cCc] Events description"
 
         --- Event Page
-        EventMetaTitle eventName ->
+        EventTitle eventName ->
             "[cCc] Event - " ++ eventName
 
         EventMetaDescription eventName ->
             "[cCc] Event description for " ++ eventName
 
         --- Partners Page
-        PartnersMetaTitle ->
+        PartnersTitle ->
             "Partners"
 
         PartnersMetaDescription ->
@@ -85,14 +85,14 @@ t key =
             "[cCc] There are currently no partners"
 
         --- Partner Page
-        PartnerMetaTitle partnerName ->
+        PartnerTitle partnerName ->
             "[cCc] PlaceCal Partner - " ++ partnerName
 
         PartnerMetaDescription partnerName ->
             "[cCc] Partner description for " ++ partnerName
 
         --- Join Page
-        JoinMetaTitle ->
+        JoinTitle ->
             "[cCc] Join Us"
 
         JoinMetaDescription ->
@@ -102,20 +102,21 @@ t key =
             "[cCc] This is why you should join as a Trans Dimension partner and this is how it works and this is what you do. Fill out our form below etc."
 
         --- News Listing Page
-        NewsTitle ->
+        NewsListTitle ->
             "News"
 
         NewsReadMore ->
             "[cCc] Read more"
 
-        NewsMetaTitle ->
-            "[cCc] News"
-
         NewsMetaDescription ->
             "[cCc] News listing for The Trans Dimension"
 
+        --- News Single Page
+        NewsTitle title ->
+            title
+
         -- Resources Page
-        ResourcesMetaTitle ->
+        ResourcesTitle ->
             "Resources"
 
         ResourcesMetaDescription ->
@@ -145,3 +146,11 @@ t key =
 
         JoinFormSubmitButton ->
             "Submit"
+
+        --- Privacy Page (note this also comes from markdown)
+        PrivacyTitle ->
+            "Privacy"
+
+        --- Terms and Conditions Page (note also comes from markdown)
+        TermsAndConditionsTitle ->
+            "Terms and Conditions"

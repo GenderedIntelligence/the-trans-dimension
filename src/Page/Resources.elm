@@ -61,7 +61,7 @@ head static =
             }
         , description = t ResourcesMetaDescription
         , locale = Nothing
-        , title = t ResourcesMetaTitle
+        , title = t ResourcesTitle
         }
         |> Seo.website
 
@@ -72,9 +72,9 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t ResourcesMetaTitle
+    { title = t ResourcesTitle
     , body =
-        [ viewHeader (t ResourcesMetaTitle)
+        [ viewHeader (t ResourcesTitle)
         , viewIntro (t ResourcesIntro)
         , viewResources static.data
         ]
