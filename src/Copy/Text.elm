@@ -50,6 +50,33 @@ t key =
         IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
 
+        IndexIntroMessage ->
+            "[cCc] Key introductory message"
+
+        IndexIntroButtonText ->
+            "[cCc] Check out our events"
+
+        IndexResourcesHeading ->
+            "[cCc] Need help?"
+
+        IndexResourcesDescription ->
+            "[cCc] Short description of this section"
+
+        IndexResourcesButtonText ->
+            "[cCc] Resources"
+
+        IndexFeaturedHeader ->
+            "[cCc] Featured Events"
+
+        IndexFeaturedButtonText ->
+            "[cCc] More events"
+
+        IndexNewsHeader ->
+            "[cCc] Latest update"
+
+        IndexNewsButtonText ->
+            "[cCc] More news"
+
         -- About Page (NOTE: also comes from md)
         AboutTitle ->
             "About"

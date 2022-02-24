@@ -72,10 +72,10 @@ view :
 view maybeUrl sharedModel static =
     { title = t SiteTitle
     , body =
-        [ viewIntro "Key introductory message" "Check out our events"
-        , viewResources "Need help?" "Short description of this section" "Resources"
-        , viewFeatured "Featured Events" "More events"
-        , viewLatestNews "Latest update" "More news"
+        [ viewIntro (t IndexIntroMessage) (t IndexIntroButtonText)
+        , viewResources (t IndexResourcesHeading) (t IndexResourcesDescription) (t IndexResourcesButtonText)
+        , viewFeatured (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
+        , viewLatestNews (t IndexNewsHeader) (t IndexNewsButtonText)
         ]
     }
 
