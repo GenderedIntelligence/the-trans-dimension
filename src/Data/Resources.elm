@@ -5,11 +5,31 @@ type alias ResourceData =
     { name : String, description : String, url : String }
 
 
+resourcesData : List ( String, List ResourceData )
+resourcesData =
+    List.map (\resource -> resourceToHeadingWithData resource) resourcesList
+
+
+
+------------------------
+-- EDIT CONTENT BELOW --
+------------------------
+----------------------------
+{- Add new categories here -}
+-----------------------------
+
+
 type Resource
     = Acting (List ResourceData)
     | Asylum (List ResourceData)
     | Autism (List ResourceData)
     | ClinicalStudies (List ResourceData)
+
+
+
+-------------------------------------------
+{- Add Display title for categories here -}
+-------------------------------------------
 
 
 resourceToHeadingWithData : Resource -> ( String, List ResourceData )
@@ -28,9 +48,10 @@ resourceToHeadingWithData resource =
             ( "Clinical Studies", list )
 
 
-resourcesData : List ( String, List ResourceData )
-resourcesData =
-    List.map (\resource -> resourceToHeadingWithData resource) resourcesList
+
+--------------------------------------
+{- Add resources in categories here -}
+--------------------------------------
 
 
 resourcesList : List Resource
