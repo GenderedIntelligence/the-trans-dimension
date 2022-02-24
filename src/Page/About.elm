@@ -108,7 +108,12 @@ view :
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.title
-    , body = concat [ [ viewHeader static.data.title ], static.data.body, [ viewPageEnd ] ]
+    , body =
+        concat
+            [ [ viewHeader static.data.title ]
+            , static.data.body
+            , [ viewPageEnd ]
+            ]
     }
 
 

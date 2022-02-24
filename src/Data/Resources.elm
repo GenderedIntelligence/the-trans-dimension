@@ -1,4 +1,4 @@
-module Data.Resources exposing (resourcesData)
+module Data.Resources exposing (ResourceData, resourcesData)
 
 
 type alias ResourceData =

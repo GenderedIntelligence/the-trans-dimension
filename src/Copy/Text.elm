@@ -114,6 +114,20 @@ t key =
         NewsMetaDescription ->
             "[cCc] News listing for The Trans Dimension"
 
+        -- Resources Page
+        ResourcesMetaTitle ->
+            "Resources"
+
+        ResourcesMetaDescription ->
+            "[cCc] Resources meta description"
+
+        ResourcesIntro ->
+            "[cCc] Resources page introduction"
+
+        ResourcesEmptyText ->
+            "[cCc] No resources"
+
+        -- Join Form
         JoinFormInputNameLabel ->
             "Name"
 

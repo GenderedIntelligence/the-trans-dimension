@@ -50,3 +50,8 @@ type Key
     | NewsReadMore
     | NewsMetaTitle
     | NewsMetaDescription
+      --- Resources Page
+    | ResourcesMetaTitle
+    | ResourcesMetaDescription
+    | ResourcesIntro
+    | ResourcesEmptyText
