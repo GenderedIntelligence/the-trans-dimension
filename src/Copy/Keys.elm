@@ -36,6 +36,12 @@ type Key
     | JoinMetaTitle
     | JoinMetaDescription
     | JoinDescription
+    | JoinFormInputNameLabel
+    | JoinFormInputTitleLabel
+    | JoinFormInputOrgLabel
+    | JoinFormInputContactLabel
+    | JoinFormInputMessageLabel
+    | JoinFormSubmitButton
       --- News Listing Page
     | NewsTitle
     | NewsReadMore

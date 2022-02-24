@@ -97,12 +97,12 @@ viewForm : Html msg
 viewForm =
     form [ css [ formStyle ] ]
         [ text "[fFf]"
-        , label [ css [ formLabelStyling ] ] [ span [] [ text "Name: " ], input [] [] ]
-        , label [ css [ formLabelStyling ] ] [ span [] [ text "Title: " ], input [] [] ]
-        , label [ css [ formLabelStyling ] ] [ span [] [ text "Organisation: " ], input [] [] ]
-        , label [ css [ formLabelStyling ] ] [ span [] [ text "Contact details: " ], input [] [] ]
-        , label [ css [ formLabelStyling ] ] [ span [] [ text "Message: " ], textarea [] [] ]
-        , button [ type_ "submit" ] [ text "Submit" ]
+        , label [ css [ formLabelStyling ] ] [ span [] [ text (t JoinFormInputNameLabel ++ ": ") ], input [] [] ]
+        , label [ css [ formLabelStyling ] ] [ span [] [ text (t JoinFormInputTitleLabel ++ ": ") ], input [] [] ]
+        , label [ css [ formLabelStyling ] ] [ span [] [ text (t JoinFormInputOrgLabel ++ ": ") ], input [] [] ]
+        , label [ css [ formLabelStyling ] ] [ span [] [ text (t JoinFormInputContactLabel ++ ": ") ], input [] [] ]
+        , label [ css [ formLabelStyling ] ] [ span [] [ text (t JoinFormInputMessageLabel ++ ": ") ], textarea [] [] ]
+        , button [ type_ "submit" ] [ text (t JoinFormSubmitButton) ]
         ]
 
 

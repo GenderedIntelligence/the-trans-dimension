@@ -106,3 +106,21 @@ t key =
 
         NewsMetaDescription ->
             "[cCc] News listing for The Trans Dimension"
+
+        JoinFormInputNameLabel ->
+            "Name"
+
+        JoinFormInputTitleLabel ->
+            "Title"
+
+        JoinFormInputOrgLabel ->
+            "Organisation"
+
+        JoinFormInputContactLabel ->
+            "Contact details"
+
+        JoinFormInputMessageLabel ->
+            "Message"
+
+        JoinFormSubmitButton ->
+            "Submit"
