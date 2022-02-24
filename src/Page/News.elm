@@ -6,15 +6,15 @@ import Css exposing (Style, batch, margin2, rem)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Helpers.TransDate as TransDate
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, h2, h3, li, main_, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme
-import TransDate
-import TransRoutes exposing (Route(..))
+import Theme.Global
 import View exposing (View)
 
 
@@ -83,7 +83,7 @@ view maybeUrl sharedModel static =
 viewHeader : String -> Html msg
 viewHeader title =
     section []
-        [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text title ]
+        [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text title ]
         ]
 
 

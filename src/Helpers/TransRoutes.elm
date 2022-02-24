@@ -1,4 +1,4 @@
-module TransRoutes exposing (Route(..), toAbsoluteUrl, toPageTitle)
+module Helpers.TransRoutes exposing (Route(..), toAbsoluteUrl, toPageTitle)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

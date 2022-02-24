@@ -3,19 +3,19 @@ module Page.Events exposing (Data, Model, Msg, page)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, backgroundColor, batch, bold, center, color, displayFlex, fontSize, fontWeight, justifyContent, margin2, margin4, marginTop, padding4, rem, spaceBetween, textAlign)
+import Data.PlaceCalTypes as PlaceCalTypes
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Helpers.TransDate as TransDate
 import Html.Styled exposing (Html, article, div, h2, h3, h4, li, p, section, text, time, ul)
 import Html.Styled.Attributes exposing (css)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
-import PlaceCalTypes
 import Shared
-import Theme exposing (blue, darkBlue)
+import Theme.Global exposing (blue, darkBlue)
 import Time
-import TransDate
 import View exposing (View)
 
 
@@ -86,7 +86,7 @@ view maybeUrl sharedModel static =
 viewHeader : String -> Html msg
 viewHeader title =
     section []
-        [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text title ]
+        [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text title ]
         ]
 
 

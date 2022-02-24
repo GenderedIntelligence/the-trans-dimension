@@ -1,4 +1,4 @@
-module TransMarkdown exposing (transHtmlRenderer)
+module Theme.TransMarkdown exposing (transHtmlRenderer)
 
 import Css exposing (Style, batch, decimal, disc, em, listStyleType, marginBlockEnd, marginBlockStart, paddingLeft)
 import Html.Styled as Html

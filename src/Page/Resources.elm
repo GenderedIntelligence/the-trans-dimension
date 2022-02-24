@@ -12,7 +12,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme
+import Theme.Global
 import View exposing (View)
 
 
@@ -84,7 +84,7 @@ view maybeUrl sharedModel static =
 viewHeader : String -> Html msg
 viewHeader title =
     section []
-        [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text title ]
+        [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text title ]
         ]
 
 

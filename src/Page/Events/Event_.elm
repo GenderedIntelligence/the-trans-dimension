@@ -3,18 +3,18 @@ module Page.Events.Event_ exposing (..)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, batch, bold, center, fontSize, fontWeight, margin, margin4, marginBottom, marginTop, num, rem, textAlign)
+import Data.PlaceCalTypes as PlaceCalTypes
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Helpers.TransDate as TransDate
 import Html.Styled exposing (Html, a, div, h2, h3, li, main_, p, section, text, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
-import PlaceCalTypes
 import Shared
-import Theme
-import TransDate
+import Theme.Global
 import View exposing (View)
 
 
@@ -104,7 +104,7 @@ view maybeUrl sharedModel static =
 
 viewHeader : String -> Html msg
 viewHeader headerText =
-    section [] [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text headerText ] ]
+    section [] [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text headerText ] ]
 
 
 viewInfo : PlaceCalTypes.Event -> Html msg

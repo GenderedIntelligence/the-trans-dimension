@@ -6,14 +6,14 @@ import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, c
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Helpers.TransDate as TransDate
 import Html.Styled exposing (Html, a, article, div, h2, h3, li, main_, p, section, text, time, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme
-import TransDate
+import Theme.Global
 import View exposing (View)
 
 
@@ -101,7 +101,7 @@ view maybeUrl sharedModel static =
 
 viewHeader : String -> Html msg
 viewHeader headerText =
-    section [] [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text headerText ] ]
+    section [] [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text headerText ] ]
 
 
 viewArticle : Shared.News -> Html msg
@@ -145,8 +145,8 @@ articleContentStyle =
 goBackStyle : Style
 goBackStyle =
     batch
-        [ backgroundColor Theme.darkBlue
-        , color Theme.white
+        [ backgroundColor Theme.Global.darkBlue
+        , color Theme.Global.white
         , textDecoration none
         , padding (rem 1)
         , display block

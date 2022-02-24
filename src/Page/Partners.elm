@@ -2,17 +2,17 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Data.PlaceCalTypes as PlaceCalTypes
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h2, h3, li, p, section, text, ul)
 import Html.Styled.Attributes exposing (href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
-import PlaceCalTypes
 import Shared
-import TransRoutes exposing (Route(..))
 import View exposing (View)
 
 

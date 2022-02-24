@@ -3,7 +3,7 @@ module View exposing (View, fontPreload, map, placeholder)
 import Css.Global exposing (html)
 import Html.Styled exposing (Attribute, Html, div, h1, node, text)
 import Html.Styled.Attributes exposing (css, href, id, rel)
-import Theme
+import Theme.Global
 
 
 type alias View msg =
@@ -24,7 +24,7 @@ placeholder moduleName =
     { title = "Placeholder - " ++ moduleName
     , body =
         [ h1
-            [ css [ Theme.pageHeadingStyle ]
+            [ css [ Theme.Global.pageHeadingStyle ]
             ]
             [ text moduleName ]
         ]

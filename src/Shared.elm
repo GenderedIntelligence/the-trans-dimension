@@ -1,20 +1,20 @@
 module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNews, template)
 
 import Browser.Navigation
+import Data.PlaceCalTypes as PlaceCalTypes
+import Data.TestFixtures as Fixtures
 import DataSource
 import Html
 import Html.Attributes exposing (name)
 import Html.Styled
-import PageFooter exposing (viewPageFooter)
-import PageHeader exposing (viewPageHeader)
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
-import PlaceCalTypes
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
-import TestFixtures as Fixtures
-import Theme
+import Theme.Global
+import Theme.PageFooter exposing (viewPageFooter)
+import Theme.PageHeader exposing (viewPageHeader)
 import Time
 import View exposing (View)
 
@@ -151,9 +151,9 @@ view :
 view sharedData page model toMsg pageView =
     { body =
         Html.Styled.toUnstyled
-            (Theme.containerPage pageView.title
+            (Theme.Global.containerPage pageView.title
                 [ View.fontPreload
-                , Theme.globalStyles
+                , Theme.Global.globalStyles
                 , viewPageHeader
                 , Html.Styled.main_ [] pageView.body
                 , viewPageFooter

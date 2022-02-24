@@ -1,12 +1,12 @@
-module PageFooter exposing (viewPageFooter)
+module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, backgroundColor, batch, block, borderBox, boxSizing, center, color, display, displayFlex, flexGrow, fontSize, inlineBlock, inlineFlex, justifyContent, marginBottom, marginRight, marginTop, none, nthChild, num, padding, padding2, paddingLeft, pct, rem, right, spaceAround, spaceBetween, textAlign, textDecoration, width)
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, h1, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href, target, type_)
-import Theme exposing (darkBlue, pink, white)
-import TransRoutes exposing (Route(..))
+import Theme.Global exposing (darkBlue, pink, white)
 
 
 viewPageFooter : Html msg
