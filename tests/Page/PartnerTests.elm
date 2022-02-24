@@ -26,6 +26,7 @@ viewParamsWithPartner =
     , sharedData =
         { partners = Fixtures.partners
         , events = Fixtures.events
+        , news = Fixtures.news
         }
     }
 

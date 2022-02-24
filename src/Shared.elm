@@ -1,4 +1,4 @@
-module Shared exposing (Data, Model, Msg(..), SharedMsg(..), data, template)
+module Shared exposing (Data,  Model, Msg(..), News,  SharedMsg(..), data, emptyNews, template)
 
 import Browser.Navigation
 import DataSource
@@ -48,6 +48,28 @@ type Msg
 type alias Data =
     { partners : List PlaceCalTypes.Partner
     , events : List PlaceCalTypes.Event
+    , news : List News
+    }
+
+
+type alias News =
+    { id : String
+    , title : String
+    , summary : String
+    , body : String
+    , datetime : Time.Posix
+    , author : String
+    }
+
+
+emptyNews : News
+emptyNews =
+    { id = ""
+    , title = ""
+    , summary = ""
+    , body = ""
+    , datetime = Time.millisToPosix 0
+    , author = ""
     }
 
 
@@ -106,6 +128,7 @@ data =
     DataSource.succeed
         { partners = Fixtures.partners
         , events = Fixtures.events
+        , news = Fixtures.news
         }
 
 

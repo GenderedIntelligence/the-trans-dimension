@@ -83,3 +83,16 @@ t key =
 
         PartnerMetaDescription partnerName ->
             "[cCc] Partner description for " ++ partnerName
+
+        --- News Listing Page
+        NewsTitle ->
+            "News"
+
+        NewsReadMore ->
+            "[cCc] Read more"
+
+        NewsMetaTitle ->
+            "[cCc] News"
+
+        NewsMetaDescription ->
+            "[cCc] News listing for The Trans Dimension"
