@@ -1,4 +1,4 @@
-module Theme exposing (black, blue, containerContent, containerPage, darkBlue, generateId, globalStyles, gridStyle, maxMobile, oneColumn, pageHeadingStyle, pink, threeColumn, twoColumn, verticalSpacing, white, withMediaDesktop, withMediaLargeDevice, withMediaTablet)
+module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, generateId, globalStyles, gridStyle, maxMobile, oneColumn, pageHeadingStyle, pink, threeColumn, twoColumn, verticalSpacing, white, withMediaDesktop, withMediaLargeDevice, withMediaTablet)
 
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)

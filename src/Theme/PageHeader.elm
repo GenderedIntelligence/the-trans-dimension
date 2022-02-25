@@ -1,13 +1,13 @@
-module PageHeader exposing (viewPageHeader)
+module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, backgroundColor, batch, block, bold, center, color, display, displayFlex, fontSize, fontWeight, hex, justifyContent, marginRight, marginTop, none, padding, paddingBottom, paddingLeft, paddingTop, pct, rem, spaceBetween, textAlign, textDecoration, width)
 import Css.Media exposing (grid)
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h1, header, li, nav, p, text, ul)
 import Html.Styled.Attributes exposing (css, href)
-import Theme exposing (black, blue, darkBlue, pink, white)
-import TransRoutes exposing (Route(..))
+import Theme.Global exposing (black, blue, darkBlue, pink, white)
 
 
 viewPageHeader : Html msg

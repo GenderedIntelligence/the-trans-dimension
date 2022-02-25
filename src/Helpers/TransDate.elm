@@ -1,4 +1,4 @@
-module TransDate exposing (humanDateFromPosix, humanTimeFromPosix)
+module Helpers.TransDate exposing (humanDateFromPosix, humanTimeFromPosix)
 
 import DateFormat
 import Time

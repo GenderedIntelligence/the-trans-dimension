@@ -1,17 +1,17 @@
-module TextHeavyPage exposing (view)
+module Theme.TextHeavyPage exposing (view)
 
 import Css exposing (Style, batch, marginBottom, rem)
 import Html.Styled exposing (Html, div, h2, section, text)
 import Html.Styled.Attributes exposing (css)
 import List exposing (concat)
-import Theme
+import Theme.Global
 
 
 view : String -> List (Html msg) -> Html msg
 view title body =
     div []
         [ section []
-            [ h2 [ css [ Theme.pageHeadingStyle ] ] [ text title ]
+            [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text title ]
             ]
         , section [ css [ bodyStyle ] ] body
         ]

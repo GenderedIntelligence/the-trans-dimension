@@ -15,9 +15,8 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import TextHeavyPage
-import Theme
-import TransMarkdown
+import Theme.TextHeavyPage as TextHeavyPage
+import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
 
 

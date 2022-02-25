@@ -1,4 +1,4 @@
-module PlaceCalTypes exposing (Event, Partner, Realm(..), emptyEvent, emptyPartner, realmToString)
+module Data.PlaceCalTypes exposing (Event, Partner, Realm(..), emptyEvent, emptyPartner, realmToString)
 
 import Time
 
