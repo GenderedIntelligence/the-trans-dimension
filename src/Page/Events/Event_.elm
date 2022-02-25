@@ -2,7 +2,7 @@ module Page.Events.Event_ exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, batch, bold, center, fontSize, fontWeight, margin, margin4, marginBottom, marginTop, num, rem, textAlign)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, color, display, fontSize, fontWeight, hover, margin, margin2, margin4, marginBottom, marginTop, none, num, padding, pct, rem, textAlign, textDecoration, width)
 import Data.PlaceCalTypes as PlaceCalTypes
 import DataSource exposing (DataSource)
 import Head
@@ -96,8 +96,9 @@ view :
 view maybeUrl sharedModel static =
     { title = static.data.name
     , body =
-        [ viewHeader "Events"
+        [ viewHeader (t EventsTitle)
         , viewInfo static.data
+        , viewGoBack (t EventBackButton)
         ]
     }
 
@@ -127,6 +128,11 @@ viewInfo event =
         ]
 
 
+viewGoBack : String -> Html msg
+viewGoBack buttonText =
+    a [ href "/events", css [ goBackStyle ] ] [ text buttonText ]
+
+
 eventSubheadingStyle : Style
 eventSubheadingStyle =
     batch
@@ -150,4 +156,19 @@ eventMetaStyle =
         [ fontWeight bold
         , margin (rem 0)
         , textAlign center
+        ]
+
+
+goBackStyle : Style
+goBackStyle =
+    batch
+        [ backgroundColor Theme.Global.darkBlue
+        , color Theme.Global.white
+        , textDecoration none
+        , padding (rem 1)
+        , display block
+        , width (pct 25)
+        , margin2 (rem 2) auto
+        , textAlign center
+        , hover [ backgroundColor Theme.Global.blue, color Theme.Global.black ]
         ]

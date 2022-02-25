@@ -2,17 +2,19 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, color, display, fontSize, fontWeight, hover, margin2, marginBottom, none, padding, pct, rem, textAlign, textDecoration, width)
 import Data.PlaceCalTypes as PlaceCalTypes
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h2, h3, p, section, text)
-import Html.Styled.Attributes exposing (href)
+import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
+import Theme.Global exposing (pageHeadingStyle)
 import View exposing (View)
 
 
@@ -102,21 +104,53 @@ view maybeUrl sharedModel static =
         , viewInfo static.data
 
         -- There is probably a way to use Typed Pages routes
-        , a [ href (TransRoutes.toAbsoluteUrl Partners) ] [ text (t BackToPartnersLinkText) ]
+        , a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackStyle ] ] [ text (t BackToPartnersLinkText) ]
         ]
     }
 
 
 viewHeader : PlaceCalTypes.Partner -> Html msg
 viewHeader partner =
-    section [] [ h2 [] [ text partner.name ] ]
+    section [] [ h2 [ css [ pageHeadingStyle ] ] [ text (t PartnersTitle) ] ]
 
 
 viewInfo : PlaceCalTypes.Partner -> Html msg
 viewInfo partner =
     section []
-        [ h3 [] [ text "[cCc] wireframe has partner name here what is h2 in that case?" ]
+        [ h3 [ css [ partnerHeadingStyle ] ] [ text partner.name ]
         , p [] [ text partner.description ]
-        , p [] [ text "[fFf] partner contact info (from API?)" ]
-        , div [] [ text "[fFf] Map" ]
+        , p [ css [ featurePlaceholderStyle ] ] [ text "[fFf] partner contact info (from API?)" ]
+        , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
+        , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Partner event listing?" ]
+        ]
+
+
+featurePlaceholderStyle : Style
+featurePlaceholderStyle =
+    batch
+        [ fontWeight bold
+        , marginBottom (rem 2)
+        ]
+
+
+partnerHeadingStyle : Style
+partnerHeadingStyle =
+    batch
+        [ textAlign center
+        , fontSize (rem 2)
+        ]
+
+
+goBackStyle : Style
+goBackStyle =
+    batch
+        [ backgroundColor Theme.Global.darkBlue
+        , color Theme.Global.white
+        , textDecoration none
+        , padding (rem 1)
+        , display block
+        , width (pct 25)
+        , margin2 (rem 2) auto
+        , textAlign center
+        , hover [ backgroundColor Theme.Global.blue, color Theme.Global.black ]
         ]

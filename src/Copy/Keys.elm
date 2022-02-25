@@ -33,14 +33,17 @@ type Key
       --- Events Page
     | EventsTitle
     | EventsMetaDescription
+    | EventsSubHeading
       --- Event Page
     | EventTitle String
     | EventMetaDescription String
+    | EventBackButton
       --- Partners Page
     | PartnersTitle
     | PartnersMetaDescription
     | PartnersIntro
     | PartnersListEmpty
+    | PartnersLinkToPartner
       --- Partner Page
     | PartnerTitle String
     | PartnerMetaDescription String

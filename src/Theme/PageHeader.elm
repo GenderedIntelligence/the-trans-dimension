@@ -2,7 +2,7 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, backgroundColor, batch, block, bold, center, color, display, displayFlex, fontSize, fontWeight, hex, justifyContent, marginRight, marginTop, none, padding, paddingBottom, paddingLeft, paddingTop, pct, rem, spaceBetween, textAlign, textDecoration, width)
+import Css exposing (Style, backgroundColor, batch, block, bold, center, color, display, displayFlex, fontSize, fontWeight, hex, hover, justifyContent, marginRight, marginTop, none, padding, paddingBottom, paddingLeft, paddingTop, pct, rem, spaceBetween, textAlign, textDecoration, width)
 import Css.Media exposing (grid)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h1, header, li, nav, p, text, ul)
@@ -42,7 +42,7 @@ viewPageHeaderNavigation listItems =
 viewHeaderNavigationItem : TransRoutes.Route -> Html msg
 viewHeaderNavigationItem route =
     li [ css [ navigationListItemStyle ] ]
-        [ a [ href (TransRoutes.toAbsoluteUrl route) ]
+        [ a [ href (TransRoutes.toAbsoluteUrl route), css [ navigationLinkStyle ] ]
             [ text (TransRoutes.toPageTitle route)
             ]
         ]
@@ -99,6 +99,17 @@ navigationListItemStyle =
         [ marginRight (rem 1)
         , marginTop (rem 1)
         , color black
+        ]
+
+
+navigationLinkStyle : Style
+navigationLinkStyle =
+    batch
+        [ fontWeight bold
+        , color black
+        , textDecoration none
+        , display block
+        , hover [ color pink ]
         ]
 
 
