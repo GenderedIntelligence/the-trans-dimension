@@ -8,8 +8,9 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
-import Html.Styled exposing (Html, article, div, h2, h3, h4, li, p, section, text, time, ul)
-import Html.Styled.Attributes exposing (css)
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
+import Html.Styled exposing (Html, a, article, div, h2, h3, h4, li, p, section, text, time, ul)
+import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
@@ -108,7 +109,7 @@ viewEventsFilters =
 viewEventsList : StaticPayload (List PlaceCalTypes.Event) RouteParams -> Html msg
 viewEventsList events =
     div []
-        [ h3 [ css [ eventsHeadingStyle ] ] [ text "[cCc] Upcoming events" ]
+        [ h3 [ css [ eventsHeadingStyle ] ] [ text (t EventsSubHeading) ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Pagination by day/week" ]
         , ul [] (List.map (\event -> viewEvent event) events.data)
         ]
@@ -121,8 +122,9 @@ viewEvent event =
             [ h4 [ css [ eventTitleStyle ] ] [ text event.name ]
             , time [] [ text (TransDate.humanDateFromPosix event.startDatetime) ]
             , time [] [ text (TransDate.humanTimeFromPosix event.startDatetime) ]
-            , p [ css [ eventParagraphStyle ] ] [ text "Online?" ]
+            , p [ css [ eventParagraphStyle ] ] [ text (PlaceCalTypes.realmToString event.realm) ]
             , p [ css [ eventParagraphStyle ] ] [ text event.location ]
+            , a [ href (TransRoutes.toAbsoluteUrl (Event event.id)) ] [ text "View more" ]
             ]
         ]
 

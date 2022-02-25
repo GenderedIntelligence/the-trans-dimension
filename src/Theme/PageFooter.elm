@@ -2,11 +2,11 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, backgroundColor, batch, block, borderBox, boxSizing, center, color, display, displayFlex, flexGrow, fontSize, inlineBlock, inlineFlex, justifyContent, marginBottom, marginRight, marginTop, none, nthChild, num, padding, padding2, paddingLeft, pct, rem, right, spaceAround, spaceBetween, textAlign, textDecoration, width)
+import Css exposing (Style, backgroundColor, batch, block, borderBox, boxSizing, center, color, display, displayFlex, flexGrow, fontSize, hover, inlineBlock, inlineFlex, justifyContent, marginBottom, marginRight, marginTop, none, nthChild, num, padding, padding2, paddingLeft, pct, rem, right, spaceAround, spaceBetween, textAlign, textDecoration, width)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, h1, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href, target, type_)
-import Theme.Global exposing (darkBlue, pink, white)
+import Theme.Global exposing (blue, darkBlue, pink, white)
 
 
 viewPageFooter : Html msg
@@ -34,7 +34,7 @@ viewPageFooterNavigation =
 viewPageFooterNavigationItem : TransRoutes.Route -> Html msg
 viewPageFooterNavigationItem route =
     li [ css [ navListItemStyle ] ]
-        [ a [ href (TransRoutes.toAbsoluteUrl route) ] [ text (TransRoutes.toPageTitle route) ]
+        [ a [ href (TransRoutes.toAbsoluteUrl route), css [ navListItemLinkStyle ] ] [ text (TransRoutes.toPageTitle route) ]
         ]
 
 
@@ -92,6 +92,7 @@ footerStyle : Style
 footerStyle =
     batch
         [ backgroundColor darkBlue
+        , marginTop (rem 2)
         ]
 
 
@@ -131,6 +132,15 @@ navListItemStyle : Style
 navListItemStyle =
     batch
         [ marginRight (rem 1)
+        ]
+
+
+navListItemLinkStyle : Style
+navListItemLinkStyle =
+    batch
+        [ color darkBlue
+        , textDecoration none
+        , hover [ color blue ]
         ]
 
 

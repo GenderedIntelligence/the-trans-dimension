@@ -91,12 +91,18 @@ t key =
         EventsMetaDescription ->
             "[cCc] Events description"
 
+        EventsSubHeading ->
+            "[cCc] Upcoming events"
+
         --- Event Page
         EventTitle eventName ->
             "[cCc] Event - " ++ eventName
 
         EventMetaDescription eventName ->
             "[cCc] Event description for " ++ eventName
+
+        EventBackButton ->
+            "[cCc] Back to more events"
 
         --- Partners Page
         PartnersTitle ->
@@ -110,6 +116,9 @@ t key =
 
         PartnersListEmpty ->
             "[cCc] There are currently no partners"
+
+        PartnersLinkToPartner ->
+            "[cCc] Read more"
 
         --- Partner Page
         PartnerTitle partnerName ->
