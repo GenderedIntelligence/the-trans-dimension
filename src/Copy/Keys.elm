@@ -18,6 +18,15 @@ type Key
       --- Index Page
     | IndexTitle
     | IndexMetaDescription
+    | IndexIntroMessage
+    | IndexIntroButtonText
+    | IndexResourcesHeading
+    | IndexResourcesDescription
+    | IndexResourcesButtonText
+    | IndexFeaturedHeader
+    | IndexFeaturedButtonText
+    | IndexNewsHeader
+    | IndexNewsButtonText
       --- About Page
     | AboutTitle
     | AboutMetaDescription

@@ -5,6 +5,8 @@ import Copy.Text exposing (t)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Html.Styled as Html exposing (Html, a, article, h2, li, p, section, text, ul)
+import Html.Styled.Attributes exposing (href)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
@@ -68,4 +70,50 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    View.placeholder "The Trans Dimension"
+    { title = t SiteTitle
+    , body =
+        [ viewIntro (t IndexIntroMessage) (t IndexIntroButtonText)
+        , viewResources (t IndexResourcesHeading) (t IndexResourcesDescription) (t IndexResourcesButtonText)
+        , viewFeatured (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
+        , viewLatestNews (t IndexNewsHeader) (t IndexNewsButtonText)
+        ]
+    }
+
+
+viewIntro : String -> String -> Html msg
+viewIntro introMsg eventButtonText =
+    section []
+        [ p [] [ text introMsg ]
+        , a [ href "/events" ] [ text eventButtonText ]
+        ]
+
+
+viewResources : String -> String -> String -> Html msg
+viewResources title description buttonText =
+    section []
+        [ h2 [] [ text title ]
+        , p [] [ text description ]
+        , a [ href "/resources" ] [ text buttonText ]
+        ]
+
+
+viewFeatured : String -> String -> Html msg
+viewFeatured title buttonText =
+    section []
+        [ h2 [] [ text title ]
+        , ul []
+            [ li [] [ text "Featured event [fFf]" ]
+            , li [] [ text "Featured event [fFf]" ]
+            , li [] [ text "Featured event [fFf]" ]
+            ]
+        , a [ href "/events" ] [ text buttonText ]
+        ]
+
+
+viewLatestNews : String -> String -> Html msg
+viewLatestNews title buttonText =
+    section []
+        [ h2 [] [ text title ]
+        , article [] [ text "News item title [fFf]" ]
+        , a [ href "/news" ] [ text buttonText ]
+        ]
