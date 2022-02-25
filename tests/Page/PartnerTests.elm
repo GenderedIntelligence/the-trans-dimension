@@ -42,15 +42,15 @@ suite =
         [ test "Has expected h2 heading" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner
-                    |> Query.find [ Selector.tag "h2" ]
-                    |> Query.contains [ Html.text "Partner name" ]
+                    |> Query.findAll [ Selector.tag "h2" ]
+                    |> Query.count (Expect.equal 1)
         , test "Has expected h3 heading" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner
                     -- Note this is a placeholder. H2 contains partner name.
                     -- Uncertain what content h3 should have
-                    |> Query.findAll [ Selector.tag "h3" ]
-                    |> Query.count (Expect.equal 1)
+                    |> Query.find [ Selector.tag "h3" ]
+                    |> Query.contains [ Html.text "Partner name" ]
         , test "Has partner description text" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner
