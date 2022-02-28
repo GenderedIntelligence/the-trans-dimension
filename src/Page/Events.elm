@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, page)
+module Page.Events exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -111,7 +111,11 @@ viewEventsList events =
     div []
         [ h3 [ css [ eventsHeadingStyle ] ] [ text (t EventsSubHeading) ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Pagination by day/week" ]
-        , ul [] (List.map (\event -> viewEvent event) events.data)
+        , if List.length events.data > 0 then
+            ul [] (List.map (\event -> viewEvent event) events.data)
+
+          else
+            text ""
         ]
 
 

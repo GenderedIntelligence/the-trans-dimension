@@ -13,8 +13,6 @@ type Key
     | FooterInfoText
     | FooterInfoContact
     | FooterCredit
-      --- Links
-    | BackToPartnersLinkText
       --- Index Page
     | IndexTitle
     | IndexMetaDescription
@@ -37,7 +35,7 @@ type Key
       --- Event Page
     | EventTitle String
     | EventMetaDescription String
-    | EventBackButton
+    | BackToEventsLinkText
       --- Partners Page
     | PartnersTitle
     | PartnersMetaDescription
@@ -47,6 +45,7 @@ type Key
       --- Partner Page
     | PartnerTitle String
     | PartnerMetaDescription String
+    | BackToPartnersLinkText
       --- Join Page
     | JoinTitle
     | JoinMetaDescription

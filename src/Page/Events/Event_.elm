@@ -1,4 +1,4 @@
-module Page.Events.Event_ exposing (..)
+module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -98,7 +98,12 @@ view maybeUrl sharedModel static =
     , body =
         [ viewHeader (t EventsTitle)
         , viewInfo static.data
-        , viewGoBack (t EventBackButton)
+        , div [] [ text "[fFf] Map" ]
+
+        -- [fFf] does this go to the Events page or the page you came from
+        -- (might have been a specific partner page event listing)
+        -- (might have been a deep link)
+        , viewGoBack (t BackToEventsLinkText)
         ]
     }
 
