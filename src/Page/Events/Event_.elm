@@ -1,4 +1,4 @@
-module Page.Events.Event_ exposing (..)
+module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -98,7 +98,8 @@ view maybeUrl sharedModel static =
     , body =
         [ viewHeader (t EventsTitle)
         , viewInfo static.data
-        , viewGoBack (t EventBackButton)
+        , div [] [ text "[fFf] Map" ]
+        , viewGoBack (t BackToEventsLinkText)
         ]
     }
 

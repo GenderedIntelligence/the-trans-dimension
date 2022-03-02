@@ -39,10 +39,6 @@ t key =
         FooterCredit ->
             "Built using PlaceCal [cCc]"
 
-        --- Link Text
-        BackToPartnersLinkText ->
-            "Go back to partners"
-
         --- Index Page
         IndexTitle ->
             "Home"
@@ -101,8 +97,8 @@ t key =
         EventMetaDescription eventName ->
             "[cCc] Event description for " ++ eventName
 
-        EventBackButton ->
-            "[cCc] Back to more events"
+        BackToEventsLinkText ->
+            "Go to all events"
 
         --- Partners Page
         PartnersTitle ->
@@ -126,6 +122,9 @@ t key =
 
         PartnerMetaDescription partnerName ->
             "[cCc] Partner description for " ++ partnerName
+
+        BackToPartnersLinkText ->
+            "Go to all partners"
 
         --- Join Page
         JoinTitle ->
