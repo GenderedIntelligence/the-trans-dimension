@@ -1,4 +1,4 @@
-module Data.TestFixtures exposing (events, news, partners)
+module Data.TestFixtures exposing (events, news, partners, resources)
 
 import Data.PlaceCalTypes exposing (Realm(..))
 import Time
@@ -73,4 +73,26 @@ news =
       , datetime = Time.millisToPosix 0
       , author = "GFSC"
       }
+    ]
+
+
+resources =
+    [ ( "Resource Category 1"
+      , [ { name = "A 1 resource"
+          , description = "A short description about resource 1 in the first category."
+          , url = "https://one.example.com"
+          }
+        , { name = "Another 1 resource"
+          , description = "A longish description about resource 2 in the first category. This is where we go on and on about the resource. We think it's a good on and will be helpful to many people."
+          , url = "https://two.example.com"
+          }
+        ]
+      )
+    , ( "Resource Category 2"
+      , [ { name = "A 2 resource"
+          , description = "A short description about resource 1 in the Second category."
+          , url = "https://three.example.com"
+          }
+        ]
+      )
     ]

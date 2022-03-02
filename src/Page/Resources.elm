@@ -1,4 +1,4 @@
-module Page.Resources exposing (Data, Model, Msg, page)
+module Page.Resources exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

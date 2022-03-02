@@ -11,7 +11,7 @@ import Test.Html.Selector as Selector
 import TestUtils exposing (queryFromStyledList)
 
 
-viewParamsWithAbout =
+viewParamsWithPrivacy =
     { data = { title = "Privacy Page Test Title", body = [] }
     , path = Path.fromString "about"
     , routeParams = {}
@@ -33,7 +33,7 @@ suite =
     describe "Privacy page body"
         [ test "Has expected h2 heading" <|
             \_ ->
-                viewBodyHtml viewParamsWithAbout
+                viewBodyHtml viewParamsWithPrivacy
                     |> Query.find [ Selector.tag "h2" ]
                     |> Query.contains [ Html.text "Privacy Page Test Title" ]
         ]
