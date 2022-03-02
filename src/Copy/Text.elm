@@ -124,7 +124,7 @@ t key =
             "[cCc] Partner description for " ++ partnerName
 
         BackToPartnersLinkText ->
-            "Go back to partners"
+            "[cCc] Go back to partners"
 
         --- Join Page
         JoinTitle ->
