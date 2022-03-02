@@ -99,10 +99,6 @@ view maybeUrl sharedModel static =
         [ viewHeader (t EventsTitle)
         , viewInfo static.data
         , div [] [ text "[fFf] Map" ]
-
-        -- [fFf] does this go to the Events page or the page you came from
-        -- (might have been a specific partner page event listing)
-        -- (might have been a deep link)
         , viewGoBack (t BackToEventsLinkText)
         ]
     }

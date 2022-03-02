@@ -98,7 +98,7 @@ t key =
             "[cCc] Event description for " ++ eventName
 
         BackToEventsLinkText ->
-            "[cCc] Back to more events"
+            "Go to all events"
 
         --- Partners Page
         PartnersTitle ->
@@ -124,7 +124,7 @@ t key =
             "[cCc] Partner description for " ++ partnerName
 
         BackToPartnersLinkText ->
-            "[cCc] Go back to partners"
+            "Go to all partners"
 
         --- Join Page
         JoinTitle ->
