@@ -8,6 +8,7 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h2, h3, li, main_, p, section, text, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
@@ -131,7 +132,11 @@ viewInfo event =
 
 viewGoBack : String -> Html msg
 viewGoBack buttonText =
-    a [ href "/events", css [ goBackStyle ] ] [ text buttonText ]
+    a
+        [ href (TransRoutes.toAbsoluteUrl Events)
+        , css [ goBackStyle ]
+        ]
+        [ text buttonText ]
 
 
 eventSubheadingStyle : Style
