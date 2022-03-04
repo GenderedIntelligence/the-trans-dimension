@@ -1,4 +1,4 @@
-module Page.Join exposing (..)
+module Page.Join exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -48,7 +48,7 @@ head :
 head static =
     Seo.summary
         { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
+        , siteName = t SiteTitle
         , image =
             { url = Pages.Url.external "TODO"
             , alt = "elm-pages logo"

@@ -7,6 +7,7 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h2, h3, li, main_, p, section, text, time, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
@@ -69,7 +70,7 @@ head :
 head static =
     Seo.summary
         { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
+        , siteName = t SiteTitle
         , image =
             { url = Pages.Url.external "TODO"
             , alt = "elm-pages logo"
@@ -109,14 +110,18 @@ viewArticle newsItem =
     article []
         [ h3 [ css [ articleHeaderStyle ] ] [ text newsItem.title ]
         , p [ css [ articleMetaStyle ] ] [ text ("By " ++ newsItem.author) ]
-        , time [ css [ articleMetaStyle ] ] [ text ("Published on " ++ TransDate.humanTimeFromPosix newsItem.datetime) ]
-        , div [ css [ articleContentStyle ] ] [ text "[fFf] [cCc] News paragraphs etc go here" ]
+        , time [ css [ articleMetaStyle ] ] [ text ("Published on " ++ TransDate.humanDateFromPosix newsItem.datetime) ]
+        , div [ css [ articleContentStyle ] ] [ text newsItem.body ]
         ]
 
 
 viewGoBack : Html msg
 viewGoBack =
-    a [ href "/news", css [ goBackStyle ] ] [ text (t NewsItemReturnButton) ]
+    a
+        [ href (TransRoutes.toAbsoluteUrl News)
+        , css [ goBackStyle ]
+        ]
+        [ text (t NewsItemReturnButton) ]
 
 
 articleHeaderStyle : Style

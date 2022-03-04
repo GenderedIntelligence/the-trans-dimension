@@ -88,4 +88,7 @@ suite =
                         , Html.text "https://two.example.com"
                         , Html.text "https://three.example.com"
                         ]
+
+        -- [fFf] What do we show if a category is empty?
+        -- What do we show if there are no resources?
         ]

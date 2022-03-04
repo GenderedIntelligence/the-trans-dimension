@@ -34,7 +34,7 @@ viewPageHeaderNavigation listItems =
     nav []
         [ ul [ css [ navigationListStyle ] ]
             (List.map viewHeaderNavigationItem
-                [ Home, Partners, Events, NewsList, About, Resources ]
+                [ Home, Partners, Events, News, About, Resources ]
             )
         ]
 
