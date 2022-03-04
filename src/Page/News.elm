@@ -104,7 +104,7 @@ viewNewsItem newsItem =
                 , span [] [ text newsItem.author ]
                 ]
             , p [] [ text newsItem.summary ]
-            , a [ href (TransRoutes.toAbsoluteUrl (News newsItem.id)) ] [ text (t NewsReadMore) ]
+            , a [ href (TransRoutes.toAbsoluteUrl (NewsItem newsItem.id)) ] [ text (t NewsReadMore) ]
             ]
         ]
 

@@ -1,4 +1,4 @@
-module Page.About exposing (Data, Model, Msg, page)
+module Page.About exposing (Data, Model, Msg, page, view)
 
 import Css exposing (Style, batch, height, rem)
 import DataSource exposing (DataSource)
