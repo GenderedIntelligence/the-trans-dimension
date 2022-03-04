@@ -140,6 +140,9 @@ t key =
         NewsTitle ->
             "News"
 
+        NewsEmptyText ->
+            "[cCc] Sorry, we don't have any news"
+
         NewsReadMore ->
             "[cCc] Read more"
 

@@ -1,4 +1,4 @@
-module Page.News exposing (..)
+module Page.News exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -76,7 +76,10 @@ view :
 view maybeUrl sharedModel static =
     { title = t NewsTitle
     , body =
-        [ viewHeader (t NewsTitle), viewNewsList static ]
+        [ viewHeader (t NewsTitle)
+        , viewNewsList static
+        , viewPagination
+        ]
     }
 
 
@@ -90,7 +93,12 @@ viewHeader title =
 viewNewsList : StaticPayload (List Shared.News) RouteParams -> Html Msg
 viewNewsList news =
     section []
-        [ ul [] (List.map (\newsItem -> viewNewsItem newsItem) news.data) ]
+        [ if List.length news.data == 0 then
+            p [] [ text (t NewsEmptyText) ]
+
+          else
+            ul [] (List.map (\newsItem -> viewNewsItem newsItem) news.data)
+        ]
 
 
 viewNewsItem : Shared.News -> Html msg
@@ -107,6 +115,11 @@ viewNewsItem newsItem =
             , a [ href (TransRoutes.toAbsoluteUrl (NewsItem newsItem.id)) ] [ text (t NewsReadMore) ]
             ]
         ]
+
+
+viewPagination : Html msg
+viewPagination =
+    ul [] [ text "[fFf] News pagination" ]
 
 
 newsItemStyle : Style

@@ -58,6 +58,7 @@ type Key
     | JoinFormSubmitButton
       --- News Listing Page
     | NewsTitle
+    | NewsEmptyText
     | NewsReadMore
     | NewsDescription
       --- News Single Article Page
