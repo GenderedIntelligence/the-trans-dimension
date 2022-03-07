@@ -1,5 +1,7 @@
 module Page.Terms exposing (Data, Model, Msg, page, view)
 
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import Css exposing (Style, batch, height, rem)
 import DataSource exposing (DataSource)
 import DataSource.File
@@ -87,7 +89,7 @@ head :
 head static =
     Seo.summary
         { canonicalUrlOverride = Nothing
-        , siteName = t SiteName
+        , siteName = t SiteTitle
         , image =
             { url = Pages.Url.external "TODO"
             , alt = "elm-pages logo"
