@@ -1,4 +1,4 @@
-module Page.Index exposing (Data, Model, Msg, page)
+module Page.Index exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -6,6 +6,7 @@ import Css exposing (Style, auto, backgroundColor, batch, center, color, display
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled as Html exposing (Html, a, article, h2, li, p, section, text, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, StaticPayload)
@@ -48,7 +49,7 @@ head :
 head static =
     Seo.summary
         { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
+        , siteName = t SiteTitle
         , image =
             { url = Pages.Url.external "TODO"
             , alt = "elm-pages logo"
@@ -86,7 +87,11 @@ viewIntro : String -> String -> Html msg
 viewIntro introMsg eventButtonText =
     section [ css [ sectionStyle ] ]
         [ p [ css [ introMessageStyle ] ] [ text introMsg ]
-        , a [ href "/events", css [ buttonStyle ] ] [ text eventButtonText ]
+        , a
+            [ href (TransRoutes.toAbsoluteUrl Events)
+            , css [ buttonStyle ]
+            ]
+            [ text eventButtonText ]
         ]
 
 
@@ -95,7 +100,11 @@ viewResources title description buttonText =
     section [ css [ sectionStyle ] ]
         [ h2 [ css [ sectionHeaderStyle ] ] [ text title ]
         , p [] [ text description ]
-        , a [ href "/resources", css [ buttonStyle ] ] [ text buttonText ]
+        , a
+            [ href (TransRoutes.toAbsoluteUrl Resources)
+            , css [ buttonStyle ]
+            ]
+            [ text buttonText ]
         ]
 
 
@@ -108,7 +117,11 @@ viewFeatured title buttonText =
             , li [] [ text "Featured event [fFf]" ]
             , li [] [ text "Featured event [fFf]" ]
             ]
-        , a [ href "/events", css [ buttonStyle ] ] [ text buttonText ]
+        , a
+            [ href (TransRoutes.toAbsoluteUrl Events)
+            , css [ buttonStyle ]
+            ]
+            [ text buttonText ]
         ]
 
 
@@ -117,7 +130,11 @@ viewLatestNews title buttonText =
     section [ css [ sectionStyle ] ]
         [ h2 [ css [ sectionHeaderStyle ] ] [ text title ]
         , article [] [ text "News item title [fFf]" ]
-        , a [ href "/news", css [ buttonStyle ] ] [ text buttonText ]
+        , a
+            [ href (TransRoutes.toAbsoluteUrl News)
+            , css [ buttonStyle ]
+            ]
+            [ text buttonText ]
         ]
 
 
