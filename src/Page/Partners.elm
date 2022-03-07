@@ -45,7 +45,7 @@ type alias Data =
 
 data : DataSource (List PlaceCalTypes.Partner)
 data =
-    DataSource.map (\sharedData -> sharedData.partners) Shared.data
+    DataSource.map (\sharedData -> sharedData.allPartners) Shared.partnersData
 
 
 head :

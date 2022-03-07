@@ -1,14 +1,20 @@
-module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNews, template)
+module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNews, partnersData, template)
 
 import Browser.Navigation
 import Data.PlaceCalTypes as PlaceCalTypes
 import Data.TestFixtures as Fixtures
 import DataSource
+import DataSource.Http
 import Html
 import Html.Attributes exposing (name)
 import Html.Styled
+import Json.Decode
+import Json.Encode
+import OptimizedDecoder
+import OptimizedDecoder.Pipeline
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
+import Pages.Secrets
 import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
@@ -121,6 +127,61 @@ update msg model =
 subscriptions : Path -> Model -> Sub Msg
 subscriptions _ _ =
     Sub.none
+
+
+
+--------------
+-- DataSources
+--------------
+
+
+placeCalApiUrl : String
+placeCalApiUrl =
+    "https://placecal.org/graphql"
+
+
+allPartnersQuery : Json.Encode.Value
+allPartnersQuery =
+    Json.Encode.object
+        [ ( "query"
+          , Json.Encode.string "query { allPartners { id, name, description, summary } }"
+          )
+        ]
+
+
+
+--"{\"query\": \"query { allPartners { id, name, description } }\"}"
+
+
+allPartnersPlaceCalRequest =
+    { url = placeCalApiUrl
+    , method = "POST"
+    , headers = []
+    , body = DataSource.Http.jsonBody allPartnersQuery
+    }
+
+
+partnersData : DataSource.DataSource AllPartnersResponse
+partnersData =
+    DataSource.Http.request (Pages.Secrets.succeed allPartnersPlaceCalRequest)
+        partnersDecoder
+
+
+partnersDecoder =
+    OptimizedDecoder.succeed AllPartnersResponse
+        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "allPartners" ] (OptimizedDecoder.list decodePartner)
+
+
+decodePartner =
+    OptimizedDecoder.succeed PlaceCalTypes.Partner
+        |> OptimizedDecoder.Pipeline.required "id" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "name" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "summary" OptimizedDecoder.string ""
+        |> OptimizedDecoder.Pipeline.required "description" OptimizedDecoder.string
+
+
+type alias AllPartnersResponse =
+    { allPartners : List PlaceCalTypes.Partner }
 
 
 data : DataSource.DataSource Data
