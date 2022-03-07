@@ -1,6 +1,6 @@
 module Data.TestFixtures exposing (events, news, partners, resources)
 
-import Data.PlaceCalTypes exposing (Realm(..))
+import Data.PlaceCal.Events exposing (Realm(..))
 import Time
 
 

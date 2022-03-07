@@ -1,7 +1,8 @@
-module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNews, partnersData, template)
+module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNews, template)
 
 import Browser.Navigation
-import Data.PlaceCalTypes as PlaceCalTypes
+import Data.PlaceCal.Events
+import Data.PlaceCal.Partners
 import Data.TestFixtures as Fixtures
 import DataSource
 import DataSource.Http
@@ -52,8 +53,7 @@ type Msg
 
 
 type alias Data =
-    { partners : List PlaceCalTypes.Partner
-    , events : List PlaceCalTypes.Event
+    { events : List Data.PlaceCal.Events.Event
     , news : List News
     }
 
@@ -129,66 +129,10 @@ subscriptions _ _ =
     Sub.none
 
 
-
---------------
--- DataSources
---------------
-
-
-placeCalApiUrl : String
-placeCalApiUrl =
-    "https://placecal.org/graphql"
-
-
-allPartnersQuery : Json.Encode.Value
-allPartnersQuery =
-    Json.Encode.object
-        [ ( "query"
-          , Json.Encode.string "query { allPartners { id, name, description, summary } }"
-          )
-        ]
-
-
-
---"{\"query\": \"query { allPartners { id, name, description } }\"}"
-
-
-allPartnersPlaceCalRequest =
-    { url = placeCalApiUrl
-    , method = "POST"
-    , headers = []
-    , body = DataSource.Http.jsonBody allPartnersQuery
-    }
-
-
-partnersData : DataSource.DataSource AllPartnersResponse
-partnersData =
-    DataSource.Http.request (Pages.Secrets.succeed allPartnersPlaceCalRequest)
-        partnersDecoder
-
-
-partnersDecoder =
-    OptimizedDecoder.succeed AllPartnersResponse
-        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "allPartners" ] (OptimizedDecoder.list decodePartner)
-
-
-decodePartner =
-    OptimizedDecoder.succeed PlaceCalTypes.Partner
-        |> OptimizedDecoder.Pipeline.required "id" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "name" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optional "summary" OptimizedDecoder.string ""
-        |> OptimizedDecoder.Pipeline.required "description" OptimizedDecoder.string
-
-
-type alias AllPartnersResponse =
-    { allPartners : List PlaceCalTypes.Partner }
-
-
 data : DataSource.DataSource Data
 data =
     DataSource.succeed
-        { partners = Fixtures.partners
-        , events = Fixtures.events
+        { events = Fixtures.events
         , news = Fixtures.news
         }
 

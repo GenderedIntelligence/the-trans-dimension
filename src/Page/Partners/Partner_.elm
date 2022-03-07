@@ -3,7 +3,7 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, color, display, fontSize, fontWeight, hover, margin2, marginBottom, none, padding, pct, rem, textAlign, textDecoration, width)
-import Data.PlaceCalTypes as PlaceCalTypes
+import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -43,21 +43,21 @@ page =
 routes : DataSource (List RouteParams)
 routes =
     DataSource.map
-        (\sharedData ->
-            sharedData.partners
+        (\partnerData ->
+            partnerData.allPartners
                 |> List.map (\partner -> { partner = partner.id })
         )
-        Shared.data
+        Data.PlaceCal.Partners.partnersData
 
 
 data : RouteParams -> DataSource Data
 data routeParams =
     DataSource.map
-        (\sharedData ->
+        (\partnerData ->
             -- There probably a better patter than succeed with empty.
             -- In theory all will succeed since routes mapped from same list.
-            Maybe.withDefault PlaceCalTypes.emptyPartner
-                ((sharedData.partners
+            Maybe.withDefault Data.PlaceCal.Partners.emptyPartner
+                ((partnerData.allPartners
                     -- Filter for partner with matching id
                     |> List.filter (\partner -> partner.id == routeParams.partner)
                  )
@@ -65,7 +65,7 @@ data routeParams =
                     |> List.head
                 )
         )
-        Shared.data
+        Data.PlaceCal.Partners.partnersData
 
 
 head :
@@ -89,13 +89,13 @@ head static =
 
 
 type alias Data =
-    PlaceCalTypes.Partner
+    Data.PlaceCal.Partners.Partner
 
 
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload PlaceCalTypes.Partner RouteParams
+    -> StaticPayload Data.PlaceCal.Partners.Partner RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.name
@@ -109,12 +109,12 @@ view maybeUrl sharedModel static =
     }
 
 
-viewHeader : PlaceCalTypes.Partner -> Html msg
+viewHeader : Data.PlaceCal.Partners.Partner -> Html msg
 viewHeader partner =
     section [] [ h2 [ css [ pageHeadingStyle ] ] [ text (t PartnersTitle) ] ]
 
 
-viewInfo : PlaceCalTypes.Partner -> Html msg
+viewInfo : Data.PlaceCal.Partners.Partner -> Html msg
 viewInfo partner =
     section []
         [ h3 [ css [ partnerHeadingStyle ] ] [ text partner.name ]

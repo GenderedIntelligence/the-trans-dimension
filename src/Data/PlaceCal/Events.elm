@@ -1,23 +1,6 @@
-module Data.PlaceCalTypes exposing (Event, Partner, Realm(..), emptyEvent, emptyPartner, realmToString)
+module Data.PlaceCal.Events exposing (Event, Realm(..), emptyEvent, realmToString)
 
 import Time
-
-
-type alias Partner =
-    { id : String
-    , name : String
-    , summary : String
-    , description : String
-    }
-
-
-emptyPartner : Partner
-emptyPartner =
-    { id = ""
-    , name = ""
-    , summary = ""
-    , description = ""
-    }
 
 
 type alias Event =
