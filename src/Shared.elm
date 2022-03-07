@@ -2,20 +2,13 @@ module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNe
 
 import Browser.Navigation
 import Data.PlaceCal.Events
-import Data.PlaceCal.Partners
 import Data.TestFixtures as Fixtures
 import DataSource
-import DataSource.Http
 import Html
-import Html.Attributes exposing (name)
+import Html.Attributes
 import Html.Styled
-import Json.Decode
-import Json.Encode
-import OptimizedDecoder
-import OptimizedDecoder.Pipeline
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Secrets
 import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)

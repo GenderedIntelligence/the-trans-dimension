@@ -3,7 +3,6 @@ module Data.PlaceCal.Partners exposing (Partner, emptyPartner, partnersData)
 import Api
 import DataSource
 import DataSource.Http
-import Json.Decode
 import Json.Encode
 import OptimizedDecoder
 import OptimizedDecoder.Pipeline
