@@ -97,7 +97,7 @@ toPath route =
             Path.fromString "privacy"
 
         TermsAndConditions ->
-            Path.fromString "terms-and-conditions"
+            Path.fromString "terms"
 
 
 toAbsoluteUrl : Route -> String
