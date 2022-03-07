@@ -47,6 +47,7 @@ allPartnersQuery =
         ]
 
 
+allPartnersPlaceCalRequest : DataSource.Http.RequestDetails
 allPartnersPlaceCalRequest =
     { url = Api.placeCalApiUrl
     , method = "POST"
@@ -55,11 +56,13 @@ allPartnersPlaceCalRequest =
     }
 
 
+partnersDecoder : OptimizedDecoder.Decoder AllPartnersResponse
 partnersDecoder =
     OptimizedDecoder.succeed AllPartnersResponse
         |> OptimizedDecoder.Pipeline.requiredAt [ "data", "allPartners" ] (OptimizedDecoder.list decodePartner)
 
 
+decodePartner : OptimizedDecoder.Decoder Partner
 decodePartner =
     OptimizedDecoder.succeed Partner
         |> OptimizedDecoder.Pipeline.required "id" OptimizedDecoder.string
