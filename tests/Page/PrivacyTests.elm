@@ -16,8 +16,7 @@ viewParamsWithPrivacy =
     , path = Path.fromString "about"
     , routeParams = {}
     , sharedData =
-        { partners = Fixtures.partners
-        , events = Fixtures.events
+        { events = Fixtures.events
         , news = Fixtures.news
         }
     }
