@@ -33,13 +33,19 @@ We have tried to design this website to be as usable as possible. If you think t
 
     We work in collaboration with people, organisations and communities to deliver tools, training and support for lasting and holistic change. We specialise in working with difficult social problems.
 
+     [Visit gfsc.studio](https://gfsc.studio)
+
 * ![gendered intelligence logo](/images/gilogo.svg) Gendered Intelligence is a registered charity that exists to increase understanding of gender diversity and improve trans people's quality of life.
 
      GI are a trans-led and trans-involving grassroots organisation with a wealth of lived experience and community connections.
 
+     [Visit genderedintelligence.co.uk](https://genderedintelligence.co.uk)
+
 * ![Comic Relief logo](/images/comicrelieflogo.svg) Comic Relief's Tech For Good scheme offers grant funding opportunities for UK social tech projects, aiming to support them in their digital journeys.
 
     They are committed to building the social tech ecosystem, and aim to fund work that uses technology as a tool for social change. They support work that is developed with user needs at its heart — working alongside them to design the solution that will meet their needs.
+
+    [Visit comicrelief.com](https://www.comicrelief.com)
 
 ## Built Using PlaceCal
 
