@@ -3,7 +3,7 @@ module Page.Events exposing (Data, Model, Msg, page, view)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, backgroundColor, batch, bold, center, color, displayFlex, fontSize, fontWeight, justifyContent, margin2, margin4, marginTop, padding4, rem, spaceBetween, textAlign)
-import Data.PlaceCalTypes as PlaceCalTypes
+import Data.PlaceCal.Events
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -42,10 +42,10 @@ page =
 
 
 type alias Data =
-    List PlaceCalTypes.Event
+    List Data.PlaceCal.Events.Event
 
 
-data : DataSource (List PlaceCalTypes.Event)
+data : DataSource (List Data.PlaceCal.Events.Event)
 data =
     DataSource.map (\sharedData -> sharedData.events) Shared.data
 
@@ -73,7 +73,7 @@ head static =
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload (List PlaceCalTypes.Event) RouteParams
+    -> StaticPayload (List Data.PlaceCal.Events.Event) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = t EventsTitle
@@ -91,7 +91,7 @@ viewHeader title =
         ]
 
 
-viewEvents : StaticPayload (List PlaceCalTypes.Event) RouteParams -> Html msg
+viewEvents : StaticPayload (List Data.PlaceCal.Events.Event) RouteParams -> Html msg
 viewEvents events =
     section []
         [ viewEventsFilters
@@ -106,7 +106,7 @@ viewEventsFilters =
         ]
 
 
-viewEventsList : StaticPayload (List PlaceCalTypes.Event) RouteParams -> Html msg
+viewEventsList : StaticPayload (List Data.PlaceCal.Events.Event) RouteParams -> Html msg
 viewEventsList events =
     div []
         [ h3 [ css [ eventsHeadingStyle ] ] [ text (t EventsSubHeading) ]
@@ -119,14 +119,14 @@ viewEventsList events =
         ]
 
 
-viewEvent : PlaceCalTypes.Event -> Html msg
+viewEvent : Data.PlaceCal.Events.Event -> Html msg
 viewEvent event =
     li []
         [ article [ css [ eventStyle ] ]
             [ h4 [ css [ eventTitleStyle ] ] [ text event.name ]
             , time [] [ text (TransDate.humanDateFromPosix event.startDatetime) ]
             , time [] [ text (TransDate.humanTimeFromPosix event.startDatetime) ]
-            , p [ css [ eventParagraphStyle ] ] [ text (PlaceCalTypes.realmToString event.realm) ]
+            , p [ css [ eventParagraphStyle ] ] [ text (Data.PlaceCal.Events.realmToString event.realm) ]
             , p [ css [ eventParagraphStyle ] ] [ text event.location ]
             , a [ href (TransRoutes.toAbsoluteUrl (Event event.id)) ] [ text "View more" ]
             ]

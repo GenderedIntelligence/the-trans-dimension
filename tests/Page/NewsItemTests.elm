@@ -2,7 +2,7 @@ module Page.NewsItemTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.PlaceCalTypes exposing (Realm(..))
+import Data.PlaceCal.Events exposing (Realm(..))
 import Data.TestFixtures as Fixtures
 import Expect
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
@@ -30,8 +30,7 @@ viewParamsWithNewsItem =
     , path = Path.fromString "news/1"
     , routeParams = { newsItem = "1" }
     , sharedData =
-        { partners = Fixtures.partners
-        , events = Fixtures.events
+        { events = Fixtures.events
         , news = Fixtures.news
         }
     }

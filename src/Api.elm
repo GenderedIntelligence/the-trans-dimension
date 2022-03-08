@@ -1,9 +1,14 @@
-module Api exposing (routes)
+module Api exposing (placeCalApiUrl, routes)
 
 import ApiRoute
 import DataSource exposing (DataSource)
 import Html exposing (Html)
 import Route exposing (Route)
+
+
+placeCalApiUrl : String
+placeCalApiUrl =
+    "https://placecal.org/graphql"
 
 
 routes :

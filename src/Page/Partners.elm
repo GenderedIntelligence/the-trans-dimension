@@ -3,7 +3,7 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, backgroundColor, batch, block, bold, center, color, display, displayFlex, flexWrap, fontWeight, hover, justifyContent, margin, marginBottom, marginTop, none, padding, pct, rem, spaceBetween, textAlign, textDecoration, width, wrap)
-import Data.PlaceCalTypes as PlaceCalTypes
+import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -40,16 +40,16 @@ page =
 
 
 type alias Data =
-    List PlaceCalTypes.Partner
+    List Data.PlaceCal.Partners.Partner
 
 
-data : DataSource (List PlaceCalTypes.Partner)
+data : DataSource (List Data.PlaceCal.Partners.Partner)
 data =
-    DataSource.map (\sharedData -> sharedData.partners) Shared.data
+    DataSource.map (\sharedData -> sharedData.allPartners) Data.PlaceCal.Partners.partnersData
 
 
 head :
-    StaticPayload (List PlaceCalTypes.Partner) RouteParams
+    StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams
     -> List Head.Tag
 head static =
     Seo.summary
@@ -71,7 +71,7 @@ head static =
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload (List PlaceCalTypes.Partner) RouteParams
+    -> StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = t PartnersTitle
@@ -93,7 +93,7 @@ viewIntro =
     section [] [ p [ css [ featurePlaceholderStyle ] ] [ text (t PartnersIntro) ] ]
 
 
-viewPartners : StaticPayload (List PlaceCalTypes.Partner) RouteParams -> Html msg
+viewPartners : StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams -> Html msg
 viewPartners static =
     section []
         [ div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Filters" ]
@@ -106,7 +106,7 @@ viewPartners static =
         ]
 
 
-viewPartner : PlaceCalTypes.Partner -> Html msg
+viewPartner : Data.PlaceCal.Partners.Partner -> Html msg
 viewPartner partner =
     li [ css [ listItemStyle ] ]
         [ h3 []

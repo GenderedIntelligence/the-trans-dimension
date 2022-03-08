@@ -19,8 +19,7 @@ viewParamsWithEvents =
     , path = Path.fromString "events"
     , routeParams = {}
     , sharedData =
-        { partners = Fixtures.partners
-        , events = Fixtures.events
+        { events = Fixtures.events
         , news = Fixtures.news
         }
     }
@@ -31,8 +30,7 @@ viewParamsWithoutEvents =
     , path = Path.fromString "events"
     , routeParams = {}
     , sharedData =
-        { partners = Fixtures.partners
-        , events = []
+        { events = []
         , news = Fixtures.news
         }
     }

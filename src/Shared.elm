@@ -1,11 +1,11 @@
 module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNews, template)
 
 import Browser.Navigation
-import Data.PlaceCalTypes as PlaceCalTypes
+import Data.PlaceCal.Events
 import Data.TestFixtures as Fixtures
 import DataSource
 import Html
-import Html.Attributes exposing (name)
+import Html.Attributes
 import Html.Styled
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
@@ -46,8 +46,7 @@ type Msg
 
 
 type alias Data =
-    { partners : List PlaceCalTypes.Partner
-    , events : List PlaceCalTypes.Event
+    { events : List Data.PlaceCal.Events.Event
     , news : List News
     }
 
@@ -126,8 +125,7 @@ subscriptions _ _ =
 data : DataSource.DataSource Data
 data =
     DataSource.succeed
-        { partners = Fixtures.partners
-        , events = Fixtures.events
+        { events = Fixtures.events
         , news = Fixtures.news
         }
 

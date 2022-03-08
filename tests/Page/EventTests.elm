@@ -2,7 +2,7 @@ module Page.EventTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.PlaceCalTypes exposing (Realm(..))
+import Data.PlaceCal.Events exposing (Realm(..))
 import Data.TestFixtures as Fixtures
 import Expect
 import Html
@@ -31,8 +31,7 @@ viewParamsWithEvent =
     , path = Path.fromString "event/1"
     , routeParams = { event = "1" }
     , sharedData =
-        { partners = Fixtures.partners
-        , events = Fixtures.events
+        { events = Fixtures.events
         , news = Fixtures.news
         }
     }

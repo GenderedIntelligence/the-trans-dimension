@@ -18,8 +18,7 @@ viewParamsWithResources =
     , path = Path.fromString "resources"
     , routeParams = {}
     , sharedData =
-        { partners = Fixtures.partners
-        , events = Fixtures.events
+        { events = Fixtures.events
         , news = Fixtures.news
         }
     }

@@ -3,7 +3,7 @@ module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, color, display, fontSize, fontWeight, hover, margin, margin2, margin4, marginBottom, marginTop, none, num, padding, pct, rem, textAlign, textDecoration, width)
-import Data.PlaceCalTypes as PlaceCalTypes
+import Data.PlaceCal.Events
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -55,7 +55,7 @@ data : RouteParams -> DataSource Data
 data routeParams =
     DataSource.map
         (\sharedData ->
-            Maybe.withDefault PlaceCalTypes.emptyEvent
+            Maybe.withDefault Data.PlaceCal.Events.emptyEvent
                 ((sharedData.events
                     |> List.filter (\event -> event.id == routeParams.event)
                  )
@@ -86,13 +86,13 @@ head static =
 
 
 type alias Data =
-    PlaceCalTypes.Event
+    Data.PlaceCal.Events.Event
 
 
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload PlaceCalTypes.Event RouteParams
+    -> StaticPayload Data.PlaceCal.Events.Event RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.name
@@ -110,7 +110,7 @@ viewHeader headerText =
     section [] [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text headerText ] ]
 
 
-viewInfo : PlaceCalTypes.Event -> Html msg
+viewInfo : Data.PlaceCal.Events.Event -> Html msg
 viewInfo event =
     section []
         [ h3 [ css [ eventSubheadingStyle ] ] [ text event.name ]
@@ -120,7 +120,7 @@ viewInfo event =
             , p [ css [ eventMetaStyle ] ] [ text event.location ]
             , p [ css [ eventMetaStyle ] ]
                 [ text
-                    (PlaceCalTypes.realmToString event.realm)
+                    (Data.PlaceCal.Events.realmToString event.realm)
                 ]
             ]
         , div [ css [ eventDescriptionStyle ] ]

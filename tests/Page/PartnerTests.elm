@@ -24,8 +24,7 @@ viewParamsWithPartner =
     , path = Path.fromString "partner/1"
     , routeParams = { partner = "1" }
     , sharedData =
-        { partners = Fixtures.partners
-        , events = Fixtures.events
+        { events = Fixtures.events
         , news = Fixtures.news
         }
     }
