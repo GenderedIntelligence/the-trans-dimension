@@ -1,11 +1,35 @@
-module Theme.TransMarkdown exposing (transHtmlRenderer)
+module Theme.TransMarkdown exposing (markdownToHtml, markdownToView)
 
 import Css exposing (Style, batch, decimal, disc, em, listStyleType, marginBlockEnd, marginBlockStart, paddingLeft)
 import Html.Styled as Html
 import Html.Styled.Attributes as Attr exposing (css)
-import Markdown.Block as Block exposing (Block)
+import Markdown.Block as Block
 import Markdown.Html
+import Markdown.Parser
 import Markdown.Renderer
+
+
+markdownToHtml : String -> List (Html.Html msg)
+markdownToHtml markdown =
+    case markdownToView markdown of
+        Ok html ->
+            html
+
+        Err _ ->
+            []
+
+
+markdownToView : String -> Result String (List (Html.Html msg))
+markdownToView markdownString =
+    markdownString
+        |> Markdown.Parser.parse
+        |> Result.mapError (\_ -> "Markdown error.")
+        |> Result.andThen
+            (\blocks ->
+                Markdown.Renderer.render
+                    transHtmlRenderer
+                    blocks
+            )
 
 
 transHtmlRenderer : Markdown.Renderer.Renderer (Html.Html msg)

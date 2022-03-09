@@ -1,16 +1,11 @@
 module Page.Privacy exposing (Data, Model, Msg, page, view)
 
-import Css exposing (Style, batch, height, rem)
 import DataSource exposing (DataSource)
 import DataSource.File
 import Head
 import Head.Seo as Seo
-import Html.Styled as Html exposing (Html, div, h2, section, text)
-import Html.Styled.Attributes exposing (css)
-import List exposing (concat)
-import Markdown.Parser
-import Markdown.Renderer
-import OptimizedDecoder as Decode exposing (Decoder)
+import Html.Styled as Html
+import OptimizedDecoder as Decode
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
@@ -59,26 +54,11 @@ data =
                 )
                 (Decode.field "title" Decode.string)
                 (markdownString
-                    |> markdownToView
+                    |> TransMarkdown.markdownToView
                     |> Decode.fromResult
                 )
         )
         "content/privacy.md"
-
-
-markdownToView :
-    String
-    -> Result String (List (Html.Html msg))
-markdownToView markdownString =
-    markdownString
-        |> Markdown.Parser.parse
-        |> Result.mapError (\_ -> "Markdown error.")
-        |> Result.andThen
-            (\blocks ->
-                Markdown.Renderer.render
-                    TransMarkdown.transHtmlRenderer
-                    blocks
-            )
 
 
 head :
