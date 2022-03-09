@@ -1,4 +1,4 @@
-module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, generateId, globalStyles, gridStyle, maxMobile, oneColumn, pageHeadingStyle, pink, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, darkPurple, generateId, globalStyles, gridStyle, lightPink, maxMobile, oneColumn, pageHeadingStyle, pink, purple, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 import Css exposing (Color, Style, alignItems, auto, backgroundColor, batch, calc, center, color, displayFlex, flexWrap, fontFamilies, fontSize, fontWeight, hex, int, margin2, marginTop, maxWidth, minus, none, outline, padding2, pct, px, rem, sansSerif, start, textAlign, width, wrap, zero)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)
@@ -19,6 +19,21 @@ darkBlue =
 pink : Color
 pink =
     hex "FF7AA7"
+
+
+lightPink : Color
+lightPink =
+    hex "FFBCD3"
+
+
+purple : Color
+purple =
+    hex "814470"
+
+
+darkPurple : Color
+darkPurple =
+    hex "683a65"
 
 
 blue : Color

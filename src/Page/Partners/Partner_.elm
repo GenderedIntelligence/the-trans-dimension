@@ -15,6 +15,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (pageHeadingStyle)
+import Theme.TransMarkdown
 import View exposing (View)
 
 
@@ -118,7 +119,7 @@ viewInfo : Data.PlaceCal.Partners.Partner -> Html msg
 viewInfo partner =
     section []
         [ h3 [ css [ partnerHeadingStyle ] ] [ text partner.name ]
-        , p [] [ text partner.description ]
+        , p [] (Theme.TransMarkdown.markdownToHtml partner.description)
         , p [ css [ featurePlaceholderStyle ] ] [ text "[fFf] partner contact info (from API?)" ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Partner event listing?" ]
