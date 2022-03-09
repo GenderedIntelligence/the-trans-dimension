@@ -1,8 +1,8 @@
-module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, generateId, globalStyles, gridStyle, maxMobile, oneColumn, pageHeadingStyle, pink, threeColumn, twoColumn, verticalSpacing, white, withMediaDesktop, withMediaLargeDevice, withMediaTablet)
+module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, generateId, globalStyles, gridStyle, maxMobile, oneColumn, pageHeadingStyle, pink, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (..)
+import Css exposing (Color, Style, alignItems, auto, backgroundColor, batch, calc, center, color, displayFlex, flexWrap, fontFamilies, fontSize, fontWeight, hex, int, margin2, marginTop, maxWidth, minus, none, outline, padding2, pct, px, rem, sansSerif, start, textAlign, width, wrap, zero)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)
-import Css.Media as Media exposing (minWidth, only, screen, withMedia)
+import Css.Media as Media exposing (maxWidth, minWidth, only, screen, withMedia)
 import Html.Styled exposing (Html, div, text)
 import Html.Styled.Attributes exposing (css, id)
 
@@ -47,32 +47,57 @@ black =
 
 maxMobile : Float
 maxMobile =
-    576
+    500
 
 
-withMediaTablet : List Style -> Style
-withMediaTablet =
-    withMedia [ only screen [ Media.minWidth (px maxMobile), Media.maxWidth (px maxTablet) ] ]
+withMediaMobileOnly : List Style -> Style
+withMediaMobileOnly =
+    withMedia [ only screen [ Media.maxWidth (px (maxMobile - 1)) ] ]
 
 
-maxTablet : Float
-maxTablet =
-    769
+withMediaTabletPortraitUp : List Style -> Style
+withMediaTabletPortraitUp =
+    withMedia [ only screen [ Media.minWidth (px maxMobile) ] ]
 
 
-withMediaDesktop : List Style -> Style
-withMediaDesktop =
-    withMedia [ only screen [ Media.minWidth (px maxTablet) ] ]
+maxTabletPortrait : Float
+maxTabletPortrait =
+    900
 
 
-maxLargeDevice : Float
-maxLargeDevice =
-    992
+withMediaTabletLandscapeUp : List Style -> Style
+withMediaTabletLandscapeUp =
+    withMedia [ only screen [ Media.minWidth (px maxTabletPortrait) ] ]
 
 
-withMediaLargeDevice : List Style -> Style
-withMediaLargeDevice =
-    withMedia [ only screen [ Media.minWidth (px maxLargeDevice) ] ]
+maxTabletLandscape : Float
+maxTabletLandscape =
+    1200
+
+
+withMediaSmallDesktopUp : List Style -> Style
+withMediaSmallDesktopUp =
+    withMedia [ only screen [ Media.minWidth (px maxTabletLandscape) ] ]
+
+
+maxSmallDesktop : Float
+maxSmallDesktop =
+    1500
+
+
+withMediaMediumDesktopUp : List Style -> Style
+withMediaMediumDesktopUp =
+    withMedia [ only screen [ Media.minWidth (px maxSmallDesktop) ] ]
+
+
+maxMediumDesktop : Float
+maxMediumDesktop =
+    2200
+
+
+withMediaLargeDesktopUp : List Style -> Style
+withMediaLargeDesktopUp =
+    withMedia [ only screen [ Media.minWidth (px maxMediumDesktop) ] ]
 
 
 {-| Injects a <style> tag into the body, and can target element or
@@ -123,14 +148,14 @@ containerPage : String -> List (Html msg) -> Html msg
 containerPage pageTitle content =
     div
         [ id ("page-" ++ generateId pageTitle)
-        , css [ margin2 zero auto, maxWidth (px 1200), width (pct 100) ]
+        , css [ margin2 zero auto, Css.maxWidth (px 1200), width (pct 100) ]
         ]
         content
 
 
 containerContent : List (Html msg) -> Html msg
 containerContent children =
-    div [ css [ margin2 zero auto, maxWidth (px 800), width (pct 100) ] ] children
+    div [ css [ margin2 zero auto, Css.maxWidth (px 800), width (pct 100) ] ] children
 
 
 gridStyle : Style
@@ -179,9 +204,9 @@ pageHeadingStyle =
         , outline none
         , padding2 (rem 2) zero
         , textAlign center
-        , withMediaTablet
+        , withMediaTabletPortraitUp
             [ fontSize (rem 2.5) ]
-        , withMediaDesktop
+        , withMediaTabletLandscapeUp
             [ fontSize (rem 2.5) ]
         ]
 
