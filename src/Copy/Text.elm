@@ -17,6 +17,9 @@ t key =
             "Space and spaces for us"
 
         --- Header
+        HeaderMobileMenuButton ->
+            "Menu"
+
         HeaderAskButton ->
             "Donate"
 
