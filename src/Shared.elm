@@ -46,8 +46,7 @@ type Msg
 
 
 type alias Data =
-    { events : List Data.PlaceCal.Events.Event
-    , news : List News
+    { news : List News
     }
 
 
@@ -125,8 +124,7 @@ subscriptions _ _ =
 data : DataSource.DataSource Data
 data =
     DataSource.succeed
-        { events = Fixtures.events
-        , news = Fixtures.news
+        { news = Fixtures.news
         }
 
 

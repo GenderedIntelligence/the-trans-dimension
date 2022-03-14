@@ -45,10 +45,10 @@ routes : DataSource (List RouteParams)
 routes =
     DataSource.map
         (\sharedData ->
-            sharedData.events
+            sharedData.allEvents
                 |> List.map (\event -> { event = event.id })
         )
-        Shared.data
+        Data.PlaceCal.Events.eventsData
 
 
 data : RouteParams -> DataSource Data
@@ -56,13 +56,13 @@ data routeParams =
     DataSource.map
         (\sharedData ->
             Maybe.withDefault Data.PlaceCal.Events.emptyEvent
-                ((sharedData.events
+                ((sharedData.allEvents
                     |> List.filter (\event -> event.id == routeParams.event)
                  )
                     |> List.head
                 )
         )
-        Shared.data
+        Data.PlaceCal.Events.eventsData
 
 
 head :

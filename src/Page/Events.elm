@@ -47,7 +47,7 @@ type alias Data =
 
 data : DataSource (List Data.PlaceCal.Events.Event)
 data =
-    DataSource.map (\sharedData -> sharedData.events) Shared.data
+    DataSource.map (\sharedData -> sharedData.allEvents) Data.PlaceCal.Events.eventsData
 
 
 head :
