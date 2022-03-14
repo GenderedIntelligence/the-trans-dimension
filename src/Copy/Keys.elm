@@ -5,6 +5,7 @@ type Key
     = SiteTitle
     | SiteStrapline
       --- Header
+    | HeaderMobileMenuButton
     | HeaderAskButton
     | HeaderAskLink
       --- Site Footer

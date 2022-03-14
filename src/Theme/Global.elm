@@ -1,6 +1,6 @@
 module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, darkPurple, generateId, globalStyles, gridStyle, lightPink, maxMobile, oneColumn, pageHeadingStyle, pink, purple, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, alignItems, auto, backgroundColor, batch, calc, center, color, displayFlex, flexWrap, fontFamilies, fontSize, fontWeight, hex, int, margin2, marginTop, maxWidth, minus, none, outline, padding2, pct, px, rem, sansSerif, start, textAlign, width, wrap, zero)
+import Css exposing (Color, Style, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, calc, center, color, displayFlex, flexWrap, fontFamilies, fontSize, fontWeight, hex, int, margin2, marginTop, maxWidth, minus, none, outline, padding2, pct, px, rem, repeat, sansSerif, start, textAlign, url, width, wrap, zero)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)
 import Css.Media as Media exposing (maxWidth, minWidth, only, screen, withMedia)
 import Html.Styled exposing (Html, div, text)
@@ -122,10 +122,15 @@ globalStyles : Html msg
 globalStyles =
     global
         [ typeSelector "body"
-            [ backgroundColor white
-            , color darkBlue
+            [ backgroundColor darkBlue
+            , color white
             , fontFamilies [ "covik-sans", sansSerif.value ]
             , fontWeight (int 400)
+            , backgroundImage (url "/images/backgrounds/starfield-small-800.png")
+            , backgroundRepeat repeat
+            , backgroundSize (px 800)
+            , withMediaTabletLandscapeUp [ backgroundImage (url "/images/backgrounds/starfield-medium-1080.png"), backgroundSize (px 1080) ]
+            , withMediaMediumDesktopUp [ backgroundImage (url "/images/backgrounds/starfield-largest-1920.png"), backgroundSize (px 1920) ]
             ]
         , typeSelector "h1"
             [ color blue
@@ -163,7 +168,7 @@ containerPage : String -> List (Html msg) -> Html msg
 containerPage pageTitle content =
     div
         [ id ("page-" ++ generateId pageTitle)
-        , css [ margin2 zero auto, Css.maxWidth (px 1200), width (pct 100) ]
+        , css [ margin2 zero auto, width (pct 100) ]
         ]
         content
 

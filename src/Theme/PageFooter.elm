@@ -6,7 +6,7 @@ import Css exposing (Style, backgroundColor, batch, block, borderBox, boxSizing,
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, h1, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href, target, type_)
-import Theme.Global exposing (blue, darkBlue, pink, white)
+import Theme.Global exposing (blue, darkBlue, pink, white, withMediaTabletPortraitUp)
 
 
 viewPageFooter : Html msg
@@ -125,7 +125,7 @@ navStyle =
 navListStyle : Style
 navListStyle =
     batch
-        [ displayFlex ]
+        [ withMediaTabletPortraitUp [ displayFlex ] ]
 
 
 navListItemStyle : Style
@@ -166,9 +166,11 @@ formStyle : Style
 formStyle =
     batch
         [ color white
-        , display inlineFlex
-        , justifyContent spaceAround
         , flexGrow (num 1)
+        , withMediaTabletPortraitUp
+            [ display inlineFlex
+            , justifyContent spaceAround
+            ]
         ]
 
 
