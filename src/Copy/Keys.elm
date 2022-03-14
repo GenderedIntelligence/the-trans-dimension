@@ -9,11 +9,22 @@ type Key
     | HeaderAskButton
     | HeaderAskLink
       --- Site Footer
+    | FooterSocial
     | FooterSignupText
     | FooterSignupButton
     | FooterInfoText
     | FooterInfoContact
-    | FooterCredit
+    | FooterCreditTitle
+    | FooterCredit1Text
+    | FooterCredit1Name
+    | FooterCredit1Link
+    | FooterCredit2Text
+    | FooterCredit2Name
+    | FooterCredit2Link
+    | FooterCredit3Text
+    | FooterCredit3Name
+    | FooterCredit3Link
+    | FooterCopyright
       --- Index Page
     | IndexTitle
     | IndexMetaDescription

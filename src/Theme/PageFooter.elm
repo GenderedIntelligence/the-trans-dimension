@@ -2,23 +2,43 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, backgroundColor, batch, block, borderBox, boxSizing, center, color, display, displayFlex, flexGrow, fontSize, hover, inlineBlock, inlineFlex, justifyContent, marginBottom, marginRight, marginTop, none, nthChild, num, padding, padding2, paddingLeft, pct, rem, right, spaceAround, spaceBetween, textAlign, textDecoration, width)
+import Css exposing (Style, active, backgroundColor, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, display, displayFlex, flexGrow, float, focus, fontSize, fontWeight, hover, inlineBlock, inlineFlex, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, none, nthChild, num, outline, padding, padding2, paddingLeft, pct, px, rem, right, solid, spaceAround, spaceBetween, textAlign, textDecoration, textTransform, uppercase, width)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, button, div, footer, form, h1, input, label, li, nav, p, span, text, ul)
-import Html.Styled.Attributes exposing (css, href, target, type_)
+import Html exposing (sub)
+import Html.Styled exposing (Html, a, button, div, footer, form, h1, h4, img, input, label, li, nav, p, span, text, ul)
+import Html.Styled.Attributes exposing (css, href, placeholder, src, target, type_)
 import Theme.Global exposing (blue, darkBlue, pink, white, withMediaTabletPortraitUp)
 
 
 viewPageFooter : Html msg
 viewPageFooter =
     footer [ css [ footerStyle ] ]
-        [ viewPageFooterNavigation
-        , viewPageFooterLogos
+        [ viewPageFooterLogo
+        , viewPageFooterNavigation
+        , viewPageFooterSocial (t FooterSocial)
         , viewPageFooterSignup (t FooterSignupText) (t FooterSignupButton)
-        , viewPageFooterSocial
+        , viewPageFooterLogos
         , viewPageFooterInfo (t FooterInfoText) (t FooterInfoContact)
-        , viewPageFooterCredit (t FooterCredit)
+        , viewPageFooterCredit (t FooterCreditTitle)
+            [ { name = t FooterCredit1Name
+              , link = t FooterCredit1Link
+              , text = t FooterCredit1Text
+              }
+            , { name = t FooterCredit2Name
+              , link = t FooterCredit2Link
+              , text = t FooterCredit2Text
+              }
+            , { name = t FooterCredit3Name
+              , link = t FooterCredit3Link
+              , text = t FooterCredit3Text
+              }
+            ]
         ]
+
+
+viewPageFooterLogo : Html msg
+viewPageFooterLogo =
+    div [ css [ footerLogoStyle ] ] [ text "logo" ]
 
 
 viewPageFooterNavigation : Html msg
@@ -26,7 +46,7 @@ viewPageFooterNavigation =
     nav [ css [ navStyle ] ]
         [ ul [ css [ navListStyle ] ]
             (List.map viewPageFooterNavigationItem
-                [ Home, Partners, Events, News, About, Resources, Privacy, TermsAndConditions ]
+                [ Partners, Events, News, About, Resources, Privacy, TermsAndConditions ]
             )
         ]
 
@@ -41,7 +61,8 @@ viewPageFooterNavigationItem route =
 viewPageFooterLogos : Html msg
 viewPageFooterLogos =
     div [ css [ blockStyle ] ]
-        [ ul [ css [ logoListStyle ] ]
+        [ p [ css [ subheadStyle ] ] [ text "We are supported by" ]
+        , ul [ css [ logoListStyle ] ]
             [ li [] [ text "GFSC logo" ]
             , li [] [ text "GI logo" ]
             , li [] [ text "Comic relief logo" ]
@@ -54,8 +75,8 @@ viewPageFooterSignup copyText buttonText =
     --- [fFf] - form handling
     form [ css [ blockStyle, formStyle ] ]
         [ label [ css [ formStyle ] ]
-            [ span [] [ text copyText ]
-            , input [ type_ "email" ] []
+            [ span [ css [ subheadStyle ] ] [ text copyText ]
+            , input [ placeholder "Your email address", type_ "email", css [ formInputStyle ] ] []
             ]
         , button [ type_ "submit" ] [ text buttonText ]
         ]
@@ -69,22 +90,37 @@ viewPageFooterInfo nameInfo contactInfo =
         ]
 
 
-viewPageFooterSocial : Html msg
-viewPageFooterSocial =
+viewPageFooterSocial : String -> Html msg
+viewPageFooterSocial socialText =
     div [ css [ blockStyle ] ]
-        [ ul
+        [ p [ css [ subheadStyle ] ] [ text socialText ]
+        , ul
             [ css [ socialListStyle ] ]
-            [ li [] [ text "Twitter" ]
-            , li [] [ text "Facebook" ]
-            , li [] [ text "Instagram" ]
+            [ li [ css [ socialListItemStyle ] ] [ img [ src "/images/logos/footer_insta.svg" ] [] ]
+            , li [ css [ socialListItemStyle ] ] [ img [ src "/images/logos/footer_twitter.svg" ] [] ]
+            , li [ css [ socialListItemStyle ] ] [ img [ src "/images/logos/footer_facebook.svg" ] [] ]
             ]
         ]
 
 
-viewPageFooterCredit : String -> Html msg
-viewPageFooterCredit creditText =
-    p [ css [ creditStyle ] ]
-        [ a [ href "http://placecal.org", target "_blank", css [ creditLinkStyle ] ] [ text creditText ]
+viewPageFooterCredit : String -> List { name : String, link : String, text : String } -> Html msg
+viewPageFooterCredit creditTitle creditList =
+    div []
+        [ h4 []
+            [ text creditTitle ]
+        , p
+            [ css [ creditStyle ] ]
+            (List.map viewPageFooterCreditItem creditList)
+        ]
+
+
+viewPageFooterCreditItem : { name : String, link : String, text : String } -> Html msg
+viewPageFooterCreditItem creditItem =
+    span []
+        [ text creditItem.text
+        , text " "
+        , a [ href creditItem.link, target "_blank" ] [ text creditItem.name ]
+        , text ", "
         ]
 
 
@@ -96,20 +132,35 @@ footerStyle =
         ]
 
 
+footerLogoStyle : Style
+footerLogoStyle =
+    batch
+        [ padding (rem 1)
+        , backgroundColor pink
+        , textAlign center
+        ]
+
+
 blockStyle : Style
 blockStyle =
     batch
-        [ display inlineBlock
-        , width (pct 50)
-        , color pink
+        [ color pink
         , padding (rem 1)
         , boxSizing borderBox
-        , nthChild "odd"
-            [ width (pct 60)
-            ]
-        , nthChild "even"
-            [ width (pct 40)
-            ]
+        ]
+
+
+subheadStyle : Style
+subheadStyle =
+    batch
+        [ color white
+        , textTransform uppercase
+        , fontWeight (int 700)
+        , letterSpacing (px 1.9)
+        , textAlign center
+        , lineHeight (rem 1.75)
+        , display block
+        , margin4 (rem 0.5) (rem 0) (rem 1) (rem 0)
         ]
 
 
@@ -118,7 +169,7 @@ navStyle =
     batch
         [ backgroundColor pink
         , padding (rem 1)
-        , marginBottom (rem 2)
+        , marginBottom (rem 1)
         ]
 
 
@@ -131,7 +182,11 @@ navListStyle =
 navListItemStyle : Style
 navListItemStyle =
     batch
-        [ marginRight (rem 1)
+        [ textAlign center
+        , fontWeight (int 600)
+        , margin (rem 0.5)
+        , fontSize (rem 1.1)
+        , withMediaTabletPortraitUp [ marginRight (rem 1) ]
         ]
 
 
@@ -157,9 +212,15 @@ socialListStyle : Style
 socialListStyle =
     batch
         [ displayFlex
-        , justifyContent spaceAround
-        , padding2 (rem 0) (rem 3)
+        , justifyContent center
+        , margin2 (rem 1) (rem 0)
         ]
+
+
+socialListItemStyle : Style
+socialListItemStyle =
+    batch
+        [ margin2 (rem 0) (rem 1) ]
 
 
 formStyle : Style
@@ -174,19 +235,29 @@ formStyle =
         ]
 
 
-creditStyle : Style
-creditStyle =
+formInputStyle : Style
+formInputStyle =
     batch
-        [ textAlign right
-        , padding (rem 1)
+        [ display block
+        , backgroundColor darkBlue
+        , borderWidth (px 2)
+        , borderStyle solid
+        , borderColor pink
+        , borderRadius (px 5)
+        , width (pct 100)
+        , color white
+        , textAlign center
+        , padding2 (rem 0.25) (rem 0.5)
+        , boxSizing borderBox
+        , margin2 (rem 1) (rem 0)
+        , focus [ outline none, borderColor white ]
         ]
 
 
-creditLinkStyle : Style
-creditLinkStyle =
+creditStyle : Style
+creditStyle =
     batch
-        [ color white
-        , textDecoration none
+        [ padding (rem 1)
         ]
 
 

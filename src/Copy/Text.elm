@@ -27,8 +27,11 @@ t key =
             "http://donate.com [cCc]"
 
         --- Footer
+        FooterSocial ->
+            "Follow us out there"
+
         FooterSignupText ->
-            "Sign up to our email list for updates [cCc]"
+            "Register for updates"
 
         FooterSignupButton ->
             "Sign up"
@@ -37,10 +40,40 @@ t key =
             "The Trans Dimension, c/o Gendered Intelligence [cCc]"
 
         FooterInfoContact ->
-            "Address and contact info [cCc]"
+            "Gendered Intelligence is a Registered Charity in England and Wales No. 1182558. \nRegistered as a Company Limited by Guarantee in England and Wales No. 06617608. \nRegistered office at VAI, 200 Pentonville Road, London N1 9JP."
 
-        FooterCredit ->
-            "Built using PlaceCal [cCc]"
+        FooterCreditTitle ->
+            "Credits"
+
+        FooterCredit1Text ->
+            "Illustrations by"
+
+        FooterCredit1Name ->
+            "Harry Woodgate"
+
+        FooterCredit1Link ->
+            "link [cCc]"
+
+        FooterCredit2Text ->
+            "design by"
+
+        FooterCredit2Name ->
+            "Squid"
+
+        FooterCredit2Link ->
+            "link [cCc]"
+
+        FooterCredit3Text ->
+            "website by"
+
+        FooterCredit3Name ->
+            "GFSC"
+
+        FooterCredit3Link ->
+            "http://gfsc.studio/"
+
+        FooterCopyright ->
+            "© 2022 The Trans Dimension. All rights reserved."
 
         --- Index Page
         IndexTitle ->
