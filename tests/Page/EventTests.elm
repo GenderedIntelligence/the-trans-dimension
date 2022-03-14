@@ -25,14 +25,14 @@ viewParamsWithEvent =
         , startDatetime = Time.millisToPosix 0
         , endDatetime = Time.millisToPosix 0
         , location = "Event location"
-        , realm = Online
+
+        --, realm = Online
         , partnerId = "1"
         }
     , path = Path.fromString "event/1"
     , routeParams = { event = "1" }
     , sharedData =
-        { events = Fixtures.events
-        , news = Fixtures.news
+        { news = Fixtures.news
         }
     }
 
@@ -67,10 +67,11 @@ suite =
                         , Html.text " - "
                         , Html.text "12:00am"
                         ]
-        , test "Contains venue type info" <|
-            \_ ->
-                viewBodyHtml viewParamsWithEvent
-                    |> Query.contains [ Html.text "Online" ]
+
+        -- , test "Contains venue type info" <|
+        --     \_ ->
+        --         viewBodyHtml viewParamsWithEvent
+        --             |> Query.contains [ Html.text "Online" ]
         , test "Has event description text" <|
             \_ ->
                 viewBodyHtml viewParamsWithEvent

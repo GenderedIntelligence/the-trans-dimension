@@ -20,8 +20,7 @@ viewParamsForHome =
     , path = Path.fromString "/"
     , routeParams = {}
     , sharedData =
-        { events = Fixtures.events
-        , news = Fixtures.news
+        { news = Fixtures.news
         }
     }
 

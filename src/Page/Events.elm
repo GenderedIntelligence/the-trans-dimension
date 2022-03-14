@@ -47,7 +47,7 @@ type alias Data =
 
 data : DataSource (List Data.PlaceCal.Events.Event)
 data =
-    DataSource.map (\sharedData -> sharedData.events) Shared.data
+    DataSource.map (\sharedData -> sharedData.allEvents) Data.PlaceCal.Events.eventsData
 
 
 head :
@@ -126,7 +126,8 @@ viewEvent event =
             [ h4 [ css [ eventTitleStyle ] ] [ text event.name ]
             , time [] [ text (TransDate.humanDateFromPosix event.startDatetime) ]
             , time [] [ text (TransDate.humanTimeFromPosix event.startDatetime) ]
-            , p [ css [ eventParagraphStyle ] ] [ text (Data.PlaceCal.Events.realmToString event.realm) ]
+
+            --, p [ css [ eventParagraphStyle ] ] [ text (Data.PlaceCal.Events.realmToString event.realm) ]
             , p [ css [ eventParagraphStyle ] ] [ text event.location ]
             , a [ href (TransRoutes.toAbsoluteUrl (Event event.id)) ] [ text "View more" ]
             ]
