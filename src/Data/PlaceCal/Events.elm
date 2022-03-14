@@ -18,7 +18,8 @@ type alias Event =
     , startDatetime : Time.Posix
     , endDatetime : Time.Posix
     , location : String
-    , realm : Realm
+
+    -- , realm : Realm
     , partnerId : String
     }
 
@@ -32,7 +33,8 @@ emptyEvent =
     , startDatetime = Time.millisToPosix 0
     , endDatetime = Time.millisToPosix 0
     , location = ""
-    , realm = Offline
+
+    -- , realm = Offline
     , partnerId = ""
     }
 
@@ -75,11 +77,10 @@ allEventsQuery =
                     name
                     summary
                     description
-                    startDatetime
-                    endDatetime
-                    location
-                    realm
-                    partnerId
+                    startDate
+                    endDate
+                    address { postalCode }
+                    organizer { id }
             } } } }
             """
           )
@@ -113,21 +114,21 @@ decode =
             ""
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ]
             OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "startDatetime" ]
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "startDate" ]
             posixDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "endDatetime" ]
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "endDate" ]
             posixDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "location" ]
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "address", "postalCode" ]
             OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "realm" ]
-            realmDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "partnerId" ]
+        -- |> OptimizedDecoder.Pipeline.requiredAt [ "node", "realm" ]
+        --    realmDecoder
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "organizer", "id" ]
             OptimizedDecoder.string
 
 
 posixDecoder : OptimizedDecoder.Decoder Time.Posix
 posixDecoder =
-    OptimizedDecoder.int |> OptimizedDecoder.map Time.millisToPosix
+    OptimizedDecoder.string |> OptimizedDecoder.map (\str -> Time.millisToPosix (Maybe.withDefault 0 (String.toInt str)))
 
 
 realmDecoder : OptimizedDecoder.Decoder Realm

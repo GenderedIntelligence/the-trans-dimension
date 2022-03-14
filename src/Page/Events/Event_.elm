@@ -118,10 +118,11 @@ viewInfo event =
             [ p [ css [ eventMetaStyle ] ] [ text (TransDate.humanDateFromPosix event.startDatetime) ]
             , p [ css [ eventMetaStyle ] ] [ text (TransDate.humanTimeFromPosix event.startDatetime), text " - ", text (TransDate.humanTimeFromPosix event.endDatetime) ]
             , p [ css [ eventMetaStyle ] ] [ text event.location ]
-            , p [ css [ eventMetaStyle ] ]
-                [ text
-                    (Data.PlaceCal.Events.realmToString event.realm)
-                ]
+
+            -- , p [ css [ eventMetaStyle ] ]
+            --    [ text
+            --        (Data.PlaceCal.Events.realmToString event.realm)
+            --    ]
             ]
         , div [ css [ eventDescriptionStyle ] ]
             [ p [] [ text event.description ]
