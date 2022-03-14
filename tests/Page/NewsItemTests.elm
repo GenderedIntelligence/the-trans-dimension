@@ -30,8 +30,7 @@ viewParamsWithNewsItem =
     , path = Path.fromString "news/1"
     , routeParams = { newsItem = "1" }
     , sharedData =
-        { events = Fixtures.events
-        , news = Fixtures.news
+        { news = Fixtures.news
         }
     }
 

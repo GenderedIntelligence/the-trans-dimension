@@ -42,7 +42,8 @@ events =
       , startDatetime = Time.millisToPosix 1645466400000
       , endDatetime = Time.millisToPosix 1650564000000
       , location = "Venue"
-      , realm = Online
+
+      --, realm = Online
       , partnerId = "1"
       }
     , { id = "2"
@@ -52,7 +53,8 @@ events =
       , startDatetime = Time.millisToPosix 1645448400000
       , endDatetime = Time.millisToPosix 1658408400000
       , location = "Venue"
-      , realm = Offline
+
+      --, realm = Offline
       , partnerId = "2"
       }
     ]

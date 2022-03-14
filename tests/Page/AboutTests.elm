@@ -16,8 +16,7 @@ viewParamsWithAbout =
     , path = Path.fromString "about"
     , routeParams = {}
     , sharedData =
-        { events = Fixtures.events
-        , news = Fixtures.news
+        { news = Fixtures.news
         }
     }
 
