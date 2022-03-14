@@ -2,12 +2,13 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, block, bold, border, borderBox, boxSizing, center, color, column, columnReverse, display, displayFlex, flexDirection, flexGrow, fontSize, fontWeight, hex, hover, int, justifyContent, lighter, margin, margin2, marginRight, marginTop, none, padding, paddingBottom, paddingLeft, paddingTop, pct, rem, row, spaceBetween, textAlign, textDecoration, transparent, unset, width, zero)
+import Css exposing (Style, active, alignItems, backgroundColor, batch, block, bold, border, borderBottom, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, columnReverse, display, displayFlex, flexDirection, flexGrow, fontSize, fontWeight, hex, hover, int, justifyContent, lighter, margin, margin2, marginRight, marginTop, none, padding, padding2, paddingBottom, paddingLeft, paddingTop, pct, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, width, zero)
 import Css.Media exposing (grid)
+import Css.Transitions exposing (easeIn, transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href)
-import Theme.Global as Theme exposing (black, blue, darkBlue, pink, white, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (black, blue, darkBlue, pink, purple, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
 
@@ -86,6 +87,7 @@ titleBarStyle =
     batch
         [ displayFlex
         , justifyContent spaceBetween
+        , withMediaTabletPortraitUp [ display none ]
         ]
 
 
@@ -102,7 +104,9 @@ barStyle =
         [ withMediaTabletPortraitUp
             [ displayFlex
             , justifyContent spaceBetween
-            , padding (rem 1)
+            , padding (rem 0.5)
+            , backgroundColor pink
+            , alignItems center
             ]
         ]
 
@@ -155,7 +159,7 @@ navigationListStyle =
         , withMediaTabletPortraitUp
             [ flexDirection row
             , fontSize (rem 1.1)
-            , paddingLeft (rem 1)
+            , paddingLeft (rem 0.5)
             ]
         ]
 
@@ -169,6 +173,7 @@ navigationListItemStyle =
         , boxSizing borderBox
         , margin2 (rem 0.1) (rem 0)
         , fontSize (rem 1.2)
+        , withMediaTabletPortraitUp [ padding2 (rem 1) (rem 0.75) ]
         ]
 
 
@@ -179,7 +184,11 @@ navigationLinkStyle =
         , color black
         , textDecoration none
         , display block
-        , hover [ color pink ]
+        , borderBottomWidth (rem 0.2)
+        , borderBottomStyle solid
+        , borderBottomColor pink
+        , transition [ Css.Transitions.borderBottom 300, Css.Transitions.color 300 ]
+        , hover [ color white, borderBottomColor black ]
         ]
 
 
@@ -195,11 +204,20 @@ askButtonStyle : Style
 askButtonStyle =
     batch
         [ display block
-        , backgroundColor pink
+        , backgroundColor white
         , color black
         , textDecoration none
-        , padding (rem 1)
+        , padding2 (rem 0.5) (rem 0.75)
         , width (rem 5)
         , textAlign center
         , fontWeight bold
+        , fontSize (rem 1.1)
+        , borderRadius (rem 0.3)
+        , marginRight (rem 1)
+        , hover [ backgroundColor purple, color white ]
+        , active [ backgroundColor darkBlue, color white ]
+        , borderWidth (rem 0.2)
+        , borderColor white
+        , borderStyle solid
+        , transition [ Css.Transitions.backgroundColor 500, Css.Transitions.color 500, Css.Transitions.border 500 ]
         ]

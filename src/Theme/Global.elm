@@ -168,7 +168,7 @@ containerPage : String -> List (Html msg) -> Html msg
 containerPage pageTitle content =
     div
         [ id ("page-" ++ generateId pageTitle)
-        , css [ margin2 zero auto, Css.maxWidth (px 1200), width (pct 100) ]
+        , css [ margin2 zero auto, width (pct 100) ]
         ]
         content
 
