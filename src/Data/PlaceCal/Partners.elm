@@ -42,7 +42,7 @@ allPartnersQuery : Json.Encode.Value
 allPartnersQuery =
     Json.Encode.object
         [ ( "query"
-          , Json.Encode.string "query { allPartners { id, name, description, summary } }"
+          , Json.Encode.string "query { partnerConnection { edges { node {id name description summary } } } }"
           )
         ]
 
@@ -59,16 +59,16 @@ allPartnersPlaceCalRequest =
 partnersDecoder : OptimizedDecoder.Decoder AllPartnersResponse
 partnersDecoder =
     OptimizedDecoder.succeed AllPartnersResponse
-        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "allPartners" ] (OptimizedDecoder.list decodePartner)
+        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "partnerConnection", "edges" ] (OptimizedDecoder.list decodePartner)
 
 
 decodePartner : OptimizedDecoder.Decoder Partner
 decodePartner =
     OptimizedDecoder.succeed Partner
-        |> OptimizedDecoder.Pipeline.required "id" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "name" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optional "summary" OptimizedDecoder.string ""
-        |> OptimizedDecoder.Pipeline.required "description" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "id" ] OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "name" ] OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "summary" ] OptimizedDecoder.string ""
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ] OptimizedDecoder.string
 
 
 type alias AllPartnersResponse =
