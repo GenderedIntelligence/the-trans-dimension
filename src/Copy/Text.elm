@@ -95,7 +95,7 @@ t key =
             "The Trans Dimension is an online community hub connecting trans* communities across the UK. We collate news, events and services by and for trans people."
 
         IndexIntroButtonText ->
-            "[cCc] Check out our events"
+            "See what's on near you"
 
         IndexResourcesHeading ->
             "[cCc] Need help?"

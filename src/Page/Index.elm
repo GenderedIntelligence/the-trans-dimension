@@ -2,7 +2,7 @@ module Page.Index exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, auto, backgroundClip, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, center, color, cover, display, fontSize, height, inlineBlock, int, margin, margin2, marginTop, none, nthOfType, padding, padding2, pct, position, property, px, relative, rem, textAlign, textDecoration, top, url, vh, vw, width, zIndex)
+import Css exposing (Style, absolute, auto, backgroundClip, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderRadius, bottom, calc, center, color, cover, display, fontSize, fontStyle, fontWeight, height, inlineBlock, int, italic, lineHeight, margin, margin2, marginBottom, marginTop, minus, none, nthOfType, padding, padding2, padding4, pct, position, property, px, relative, rem, textAlign, textDecoration, top, url, vh, vw, width, zIndex)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -13,6 +13,7 @@ import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
+import String exposing (left)
 import Theme.Global exposing (..)
 import View exposing (View)
 
@@ -88,8 +89,8 @@ view maybeUrl sharedModel static =
 viewIntro : String -> String -> String -> Html msg
 viewIntro introTitle introMsg eventButtonText =
     section [ css [ sectionStyle, introSectionStyle ] ]
-        [ h3 [] [ text introTitle ]
-        , p [] [ text introMsg ]
+        [ h3 [ css [ sectionTitleStyle ] ] [ text introTitle ]
+        , p [ css [ sectionTextStyle ] ] [ text introMsg ]
         , a
             [ href (TransRoutes.toAbsoluteUrl Events)
             , css [ buttonStyle ]
@@ -150,7 +151,32 @@ pageWrapperStyle =
 sectionStyle : Style
 sectionStyle =
     batch
-        [ backgroundColor pink ]
+        [ backgroundColor pink
+        , borderRadius (rem 0.3)
+        , padding4 (rem 1) (rem 1) (rem 4) (rem 1)
+        , marginBottom (rem 2)
+        , position relative
+        ]
+
+
+sectionTitleStyle : Style
+sectionTitleStyle =
+    batch
+        [ padding2 (rem 0.5) (rem 1)
+        , marginBottom (rem 1)
+        , textAlign center
+        , fontStyle italic
+        , fontSize (rem 2.1)
+        , lineHeight (rem 2.3)
+        ]
+
+
+sectionTextStyle : Style
+sectionTextStyle =
+    batch
+        [ textAlign center
+        , color darkBlue
+        ]
 
 
 introSectionStyle : Style
@@ -181,10 +207,14 @@ introSectionStyle =
 buttonStyle : Style
 buttonStyle =
     batch
-        [ backgroundColor darkBlue
-        , color white
+        [ backgroundColor white
+        , color darkBlue
         , textDecoration none
-        , padding2 (rem 1) (rem 2)
-        , margin (rem 1)
-        , display inlineBlock
+        , padding2 (rem 0.5) (rem 1)
+        , margin2 (rem 1) auto
+        , display block
+        , position absolute
+        , bottom (rem -2)
+        , borderRadius (rem 0.3)
+        , fontWeight (int 700)
         ]
