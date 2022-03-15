@@ -8,6 +8,8 @@ import Html exposing (sub)
 import Html.Styled exposing (Html, a, button, div, footer, form, h1, h4, img, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href, placeholder, src, target, type_)
 import Theme.Global exposing (blue, darkBlue, pink, white, withMediaTabletPortraitUp)
+import Css exposing (flexDirection)
+import Css exposing (column)
 
 
 viewPageFooter : Html msg
@@ -63,9 +65,9 @@ viewPageFooterLogos =
     div [ css [ blockStyle ] ]
         [ p [ css [ subheadStyle ] ] [ text "We are supported by" ]
         , ul [ css [ logoListStyle ] ]
-            [ li [] [ text "GFSC logo" ]
-            , li [] [ text "GI logo" ]
-            , li [] [ text "Comic relief logo" ]
+            [ li [] [ img [src "/images/logos/footer_gfsc.svg"] [] ]
+            , li [] [ img [ src "/images/logos/GI_pink.png "] [] ]
+            , li [] [ img [ src "/images/logos/footer_comicrelief.svg"] [] ]
             ]
         ]
 
@@ -203,6 +205,7 @@ logoListStyle : Style
 logoListStyle =
     batch
         [ displayFlex
+        , flexDirection column
         , justifyContent spaceBetween
         , padding2 (rem 0) (rem 2)
         ]
