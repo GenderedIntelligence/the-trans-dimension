@@ -49,8 +49,11 @@ t key =
         IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
 
+        IndexIntroTitle ->
+            "Trusted, accessible, trans-friendly spaces. Always expanding."
+
         IndexIntroMessage ->
-            "[cCc] Key introductory message"
+            "The Trans Dimension is an online community hub connecting trans* communities across the UK. We collate news, events and services by and for trans people."
 
         IndexIntroButtonText ->
             "[cCc] Check out our events"

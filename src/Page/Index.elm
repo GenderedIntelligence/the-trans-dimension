@@ -2,12 +2,12 @@ module Page.Index exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, center, color, display, fontSize, inlineBlock, margin, margin2, none, nthOfType, padding, padding2, pct, rem, textAlign, textDecoration, width)
+import Css exposing (Style, absolute, auto, backgroundClip, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, center, color, cover, display, fontSize, height, inlineBlock, int, margin, margin2, marginTop, none, nthOfType, padding, padding2, pct, position, property, px, relative, rem, textAlign, textDecoration, top, url, vh, vw, width, zIndex)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled as Html exposing (Html, a, article, h2, li, p, section, text, ul)
+import Html.Styled as Html exposing (Html, a, article, div, h2, h3, li, p, section, text, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
@@ -75,18 +75,21 @@ view :
 view maybeUrl sharedModel static =
     { title = t SiteTitle
     , body =
-        [ viewIntro (t IndexIntroMessage) (t IndexIntroButtonText)
-        , viewResources (t IndexResourcesHeading) (t IndexResourcesDescription) (t IndexResourcesButtonText)
-        , viewFeatured (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
-        , viewLatestNews (t IndexNewsHeader) (t IndexNewsButtonText)
+        [ div [ css [ pageWrapperStyle ] ]
+            [ viewIntro (t IndexIntroTitle) (t IndexIntroMessage) (t IndexIntroButtonText)
+            , viewResources (t IndexResourcesHeading) (t IndexResourcesDescription) (t IndexResourcesButtonText)
+            , viewFeatured (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
+            , viewLatestNews (t IndexNewsHeader) (t IndexNewsButtonText)
+            ]
         ]
     }
 
 
-viewIntro : String -> String -> Html msg
-viewIntro introMsg eventButtonText =
-    section [ css [ sectionStyle ] ]
-        [ p [ css [ introMessageStyle ] ] [ text introMsg ]
+viewIntro : String -> String -> String -> Html msg
+viewIntro introTitle introMsg eventButtonText =
+    section [ css [ sectionStyle, introSectionStyle ] ]
+        [ h3 [] [ text introTitle ]
+        , p [] [ text introMsg ]
         , a
             [ href (TransRoutes.toAbsoluteUrl Events)
             , css [ buttonStyle ]
@@ -98,7 +101,7 @@ viewIntro introMsg eventButtonText =
 viewResources : String -> String -> String -> Html msg
 viewResources title description buttonText =
     section [ css [ sectionStyle ] ]
-        [ h2 [ css [ sectionHeaderStyle ] ] [ text title ]
+        [ h2 [] [ text title ]
         , p [] [ text description ]
         , a
             [ href (TransRoutes.toAbsoluteUrl Resources)
@@ -111,7 +114,7 @@ viewResources title description buttonText =
 viewFeatured : String -> String -> Html msg
 viewFeatured title buttonText =
     section [ css [ sectionStyle ] ]
-        [ h2 [ css [ sectionHeaderStyle ] ] [ text title ]
+        [ h2 [] [ text title ]
         , ul []
             [ li [] [ text "Featured event [fFf]" ]
             , li [] [ text "Featured event [fFf]" ]
@@ -128,7 +131,7 @@ viewFeatured title buttonText =
 viewLatestNews : String -> String -> Html msg
 viewLatestNews title buttonText =
     section [ css [ sectionStyle ] ]
-        [ h2 [ css [ sectionHeaderStyle ] ] [ text title ]
+        [ h2 [] [ text title ]
         , article [] [ text "News item title [fFf]" ]
         , a
             [ href (TransRoutes.toAbsoluteUrl News)
@@ -138,30 +141,41 @@ viewLatestNews title buttonText =
         ]
 
 
+pageWrapperStyle : Style
+pageWrapperStyle =
+    batch
+        [ margin2 (rem 0) (rem 0.75) ]
+
+
 sectionStyle : Style
 sectionStyle =
     batch
-        [ textAlign center
-        , nthOfType "odd" [ batch [ backgroundColor pink ] ]
-        , nthOfType "even" [ batch [ backgroundColor blue ] ]
-        , padding (rem 1)
-        , width (pct 60)
-        , margin2 (rem 2) auto
+        [ backgroundColor pink ]
+
+
+introSectionStyle : Style
+introSectionStyle =
+    batch
+        [ position relative
+        , marginTop (vh 75)
+        , before
+            [ property "content" "\"\""
+            , display block
+            , backgroundImage (url "/images/illustrations/320px/homepage_1_header.png")
+            , width (vw 100)
+            , height (vh 100)
+            , backgroundSize (px 420)
+            , backgroundPosition center
+            , margin2 (rem 0) (rem -0.75)
+            , position absolute
+            , top (vh -93)
+            , zIndex (int -1)
+            ]
         ]
 
 
-sectionHeaderStyle : Style
-sectionHeaderStyle =
-    batch
-        [ color darkBlue
-        , fontSize (rem 2)
-        ]
 
-
-introMessageStyle : Style
-introMessageStyle =
-    batch
-        [ fontSize (rem 1.5) ]
+-- ( px 430, px 626 )
 
 
 buttonStyle : Style

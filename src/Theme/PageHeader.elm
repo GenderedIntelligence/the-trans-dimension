@@ -156,6 +156,7 @@ navigationListStyle =
         [ displayFlex
         , flexDirection column
         , flexGrow (int 2)
+        , display none
         , withMediaTabletPortraitUp
             [ flexDirection row
             , fontSize (rem 1.1)
@@ -188,7 +189,8 @@ navigationLinkStyle =
         , borderBottomStyle solid
         , borderBottomColor pink
         , transition [ Css.Transitions.borderBottom 300, Css.Transitions.color 300 ]
-        , hover [ color white, borderBottomColor black ]
+        , hover [ color white ]
+        , withMediaTabletPortraitUp [ hover [ borderBottomColor black ] ]
         ]
 
 
