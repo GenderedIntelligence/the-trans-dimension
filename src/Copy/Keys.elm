@@ -12,8 +12,10 @@ type Key
     | FooterSocial
     | FooterSignupText
     | FooterSignupButton
-    | FooterInfoText
-    | FooterInfoContact
+    | FooterInfoTitle
+    | FooterInfoCharity
+    | FooterInfoCompany
+    | FooterInfoOffice
     | FooterCreditTitle
     | FooterCredit1Text
     | FooterCredit1Name

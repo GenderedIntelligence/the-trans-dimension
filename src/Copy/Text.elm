@@ -36,11 +36,17 @@ t key =
         FooterSignupButton ->
             "Sign up"
 
-        FooterInfoText ->
+        FooterInfoTitle ->
             "The Trans Dimension, c/o Gendered Intelligence [cCc]"
 
-        FooterInfoContact ->
-            "Gendered Intelligence is a Registered Charity in England and Wales No. 1182558. \nRegistered as a Company Limited by Guarantee in England and Wales No. 06617608. \nRegistered office at VAI, 200 Pentonville Road, London N1 9JP."
+        FooterInfoCharity ->
+            "Gendered Intelligence is a Registered Charity in England and Wales No. 1182558."
+
+        FooterInfoCompany ->
+            "Registered as a Company Limited by Guarantee in England and Wales No. 06617608."
+
+        FooterInfoOffice ->
+            "Registered office at VAI, 200 Pentonville Road, London N1 9JP."
 
         FooterCreditTitle ->
             "Credits"
