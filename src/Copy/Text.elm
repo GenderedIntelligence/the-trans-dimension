@@ -155,8 +155,11 @@ t key =
         PartnersMetaDescription ->
             "[cCc] Partners description"
 
-        PartnersIntro ->
-            "[cCc] Introduction box / explainer"
+        PartnersIntroSummary ->
+            "We are proud to partner with a number of charities and organisations with a long track record of supporting the trans community."
+
+        PartnersIntroDescription ->
+            "Some are trans-led organisations, while others are confirmed trans friendly — offering services, events, and much more."
 
         PartnersListEmpty ->
             "[cCc] There are currently no partners"

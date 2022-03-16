@@ -55,7 +55,8 @@ type Key
       --- Partners Page
     | PartnersTitle
     | PartnersMetaDescription
-    | PartnersIntro
+    | PartnersIntroSummary
+    | PartnersIntroDescription
     | PartnersListEmpty
     | PartnersLinkToPartner
       --- Partner Page

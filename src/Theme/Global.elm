@@ -1,10 +1,17 @@
-module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, darkPurple, generateId, globalStyles, gridStyle, lightPink, maxMobile, oneColumn, pageHeadingStyle, pink, purple, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, darkPurple, generateId, globalStyles, gridStyle, lightPink, maxMobile, oneColumn, pageHeadingStyle, pink, purple, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp, introBoxStyle, introTextLargeStyle, introTextSmallStyle)
 
-import Css exposing (Color, Style, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, calc, center, color, displayFlex, flexWrap, fontFamilies, fontSize, fontWeight, hex, int, margin2, marginTop, maxWidth, minus, none, outline, padding2, pct, px, rem, repeat, sansSerif, start, textAlign, url, width, wrap, zero)
+import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bottom, calc, center, color, display, displayFlex, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, margin2, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, noRepeat, none, outline, padding2, pct, position, property, px, relative, rem, repeat, sansSerif, start, textAlign, top, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)
 import Css.Media as Media exposing (maxWidth, minWidth, only, screen, withMedia)
 import Html.Styled exposing (Html, div, text)
 import Html.Styled.Attributes exposing (css, id)
+import Css exposing (paddingTop)
+import Css exposing (padding)
+import Css exposing (margin)
+import Css exposing (borderRadius)
+import Css exposing (lineHeight)
+import Css exposing (paddingLeft)
+import Css exposing (paddingRight)
 
 
 
@@ -220,17 +227,86 @@ verticalSpacing num =
 pageHeadingStyle : Style
 pageHeadingStyle =
     batch
-        [ fontSize (rem 1.8)
+        [ fontSize (rem 2.1)
         , outline none
-        , padding2 (rem 2) zero
+        , color white
+        , fontStyle italic
+        , fontWeight (int 500)
         , textAlign center
-        , withMediaTabletPortraitUp
-            [ fontSize (rem 2.5) ]
+        , marginBlockStart (rem 0)
+        , marginBlockEnd (rem 0)
+        , position relative
+        , paddingTop (rem 2)
+        , before
+            [ property "content" "\"\""
+            , display block
+            , width (vw 100)
+            , height (px 240)
+            , backgroundSize (px 420)
+            , backgroundPosition center
+            , position absolute
+            , zIndex (int -1)
+            , backgroundRepeat noRepeat
+            , backgroundImage (url "/images/illustrations/320px/generic_header.png")
+            , top (px -130)
+            , withMediaTabletLandscapeUp
+                [ backgroundImage (url "/images/illustrations/1024px/generic_header.png")
+                , backgroundSize (px 1200)
+                , height (px 499)
+                , top (px -100) 
+                ]
+            , withMediaTabletPortraitUp 
+                [ backgroundImage (url "/images/illustrations/768px/generic_header.png")
+                , backgroundSize (px 900)
+                , height (px 432)
+                , top (px -75)
+                ]
+            ]
         , withMediaTabletLandscapeUp
-            [ fontSize (rem 2.5) ]
+            [ fontSize (rem 3.1), paddingTop (px 275) ]
+        , withMediaTabletPortraitUp
+            [ fontSize (rem 2.5), paddingTop (px 250)  ]
         ]
 
+introBoxStyle : Style
+introBoxStyle =
+    batch
+        [ backgroundColor pink
+        , color darkBlue
+        , padding (rem 1)
+        , margin (rem 0.75)
+        , borderRadius (rem 0.3)
+        , withMediaTabletLandscapeUp
+            [ margin2 (rem 1) (rem 1.5)]
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 1) (rem 2), paddingTop (rem 3), paddingLeft (rem 3.5), paddingRight (rem 3.5) ]
+        ]
 
+introTextLargeStyle : Style
+introTextLargeStyle =
+    batch
+        [ textAlign center
+        , fontSize (rem 1.6)
+        , lineHeight (rem 2)
+        , fontStyle italic
+        , fontWeight (int 400)
+        , margin (rem 1)
+        , withMediaTabletLandscapeUp
+            [ fontSize (rem 2.5), lineHeight (rem 3.1) ]
+        , withMediaTabletPortraitUp 
+            [ fontSize (rem 1.9), lineHeight (rem 2.1), margin2 (rem 1) (rem 1.5) ]
+        ]
+
+introTextSmallStyle : Style
+introTextSmallStyle =
+    batch
+        [ textAlign center
+        , margin2 (rem 1.5) (rem 0)
+        , withMediaTabletLandscapeUp
+            [ fontSize (rem 1.2), margin2 (rem 1.5) (rem 6.5) ]
+        , withMediaTabletPortraitUp 
+            [ margin2 (rem 1.5) (rem 3.5) ]
+        ]
 
 -- Helpers
 
