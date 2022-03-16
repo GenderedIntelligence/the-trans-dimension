@@ -7,7 +7,7 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled as Html exposing (Html, a, article, div, h1, h2, h3, img, li, p, section, text, ul)
+import Html.Styled as Html exposing (Html, a, article, div, h1, h2, img, li, p, section, text, ul)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
@@ -89,7 +89,7 @@ viewIntro : String -> String -> String -> Html msg
 viewIntro introTitle introMsg eventButtonText =
     section [ css [ sectionStyle, pinkBackgroundStyle, introSectionStyle ] ]
         [ h1 [ css [ logoStyle ] ] [ img [ src "/images/logos/tdd_logo_with_strapline.svg", alt (t SiteTitle), css [ logoImageStyle ] ] [] ]
-        , h3 [ css [ sectionSubtitleStyle ] ] [ text introTitle ]
+        , h2 [ css [ sectionSubtitleStyle ] ] [ text introTitle ]
         , p [ css [ sectionTextStyle ] ] [ text introMsg ]
         , p [ css [ buttonWrapperStyle ] ]
             [ a
@@ -104,7 +104,7 @@ viewIntro introTitle introMsg eventButtonText =
 viewResources : String -> String -> String -> String -> Html msg
 viewResources title subtitle description buttonText =
     section [ css [ sectionStyle, blueBackgroundStyle, resourcesSectionStyle ] ]
-        [ h3 [ css [ sectionTitleStyle ] ] [ text title ]
+        [ h2 [ css [ sectionTitleStyle ] ] [ text title ]
         , p [ css [ sectionSubtitleStyle ] ] [ text subtitle ]
         , p [ css [ sectionTextStyle ] ] [ text description ]
         , p
@@ -117,7 +117,7 @@ viewResources title subtitle description buttonText =
 viewFeatured : String -> String -> Html msg
 viewFeatured title buttonText =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
-        [ h3 [ css [ sectionTitleStyle ] ] [ text title ]
+        [ h2 [ css [ sectionTitleStyle ] ] [ text title ]
         , ul []
             [ li [] [ text "Featured event [fFf]" ]
             , li [] [ text "Featured event [fFf]" ]
@@ -136,11 +136,11 @@ viewFeatured title buttonText =
 viewLatestNews : String -> String -> Html msg
 viewLatestNews title buttonText =
     section [ css [ sectionStyle, whiteBackgroundStyle, newsSectionStyle ] ]
-        [ h3 [ css [ sectionTitleStyle ] ] [ text title ]
+        [ h2 [ css [ sectionTitleStyle ] ] [ text title ]
         , article [] [ text "News item title [fFf]" ]
         , p [ css [ buttonWrapperStyle ] ]
             [ a
-                [ href (TransRoutes.toAbsoluteUrl News)
+                [ href "/"
                 , css [ buttonStyle, pinkBackgroundStyle ]
                 ]
                 [ text (t NewsReadMore) ]
