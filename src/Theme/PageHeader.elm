@@ -2,7 +2,7 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, alignItems, backgroundColor, batch, block, bold, border, borderBottom, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, columnReverse, display, displayFlex, flexDirection, flexGrow, focus, fontSize, fontWeight, hex, hover, int, justifyContent, lighter, margin, margin2, marginRight, marginTop, none, padding, padding2, paddingBottom, paddingLeft, paddingTop, pct, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, width, zero)
+import Css exposing (Style, active, alignItems, backgroundColor, batch, block, bold, border, borderBottom, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, columnReverse, display, displayFlex, flexDirection, flexGrow, flexWrap, focus, fontSize, fontWeight, hex, hover, int, justifyContent, lighter, margin, margin2, marginRight, marginTop, none, padding, padding2, paddingBottom, paddingLeft, paddingTop, pct, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, width, wrap, zero)
 import Css.Media exposing (grid)
 import Css.Transitions exposing (easeIn, transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
@@ -160,6 +160,7 @@ navigationListStyle =
             [ flexDirection row
             , fontSize (rem 1.1)
             , paddingLeft (rem 0.5)
+            , flexWrap wrap
             ]
         ]
 
@@ -188,7 +189,8 @@ navigationLinkStyle =
         , borderBottomStyle solid
         , borderBottomColor pink
         , transition [ Css.Transitions.borderBottom 300, Css.Transitions.color 300 ]
-        , hover [ color white, borderBottomColor black ]
+        , hover [ color white ]
+        , withMediaTabletPortraitUp [ hover [ borderBottomColor black ] ]
         ]
 
 

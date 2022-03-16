@@ -30,9 +30,11 @@ type Key
       --- Index Page
     | IndexTitle
     | IndexMetaDescription
+    | IndexIntroTitle
     | IndexIntroMessage
     | IndexIntroButtonText
     | IndexResourcesHeading
+    | IndexResourcesSubheading
     | IndexResourcesDescription
     | IndexResourcesButtonText
     | IndexFeaturedHeader

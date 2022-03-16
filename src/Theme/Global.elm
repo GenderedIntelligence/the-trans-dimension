@@ -133,16 +133,16 @@ globalStyles =
             , withMediaMediumDesktopUp [ backgroundImage (url "/images/backgrounds/starfield-largest-1920.png"), backgroundSize (px 1920) ]
             ]
         , typeSelector "h1"
-            [ color blue
+            [ color darkBlue
             ]
         , typeSelector "h2"
-            [ color blue
+            [ color darkBlue
             ]
         , typeSelector "h3"
-            [ color blue
+            [ color darkBlue
             ]
         , typeSelector "h4"
-            [ color blue
+            [ color darkBlue
             ]
         , typeSelector "b"
             [ fontWeight (int 700)
