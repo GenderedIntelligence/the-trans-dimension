@@ -34,6 +34,7 @@ type Key
     | IndexIntroMessage
     | IndexIntroButtonText
     | IndexResourcesHeading
+    | IndexResourcesSubheading
     | IndexResourcesDescription
     | IndexResourcesButtonText
     | IndexFeaturedHeader
