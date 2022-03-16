@@ -86,5 +86,3 @@ type Key
     | ResourcesEmptyText
       --- Privacy
     | PrivacyTitle
-      --- Terms and Conditions
-    | TermsAndConditionsTitle
