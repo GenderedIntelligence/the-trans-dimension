@@ -2,7 +2,7 @@
 title: "Privacy Policy"
 ---
 
-The Trans Dimension is committed to protecting your privacy online. This page explains how we collect information via [THE WEBSITE] and what we do with it.
+The Trans Dimension is committed to protecting your privacy online. This page explains how we collect information via transdimension.uk and what we do with it.
 
 
 ## What data do we collect?
