@@ -159,7 +159,7 @@ t key =
             "We are proud to partner with a number of charities and organisations with a long track record of supporting the trans community."
 
         PartnersIntroDescription ->
-            "Some are trans-led organisations, while others are confirmed trans friendly — offering services, events, and much more."
+            "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by allies. They put on events, provide services and offer support for members of our community."
 
         PartnersListEmpty ->
             "[cCc] There are currently no partners"
