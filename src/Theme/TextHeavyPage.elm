@@ -11,7 +11,7 @@ view : String -> List (Html msg) -> Html msg
 view title body =
     div []
         [ section []
-            [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text title ]
+            [ h2 [ css [] ] [ text title ]
             ]
         , section [ css [ bodyStyle ] ] body
         ]

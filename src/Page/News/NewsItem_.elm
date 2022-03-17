@@ -102,7 +102,7 @@ view maybeUrl sharedModel static =
 
 viewHeader : String -> Html msg
 viewHeader headerText =
-    section [] [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text headerText ] ]
+    section [] [ h2 [ css [] ] [ text headerText ] ]
 
 
 viewArticle : Shared.News -> Html msg

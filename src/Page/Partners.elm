@@ -2,39 +2,21 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, backgroundColor, batch, block, bold, center, color, display, displayFlex, flexWrap, fontWeight, hover, justifyContent, margin, marginBottom, marginTop, none, padding, pct, rem, spaceBetween, textAlign, textDecoration, width, wrap)
+import Css exposing (Style, absolute, backgroundColor, batch, block, bold, borderRadius, center, color, display, displayFlex, flexWrap, fontSize, fontStyle, fontWeight, hover, inline, int, italic, justifyContent, lineHeight, margin, margin2, marginBottom, marginTop, none, padding, padding2, pct, position, px, relative, rem, spaceBetween, textAlign, textDecoration, top, width, wrap)
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h2, h3, li, p, section, text, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled exposing (Html, a, div, h1, h2, h3, img, li, p, section, text, ul)
+import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global as Theme exposing (darkBlue, pink, white)
+import Theme.Global as Theme exposing (darkBlue, pink, white, withMediaTabletPortraitUp)
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
-import Css exposing (padding2)
-import Css exposing (fontSize)
-import Css exposing (lineHeight)
-import Css exposing (fontStyle)
-import Css exposing (italic)
-import Css exposing (margin2)
-import Css exposing (int)
-import Css exposing (borderRadius)
-import Html.Styled exposing (h1)
-import Html.Styled exposing (img)
-import Html.Styled.Attributes exposing (src)
-import Html.Styled.Attributes exposing (alt)
-import Theme.Global exposing (withMediaTabletPortraitUp)
-import Css exposing (px)
-import Css exposing (inline)
-import Css exposing (position)
-import Css exposing (absolute)
-import Css exposing (top)
-import Css exposing (relative)
 
 
 type alias Model =
@@ -95,52 +77,9 @@ view :
 view maybeUrl sharedModel static =
     { title = t PartnersTitle
     , body =
-        [ viewHeader
-        , viewIntro
-        , viewPartners static
+        [ PageTemplate.view { title = t PartnersTitle, bigText = t PartnersIntroSummary, smallText = [ t PartnersIntroDescription ] } (viewPartners static)
         ]
     }
-
-
-viewHeader : Html msg
-viewHeader =
-    section [ css [ headerSectionStyle ]] [ h1 [ css [ headerLogoStyle ]] 
-                  [ img [ src "/images/logos/tdd_logo_with_strapline.svg"
-                        , alt (t SiteTitle)
-                        , css [ headerLogoImageStyle ]
-                        ] [] 
-                  ]
-               , h2 [ css [ Theme.pageHeadingStyle ] ] [ text (t PartnersTitle) ] ]
-
-headerSectionStyle : Style
-headerSectionStyle =
-    batch
-        [ position relative ]
-headerLogoStyle : Style
-headerLogoStyle =
-    batch
-        [ display none
-        , withMediaTabletPortraitUp
-            [ width (pct 100)
-            , display block
-            , textAlign center
-            , position absolute
-            , top (px 50)] 
-        ]
-
-headerLogoImageStyle : Style
-headerLogoImageStyle =
-    batch
-        [ width (px 268)
-        , display inline
-        ]
-
-viewIntro : Html msg
-viewIntro =
-    section [ css [ Theme.introBoxStyle ] ] 
-            [ p [ css [ Theme.introTextLargeStyle ] ] [ text (t PartnersIntroSummary) ]
-            , p [ css [ Theme.introTextSmallStyle ] ] [ text (t PartnersIntroDescription) ] 
-            ]
 
 
 viewPartners : StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams -> Html msg
@@ -168,10 +107,10 @@ viewPartner partner =
         ]
 
 
-
 viewMap : Html msg
 viewMap =
     div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
+
 
 featurePlaceholderStyle : Style
 featurePlaceholderStyle =
