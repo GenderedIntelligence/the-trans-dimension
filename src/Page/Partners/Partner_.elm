@@ -14,7 +14,8 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (pageHeadingStyle)
+import Theme.Global
+import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
 import View exposing (View)
 
@@ -101,25 +102,20 @@ view :
 view maybeUrl sharedModel static =
     { title = static.data.name
     , body =
-        [ viewHeader static.data
-        , viewInfo static.data
-
-        -- There is probably a way to use Typed Pages routes
-        , a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackStyle ] ] [ text (t BackToPartnersLinkText) ]
+        [ PageTemplate.view { title = t PartnersTitle, bigText = static.data.name, smallText = [] }
+            (div []
+                [ viewInfo static.data
+                , a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackStyle ] ] [ text (t BackToPartnersLinkText) ]
+                ]
+            )
         ]
     }
-
-
-viewHeader : Data.PlaceCal.Partners.Partner -> Html msg
-viewHeader partner =
-    section [] [ h2 [ css [ pageHeadingStyle ] ] [ text (t PartnersTitle) ] ]
 
 
 viewInfo : Data.PlaceCal.Partners.Partner -> Html msg
 viewInfo partner =
     section []
-        [ h3 [ css [ partnerHeadingStyle ] ] [ text partner.name ]
-        , p [] (Theme.TransMarkdown.markdownToHtml partner.description)
+        [ p [] (Theme.TransMarkdown.markdownToHtml partner.description)
         , p [ css [ featurePlaceholderStyle ] ] [ text "[fFf] partner contact info (from API?)" ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Partner event listing?" ]

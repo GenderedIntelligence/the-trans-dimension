@@ -87,7 +87,7 @@ view maybeUrl sharedModel static =
 viewHeader : String -> Html msg
 viewHeader title =
     section []
-        [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text title ]
+        [ h2 [ css [] ] [ text title ]
         ]
 
 

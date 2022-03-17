@@ -2,19 +2,20 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, backgroundColor, batch, block, bold, center, color, display, displayFlex, flexWrap, fontWeight, hover, justifyContent, margin, marginBottom, marginTop, none, padding, pct, rem, spaceBetween, textAlign, textDecoration, width, wrap)
+import Css exposing (Style, absolute, backgroundColor, batch, block, bold, borderRadius, center, color, display, displayFlex, flexWrap, fontSize, fontStyle, fontWeight, hover, inline, int, italic, justifyContent, lineHeight, margin, margin2, marginBottom, marginTop, none, padding, padding2, pct, position, px, relative, rem, spaceBetween, textAlign, textDecoration, top, width, wrap)
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h2, h3, li, p, section, text, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled exposing (Html, a, div, h1, h2, h3, img, li, p, section, text, ul)
+import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (darkBlue, pink, white)
+import Theme.Global as Theme exposing (darkBlue, pink, white, withMediaTabletPortraitUp)
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -76,21 +77,14 @@ view :
 view maybeUrl sharedModel static =
     { title = t PartnersTitle
     , body =
-        [ viewHeader
-        , viewIntro
-        , viewPartners static
+        [ PageTemplate.view
+            { title = t PartnersTitle
+            , bigText = t PartnersIntroSummary
+            , smallText = [ t PartnersIntroDescription ]
+            }
+            (viewPartners static)
         ]
     }
-
-
-viewHeader : Html msg
-viewHeader =
-    section [] [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text (t PartnersTitle) ] ]
-
-
-viewIntro : Html msg
-viewIntro =
-    section [] [ p [ css [ featurePlaceholderStyle ] ] [ text (t PartnersIntro) ] ]
 
 
 viewPartners : StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams -> Html msg

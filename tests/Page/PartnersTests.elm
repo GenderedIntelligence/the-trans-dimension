@@ -50,7 +50,7 @@ suite =
         , test "Has intro text" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartners
-                    |> Query.contains [ Html.text (t PartnersIntro) ]
+                    |> Query.contains [ Html.text (t PartnersIntroSummary) ]
         , test "Contains a list of all partners" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartners
