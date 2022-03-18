@@ -15,13 +15,14 @@ type alias PageIntro =
 
 view : PageIntro -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
 view intro maybeBoxContents maybeFooter =
-    main_ []
+    main_ [ css [ mainStyle ] ]
         [ viewHeader intro.title
         , div [ css [ contentWrapperStyle ] ]
             [ viewIntro intro.bigText intro.smallText
             , case maybeBoxContents of
                 Just boxContents ->
                     div [ css [ contentContainerStyle ] ] [ boxContents ]
+
                 Nothing ->
                     text ""
             ]
@@ -111,6 +112,7 @@ pageHeadingStyle =
             , backgroundRepeat noRepeat
             , backgroundImage (url "/images/illustrations/320px/generic_header.png")
             , top (px -130)
+            , margin2 (rem 0) (rem -0.75)
             , withMediaMediumDesktopUp
                 [ backgroundImage (url "/images/illustrations/1920px/generic_header.png")
                 , backgroundSize (px 1920)
@@ -120,18 +122,21 @@ pageHeadingStyle =
                 [ backgroundImage (url "/images/illustrations/1366px/generic_header.png")
                 , backgroundSize (px 1366)
                 , height (px 486)
+                , margin2 (rem 0) (calc (vw -50) minus (px -575))
                 ]
             , withMediaTabletLandscapeUp
                 [ backgroundImage (url "/images/illustrations/1024px/generic_header.png")
                 , backgroundSize (px 1200)
                 , height (px 499)
                 , top (px -100)
+                , margin2 (rem 0) (rem -1.5)
                 ]
             , withMediaTabletPortraitUp
                 [ backgroundImage (url "/images/illustrations/768px/generic_header.png")
                 , backgroundSize (px 900)
                 , height (px 432)
                 , top (px -75)
+                , margin2 (rem 0) (rem -2)
                 ]
             ]
         , withMediaTabletLandscapeUp
@@ -184,17 +189,12 @@ introTextSmallStyle =
         ]
 
 
-contentWrapperStyle : Style
-contentWrapperStyle =
+mainStyle : Style
+mainStyle =
     batch
         [ maxWidth (px 1150)
-        , boxSizing borderBox
         , margin (rem 0.75)
-        , borderRadius (rem 0.3)
-        , backgroundColor darkBlue
-        , borderColor pink
-        , borderStyle solid
-        , borderWidth (px 1)
+        , boxSizing borderBox
         , position relative
         , marginBottom (px 200)
         , after
@@ -246,6 +246,17 @@ contentWrapperStyle =
             [ margin4 (rem 1) (rem 1.5) (px 180) (rem 1.5) ]
         , withMediaTabletPortraitUp
             [ margin4 (rem 1) (rem 2) (px 150) (rem 2) ]
+        ]
+
+
+contentWrapperStyle : Style
+contentWrapperStyle =
+    batch
+        [ borderRadius (rem 0.3)
+        , backgroundColor darkBlue
+        , borderColor pink
+        , borderStyle solid
+        , borderWidth (px 1)
         ]
 
 
