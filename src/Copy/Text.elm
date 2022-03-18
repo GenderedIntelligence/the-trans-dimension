@@ -135,8 +135,14 @@ t key =
         EventsMetaDescription ->
             "[cCc] Events description"
 
+        EventsSummary ->
+            "Events & activities upcoming in your area."
+
         EventsSubHeading ->
             "[cCc] Upcoming events"
+
+        EventsSubscribeText ->
+            "[cCc] Subscribe with iCal / Google Calendar etc"
 
         --- Event Page
         EventTitle eventName ->

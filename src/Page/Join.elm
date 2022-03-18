@@ -75,7 +75,7 @@ view :
 view maybeUrl sharedModel static =
     { title = t JoinTitle
     , body =
-        [ PageTemplate.view { title = t JoinTitle, bigText = t JoinDescription, smallText = [] } viewForm
+        [ PageTemplate.view { title = t JoinTitle, bigText = t JoinDescription, smallText = [] } viewForm Nothing
         ]
     }
 

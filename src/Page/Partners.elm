@@ -83,6 +83,7 @@ view maybeUrl sharedModel static =
             , smallText = [ t PartnersIntroDescription ]
             }
             (viewPartners static)
+            Nothing
         ]
     }
 
