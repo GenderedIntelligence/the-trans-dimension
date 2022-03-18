@@ -13,13 +13,17 @@ type alias PageIntro =
     { title : String, bigText : String, smallText : List String }
 
 
-view : PageIntro -> Html msg -> Maybe (Html msg) -> Html msg
-view intro contents maybeFooter =
+view : PageIntro -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
+view intro maybeBoxContents maybeFooter =
     main_ []
         [ viewHeader intro.title
         , div [ css [ contentWrapperStyle ] ]
             [ viewIntro intro.bigText intro.smallText
-            , div [ css [ contentContainerStyle ] ] [ contents ]
+            , case maybeBoxContents of
+                Just boxContents ->
+                    div [ css [ contentContainerStyle ] ] [ boxContents ]
+                Nothing ->
+                    text ""
             ]
         , case maybeFooter of
             Just footerContent ->

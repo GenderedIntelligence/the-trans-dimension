@@ -204,7 +204,7 @@ t key =
             "[cCc] Read more"
 
         NewsDescription ->
-            "[cCc] News listing for The Trans Dimension"
+            "Updates & articles from The Trans Dimension."
 
         --- News Single Article Page
         NewsItemTitle title ->

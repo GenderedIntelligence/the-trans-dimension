@@ -16,6 +16,8 @@ import Pages.Url
 import Shared
 import Theme.Global
 import View exposing (View)
+import Theme.PageTemplate as PageTemplate
+import Html.Styled exposing (div)
 
 
 type alias Model =
@@ -76,19 +78,9 @@ view :
 view maybeUrl sharedModel static =
     { title = t NewsTitle
     , body =
-        [ viewHeader (t NewsTitle)
-        , viewNewsList static
-        , viewPagination
-        ]
+        [ PageTemplate.view { title = (t NewsTitle), bigText = (t NewsDescription), smallText = []} Nothing (Just (div [] [ viewNewsList static
+        , viewPagination ]))]
     }
-
-
-viewHeader : String -> Html msg
-viewHeader title =
-    section []
-        [ h2 [ css [] ] [ text title ]
-        ]
-
 
 viewNewsList : StaticPayload (List Shared.News) RouteParams -> Html Msg
 viewNewsList news =
