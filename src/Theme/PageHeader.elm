@@ -156,6 +156,7 @@ navigationListStyle =
         [ displayFlex
         , flexDirection column
         , flexGrow (int 2)
+        , display none
         , withMediaTabletPortraitUp
             [ flexDirection row
             , fontSize (rem 1.1)

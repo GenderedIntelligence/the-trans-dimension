@@ -75,7 +75,7 @@ view :
 view maybeUrl sharedModel static =
     { title = t ResourcesTitle
     , body =
-        [ PageTemplate.view { title = t ResourcesTitle, bigText = t ResourcesIntro, smallText = [] } (viewResources static.data)
+        [ PageTemplate.view { title = t ResourcesTitle, bigText = t ResourcesIntro, smallText = [] } (viewResources static.data) Nothing
         ]
     }
 

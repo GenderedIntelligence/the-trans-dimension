@@ -135,6 +135,9 @@ t key =
         EventsMetaDescription ->
             "[cCc] Events description"
 
+        EventsSummary ->
+            "Events & activities upcoming in your area."
+
         EventsSubHeading ->
             "[cCc] Upcoming events"
 

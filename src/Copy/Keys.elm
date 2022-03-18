@@ -47,6 +47,7 @@ type Key
       --- Events Page
     | EventsTitle
     | EventsMetaDescription
+    | EventsSummary
     | EventsSubHeading
       --- Event Page
     | EventTitle String

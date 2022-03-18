@@ -108,6 +108,7 @@ view maybeUrl sharedModel static =
                 , a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackStyle ] ] [ text (t BackToPartnersLinkText) ]
                 ]
             )
+            Nothing
         ]
     }
 
