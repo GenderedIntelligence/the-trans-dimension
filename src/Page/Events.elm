@@ -138,14 +138,14 @@ viewEvent event =
 
                     --, p [ css [ eventParagraphStyle ] ] [ text (Data.PlaceCal.Events.realmToString event.realm) ]
                     , p [ css [ eventParagraphStyle ] ] [ text event.location ]
-                    , p [ css [ eventParagraphStyle ] ] [ text "by Event partner" ]
+                    , p [ css [ eventParagraphStyle ] ] [ text ("by " ++ event.partnerId) ] -- [fFf] get partner name from id
                     ]
                 ]
             , div []
                 [ time [ css [ eventDateStyle ] ]
                     -- TransDate.humanDateFromPosix event.startDatetime
-                    [ span [ css [ eventDayStyle ] ] [ text "30" ]
-                    , span [ css [ eventMonthStyle ] ] [ text "Jan" ]
+                    [ span [ css [ eventDayStyle ] ] [ text "30" ] -- [fFf] need to add some time functions
+                    , span [ css [ eventMonthStyle ] ] [ text "Jan" ] -- [fFf] need to add some time functions
                     ]
                 ]
             ]
@@ -154,7 +154,12 @@ viewEvent event =
 
 viewSubscribe : Html msg
 viewSubscribe =
-    div [ css [ subscribeBoxStyle ] ] [ p [ css [ subscribeTextStyle ] ] [ a [ css [ subscribeLinkStyle ] ] [ text "[cCc] Subscribe with iCal / Google Calendar etc" ] ] ]
+    div
+        [ css [ subscribeBoxStyle ] ]
+        [ p
+            [ css [ subscribeTextStyle ] ]
+            [ a [ css [ subscribeLinkStyle ] ] [ text (t EventsSubscribeText) ] ]
+        ]
 
 
 eventListStyle : Style

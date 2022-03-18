@@ -141,6 +141,9 @@ t key =
         EventsSubHeading ->
             "[cCc] Upcoming events"
 
+        EventsSubscribeText ->
+            "[cCc] Subscribe with iCal / Google Calendar etc"
+
         --- Event Page
         EventTitle eventName ->
             "[cCc] Event - " ++ eventName
