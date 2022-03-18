@@ -14,19 +14,19 @@ type alias PageIntro =
 
 
 view : PageIntro -> Html msg -> Maybe (Html msg) -> Html msg
-view intro contents footer =
+view intro contents maybeFooter =
     main_ []
         [ viewHeader intro.title
         , div [ css [ contentWrapperStyle ] ]
             [ viewIntro intro.bigText intro.smallText
             , div [ css [ contentContainerStyle ] ] [ contents ]
             ]
-        , case footer of
+        , case maybeFooter of
             Just footerContent ->
                 footerContent
 
             Nothing ->
-                span [] [ text "" ]
+                text ""
         ]
 
 
