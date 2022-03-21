@@ -16,7 +16,7 @@ In connection with services offered through this site we may ask you to submit i
 
 ### The Trans Dimension collects anonymous analytics data
 
-We [Plausable Analytics](https://plausible.io/privacy) to gather statistical data about the use of transdimension.uk. That data isn't linked to you in any way.
+We use [Plausable Analytics](https://plausible.io/privacy) to gather statistical data about the use of transdimension.uk. That data isn't linked to you in any way.
 
 
 ## How is the information used?
