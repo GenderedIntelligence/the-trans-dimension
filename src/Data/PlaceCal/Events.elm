@@ -3,6 +3,7 @@ module Data.PlaceCal.Events exposing (Event, Realm(..), emptyEvent, eventsData, 
 import Api
 import DataSource
 import DataSource.Http
+import Helpers.TransDate as TransDate
 import Json.Encode
 import OptimizedDecoder
 import OptimizedDecoder.Pipeline
@@ -115,20 +116,15 @@ decode =
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ]
             OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "startDate" ]
-            posixDecoder
+            TransDate.isoDateStringDecoder
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "endDate" ]
-            posixDecoder
+            TransDate.isoDateStringDecoder
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "address", "postalCode" ]
             OptimizedDecoder.string
         -- |> OptimizedDecoder.Pipeline.requiredAt [ "node", "realm" ]
         --    realmDecoder
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "organizer", "id" ]
             OptimizedDecoder.string
-
-
-posixDecoder : OptimizedDecoder.Decoder Time.Posix
-posixDecoder =
-    OptimizedDecoder.string |> OptimizedDecoder.map (\str -> Time.millisToPosix (Maybe.withDefault 0 (String.toInt str)))
 
 
 realmDecoder : OptimizedDecoder.Decoder Realm
