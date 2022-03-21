@@ -88,17 +88,23 @@ t key =
         IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
 
+        IndexIntroTitle ->
+            "Trusted, accessible, trans-friendly spaces. Always expanding."
+
         IndexIntroMessage ->
-            "[cCc] Key introductory message"
+            "The Trans Dimension is an online community hub connecting trans communities across the UK. We collate news, events and services by and for trans people."
 
         IndexIntroButtonText ->
-            "[cCc] Check out our events"
+            "See what's on near you"
 
         IndexResourcesHeading ->
-            "[cCc] Need help?"
+            "Need help?"
+
+        IndexResourcesSubheading ->
+            "Check out our resources."
 
         IndexResourcesDescription ->
-            "[cCc] Short description of this section"
+            "We've collated a selection of useful links and services both run for and led by trans people."
 
         IndexResourcesButtonText ->
             "[cCc] Resources"
@@ -113,7 +119,7 @@ t key =
             "[cCc] Latest update"
 
         IndexNewsButtonText ->
-            "[cCc] More news"
+            "View more news"
 
         -- About Page (NOTE: also comes from md)
         AboutTitle ->
@@ -129,8 +135,14 @@ t key =
         EventsMetaDescription ->
             "[cCc] Events description"
 
+        EventsSummary ->
+            "Events & activities upcoming in your area."
+
         EventsSubHeading ->
             "[cCc] Upcoming events"
+
+        EventsSubscribeText ->
+            "[cCc] Subscribe with iCal / Google Calendar etc"
 
         --- Event Page
         EventTitle eventName ->
@@ -149,8 +161,11 @@ t key =
         PartnersMetaDescription ->
             "[cCc] Partners description"
 
-        PartnersIntro ->
-            "[cCc] Introduction box / explainer"
+        PartnersIntroSummary ->
+            "We are proud to partner with a number of charities and organisations with a long track record of supporting the trans community."
+
+        PartnersIntroDescription ->
+            "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
 
         PartnersListEmpty ->
             "[cCc] There are currently no partners"

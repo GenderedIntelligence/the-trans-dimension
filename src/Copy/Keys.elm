@@ -30,9 +30,11 @@ type Key
       --- Index Page
     | IndexTitle
     | IndexMetaDescription
+    | IndexIntroTitle
     | IndexIntroMessage
     | IndexIntroButtonText
     | IndexResourcesHeading
+    | IndexResourcesSubheading
     | IndexResourcesDescription
     | IndexResourcesButtonText
     | IndexFeaturedHeader
@@ -45,7 +47,9 @@ type Key
       --- Events Page
     | EventsTitle
     | EventsMetaDescription
+    | EventsSummary
     | EventsSubHeading
+    | EventsSubscribeText
       --- Event Page
     | EventTitle String
     | EventMetaDescription String
@@ -53,7 +57,8 @@ type Key
       --- Partners Page
     | PartnersTitle
     | PartnersMetaDescription
-    | PartnersIntro
+    | PartnersIntroSummary
+    | PartnersIntroDescription
     | PartnersListEmpty
     | PartnersLinkToPartner
       --- Partner Page

@@ -2,19 +2,20 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, backgroundColor, batch, block, bold, center, color, display, displayFlex, flexWrap, fontWeight, hover, justifyContent, margin, marginBottom, marginTop, none, padding, pct, rem, spaceBetween, textAlign, textDecoration, width, wrap)
+import Css exposing (Style, absolute, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inline, inlineBlock, int, italic, justifyContent, letterSpacing, lineHeight, margin, margin2, marginBottom, marginRight, marginTop, minus, none, padding, padding2, pct, position, px, relative, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, top, uppercase, width, wrap)
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h2, h3, li, p, section, text, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, img, li, p, section, span, text, ul)
+import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (darkBlue, pink, white)
+import Theme.Global as Theme exposing (darkBlue, darkPurple, pink, purple, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -76,27 +77,22 @@ view :
 view maybeUrl sharedModel static =
     { title = t PartnersTitle
     , body =
-        [ viewHeader
-        , viewIntro
-        , viewPartners static
+        [ PageTemplate.view
+            { title = t PartnersTitle
+            , bigText = t PartnersIntroSummary
+            , smallText = [ t PartnersIntroDescription ]
+            }
+            (viewPartners static)
+            Nothing
         ]
     }
-
-
-viewHeader : Html msg
-viewHeader =
-    section [] [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text (t PartnersTitle) ] ]
-
-
-viewIntro : Html msg
-viewIntro =
-    section [] [ p [ css [ featurePlaceholderStyle ] ] [ text (t PartnersIntro) ] ]
 
 
 viewPartners : StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams -> Html msg
 viewPartners static =
     section []
         [ div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Filters" ]
+        , h3 [ css [ partnersListTitleStyle ] ] [ text "All partners" ]
         , if List.length static.data > 0 then
             ul [ css [ listStyle ] ] (List.map (\partner -> viewPartner partner) static.data)
 
@@ -109,11 +105,16 @@ viewPartners static =
 viewPartner : Data.PlaceCal.Partners.Partner -> Html msg
 viewPartner partner =
     li [ css [ listItemStyle ] ]
-        [ h3 []
-            [ text partner.name ]
-        , p []
-            [ text partner.summary
-            , a [ href (TransRoutes.toAbsoluteUrl (Partner partner.id)), css [ readMoreStyle ] ] [ text (t PartnersLinkToPartner) ]
+        [ div [ css [ partnerTopRowStyle ] ]
+            [ h4 [ css [ partnerNameStyle ] ]
+                [ a [ href (TransRoutes.toAbsoluteUrl (Partner partner.id)), css [ partnerNameLink ] ] [ text partner.name ] ]
+            , span [ css [ partnerTagStyle ] ] [ text "[fFf]]" ] --- [fFf] need to wait on API for this
+            ]
+        , div [ css [ partnerBottomRowStyle ] ]
+            [ p [ css [ partnerDescriptionStyle ] ]
+                [ text partner.summary
+                ]
+            , span [] [ text "[fFf]" ] --- [fFf] the icon debate...
             ]
         ]
 
@@ -123,41 +124,105 @@ viewMap =
     div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
 
 
-featurePlaceholderStyle : Style
-featurePlaceholderStyle =
+partnersListTitleStyle : Style
+partnersListTitleStyle =
     batch
-        [ textAlign center
-        , fontWeight bold
-        , marginBottom (rem 2)
-        ]
-
-
-readMoreStyle : Style
-readMoreStyle =
-    batch
-        [ display block
-        , backgroundColor darkBlue
-        , color white
-        , textDecoration none
-        , padding (rem 0.5)
-        , marginTop (rem 1)
-        , hover [ backgroundColor pink, color darkBlue ]
+        [ color white
+        , textTransform uppercase
+        , fontSize (rem 1.2)
+        , letterSpacing (px 1.9)
+        , textAlign center
+        , margin2 (rem 2) (rem 1)
+        , withMediaTabletLandscapeUp [ marginBottom (rem 0) ]
         ]
 
 
 listStyle : Style
 listStyle =
     batch
-        [ displayFlex
-        , flexWrap wrap
-        , justifyContent spaceBetween
+        [ padding2 (rem 0) (rem 0.5)
+        , withMediaSmallDesktopUp [ padding (rem 0) ]
+        , withMediaTabletLandscapeUp [ displayFlex, flexWrap wrap, padding2 (rem 0) (rem 2) ]
         ]
 
 
 listItemStyle : Style
 listItemStyle =
     batch
-        [ margin (rem 1)
-        , width (pct 30)
-        , textAlign center
+        [ withMediaTabletLandscapeUp [ width (calc (pct 50) minus (rem 2)) ]
+        , withMediaTabletPortraitUp [ margin2 (rem 1.5) (rem 1) ]
+        ]
+
+
+partnerTopRowStyle : Style
+partnerTopRowStyle =
+    batch
+        [ displayFlex
+        , justifyContent spaceBetween
+        , alignItems flexEnd
+        , padding2 (rem 0.5) (rem 0)
+        , borderBottomColor pink
+        , borderBottomWidth (px 2)
+        , borderBottomStyle solid
+        , withMediaTabletLandscapeUp [ padding2 (rem 0.75) (rem 0) ]
+        ]
+
+
+partnerBottomRowStyle : Style
+partnerBottomRowStyle =
+    batch
+        [ displayFlex
+        , justifyContent spaceBetween
+        , padding2 (rem 0.5) (rem 0)
+        , withMediaTabletLandscapeUp [ padding2 (rem 0.75) (rem 0) ]
+        ]
+
+
+partnerNameStyle : Style
+partnerNameStyle =
+    batch
+        [ color white
+        , fontSize (rem 1.2)
+        , fontStyle italic
+        , withMediaTabletPortraitUp [ fontSize (rem 1.5) ]
+        ]
+
+
+partnerNameLink : Style
+partnerNameLink =
+    batch
+        [ textDecoration none
+        , color white
+        ]
+
+
+partnerTagStyle : Style
+partnerTagStyle =
+    batch
+        [ backgroundColor darkPurple
+        , color pink
+        , display inlineBlock
+        , padding2 (rem 0.25) (rem 0.5)
+        , borderRadius (rem 0.3)
+        , fontWeight (int 600)
+        , fontSize (rem 0.877777)
+        ]
+
+
+partnerDescriptionStyle : Style
+partnerDescriptionStyle =
+    batch
+        [ fontSize (rem 0.8777)
+        , marginRight (rem 1)
+        , withMediaTabletPortraitUp [ fontSize (rem 1.2) ]
+        ]
+
+
+featurePlaceholderStyle : Style
+featurePlaceholderStyle =
+    batch
+        [ textAlign center
+        , fontWeight bold
+        , marginBottom (rem 2)
+        , backgroundColor purple
         ]

@@ -13,6 +13,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -74,25 +75,9 @@ view :
 view maybeUrl sharedModel static =
     { title = t ResourcesTitle
     , body =
-        [ viewHeader (t ResourcesTitle)
-        , viewIntro (t ResourcesIntro)
-        , viewResources static.data
+        [ PageTemplate.view { title = t ResourcesTitle, bigText = t ResourcesIntro, smallText = [] } (viewResources static.data) Nothing
         ]
     }
-
-
-viewHeader : String -> Html msg
-viewHeader title =
-    section []
-        [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text title ]
-        ]
-
-
-viewIntro : String -> Html msg
-viewIntro intro =
-    section []
-        [ p [ css [] ] [ text intro ]
-        ]
 
 
 viewResources : Data -> Html msg

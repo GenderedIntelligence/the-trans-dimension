@@ -24,8 +24,7 @@ placeholder moduleName =
     { title = "Placeholder - " ++ moduleName
     , body =
         [ h1
-            [ css [ Theme.Global.pageHeadingStyle ]
-            ]
+            []
             [ text moduleName ]
         ]
     }

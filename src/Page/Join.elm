@@ -13,6 +13,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -74,23 +75,9 @@ view :
 view maybeUrl sharedModel static =
     { title = t JoinTitle
     , body =
-        [ viewHeader (t JoinTitle)
-        , viewDescription (t JoinDescription)
-        , viewForm
+        [ PageTemplate.view { title = t JoinTitle, bigText = t JoinDescription, smallText = [] } viewForm Nothing
         ]
     }
-
-
-viewHeader : String -> Html msg
-viewHeader title =
-    section []
-        [ h2 [ css [ Theme.Global.pageHeadingStyle ] ] [ text title ]
-        ]
-
-
-viewDescription : String -> Html msg
-viewDescription description =
-    section [] [ p [] [ text description ] ]
 
 
 viewForm : Html msg

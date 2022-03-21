@@ -1,8 +1,8 @@
-module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, darkPurple, generateId, globalStyles, gridStyle, lightPink, maxMobile, oneColumn, pageHeadingStyle, pink, purple, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, darkPurple, generateId, globalStyles, gridStyle, lightPink, maxMobile, oneColumn, pink, purple, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, calc, center, color, displayFlex, flexWrap, fontFamilies, fontSize, fontWeight, hex, int, margin2, marginTop, maxWidth, minus, none, outline, padding2, pct, px, rem, repeat, sansSerif, start, textAlign, url, width, wrap, zero)
+import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, start, textAlign, top, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)
-import Css.Media as Media exposing (maxWidth, minWidth, only, screen, withMedia)
+import Css.Media as Media exposing (only, screen, withMedia)
 import Html.Styled exposing (Html, div, text)
 import Html.Styled.Attributes exposing (css, id)
 
@@ -133,16 +133,16 @@ globalStyles =
             , withMediaMediumDesktopUp [ backgroundImage (url "/images/backgrounds/starfield-largest-1920.png"), backgroundSize (px 1920) ]
             ]
         , typeSelector "h1"
-            [ color blue
+            [ color darkBlue
             ]
         , typeSelector "h2"
-            [ color blue
+            [ color darkBlue
             ]
         , typeSelector "h3"
-            [ color blue
+            [ color darkBlue
             ]
         , typeSelector "h4"
-            [ color blue
+            [ color darkBlue
             ]
         , typeSelector "b"
             [ fontWeight (int 700)
@@ -213,22 +213,6 @@ threeColumn =
 verticalSpacing : Float -> Html msg
 verticalSpacing num =
     div [ css [ margin2 (rem num) zero ] ] []
-
-
-{-| For a top header, likely an h1
--}
-pageHeadingStyle : Style
-pageHeadingStyle =
-    batch
-        [ fontSize (rem 1.8)
-        , outline none
-        , padding2 (rem 2) zero
-        , textAlign center
-        , withMediaTabletPortraitUp
-            [ fontSize (rem 2.5) ]
-        , withMediaTabletLandscapeUp
-            [ fontSize (rem 2.5) ]
-        ]
 
 
 
