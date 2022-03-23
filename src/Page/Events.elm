@@ -143,9 +143,10 @@ viewEvent event =
                 ]
             , div []
                 [ time [ css [ eventDateStyle ] ]
-                    -- TransDate.humanDateFromPosix event.startDatetime
-                    [ span [ css [ eventDayStyle ] ] [ text "30" ] -- [fFf] need to add some time functions
-                    , span [ css [ eventMonthStyle ] ] [ text "Jan" ] -- [fFf] need to add some time functions
+                    [ span [ css [ eventDayStyle ] ]
+                        [ text (TransDate.humanDayFromPosix event.startDatetime) ]
+                    , span [ css [ eventMonthStyle ] ]
+                        [ text (TransDate.humanShortMonthFromPosix event.startDatetime) ]
                     ]
                 ]
             ]

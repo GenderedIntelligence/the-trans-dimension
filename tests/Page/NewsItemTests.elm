@@ -24,7 +24,7 @@ viewParamsWithNewsItem =
         , title = "News Item Title"
         , summary = "News item summary"
         , body = "The news item body. Some more lines about news."
-        , datetime = Time.millisToPosix 0
+        , datetime = Time.millisToPosix 5140800000
         , author = "Joe News"
         }
     , path = Path.fromString "news/1"
@@ -56,7 +56,7 @@ suite =
         , test "Contains Date info" <|
             \_ ->
                 viewBodyHtml viewParamsWithNewsItem
-                    |> Query.contains [ Html.text "Published on 1st January 1970" ]
+                    |> Query.contains [ Html.text "Published on 1st March 1970" ]
         , test "Contains byline" <|
             \_ ->
                 viewBodyHtml viewParamsWithNewsItem
