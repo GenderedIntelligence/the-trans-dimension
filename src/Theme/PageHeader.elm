@@ -8,6 +8,8 @@ import Css.Transitions exposing (easeIn, transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href)
+import Html.Styled.Events exposing (onClick)
+import Messages exposing (Msg(..))
 import Theme.Global as Theme exposing (black, blue, darkBlue, pink, purple, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
@@ -17,11 +19,11 @@ headerNavigationItems =
     [ Home, Partners, Events, News, About, Resources ]
 
 
-viewPageHeader : Html msg
-viewPageHeader =
+viewPageHeader : Bool -> Html Msg
+viewPageHeader showMobileMenu =
     header [ css [ headerStyle ] ]
         [ div [ css [ barStyle ] ]
-            [ viewPageHeaderNavigation headerNavigationItems
+            [ viewPageHeaderNavigation showMobileMenu headerNavigationItems
             , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
             ]
         , div [ css [ titleBarStyle ] ]
@@ -31,24 +33,34 @@ viewPageHeader =
         ]
 
 
-viewPageHeaderTitle : String -> String -> Html msg
+viewPageHeaderTitle : String -> String -> Html Msg
 viewPageHeaderTitle pageTitle strapLine =
     div [ css [ titleStyle ] ]
         [ h1 [] [ Theme.Logo.view ]
         ]
 
 
-viewPageHeaderNavigation : List Route -> Html msg
-viewPageHeaderNavigation listItems =
+viewPageHeaderNavigation : Bool -> List Route -> Html Msg
+viewPageHeaderNavigation showMobileMenu listItems =
     nav []
-        [ ul [ css [ navigationListStyle ] ]
+        [ ul
+            [ css
+                ([ navigationListStyle ]
+                    ++ (if showMobileMenu then
+                            []
+
+                        else
+                            [ display none ]
+                       )
+                )
+            ]
             (List.map viewHeaderNavigationItem
                 listItems
             )
         ]
 
 
-viewHeaderNavigationItem : TransRoutes.Route -> Html msg
+viewHeaderNavigationItem : TransRoutes.Route -> Html Msg
 viewHeaderNavigationItem route =
     li [ css [ navigationListItemStyle ] ]
         [ a [ href (TransRoutes.toAbsoluteUrl route), css [ navigationLinkStyle ] ]
@@ -57,17 +69,23 @@ viewHeaderNavigationItem route =
         ]
 
 
-viewPageHeaderAsk : String -> String -> Html msg
+viewPageHeaderAsk : String -> String -> Html Msg
 viewPageHeaderAsk copyText linkTo =
     div [ css [ askStyle ] ]
         [ a [ href linkTo, css [ askButtonStyle ] ] [ text copyText ]
         ]
 
 
-viewPageHeaderMenuButton : String -> Html msg
+viewPageHeaderMenuButton : String -> Html Msg
 viewPageHeaderMenuButton buttonText =
     div [ css [ menuButtonStyle ] ]
-        [ button [ css [ menuButtonButtonStyle ] ] [ span [ css [ buttonTextStyle ] ] [ text buttonText ], span [ css [ buttonCrossStyle ] ] [ text "+" ] ]
+        [ button
+            [ onClick ToggleMenu
+            , css [ menuButtonButtonStyle ]
+            ]
+            [ span [ css [ buttonTextStyle ] ] [ text buttonText ]
+            , span [ css [ buttonCrossStyle ] ] [ text "+" ]
+            ]
         ]
 
 
@@ -156,7 +174,6 @@ navigationListStyle =
         [ displayFlex
         , flexDirection column
         , flexGrow (int 2)
-        , display none
         , withMediaTabletPortraitUp
             [ flexDirection row
             , fontSize (rem 1.1)
