@@ -22,8 +22,8 @@ viewParamsWithEvent =
         , name = "Event name"
         , description = "Event description"
         , summary = "Event summary"
-        , startDatetime = Time.millisToPosix 0
-        , endDatetime = Time.millisToPosix 0
+        , startDatetime = Time.millisToPosix 1645448400000
+        , endDatetime = Time.millisToPosix 1645455600000
         , location = "Event location"
 
         --, realm = Online
@@ -58,14 +58,14 @@ suite =
         , test "Contains Date info" <|
             \_ ->
                 viewBodyHtml viewParamsWithEvent
-                    |> Query.contains [ Html.text "1st January 1970" ]
+                    |> Query.contains [ Html.text "21st February 2022" ]
         , test "Contains time info" <|
             \_ ->
                 viewBodyHtml viewParamsWithEvent
                     |> Query.contains
-                        [ Html.text "12:00am"
+                        [ Html.text "1:00pm"
                         , Html.text " - "
-                        , Html.text "12:00am"
+                        , Html.text "3:00pm"
                         ]
 
         -- , test "Contains venue type info" <|

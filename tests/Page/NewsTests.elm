@@ -67,11 +67,11 @@ suite =
                     |> Query.contains
                         [ Html.text "Some news"
                         , Html.text "News news news"
-                        , Html.text "1st January 1970"
+                        , Html.text "21st February 2022"
                         , Html.text "GFSC"
                         , Html.text "Big news!"
                         , Html.text "Lots of news"
-                        , Html.text "2nd January 1970"
+                        , Html.text "22nd February 2022"
                         ]
         , test "Does not contain list if there are no events" <|
             \_ ->
