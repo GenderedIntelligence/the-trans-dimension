@@ -1,4 +1,4 @@
-module Data.PlaceCal.Partners exposing (Partner, emptyPartner, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Partner, emptyPartner, partnersData)
 
 import Api
 import DataSource
@@ -14,11 +14,11 @@ type alias Partner =
     , name : String
     , summary : String
     , description : String
-    , address : Maybe PartnerAddress
+    , address : Maybe Address
     }
 
 
-type alias PartnerAddress =
+type alias Address =
     { postalCode : String }
 
 
@@ -91,7 +91,7 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.optionalAt [ "node", "address" ] (OptimizedDecoder.map Just addressDecoder) Nothing
 
 
-addressDecoder : OptimizedDecoder.Decoder PartnerAddress
+addressDecoder : OptimizedDecoder.Decoder Address
 addressDecoder =
-    OptimizedDecoder.succeed PartnerAddress
+    OptimizedDecoder.succeed Address
         |> OptimizedDecoder.Pipeline.requiredAt [ "postalCode" ] OptimizedDecoder.string

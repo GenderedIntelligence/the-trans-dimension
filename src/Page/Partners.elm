@@ -108,7 +108,7 @@ viewPartner partner =
         [ div [ css [ partnerTopRowStyle ] ]
             [ h4 [ css [ partnerNameStyle ] ]
                 [ a [ href (TransRoutes.toAbsoluteUrl (Partner partner.id)), css [ partnerNameLink ] ] [ text partner.name ] ]
-            , span [ css [ partnerTagStyle ] ] [ text "[fFf]]" ] --- [fFf] need to wait on API for this
+            , viewMaybePostalCode partner.address
             ]
         , div [ css [ partnerBottomRowStyle ] ]
             [ p [ css [ partnerDescriptionStyle ] ]
@@ -122,6 +122,31 @@ viewPartner partner =
 viewMap : Html msg
 viewMap =
     div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
+
+
+viewMaybePostalCode : Maybe Data.PlaceCal.Partners.Address -> Html msg
+viewMaybePostalCode maybeAddress =
+    case maybeAddress of
+        Just address ->
+            span [ css [ partnerTagStyle ] ]
+                [ text (areaDistrictString address)
+                ]
+
+        Nothing ->
+            text ""
+
+
+areaDistrictString : Data.PlaceCal.Partners.Address -> String
+areaDistrictString address =
+    String.split " " address.postalCode
+        |> List.head
+        |> Maybe.withDefault ""
+
+
+
+---------
+-- Styles
+---------
 
 
 partnersListTitleStyle : Style
