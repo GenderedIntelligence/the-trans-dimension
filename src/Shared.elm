@@ -1,4 +1,4 @@
-module Shared exposing (Data, Model, Msg(..), News, SharedMsg(..), data, emptyNews, template)
+module Shared exposing (Data, Model, Msg, News, SharedMsg, data, emptyNews, template)
 
 import Browser.Navigation
 import Data.PlaceCal.Events
@@ -7,6 +7,7 @@ import DataSource
 import Html
 import Html.Attributes
 import Html.Styled
+import Messages exposing (Msg(..), SharedMsg(..))
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
@@ -28,15 +29,6 @@ template =
     , subscriptions = subscriptions
     , onPageChange = Just OnPageChange
     }
-
-
-type Msg
-    = OnPageChange
-        { path : Path
-        , query : Maybe String
-        , fragment : Maybe String
-        }
-    | SharedMsg SharedMsg
 
 
 
@@ -77,8 +69,12 @@ emptyNews =
 ----------------------------
 
 
-type SharedMsg
-    = NoOp
+type alias Msg =
+    Messages.Msg
+
+
+type alias SharedMsg =
+    Messages.SharedMsg
 
 
 type alias Model =
@@ -111,6 +107,9 @@ update msg model =
     case msg of
         OnPageChange _ ->
             ( { model | showMobileMenu = False }, Cmd.none )
+
+        ToggleMenu ->
+            ( { model | showMobileMenu = not model.showMobileMenu }, Cmd.none )
 
         SharedMsg globalMsg ->
             ( model, Cmd.none )
@@ -150,7 +149,7 @@ view sharedData page model toMsg pageView =
             (Theme.Global.containerPage pageView.title
                 [ View.fontPreload
                 , Theme.Global.globalStyles
-                , viewPageHeader
+                , viewPageHeader model.showMobileMenu |> Html.Styled.map toMsg
                 , Html.Styled.main_ [] pageView.body
                 , viewPageFooter
                 ]
