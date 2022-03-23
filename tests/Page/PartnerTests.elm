@@ -20,6 +20,7 @@ viewParamsWithPartner =
         , name = "Partner name"
         , description = "Partner description"
         , summary = "Partner summary"
+        , address = Nothing
         }
     , path = Path.fromString "partner/1"
     , routeParams = { partner = "1" }

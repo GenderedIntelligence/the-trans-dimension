@@ -14,7 +14,12 @@ type alias Partner =
     , name : String
     , summary : String
     , description : String
+    , address : Maybe PartnerAddress
     }
+
+
+type alias PartnerAddress =
+    { postalCode : String }
 
 
 emptyPartner : Partner
@@ -23,6 +28,7 @@ emptyPartner =
     , name = ""
     , summary = ""
     , description = ""
+    , address = Just { postalCode = "" }
     }
 
 
@@ -30,6 +36,10 @@ emptyPartner =
 ----------------------------
 -- DataSource query & decode
 ----------------------------
+
+
+type alias AllPartnersResponse =
+    { allPartners : List Partner }
 
 
 partnersData : DataSource.DataSource AllPartnersResponse
@@ -42,7 +52,16 @@ allPartnersQuery : Json.Encode.Value
 allPartnersQuery =
     Json.Encode.object
         [ ( "query"
-          , Json.Encode.string "query { partnerConnection { edges { node {id name description summary } } } }"
+          , Json.Encode.string """
+                query { partnerConnection { edges { node
+                { 
+                  id
+                  name
+                  description
+                  summary
+                  address { postalCode }
+                } } } }
+          """
           )
         ]
 
@@ -69,7 +88,10 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "name" ] OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.optionalAt [ "node", "summary" ] OptimizedDecoder.string ""
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ] OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "address" ] (OptimizedDecoder.map Just addressDecoder) Nothing
 
 
-type alias AllPartnersResponse =
-    { allPartners : List Partner }
+addressDecoder : OptimizedDecoder.Decoder PartnerAddress
+addressDecoder =
+    OptimizedDecoder.succeed PartnerAddress
+        |> OptimizedDecoder.Pipeline.requiredAt [ "postalCode" ] OptimizedDecoder.string
