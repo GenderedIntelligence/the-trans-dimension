@@ -17,7 +17,6 @@ type Route
     | Partners
     | Resources
     | Privacy
-    | TermsAndConditions
 
 
 toPageTitle : Route -> String
@@ -56,9 +55,6 @@ toPageTitle route =
         Privacy ->
             t PrivacyTitle
 
-        TermsAndConditions ->
-            t TermsAndConditionsTitle
-
 
 toPath : Route -> Path.Path
 toPath route =
@@ -95,9 +91,6 @@ toPath route =
 
         Privacy ->
             Path.fromString "privacy"
-
-        TermsAndConditions ->
-            Path.fromString "terms"
 
 
 toAbsoluteUrl : Route -> String

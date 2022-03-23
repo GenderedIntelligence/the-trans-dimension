@@ -251,7 +251,3 @@ t key =
         --- Privacy Page (note this also comes from markdown)
         PrivacyTitle ->
             "Privacy"
-
-        --- Terms and Conditions Page (note also comes from markdown)
-        TermsAndConditionsTitle ->
-            "Terms and Conditions"
