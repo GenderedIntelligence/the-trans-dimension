@@ -15,7 +15,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (darkBlue, pink, white, withMediaTabletPortraitUp)
+import Theme.Global exposing (darkBlue, pink, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -157,6 +157,8 @@ newsItemStyle =
         , borderRadius (rem 0.2)
         , padding4 (rem 1.25) (rem 1.25) (rem 3) (rem 1.25)
         , position relative
+        , withMediaTabletLandscapeUp [ margin4 (rem 2) (rem 2) (rem 3) (rem 2) ]
+        , withMediaTabletPortraitUp [ padding (rem 3) ]
         ]
 
 
@@ -221,7 +223,7 @@ newsItemSummaryStyle =
     batch
         [ textAlign center
         , marginTop (rem 0.5)
-        , withMediaTabletPortraitUp [ textAlign left ]
+        , withMediaTabletPortraitUp [ textAlign left, fontSize (rem 1.2) ]
         ]
 
 
