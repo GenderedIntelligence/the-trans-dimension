@@ -1,4 +1,4 @@
-module Data.PlaceCal.Partners exposing (Address, Partner, emptyPartner, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Partner, ServiceArea, emptyPartner, partnersData)
 
 import Api
 import DataSource
@@ -15,11 +15,18 @@ type alias Partner =
     , summary : String
     , description : String
     , address : Maybe Address
+    , areasServed : List ServiceArea
     }
 
 
 type alias Address =
     { postalCode : String }
+
+
+type alias ServiceArea =
+    { name : String
+    , abbreviatedName : Maybe String
+    }
 
 
 emptyPartner : Partner
@@ -28,7 +35,8 @@ emptyPartner =
     , name = ""
     , summary = ""
     , description = ""
-    , address = Just { postalCode = "" }
+    , address = Nothing
+    , areasServed = []
     }
 
 
@@ -60,6 +68,7 @@ allPartnersQuery =
                   description
                   summary
                   address { postalCode }
+                  areasServed { name abbreviatedName }
                 } } } }
           """
           )
@@ -89,9 +98,20 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.optionalAt [ "node", "summary" ] OptimizedDecoder.string ""
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ] OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.optionalAt [ "node", "address" ] (OptimizedDecoder.map Just addressDecoder) Nothing
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "areasServed" ]
+            (OptimizedDecoder.list serviceAreaDecoder)
 
 
 addressDecoder : OptimizedDecoder.Decoder Address
 addressDecoder =
     OptimizedDecoder.succeed Address
-        |> OptimizedDecoder.Pipeline.requiredAt [ "postalCode" ] OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "postalCode" OptimizedDecoder.string
+
+
+serviceAreaDecoder : OptimizedDecoder.Decoder ServiceArea
+serviceAreaDecoder =
+    OptimizedDecoder.succeed ServiceArea
+        |> OptimizedDecoder.Pipeline.required "name" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "abbreviatedName"
+            (OptimizedDecoder.map Just OptimizedDecoder.string)
+            Nothing
