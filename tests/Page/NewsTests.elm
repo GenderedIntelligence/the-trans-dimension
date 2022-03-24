@@ -76,6 +76,7 @@ suite =
         , test "Does not contain list if there are no events" <|
             \_ ->
                 viewBodyHtml viewParamsWithoutNews
-                    |> Query.find [ Selector.tag "p" ]
+                    |> Query.findAll [ Selector.tag "p" ]
+                    |> Query.index 1
                     |> Query.contains [ Html.text (t NewsEmptyText) ]
         ]
