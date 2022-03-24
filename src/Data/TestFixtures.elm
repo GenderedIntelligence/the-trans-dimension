@@ -15,21 +15,34 @@ partners =
       , name = "Partner one"
       , summary = "Partner one Info"
       , description = "Partner one intro"
+      , address = Just { postalCode = "SE1 1RB" }
+      , areasServed = []
       }
     , { id = "2"
       , name = "Partner two"
       , summary = "Partner two Info"
       , description = "Partner two intro"
+      , address = Just { postalCode = "WC1N 3XX" }
+      , areasServed =
+            [ { name = "Central London", abbreviatedName = Just "Central Ldn" }
+            ]
       }
     , { id = "3"
       , name = "Partner three"
       , summary = "Partner three Info"
       , description = "Partner three intro"
+      , address = Nothing
+      , areasServed =
+            [ { name = "Birmingham", abbreviatedName = Nothing }
+            , { name = "London", abbreviatedName = Nothing }
+            ]
       }
     , { id = "4"
       , name = "Partner four"
       , summary = "Partner four Info"
       , description = "Partner four intro"
+      , address = Just { postalCode = "N2 2AA" }
+      , areasServed = []
       }
     ]
 

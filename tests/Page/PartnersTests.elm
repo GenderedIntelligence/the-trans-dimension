@@ -54,9 +54,47 @@ suite =
         , test "Contains a list of all partners" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartners
-                    |> Query.find [ Selector.tag "ul" ]
+                    |> Query.findAll [ Selector.tag "ul" ]
+                    |> Query.first
                     |> Query.children [ Selector.tag "li" ]
                     |> Query.count (Expect.equal 4)
+        , test "Displays abbreviated name of service area if exists" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartners
+                    |> Query.contains [ Html.text "Central Ldn" ]
+        , test "Displays name for service area if no abbreviated name" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartners
+                    |> Query.has [ Selector.text "Birmingham" ]
+        , test "Displays tag for all service areas" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartners
+                    |> Query.has
+                        [ Selector.tag "ul"
+                        , Selector.containing
+                            [ Selector.tag "li"
+                            , Selector.containing
+                                [ Selector.tag "span", Selector.containing [ Selector.text "Birmingham" ] ]
+                            , Selector.tag "li"
+                            , Selector.containing
+                                [ Selector.tag "span", Selector.containing [ Selector.text "London" ] ]
+                            ]
+                        ]
+        , test "Does not display name for service area if has abbreviated name" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartners
+                    |> Query.hasNot [ Selector.text "Central London" ]
+        , test "Displays postal code if no service area" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartners
+                    |> Query.has
+                        [ Selector.tag "li"
+                        , Selector.containing [ Selector.text "SE1" ]
+                        ]
+        , test "Does not display postal code if has service area" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartners
+                    |> Query.hasNot [ Selector.text "WC1N" ]
         , test "Does not contain list if there are no partners" <|
             \_ ->
                 viewBodyHtml viewParamsWithoutPartners

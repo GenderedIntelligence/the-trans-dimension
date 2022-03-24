@@ -1,4 +1,4 @@
-module Data.PlaceCal.Partners exposing (Partner, emptyPartner, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Partner, ServiceArea, emptyPartner, partnersData)
 
 import Api
 import DataSource
@@ -14,6 +14,18 @@ type alias Partner =
     , name : String
     , summary : String
     , description : String
+    , address : Maybe Address
+    , areasServed : List ServiceArea
+    }
+
+
+type alias Address =
+    { postalCode : String }
+
+
+type alias ServiceArea =
+    { name : String
+    , abbreviatedName : Maybe String
     }
 
 
@@ -23,6 +35,8 @@ emptyPartner =
     , name = ""
     , summary = ""
     , description = ""
+    , address = Nothing
+    , areasServed = []
     }
 
 
@@ -30,6 +44,10 @@ emptyPartner =
 ----------------------------
 -- DataSource query & decode
 ----------------------------
+
+
+type alias AllPartnersResponse =
+    { allPartners : List Partner }
 
 
 partnersData : DataSource.DataSource AllPartnersResponse
@@ -42,7 +60,17 @@ allPartnersQuery : Json.Encode.Value
 allPartnersQuery =
     Json.Encode.object
         [ ( "query"
-          , Json.Encode.string "query { partnerConnection { edges { node {id name description summary } } } }"
+          , Json.Encode.string """
+                query { partnerConnection { edges { node
+                { 
+                  id
+                  name
+                  description
+                  summary
+                  address { postalCode }
+                  areasServed { name abbreviatedName }
+                } } } }
+          """
           )
         ]
 
@@ -69,7 +97,21 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "name" ] OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.optionalAt [ "node", "summary" ] OptimizedDecoder.string ""
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ] OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "address" ] (OptimizedDecoder.map Just addressDecoder) Nothing
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "areasServed" ]
+            (OptimizedDecoder.list serviceAreaDecoder)
 
 
-type alias AllPartnersResponse =
-    { allPartners : List Partner }
+addressDecoder : OptimizedDecoder.Decoder Address
+addressDecoder =
+    OptimizedDecoder.succeed Address
+        |> OptimizedDecoder.Pipeline.required "postalCode" OptimizedDecoder.string
+
+
+serviceAreaDecoder : OptimizedDecoder.Decoder ServiceArea
+serviceAreaDecoder =
+    OptimizedDecoder.succeed ServiceArea
+        |> OptimizedDecoder.Pipeline.required "name" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "abbreviatedName"
+            (OptimizedDecoder.map Just OptimizedDecoder.string)
+            Nothing

@@ -8,7 +8,7 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, img, li, p, section, span, text, ul)
+import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, img, li, p, section, span, styled, text, ul)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
@@ -108,7 +108,7 @@ viewPartner partner =
         [ div [ css [ partnerTopRowStyle ] ]
             [ h4 [ css [ partnerNameStyle ] ]
                 [ a [ href (TransRoutes.toAbsoluteUrl (Partner partner.id)), css [ partnerNameLink ] ] [ text partner.name ] ]
-            , span [ css [ partnerTagStyle ] ] [ text "[fFf]]" ] --- [fFf] need to wait on API for this
+            , viewAreaTag partner.areasServed partner.address
             ]
         , div [ css [ partnerBottomRowStyle ] ]
             [ p [ css [ partnerDescriptionStyle ] ]
@@ -122,6 +122,80 @@ viewPartner partner =
 viewMap : Html msg
 viewMap =
     div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
+
+
+viewAreaTag :
+    List Data.PlaceCal.Partners.ServiceArea
+    -> Maybe Data.PlaceCal.Partners.Address
+    -> Html msg
+viewAreaTag serviceAreas maybeAddress =
+    if List.length serviceAreas > 0 then
+        ul []
+            (List.map
+                (\area ->
+                    li []
+                        [ partnerAreaTagSpan [] [ text (areaNameString area) ]
+                        ]
+                )
+                serviceAreas
+            )
+
+    else
+        viewMaybePostalCode maybeAddress
+
+
+areaNameString : Data.PlaceCal.Partners.ServiceArea -> String
+areaNameString serviceArea =
+    case serviceArea.abbreviatedName of
+        Just shortName ->
+            shortName
+
+        Nothing ->
+            serviceArea.name
+
+
+viewMaybePostalCode : Maybe Data.PlaceCal.Partners.Address -> Html msg
+viewMaybePostalCode maybeAddress =
+    case maybeAddress of
+        Just address ->
+            partnerAreaTagSpan []
+                [ text (areaDistrictString address)
+                ]
+
+        Nothing ->
+            text ""
+
+
+areaDistrictString : Data.PlaceCal.Partners.Address -> String
+areaDistrictString address =
+    String.split " " address.postalCode
+        |> List.head
+        |> Maybe.withDefault ""
+
+
+
+--------------
+-- With Styles
+--------------
+
+
+partnerAreaTagSpan : List (Html.Styled.Attribute msg) -> List (Html msg) -> Html msg
+partnerAreaTagSpan =
+    styled span
+        [ backgroundColor darkPurple
+        , color pink
+        , display inlineBlock
+        , padding2 (rem 0.25) (rem 0.5)
+        , borderRadius (rem 0.3)
+        , fontWeight (int 600)
+        , fontSize (rem 0.877777)
+        ]
+
+
+
+---------
+-- Styles
+---------
 
 
 partnersListTitleStyle : Style
@@ -193,19 +267,6 @@ partnerNameLink =
     batch
         [ textDecoration none
         , color white
-        ]
-
-
-partnerTagStyle : Style
-partnerTagStyle =
-    batch
-        [ backgroundColor darkPurple
-        , color pink
-        , display inlineBlock
-        , padding2 (rem 0.25) (rem 0.5)
-        , borderRadius (rem 0.3)
-        , fontWeight (int 600)
-        , fontSize (rem 0.877777)
         ]
 
 
