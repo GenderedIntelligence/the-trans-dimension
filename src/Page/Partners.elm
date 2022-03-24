@@ -82,7 +82,7 @@ view maybeUrl sharedModel static =
             , bigText = t PartnersIntroSummary
             , smallText = [ t PartnersIntroDescription ]
             }
-            (viewPartners static)
+            (Just (viewPartners static))
             Nothing
         ]
     }

@@ -129,8 +129,8 @@ globalStyles =
             , backgroundImage (url "/images/backgrounds/starfield-small-800.png")
             , backgroundRepeat repeat
             , backgroundSize (px 800)
-            , withMediaTabletLandscapeUp [ backgroundImage (url "/images/backgrounds/starfield-medium-1080.png"), backgroundSize (px 1080) ]
             , withMediaMediumDesktopUp [ backgroundImage (url "/images/backgrounds/starfield-largest-1920.png"), backgroundSize (px 1920) ]
+            , withMediaTabletLandscapeUp [ backgroundImage (url "/images/backgrounds/starfield-medium-1080.png"), backgroundSize (px 1080) ]
             ]
         , typeSelector "h1"
             [ color darkBlue

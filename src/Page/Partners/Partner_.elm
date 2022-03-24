@@ -103,11 +103,11 @@ view maybeUrl sharedModel static =
     { title = static.data.name
     , body =
         [ PageTemplate.view { title = t PartnersTitle, bigText = static.data.name, smallText = [] }
-            (div []
+            (Just (div []
                 [ viewInfo static.data
                 , a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackStyle ] ] [ text (t BackToPartnersLinkText) ]
                 ]
-            )
+            ))
             Nothing
         ]
     }

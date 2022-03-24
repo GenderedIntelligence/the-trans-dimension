@@ -85,7 +85,7 @@ view maybeUrl sharedModel static =
             , bigText = t EventsSummary
             , smallText = []
             }
-            (viewEvents static)
+            (Just (viewEvents static))
             (Just viewSubscribe)
         ]
     }
