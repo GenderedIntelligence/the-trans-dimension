@@ -3,7 +3,7 @@ module Page.News exposing (Data, Model, Msg, page, view)
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderRadius, bottom, calc, center, color, display, displayFlex, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, margin2, margin4, marginBottom, marginRight, marginTop, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
+import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -15,7 +15,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (darkBlue, pink, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (darkBlue, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -157,7 +157,9 @@ newsItemStyle =
         , borderRadius (rem 0.2)
         , padding4 (rem 1.25) (rem 1.25) (rem 3) (rem 1.25)
         , position relative
-        , withMediaTabletLandscapeUp [ margin4 (rem 2) (rem 2) (rem 3) (rem 2) ]
+        , boxSizing borderBox
+        , withMediaSmallDesktopUp [ maxWidth (px 920), margin4 (rem 4) auto (rem 5) auto ]
+        , withMediaTabletLandscapeUp [ margin (rem 3), padding (rem 2) ]
         , withMediaTabletPortraitUp [ padding (rem 3) ]
         ]
 
@@ -174,8 +176,10 @@ newsImageStyle =
         [ width (pct 100)
         , height (pct 56.25)
         , property "object-fit" "cover"
-        , borderRadius (rem 0.2)
+        , borderRadius (rem 0.3)
         , marginBottom (rem 1)
+        , withMediaSmallDesktopUp [ marginTop (rem 1) ]
+        , withMediaTabletLandscapeUp [ width (px 303) ]
         , withMediaTabletPortraitUp [ width (px 294) ]
         ]
 
@@ -206,6 +210,7 @@ newsItemMetaStyle =
     batch
         [ fontWeight (int 600)
         , textAlign center
+        , withMediaTabletLandscapeUp [ margin2 (rem 1) (rem 0) ]
         , withMediaTabletPortraitUp [ textAlign left ]
         ]
 
