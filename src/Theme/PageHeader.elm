@@ -50,7 +50,7 @@ viewPageHeaderNavigation showMobileMenu listItems =
                             []
 
                         else
-                            [ display none ]
+                            [ display none, withMediaTabletPortraitUp [ displayFlex ] ]
                        )
                 )
             ]

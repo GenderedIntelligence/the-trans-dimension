@@ -2,7 +2,7 @@ module Theme.PageTemplate exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, after, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bold, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontSize, fontStyle, fontWeight, height, hover, inline, int, italic, justifyContent, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, solid, spaceBetween, textAlign, textDecoration, top, url, vw, width, wrap, zIndex)
+import Css exposing (Color, Style, absolute, after, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bold, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontSize, fontStyle, fontWeight, height, hover, inline, int, italic, justifyContent, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, solid, spaceBetween, textAlign, textDecoration, top, url, vw, width, wrap, zIndex)
 import Html.Styled as Html exposing (Html, div, h1, h2, img, main_, p, section, span, text)
 import Html.Styled.Attributes exposing (alt, css, src)
 import List exposing (append)
@@ -19,6 +19,28 @@ view intro maybeBoxContents maybeFooter =
         [ viewHeader intro.title
         , div [ css [ contentWrapperStyle ] ]
             [ viewIntro intro.bigText intro.smallText
+            , case maybeBoxContents of
+                Just boxContents ->
+                    div [ css [ contentContainerStyle ] ] [ boxContents ]
+
+                Nothing ->
+                    text ""
+            ]
+        , case maybeFooter of
+            Just footerContent ->
+                footerContent
+
+            Nothing ->
+                text ""
+        ]
+
+
+viewNews : PageIntro -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
+viewNews intro maybeBoxContents maybeFooter =
+    main_ [ css [ mainStyle ] ]
+        [ viewHeader intro.title
+        , div [ css [ contentWrapperStyle ] ]
+            [ viewIntroBlue intro.bigText intro.smallText
             , case maybeBoxContents of
                 Just boxContents ->
                     div [ css [ contentContainerStyle ] ] [ boxContents ]
@@ -53,6 +75,14 @@ viewHeader title =
 viewIntro : String -> List String -> Html msg
 viewIntro bigText smallTextList =
     section [ css [ introBoxStyle ] ]
+        (append [ p [ css [ introTextLargeStyle ] ] [ text bigText ] ]
+            (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) smallTextList)
+        )
+
+
+viewIntroBlue : String -> List String -> Html msg
+viewIntroBlue bigText smallTextList =
+    section [ css [ introBoxInvisibleStyle ] ]
         (append [ p [ css [ introTextLargeStyle ] ] [ text bigText ] ]
             (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) smallTextList)
         )
@@ -158,6 +188,17 @@ introBoxStyle =
             [ paddingBottom (rem 2) ]
         , withMediaTabletPortraitUp
             [ paddingTop (rem 3), paddingLeft (rem 3.5), paddingRight (rem 3.5) ]
+        ]
+
+
+introBoxInvisibleStyle : Style
+introBoxInvisibleStyle =
+    batch
+        [ backgroundColor darkBlue
+        , color pink
+        , borderRadius (rem 0.3)
+        , boxSizing borderBox
+        , margin2 (rem 2) (rem 0)
         ]
 
 

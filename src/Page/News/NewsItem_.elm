@@ -2,19 +2,21 @@ module Page.News.NewsItem_ exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, color, display, fontSize, fontWeight, inlineBlock, margin, margin2, margin4, marginBottom, marginTop, none, num, padding, pct, rem, textAlign, textDecoration, width)
+import Css exposing (Style, after, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, firstChild, fontSize, fontWeight, height, inlineBlock, margin, margin2, margin4, marginBottom, marginTop, maxWidth, none, num, padding, pct, property, px, rem, textAlign, textDecoration, width)
+import Css.Global exposing (descendants, typeSelector)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, article, div, h2, h3, li, main_, p, section, text, time, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled exposing (Html, a, article, div, figcaption, figure, h2, h3, img, li, main_, p, section, span, text, time, ul)
+import Html.Styled.Attributes exposing (css, href, src)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global
+import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -96,39 +98,51 @@ view :
 view maybeUrl sharedModel static =
     { title = static.data.title
     , body =
-        [ viewHeader (t NewsTitle), viewArticle static.data, viewGoBack ]
+        [ PageTemplate.viewNews { title = t NewsTitle, bigText = static.data.title, smallText = [] }
+            (Just
+                (viewArticle
+                    static.data
+                )
+            )
+            (Just
+                viewPagination
+            )
+        ]
     }
-
-
-viewHeader : String -> Html msg
-viewHeader headerText =
-    section [] [ h2 [ css [] ] [ text headerText ] ]
 
 
 viewArticle : Shared.News -> Html msg
 viewArticle newsItem =
-    article []
-        [ h3 [ css [ articleHeaderStyle ] ] [ text newsItem.title ]
-        , p [ css [ articleMetaStyle ] ] [ text ("By " ++ newsItem.author) ]
-        , time [ css [ articleMetaStyle ] ] [ text ("Published on " ++ TransDate.humanDateFromPosix newsItem.datetime) ]
+    article [ css [ articleStyle ] ]
+        [ p [ css [ articleMetaStyle ] ]
+            [ span [ css [ newsItemAuthorStyle ] ] [ text newsItem.author ]
+            , time [] [ text (TransDate.humanDateFromPosix newsItem.datetime) ]
+            ]
+        , figure [ css [ articleFigureStyle ] ]
+            [ img [ src "/images/news/article_6.jpg", css [ articleFigureImageStyle ] ] [] -- [fFf]
+            , figcaption [ css [ articleFigureCaptionStyle ] ] [ text "Optional image credit, note and or details." ] -- [fFf]
+            ]
         , div [ css [ articleContentStyle ] ] [ text newsItem.body ]
         ]
 
 
-viewGoBack : Html msg
-viewGoBack =
-    a
-        [ href (TransRoutes.toAbsoluteUrl News)
-        , css [ goBackStyle ]
+viewPagination : Html msg
+viewPagination =
+    div []
+        [ p [ css [ goBackStyle ] ] [ text "[fFf] Previous/next navigation" ]
+        , a
+            [ href (TransRoutes.toAbsoluteUrl News)
+            , css [ goBackStyle ]
+            ]
+            [ text (t NewsItemReturnButton) ]
         ]
-        [ text (t NewsItemReturnButton) ]
 
 
-articleHeaderStyle : Style
-articleHeaderStyle =
+articleStyle : Style
+articleStyle =
     batch
-        [ textAlign center
-        , fontSize (rem 2)
+        [ margin2 (rem 0) (rem 0.25)
+        , withMediaTabletLandscapeUp [ maxWidth (px 636), margin2 (rem 0) auto ]
         ]
 
 
@@ -138,13 +152,62 @@ articleMetaStyle =
         [ textAlign center
         , fontWeight bold
         , display block
+        , margin2 (rem 2) (rem 0)
+        , withMediaTabletPortraitUp [ margin4 (rem 0) (rem 2) (rem 3) (rem 2) ]
+        ]
+
+
+articleFigureStyle : Style
+articleFigureStyle =
+    batch
+        [ margin2 (rem 2) (rem 0)
+        , withMediaSmallDesktopUp [ marginTop (rem 5) ]
+        , withMediaTabletLandscapeUp [ margin2 (rem 2) (rem 0) ]
+        , withMediaTabletPortraitUp [ margin2 (rem 2) (rem 1) ]
+        ]
+
+
+articleFigureImageStyle : Style
+articleFigureImageStyle =
+    batch
+        [ width (pct 100)
+        , height (pct 56.25)
+        , property "object-fit" "cover"
+        , borderRadius (rem 0.3)
+        ]
+
+
+articleFigureCaptionStyle : Style
+articleFigureCaptionStyle =
+    batch
+        [ fontSize (rem 0.875)
+        , textAlign center
+        , margin2 (rem 0.75) (rem 0)
         ]
 
 
 articleContentStyle : Style
 articleContentStyle =
     batch
-        [ margin2 (rem 2) (rem 0) ]
+        [ margin2 (rem 4) (rem 0)
+        , withMediaTabletPortraitUp [ maxWidth (px 636), margin2 (rem 4) auto, fontSize (rem 1.2) ]
+        , withMediaTabletPortraitUp [ maxWidth (px 560), margin2 (rem 4) auto ]
+        , descendants
+            [ typeSelector "p"
+                [ batch
+                    [ firstChild
+                        [ fontSize (rem 2) ]
+                    ]
+                ]
+            ]
+        ]
+
+
+newsItemAuthorStyle : Style
+newsItemAuthorStyle =
+    batch
+        [ after [ property "content" "\"•\"", margin2 (rem 0) (rem 0.25) ]
+        ]
 
 
 goBackStyle : Style
