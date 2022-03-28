@@ -170,7 +170,7 @@ viewAddress maybeAddress =
                 ]
 
         Nothing ->
-            text ""
+            text (t PartnerAddressEmptyText)
 
 
 

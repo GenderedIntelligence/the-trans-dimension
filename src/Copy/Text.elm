@@ -186,6 +186,9 @@ t key =
         PartnerAddressHeading ->
             "Address"
 
+        PartnerAddressEmptyText ->
+            "[cCc] No address provided"
+
         BackToPartnersLinkText ->
             "Go to all partners"
 
