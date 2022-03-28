@@ -1,5 +1,6 @@
 module Messages exposing (Msg(..), SharedMsg(..))
 
+import Http
 import Path exposing (Path)
 
 
@@ -9,7 +10,13 @@ type Msg
         , query : Maybe String
         , fragment : Maybe String
         }
+      -- Header
     | ToggleMenu
+      -- Footer
+    | SubmitNewsletterSignupForm
+    | SetNewsletterSignupEmail String
+    | GotNewsletterSignupResponse (Result Http.Error String)
+      -- Shared
     | SharedMsg SharedMsg
 
 

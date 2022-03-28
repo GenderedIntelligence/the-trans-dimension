@@ -7,6 +7,8 @@ import DataSource
 import Html
 import Html.Attributes
 import Html.Styled
+import Http
+import Json.Encode
 import Messages exposing (Msg(..), SharedMsg(..))
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
@@ -79,6 +81,8 @@ type alias SharedMsg =
 
 type alias Model =
     { showMobileMenu : Bool
+    , newsletterSignupEmail : String
+    , newsletterSignupResponse : Maybe String
     }
 
 
@@ -97,7 +101,10 @@ init :
             }
     -> ( Model, Cmd Msg )
 init navigationKey flags maybePagePath =
-    ( { showMobileMenu = False }
+    ( { showMobileMenu = False
+      , newsletterSignupEmail = ""
+      , newsletterSignupResponse = Nothing
+      }
     , Cmd.none
     )
 
@@ -108,9 +115,26 @@ update msg model =
         OnPageChange _ ->
             ( { model | showMobileMenu = False }, Cmd.none )
 
+        -- Header
         ToggleMenu ->
             ( { model | showMobileMenu = not model.showMobileMenu }, Cmd.none )
 
+        -- Footer
+        SubmitNewsletterSignupForm ->
+            ( { model | newsletterSignupResponse = Nothing }
+            , postNewsletterSignupRequest model.newsletterSignupEmail
+            )
+
+        SetNewsletterSignupEmail email ->
+            ( { model | newsletterSignupEmail = email }, Cmd.none )
+
+        GotNewsletterSignupResponse (Ok response) ->
+            ( { model | newsletterSignupResponse = Just response }, Cmd.none )
+
+        GotNewsletterSignupResponse (Err error) ->
+            ( { model | newsletterSignupResponse = Nothing }, Cmd.none )
+
+        -- Shared
         SharedMsg globalMsg ->
             ( model, Cmd.none )
 
@@ -124,6 +148,29 @@ data : DataSource.DataSource Data
 data =
     DataSource.succeed
         { news = Fixtures.news
+        }
+
+
+
+-----------------
+-- Update helpers
+-----------------
+
+
+postNewsletterSignupRequest : String -> Cmd Msg
+postNewsletterSignupRequest email =
+    Http.post
+        { --url = "https://static.mailerlite.com/webforms/submit/g2r6z4"
+          url = "https://example.com"
+        , body =
+            Http.jsonBody
+                (Json.Encode.object
+                    [ ( "email", Json.Encode.string email )
+                    , ( "ml-submit", Json.Encode.int 1 )
+                    , ( "anticsrf", Json.Encode.bool True )
+                    ]
+                )
+        , expect = Http.expectString GotNewsletterSignupResponse
         }
 
 

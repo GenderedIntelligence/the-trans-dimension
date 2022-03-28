@@ -78,7 +78,6 @@ viewPageFooterLogos =
 
 viewPageFooterSignup : String -> String -> Html msg
 viewPageFooterSignup copyText buttonText =
-    --- [fFf] - form handling
     form [ css [ blockStyle, formStyle, socialBlockStyle ] ]
         [ label [ css [ formStyle ] ]
             [ span [ css [ subheadStyle ] ] [ text copyText ]
