@@ -1,4 +1,4 @@
-module Data.PlaceCal.Partners exposing (Address, Partner, ServiceArea, emptyPartner, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, partnersData)
 
 import Api
 import DataSource
@@ -14,13 +14,24 @@ type alias Partner =
     , name : String
     , summary : String
     , description : String
-    , address : Maybe Address
+    , maybeUrl : Maybe String
+    , contactDetails : Contact
+    , maybeAddress : Maybe Address
     , areasServed : List ServiceArea
     }
 
 
 type alias Address =
-    { postalCode : String }
+    { streetAddress : String
+    , addressRegion : String
+    , postalCode : String
+    }
+
+
+type alias Contact =
+    { email : String
+    , telephone : String
+    }
 
 
 type alias ServiceArea =
@@ -35,7 +46,9 @@ emptyPartner =
     , name = ""
     , summary = ""
     , description = ""
-    , address = Nothing
+    , maybeUrl = Nothing
+    , contactDetails = { email = "", telephone = "" }
+    , maybeAddress = Nothing
     , areasServed = []
     }
 
@@ -67,7 +80,9 @@ allPartnersQuery =
                   name
                   description
                   summary
-                  address { postalCode }
+                  contact { email, telephone }
+                  url
+                  address { streetAddress, postalCode, addressRegion }
                   areasServed { name abbreviatedName }
                 } } } }
           """
@@ -97,14 +112,25 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "name" ] OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.optionalAt [ "node", "summary" ] OptimizedDecoder.string ""
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ] OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "url" ] (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "contact" ] contactDecoder
         |> OptimizedDecoder.Pipeline.optionalAt [ "node", "address" ] (OptimizedDecoder.map Just addressDecoder) Nothing
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "areasServed" ]
             (OptimizedDecoder.list serviceAreaDecoder)
 
 
+contactDecoder : OptimizedDecoder.Decoder Contact
+contactDecoder =
+    OptimizedDecoder.succeed Contact
+        |> OptimizedDecoder.Pipeline.required "email" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "telephone" OptimizedDecoder.string
+
+
 addressDecoder : OptimizedDecoder.Decoder Address
 addressDecoder =
     OptimizedDecoder.succeed Address
+        |> OptimizedDecoder.Pipeline.required "streetAddress" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "addressRegion" OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.required "postalCode" OptimizedDecoder.string
 
 

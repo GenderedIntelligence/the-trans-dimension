@@ -108,7 +108,7 @@ viewPartner partner =
         [ div [ css [ partnerTopRowStyle ] ]
             [ h4 [ css [ partnerNameStyle ] ]
                 [ a [ href (TransRoutes.toAbsoluteUrl (Partner partner.id)), css [ partnerNameLink ] ] [ text partner.name ] ]
-            , viewAreaTag partner.areasServed partner.address
+            , viewAreaTag partner.areasServed partner.maybeAddress
             ]
         , div [ css [ partnerBottomRowStyle ] ]
             [ p [ css [ partnerDescriptionStyle ] ]
