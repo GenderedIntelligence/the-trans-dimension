@@ -61,15 +61,14 @@ allPartnersQuery =
     Json.Encode.object
         [ ( "query"
           , Json.Encode.string """
-                query { partnerConnection { edges { node
-                { 
+                query { partnersByTag(tagId: 3) {
                   id
                   name
                   description
                   summary
                   address { postalCode }
                   areasServed { name abbreviatedName }
-                } } } }
+                } }
           """
           )
         ]
@@ -87,18 +86,18 @@ allPartnersPlaceCalRequest =
 partnersDecoder : OptimizedDecoder.Decoder AllPartnersResponse
 partnersDecoder =
     OptimizedDecoder.succeed AllPartnersResponse
-        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "partnerConnection", "edges" ] (OptimizedDecoder.list decodePartner)
+        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "partnersByTag" ] (OptimizedDecoder.list decodePartner)
 
 
 decodePartner : OptimizedDecoder.Decoder Partner
 decodePartner =
     OptimizedDecoder.succeed Partner
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "id" ] OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "name" ] OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "summary" ] OptimizedDecoder.string ""
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ] OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "address" ] (OptimizedDecoder.map Just addressDecoder) Nothing
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "areasServed" ]
+        |> OptimizedDecoder.Pipeline.required "id" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "name" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "summary" OptimizedDecoder.string ""
+        |> OptimizedDecoder.Pipeline.required "description" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just addressDecoder) Nothing
+        |> OptimizedDecoder.Pipeline.required "areasServed"
             (OptimizedDecoder.list serviceAreaDecoder)
 
 
