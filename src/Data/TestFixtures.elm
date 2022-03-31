@@ -15,14 +15,30 @@ partners =
       , name = "Partner one"
       , summary = "Partner one Info"
       , description = "Partner one intro"
-      , address = Just { postalCode = "SE1 1RB" }
+      , maybeUrl = Nothing
+      , maybeAddress =
+            Just
+                { streetAddress = "1 The Avenue"
+                , addressRegion = "London"
+                , postalCode = "SE1 1RB"
+                }
+      , contactDetails =
+            { email = "partner1@example.com", telephone = "020 7946 0100" }
       , areasServed = []
       }
     , { id = "2"
       , name = "Partner two"
       , summary = "Partner two Info"
       , description = "Partner two intro"
-      , address = Just { postalCode = "WC1N 3XX" }
+      , maybeUrl = Just "https://partner2.example.com"
+      , maybeAddress =
+            Just
+                { streetAddress = "3 A Road, flat 1"
+                , addressRegion = "London"
+                , postalCode = "WC1N 3XX"
+                }
+      , contactDetails =
+            { email = "partner2@example.com", telephone = "020 7946 0200" }
       , areasServed =
             [ { name = "Central London", abbreviatedName = Just "Central Ldn" }
             ]
@@ -31,7 +47,10 @@ partners =
       , name = "Partner three"
       , summary = "Partner three Info"
       , description = "Partner three intro"
-      , address = Nothing
+      , maybeUrl = Nothing
+      , maybeAddress = Nothing
+      , contactDetails =
+            { email = "partner3@example.com", telephone = "0121 496 0300" }
       , areasServed =
             [ { name = "Birmingham", abbreviatedName = Nothing }
             , { name = "London", abbreviatedName = Nothing }
@@ -41,7 +60,15 @@ partners =
       , name = "Partner four"
       , summary = "Partner four Info"
       , description = "Partner four intro"
-      , address = Just { postalCode = "N2 2AA" }
+      , maybeUrl = Just "https://partner4.example.org"
+      , maybeAddress =
+            Just
+                { streetAddress = "1 The Steet"
+                , addressRegion = "London"
+                , postalCode = "N2 2AA"
+                }
+      , contactDetails =
+            { email = "partner4@example.com", telephone = "020 7946 0400" }
       , areasServed = []
       }
     ]

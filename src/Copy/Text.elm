@@ -180,6 +180,15 @@ t key =
         PartnerMetaDescription partnerName ->
             "[cCc] Partner description for " ++ partnerName
 
+        PartnerContactsHeading ->
+            "Get in touch"
+
+        PartnerAddressHeading ->
+            "Address"
+
+        PartnerAddressEmptyText ->
+            "[cCc] No address provided"
+
         BackToPartnersLinkText ->
             "Go to all partners"
 
