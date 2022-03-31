@@ -20,7 +20,17 @@ viewParamsWithPartner =
         , name = "Partner name"
         , description = "Partner description"
         , summary = "Partner summary"
-        , address = Nothing
+        , maybeUrl = Just "https://www.example.com"
+        , contactDetails =
+            { email = "partner@example.com"
+            , telephone = "0161 496 0000"
+            }
+        , maybeAddress =
+            Just
+                { streetAddress = "1 The Street"
+                , addressRegion = "Exampleton"
+                , postalCode = "A1 2BC"
+                }
         , areasServed = []
         }
     , path = Path.fromString "partner/1"
@@ -29,6 +39,14 @@ viewParamsWithPartner =
         { news = Fixtures.news
         }
     }
+
+
+viewParamsWithoutMaybes =
+    let
+        setData oldData =
+            { oldData | maybeUrl = Nothing, maybeAddress = Nothing }
+    in
+    { viewParamsWithPartner | data = setData viewParamsWithPartner.data }
 
 
 viewBodyHtml viewParams =
@@ -50,11 +68,44 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithPartner
                     |> Query.contains [ Html.text "Partner description" ]
-        , test "Contains contact info" <|
+        , test "Contains address if provided" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner
-                    -- Note this is currently a placeholder
-                    |> Query.contains [ Html.text "[fFf] partner contact info (from API?)" ]
+                    |> Query.contains
+                        [ Html.address []
+                            [ Html.p [] [ Html.text "1 The Street" ]
+                            , Html.p []
+                                [ Html.text "Exampleton"
+                                , Html.text ", "
+                                , Html.text "A1 2BC"
+                                ]
+                            ]
+                        ]
+        , test "Contains address empty text if not provided" <|
+            \_ ->
+                viewBodyHtml viewParamsWithoutMaybes
+                    |> Query.contains
+                        [ Html.text (t PartnerAddressEmptyText) ]
+        , test "Contact details contain url if provided" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartner
+                    |> Query.contains
+                        [ Html.address []
+                            [ Html.p [] [ Html.text "0161 496 0000" ]
+                            , Html.p [] [ Html.text "partner@example.com" ]
+                            , Html.p [] [ Html.text "https://www.example.com" ]
+                            ]
+                        ]
+        , test "Can have contact details without url" <|
+            \_ ->
+                viewBodyHtml viewParamsWithoutMaybes
+                    |> Query.contains
+                        [ Html.address []
+                            [ Html.p [] [ Html.text "0161 496 0000" ]
+                            , Html.p [] [ Html.text "partner@example.com" ]
+                            , Html.text ""
+                            ]
+                        ]
         , test "Contains map" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner
