@@ -8,7 +8,7 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h2, h3, p, section, text)
+import Html.Styled exposing (Html, a, address, div, h2, h3, p, section, text)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
@@ -103,11 +103,13 @@ view maybeUrl sharedModel static =
     { title = static.data.name
     , body =
         [ PageTemplate.view { title = t PartnersTitle, bigText = static.data.name, smallText = [] }
-            (Just (div []
-                [ viewInfo static.data
-                , a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackStyle ] ] [ text (t BackToPartnersLinkText) ]
-                ]
-            ))
+            (Just
+                (div []
+                    [ viewInfo static.data
+                    , a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackStyle ] ] [ text (t BackToPartnersLinkText) ]
+                    ]
+                )
+            )
             Nothing
         ]
     }
@@ -117,10 +119,64 @@ viewInfo : Data.PlaceCal.Partners.Partner -> Html msg
 viewInfo partner =
     section []
         [ p [] (Theme.TransMarkdown.markdownToHtml partner.description)
-        , p [ css [ featurePlaceholderStyle ] ] [ text "[fFf] partner contact info (from API?)" ]
+        , div []
+            [ div []
+                [ h3 [ css [ contactHeadingStyle ] ] [ text (t PartnerContactsHeading) ]
+                , viewContactDetails partner.maybeUrl partner.contactDetails
+                ]
+            , div []
+                [ h3 [ css [ contactHeadingStyle ] ] [ text (t PartnerAddressHeading) ]
+                , viewAddress partner.maybeAddress
+                ]
+            ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Partner event listing?" ]
         ]
+
+
+viewContactDetails : Maybe String -> Data.PlaceCal.Partners.Contact -> Html msg
+viewContactDetails maybeUrl contactDetails =
+    address []
+        [ if String.length contactDetails.telephone > 0 then
+            p [] [ text contactDetails.telephone ]
+
+          else
+            text ""
+        , if String.length contactDetails.telephone > 0 then
+            p [] [ text contactDetails.email ]
+
+          else
+            text ""
+        , case maybeUrl of
+            Just url ->
+                p [] [ text url ]
+
+            Nothing ->
+                text ""
+        ]
+
+
+viewAddress : Maybe Data.PlaceCal.Partners.Address -> Html msg
+viewAddress maybeAddress =
+    case maybeAddress of
+        Just addressFields ->
+            address []
+                [ p [] [ text addressFields.streetAddress ]
+                , p []
+                    [ text addressFields.addressRegion
+                    , text ", "
+                    , text addressFields.postalCode
+                    ]
+                ]
+
+        Nothing ->
+            text (t PartnerAddressEmptyText)
+
+
+
+---------
+-- Styles
+---------
 
 
 featurePlaceholderStyle : Style
@@ -137,6 +193,12 @@ partnerHeadingStyle =
         [ textAlign center
         , fontSize (rem 2)
         ]
+
+
+contactHeadingStyle : Style
+contactHeadingStyle =
+    -- Temp style so I can see it
+    batch [ color Theme.Global.pink ]
 
 
 goBackStyle : Style

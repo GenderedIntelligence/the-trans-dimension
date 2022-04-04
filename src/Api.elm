@@ -8,10 +8,15 @@ import Route exposing (Route)
 
 placeCalApiUrl : String
 placeCalApiUrl =
-    -- Production "https://placecal-staging.org/api/v1/graphql"
-    -- Dev "http://lvh.me:3000/api/v1/graphql"
-    -- Staging
-    "https://placecal-staging.org/api/v1/graphql"
+    -- Production
+    "https://placecal.org/api/v1/graphql"
+
+
+
+-- Dev
+--"http://lvh.me:3300/api/v1/graphql"
+-- Staging
+-- "https://placecal-staging.org/api/v1/graphql"
 
 
 routes :

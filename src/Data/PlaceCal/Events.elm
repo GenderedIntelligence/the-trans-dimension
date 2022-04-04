@@ -72,17 +72,16 @@ allEventsQuery =
     Json.Encode.object
         [ ( "query"
           , Json.Encode.string """
-            query { eventConnection { edges {
-                node {
-                    id
-                    name
-                    summary
-                    description
-                    startDate
-                    endDate
-                    address { postalCode }
-                    organizer { id }
-            } } } }
+            query { eventsByFilter(tagId: 3) {
+              id
+              name
+              summary
+              description
+              startDate
+              endDate
+              address { postalCode }
+              organizer { id }
+            } }
             """
           )
         ]
@@ -100,30 +99,30 @@ allEventsPlaceCalRequest =
 eventsDecoder : OptimizedDecoder.Decoder AllEventsResponse
 eventsDecoder =
     OptimizedDecoder.succeed AllEventsResponse
-        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "eventConnection", "edges" ] (OptimizedDecoder.list decode)
+        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "eventsByFilter" ] (OptimizedDecoder.list decode)
 
 
 decode : OptimizedDecoder.Decoder Event
 decode =
     OptimizedDecoder.succeed Event
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "id" ]
+        |> OptimizedDecoder.Pipeline.required "id"
             OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "name" ]
+        |> OptimizedDecoder.Pipeline.required "name"
             OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "summary" ]
+        |> OptimizedDecoder.Pipeline.optional "summary"
             OptimizedDecoder.string
             ""
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "description" ]
+        |> OptimizedDecoder.Pipeline.required "description"
             OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "startDate" ]
+        |> OptimizedDecoder.Pipeline.required "startDate"
             TransDate.isoDateStringDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "endDate" ]
+        |> OptimizedDecoder.Pipeline.required "endDate"
             TransDate.isoDateStringDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "address", "postalCode" ]
+        |> OptimizedDecoder.Pipeline.requiredAt [ "address", "postalCode" ]
             OptimizedDecoder.string
-        -- |> OptimizedDecoder.Pipeline.requiredAt [ "node", "realm" ]
+        -- |> OptimizedDecoder.Pipeline.required "realm"
         --    realmDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "organizer", "id" ]
+        |> OptimizedDecoder.Pipeline.requiredAt [ "organizer", "id" ]
             OptimizedDecoder.string
 
 
