@@ -4,6 +4,7 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, after, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, firstChild, fontSize, fontWeight, height, inlineBlock, margin, margin2, margin4, marginBottom, marginTop, maxWidth, none, num, padding, pct, property, px, rem, textAlign, textDecoration, width)
 import Css.Global exposing (descendants, typeSelector)
+import Data.PlaceCal.Articles
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -45,25 +46,29 @@ page =
 routes : DataSource (List RouteParams)
 routes =
     DataSource.map
-        (\sharedData ->
-            sharedData.news
-                |> List.map (\newsItem -> { newsItem = newsItem.id })
+        (\articlesData ->
+            articlesData.allArticles
+                |> List.map
+                    (\newsItem ->
+                        { newsItem = TransRoutes.stringToSlug newsItem.title
+                        }
+                    )
         )
-        Shared.data
+        Data.PlaceCal.Articles.articlesData
 
 
 data : RouteParams -> DataSource Data
 data routeParams =
     DataSource.map
         (\sharedData ->
-            Maybe.withDefault Shared.emptyNews
-                ((sharedData.news
-                    |> List.filter (\newsItem -> newsItem.id == routeParams.newsItem)
+            Maybe.withDefault Data.PlaceCal.Articles.emptyArticle
+                ((sharedData.allArticles
+                    |> List.filter (\newsItem -> TransRoutes.stringToSlug newsItem.title == routeParams.newsItem)
                  )
                     |> List.head
                 )
         )
-        Shared.data
+        Data.PlaceCal.Articles.articlesData
 
 
 head :
@@ -87,13 +92,13 @@ head static =
 
 
 type alias Data =
-    Shared.News
+    Data.PlaceCal.Articles.Article
 
 
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload Shared.News RouteParams
+    -> StaticPayload Data.PlaceCal.Articles.Article RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.title
@@ -111,12 +116,12 @@ view maybeUrl sharedModel static =
     }
 
 
-viewArticle : Shared.News -> Html msg
+viewArticle : Data.PlaceCal.Articles.Article -> Html msg
 viewArticle newsItem =
     article [ css [ articleStyle ] ]
         [ p [ css [ articleMetaStyle ] ]
-            [ span [ css [ newsItemAuthorStyle ] ] [ text newsItem.author ]
-            , time [] [ text (TransDate.humanDateFromPosix newsItem.datetime) ]
+            [ span [ css [ newsItemAuthorStyle ] ] [ text "[fFf] Partner name from id" ]
+            , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
         , figure [ css [ articleFigureStyle ] ]
             [ img [ src "/images/news/article_6.jpg", css [ articleFigureImageStyle ] ] [] -- [fFf]

@@ -35,9 +35,7 @@ viewParamsWithPartner =
         }
     , path = Path.fromString "partner/1"
     , routeParams = { partner = "1" }
-    , sharedData =
-        { news = Fixtures.news
-        }
+    , sharedData = ()
     }
 
 

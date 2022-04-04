@@ -15,9 +15,7 @@ viewParamsWithPrivacy =
     { data = { title = "Privacy Page Test Title", body = [] }
     , path = Path.fromString "about"
     , routeParams = {}
-    , sharedData =
-        { news = Fixtures.news
-        }
+    , sharedData = ()
     }
 
 

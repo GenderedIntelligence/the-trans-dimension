@@ -4,6 +4,7 @@ import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
+import Data.PlaceCal.Articles
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -42,12 +43,12 @@ page =
 
 
 type alias Data =
-    List Shared.News
+    List Data.PlaceCal.Articles.Article
 
 
-data : DataSource (List Shared.News)
+data : DataSource (List Data.PlaceCal.Articles.Article)
 data =
-    DataSource.map (\sharedData -> sharedData.news) Shared.data
+    DataSource.map (\sharedData -> sharedData.allArticles) Data.PlaceCal.Articles.articlesData
 
 
 head :
@@ -73,7 +74,7 @@ head static =
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload (List Shared.News) RouteParams
+    -> StaticPayload (List Data.PlaceCal.Articles.Article) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
     { title = t NewsTitle
@@ -91,7 +92,7 @@ view maybeUrl sharedModel static =
     }
 
 
-viewNewsList : StaticPayload (List Shared.News) RouteParams -> Html Msg
+viewNewsList : StaticPayload (List Data.PlaceCal.Articles.Article) RouteParams -> Html Msg
 viewNewsList news =
     section []
         [ if List.length news.data == 0 then
@@ -114,7 +115,7 @@ defaultNewsImages =
         ]
 
 
-viewNewsItem : Shared.News -> Html msg
+viewNewsItem : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsItem newsItem =
     li [ css [ newsItemStyle ] ]
         [ article [ css [ newsItemArticleStyle ] ]
@@ -133,12 +134,21 @@ viewNewsItem newsItem =
             , div [ css [ newsItemInfoStyle ] ]
                 [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
                 , p [ css [ newsItemMetaStyle ] ]
-                    [ span [ css [ newsItemAuthorStyle ] ] [ text newsItem.author ]
-                    , time [] [ text (TransDate.humanDateFromPosix newsItem.datetime) ]
+                    [ span [ css [ newsItemAuthorStyle ] ] [ text "[fFf] Get partner name from id" ]
+                    , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
                     ]
-                , p [ css [ newsItemSummaryStyle ] ] [ text newsItem.summary ]
+                , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body) ]
                 ]
-            , div [ css [ buttonWrapperStyle ] ] [ a [ css [ buttonStyle ], href (TransRoutes.toAbsoluteUrl (NewsItem newsItem.id)) ] [ text (t NewsReadMore) ] ]
+            , div [ css [ buttonWrapperStyle ] ]
+                [ a
+                    [ css [ buttonStyle ]
+                    , href
+                        (TransRoutes.toAbsoluteUrl
+                            (NewsItem (TransRoutes.stringToSlug newsItem.title))
+                        )
+                    ]
+                    [ text (t NewsReadMore) ]
+                ]
             ]
         ]
 
@@ -146,6 +156,17 @@ viewNewsItem newsItem =
 viewPagination : Html msg
 viewPagination =
     ul [] [ text "[fFf] News pagination" ]
+
+
+summaryFromArticleBody : String -> String
+summaryFromArticleBody articleBody =
+    "[fFf] Summary"
+
+
+
+---------
+-- Styles
+---------
 
 
 newsItemStyle : Style

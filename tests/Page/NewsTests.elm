@@ -18,9 +18,7 @@ viewParamsWithNews =
     { data = Fixtures.news
     , path = Path.fromString "news"
     , routeParams = {}
-    , sharedData =
-        { news = Fixtures.news
-        }
+    , sharedData = ()
     }
 
 
@@ -28,9 +26,7 @@ viewParamsWithoutNews =
     { data = []
     , path = Path.fromString "news"
     , routeParams = {}
-    , sharedData =
-        { news = []
-        }
+    , sharedData = ()
     }
 
 
@@ -66,11 +62,10 @@ suite =
                 viewBodyHtml viewParamsWithNews
                     |> Query.contains
                         [ Html.text "Some news"
-                        , Html.text "News news news"
                         , Html.text "21st February 2022"
-                        , Html.text "GFSC"
+                        , Html.text "[fFf] Summary"
+                        , Html.text "[fFf] Get partner name from id"
                         , Html.text "Big news!"
-                        , Html.text "Lots of news"
                         , Html.text "22nd February 2022"
                         ]
         , test "Does not contain list if there are no events" <|

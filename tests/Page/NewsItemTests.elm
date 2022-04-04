@@ -20,18 +20,14 @@ import Time
 
 viewParamsWithNewsItem =
     { data =
-        { id = "1"
-        , title = "News Item Title"
-        , summary = "News item summary"
+        { title = "News Item Title"
         , body = "The news item body. Some more lines about news."
-        , datetime = Time.millisToPosix 5140800000
-        , author = "Joe News"
+        , publishedDatetime = Time.millisToPosix 5140800000
+        , partnerId = "1"
         }
-    , path = Path.fromString "news/1"
-    , routeParams = { newsItem = "1" }
-    , sharedData =
-        { news = Fixtures.news
-        }
+    , path = Path.fromString "news/news-item-title"
+    , routeParams = { newsItem = "news-item-title" }
+    , sharedData = ()
     }
 
 
@@ -62,7 +58,7 @@ suite =
         , test "Contains byline" <|
             \_ ->
                 viewBodyHtml viewParamsWithNewsItem
-                    |> Query.contains [ Html.text "Joe News" ]
+                    |> Query.contains [ Html.text "[fFf] Partner name from id" ]
         , test "Contains an article" <|
             \_ ->
                 viewBodyHtml viewParamsWithNewsItem

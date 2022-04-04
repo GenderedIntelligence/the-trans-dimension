@@ -15,9 +15,7 @@ viewParamsWithAbout =
     { data = { title = "About Page Test Title", body = [] }
     , path = Path.fromString "about"
     , routeParams = {}
-    , sharedData =
-        { news = Fixtures.news
-        }
+    , sharedData = ()
     }
 
 

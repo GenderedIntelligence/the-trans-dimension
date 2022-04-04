@@ -16,6 +16,7 @@
             "elm/parser": "1.1.0",
             "elm/time": "1.0.0",
             "elm/url": "1.0.0",
+            "hecrj/elm-slug": "1.0.2",
             "rtfeldman/elm-css": "17.0.5",
             "rtfeldman/elm-iso8601-date-strings": "1.1.4",
             "ryannhg/date-format": "2.3.0"
