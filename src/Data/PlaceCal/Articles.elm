@@ -15,7 +15,7 @@ type alias Article =
     { title : String
     , body : String
     , publishedDatetime : Time.Posix
-    , partnerId : String
+    , partnerIds : List String
     }
 
 
@@ -24,7 +24,7 @@ emptyArticle =
     { title = ""
     , body = ""
     , publishedDatetime = Time.millisToPosix 0
-    , partnerId = ""
+    , partnerIds = []
     }
 
 
@@ -81,8 +81,19 @@ decode =
             OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "datePublished" ]
             TransDate.isoDateStringDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "providers", "id" ]
-            OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "providers" ]
+            (OptimizedDecoder.list partnerIdDecoder)
+
+
+partnerIdDecoder : OptimizedDecoder.Decoder String
+partnerIdDecoder =
+    OptimizedDecoder.succeed ProviderId
+        |> OptimizedDecoder.Pipeline.required "id" OptimizedDecoder.string
+        |> OptimizedDecoder.map (\providerItem -> providerItem.id)
+
+
+type alias ProviderId =
+    { id : String }
 
 
 type alias AllArticlesResponse =
