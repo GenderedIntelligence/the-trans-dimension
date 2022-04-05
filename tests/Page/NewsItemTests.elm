@@ -23,7 +23,7 @@ viewParamsWithNewsItem =
         { title = "News Item Title"
         , body = "The news item body. Some more lines about news."
         , publishedDatetime = Time.millisToPosix 5140800000
-        , partnerId = "1"
+        , partnerIds = [ "1" ]
         }
     , path = Path.fromString "news/news-item-title"
     , routeParams = { newsItem = "news-item-title" }

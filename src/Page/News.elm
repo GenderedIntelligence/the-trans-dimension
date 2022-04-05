@@ -137,7 +137,7 @@ viewNewsItem newsItem =
                     [ span [ css [ newsItemAuthorStyle ] ] [ text "[fFf] Get partner name from id" ]
                     , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
                     ]
-                , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body) ]
+                , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]
                 ]
             , div [ css [ buttonWrapperStyle ] ]
                 [ a
@@ -160,7 +160,9 @@ viewPagination =
 
 summaryFromArticleBody : String -> String
 summaryFromArticleBody articleBody =
-    "[fFf] Summary"
+    String.words articleBody
+        |> List.take 20
+        |> String.join " "
 
 
 
