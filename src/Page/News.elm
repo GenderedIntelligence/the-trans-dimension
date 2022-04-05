@@ -5,6 +5,7 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
 import Data.PlaceCal.Articles
+import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -48,7 +49,16 @@ type alias Data =
 
 data : DataSource (List Data.PlaceCal.Articles.Article)
 data =
-    DataSource.map (\sharedData -> sharedData.allArticles) Data.PlaceCal.Articles.articlesData
+    DataSource.map2
+        (\articleData partnerData ->
+            List.map
+                (\article ->
+                    { article | partnerIds = Data.PlaceCal.Partners.partnerNamesFromIds partnerData article.partnerIds }
+                )
+                articleData.allArticles
+        )
+        Data.PlaceCal.Articles.articlesData
+        (DataSource.map (\partnersData -> partnersData.allPartners) Data.PlaceCal.Partners.partnersData)
 
 
 head :
@@ -134,7 +144,9 @@ viewNewsItem newsItem =
             , div [ css [ newsItemInfoStyle ] ]
                 [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
                 , p [ css [ newsItemMetaStyle ] ]
-                    [ span [ css [ newsItemAuthorStyle ] ] [ text "[fFf] Get partner name from id" ]
+                    [ span [ css [ newsItemAuthorStyle ] ]
+                        [ text (String.join ", " newsItem.partnerIds)
+                        ]
                     , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
                     ]
                 , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]
