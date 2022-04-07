@@ -5,6 +5,7 @@ import Copy.Text exposing (t)
 import Css exposing (Style, after, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, firstChild, fontSize, fontWeight, height, inlineBlock, margin, margin2, margin4, marginBottom, marginTop, maxWidth, none, num, padding, pct, property, px, rem, textAlign, textDecoration, width)
 import Css.Global exposing (descendants, typeSelector)
 import Data.PlaceCal.Articles
+import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -59,16 +60,26 @@ routes =
 
 data : RouteParams -> DataSource Data
 data routeParams =
-    DataSource.map
-        (\sharedData ->
+    DataSource.map2
+        (\articlesData partnersData ->
             Maybe.withDefault Data.PlaceCal.Articles.emptyArticle
-                ((sharedData.allArticles
+                ((articlesData.allArticles
                     |> List.filter (\newsItem -> TransRoutes.stringToSlug newsItem.title == routeParams.newsItem)
                  )
                     |> List.head
                 )
+                |> partnerIdsToNames partnersData
         )
         Data.PlaceCal.Articles.articlesData
+        (DataSource.map (\partnersData -> partnersData.allPartners) Data.PlaceCal.Partners.partnersData)
+
+
+partnerIdsToNames :
+    List Data.PlaceCal.Partners.Partner
+    -> Data.PlaceCal.Articles.Article
+    -> Data.PlaceCal.Articles.Article
+partnerIdsToNames partnersData newsItem =
+    { newsItem | partnerIds = Data.PlaceCal.Partners.partnerNamesFromIds partnersData newsItem.partnerIds }
 
 
 head :
@@ -120,7 +131,8 @@ viewArticle : Data.PlaceCal.Articles.Article -> Html msg
 viewArticle newsItem =
     article [ css [ articleStyle ] ]
         [ p [ css [ articleMetaStyle ] ]
-            [ span [ css [ newsItemAuthorStyle ] ] [ text "[fFf] Partner name from id" ]
+            [ span [ css [ newsItemAuthorStyle ] ]
+                [ text (String.join ", " newsItem.partnerIds) ]
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
         , figure [ css [ articleFigureStyle ] ]
