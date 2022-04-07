@@ -23,7 +23,7 @@ viewParamsWithNewsItem =
         { title = "News Item Title"
         , body = "The news item body. Some more lines about news."
         , publishedDatetime = Time.millisToPosix 5140800000
-        , partnerIds = [ "1" ]
+        , partnerIds = [ "Article Author" ]
         }
     , path = Path.fromString "news/news-item-title"
     , routeParams = { newsItem = "news-item-title" }
@@ -58,7 +58,7 @@ suite =
         , test "Contains byline" <|
             \_ ->
                 viewBodyHtml viewParamsWithNewsItem
-                    |> Query.contains [ Html.text "[fFf] Partner name from id" ]
+                    |> Query.contains [ Html.text "Article Author" ]
         , test "Contains an article" <|
             \_ ->
                 viewBodyHtml viewParamsWithNewsItem

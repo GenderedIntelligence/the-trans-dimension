@@ -64,7 +64,8 @@ suite =
                         [ Html.text "Some news"
                         , Html.text "21st February 2022"
                         , Html.text "Nunc augue erat, ullamcorper et nunc nec, placerat rhoncus nulla. Quisque nec sollicitudin turpis. Etiam risus dolor, ullamcorper vitae consectetur"
-                        , Html.text "[fFf] Get partner name from id"
+                        , Html.text "Article Author1"
+                        , Html.text "Article Author1, Article Author2"
                         , Html.text "Big news!"
                         , Html.text "22nd February 2022"
                         ]
