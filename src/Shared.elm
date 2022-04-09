@@ -7,8 +7,6 @@ import DataSource
 import Html
 import Html.Attributes
 import Html.Styled
-import Http
-import Json.Encode
 import Messages exposing (Msg(..), SharedMsg(..))
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
