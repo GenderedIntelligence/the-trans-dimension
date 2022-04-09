@@ -2,17 +2,17 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, active, after, alignItems, auto, backgroundColor, batch, before, block, border, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, firstChild, flexDirection, flexEnd, flexGrow, flexWrap, float, focus, fontSize, fontWeight, hover, inlineBlock, inlineFlex, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxContent, maxWidth, none, nthChild, nthLastChild, num, outline, padding, padding2, padding4, paddingLeft, pct, position, property, px, relative, rem, right, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, top, unset, uppercase, width, wrap)
+import Css exposing (Style, absolute, active, after, alignItems, auto, backgroundColor, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexGrow, flexWrap, focus, fontSize, fontWeight, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxContent, maxWidth, none, nthLastChild, num, outline, padding, padding2, padding4, pct, position, property, px, relative, rem, right, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, top, uppercase, width, wrap)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html exposing (sub)
-import Html.Styled exposing (Html, a, button, div, footer, form, h1, h4, img, input, label, li, nav, p, span, text, ul)
-import Html.Styled.Attributes exposing (css, href, placeholder, src, target, type_)
+import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
+import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
 import List exposing (append)
-import Theme.Global exposing (blue, darkBlue, lightPink, pink, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Messages exposing (Msg(..))
+import Theme.Global exposing (darkBlue, lightPink, pink, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
-viewPageFooter : Html msg
+viewPageFooter : Html Msg
 viewPageFooter =
     footer [ css [ footerStyle ] ]
         [ div [ css [ footerTopSectionStyle ] ]
@@ -76,14 +76,38 @@ viewPageFooterLogos =
         ]
 
 
-viewPageFooterSignup : String -> String -> Html msg
+viewPageFooterSignup : String -> String -> Html Msg
 viewPageFooterSignup copyText buttonText =
-    form [ css [ blockStyle, formStyle, socialBlockStyle ] ]
+    -- Ideally we'd implement an ajax form and handle the result within elm
+    -- Code supplied for the embed is plain html, using that for now.
+    form
+        [ css
+            [ blockStyle
+            , formStyle
+            , socialBlockStyle
+            ]
+        , action "https://static.mailerlite.com/webforms/submit/g2r6z4"
+        , attribute "data-code" "g2r6z4"
+        , method "post"
+        , target "_blank"
+        ]
         [ label [ css [ formStyle ] ]
             [ span [ css [ subheadStyle ] ] [ text copyText ]
-            , input [ placeholder "Your email address", type_ "email", css [ formInputStyle ] ] []
+            , input
+                [ placeholder "Your email address"
+                , type_ "email"
+                , name "fields[email]"
+                , css [ formInputStyle ]
+                ]
+                []
             ]
-        , button [ type_ "submit", css [ formButtonStyle ] ] [ text buttonText ]
+        , input [ type_ "hidden", name "ml-submit", value "1" ] []
+        , input [ type_ "hidden", name "anticsrf", value "true" ] []
+        , button
+            [ type_ "submit"
+            , css [ formButtonStyle ]
+            ]
+            [ text buttonText ]
         ]
 
 

@@ -12,10 +12,6 @@ type Msg
         }
       -- Header
     | ToggleMenu
-      -- Footer
-    | SubmitNewsletterSignupForm
-    | SetNewsletterSignupEmail String
-    | GotNewsletterSignupResponse (Result Http.Error String)
       -- Shared
     | SharedMsg SharedMsg
 
