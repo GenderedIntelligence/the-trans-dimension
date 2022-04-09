@@ -8,11 +8,10 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
 import List exposing (append)
-import Messages exposing (Msg(..))
 import Theme.Global exposing (darkBlue, lightPink, pink, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
-viewPageFooter : Html Msg
+viewPageFooter : Html msg
 viewPageFooter =
     footer [ css [ footerStyle ] ]
         [ div [ css [ footerTopSectionStyle ] ]
@@ -76,7 +75,7 @@ viewPageFooterLogos =
         ]
 
 
-viewPageFooterSignup : String -> String -> Html Msg
+viewPageFooterSignup : String -> String -> Html msg
 viewPageFooterSignup copyText buttonText =
     -- Ideally we'd implement an ajax form and handle the result within elm
     -- Code supplied for the embed is plain html, using that for now.

@@ -154,7 +154,7 @@ view sharedData page model toMsg pageView =
                 , Theme.Global.globalStyles
                 , viewPageHeader model.showMobileMenu |> Html.Styled.map toMsg
                 , Html.Styled.main_ [] pageView.body
-                , viewPageFooter |> Html.Styled.map toMsg
+                , viewPageFooter
                 ]
             )
     , title = pageView.title
