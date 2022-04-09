@@ -1,6 +1,5 @@
 module Messages exposing (Msg(..), SharedMsg(..))
 
-import Http
 import Path exposing (Path)
 
 
