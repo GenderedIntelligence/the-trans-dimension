@@ -1,8 +1,9 @@
-module Helpers.TransRoutes exposing (Route(..), toAbsoluteUrl, toPageTitle)
+module Helpers.TransRoutes exposing (Route(..), stringToSlug, toAbsoluteUrl, toPageTitle)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Path
+import Slug
 
 
 type Route
@@ -96,3 +97,20 @@ toPath route =
 toAbsoluteUrl : Route -> String
 toAbsoluteUrl route =
     Path.toAbsolute (toPath route)
+
+
+stringToSlug : String -> String
+stringToSlug stringToSluggify =
+    -- Currently nothing done to make sure these are unique
+    Slug.generate stringToSluggify
+        |> stringFromMaybeSlug
+
+
+stringFromMaybeSlug : Maybe Slug.Slug -> String
+stringFromMaybeSlug maybeSlug =
+    case maybeSlug of
+        Just slug ->
+            Slug.toString slug
+
+        Nothing ->
+            "unsluggable"

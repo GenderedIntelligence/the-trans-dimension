@@ -101,19 +101,15 @@ events =
 
 
 news =
-    [ { id = "1"
-      , title = "Some news"
-      , summary = "News news news"
+    [ { title = "Some news"
       , body = "Integer et nibh porta, pellentesque lacus sit amet, condimentum ligula. Praesent eget lobortis felis, id hendrerit nisl. Vivamus porttitor purus vulputate arcu consequat, vitae condimentum metus molestie. Sed ac consequat eros, vel venenatis metus. Duis laoreet id velit sit amet semper. Nunc placerat risus mi, vitae lacinia lectus rutrum sed. Sed turpis ligula, interdum eu tempor vel, accumsan in arcu. Donec hendrerit molestie sapien, sed suscipit augue. Curabitur eleifend felis magna, nec egestas eros auctor ac. Mauris hendrerit venenatis vestibulum. Aliquam erat volutpat. Aenean commodo gravida est ac dapibus. Vivamus eu lacus sit amet quam sodales consequat. Nullam auctor lacus ac imperdiet fermentum. Pellentesque vel interdum nisi. Aenean malesuada ut nunc eu euismod."
-      , datetime = Time.millisToPosix 1645449400000
-      , author = "GFSC"
+      , publishedDatetime = Time.millisToPosix 1645449400000
+      , partnerIds = [ "Article Author1" ]
       }
-    , { id = "2"
-      , title = "Big news!"
-      , summary = "Lots of news"
+    , { title = "Big news!"
       , body = "Nunc augue erat, ullamcorper et nunc nec, placerat rhoncus nulla. Quisque nec sollicitudin turpis. Etiam risus dolor, ullamcorper vitae consectetur et, faucibus a nunc. Phasellus tempus tellus ligula, dignissim bibendum leo accumsan ac. Phasellus sit amet odio varius augue aliquet venenatis. Vestibulum sit amet mi pulvinar, efficitur tortor non, semper ipsum. In ut faucibus sapien, non pellentesque odio. Morbi orci purus, consequat ut enim non, placerat eleifend neque. Nulla non rhoncus velit. Ut tristique cursus nulla vel consectetur. Fusce in odio vel nunc iaculis pulvinar. Suspendisse a sagittis orci, rutrum mattis justo.\n\n"
-      , datetime = Time.millisToPosix 1645559400000
-      , author = "GFSC"
+      , publishedDatetime = Time.millisToPosix 1645559400000
+      , partnerIds = [ "Article Author1", "Article Author2" ]
       }
     ]
 

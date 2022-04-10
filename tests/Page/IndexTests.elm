@@ -19,9 +19,7 @@ viewParamsForHome =
     { data = ()
     , path = Path.fromString "/"
     , routeParams = {}
-    , sharedData =
-        { news = Fixtures.news
-        }
+    , sharedData = ()
     }
 
 

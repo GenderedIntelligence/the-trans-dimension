@@ -1,4 +1,4 @@
-module Shared exposing (Data, Model, Msg, News, SharedMsg, data, emptyNews, template)
+module Shared exposing (Data, Model, Msg, SharedMsg, data, template)
 
 import Browser.Navigation
 import Data.PlaceCal.Events
@@ -38,29 +38,7 @@ template =
 
 
 type alias Data =
-    { news : List News
-    }
-
-
-type alias News =
-    { id : String
-    , title : String
-    , summary : String
-    , body : String
-    , datetime : Time.Posix
-    , author : String
-    }
-
-
-emptyNews : News
-emptyNews =
-    { id = ""
-    , title = ""
-    , summary = ""
-    , body = ""
-    , datetime = Time.millisToPosix 0
-    , author = ""
-    }
+    ()
 
 
 
@@ -122,9 +100,7 @@ subscriptions _ _ =
 
 data : DataSource.DataSource Data
 data =
-    DataSource.succeed
-        { news = Fixtures.news
-        }
+    DataSource.succeed ()
 
 
 

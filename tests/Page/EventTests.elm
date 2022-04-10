@@ -31,9 +31,7 @@ viewParamsWithEvent =
         }
     , path = Path.fromString "event/1"
     , routeParams = { event = "1" }
-    , sharedData =
-        { news = Fixtures.news
-        }
+    , sharedData = ()
     }
 
 

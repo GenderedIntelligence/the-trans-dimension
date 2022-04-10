@@ -18,9 +18,7 @@ viewParamsWithJoin =
     { data = ()
     , path = Path.fromString "join"
     , routeParams = {}
-    , sharedData =
-        { news = Fixtures.news
-        }
+    , sharedData = ()
     }
 
 

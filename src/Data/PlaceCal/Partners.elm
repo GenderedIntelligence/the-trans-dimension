@@ -1,4 +1,4 @@
-module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, partnerNamesFromIds, partnersData)
 
 import Api
 import DataSource
@@ -139,3 +139,10 @@ serviceAreaDecoder =
         |> OptimizedDecoder.Pipeline.optional "abbreviatedName"
             (OptimizedDecoder.map Just OptimizedDecoder.string)
             Nothing
+
+
+partnerNamesFromIds : List Partner -> List String -> List String
+partnerNamesFromIds partnerList idList =
+    -- If the partner isn't in our sites partners, it won't be in the list
+    List.filter (\partner -> List.member partner.id idList) partnerList
+        |> List.map (\partner -> partner.name)
