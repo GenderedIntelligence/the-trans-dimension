@@ -199,6 +199,8 @@ introBoxInvisibleStyle =
         , borderRadius (rem 0.3)
         , boxSizing borderBox
         , margin2 (rem 2) (rem 0)
+        , withMediaTabletPortraitUp
+            [ paddingLeft (rem 1.25), paddingRight (rem 1.25) ]
         ]
 
 
@@ -212,7 +214,7 @@ introTextLargeStyle =
         , fontWeight (int 400)
         , margin (rem 1)
         , withMediaTabletLandscapeUp
-            [ fontSize (rem 2.5), lineHeight (rem 3.1) ]
+            [ fontSize (rem 2.5), lineHeight (rem 3.1), maxWidth (px 838), margin2 (rem 3) auto ]
         , withMediaTabletPortraitUp
             [ fontSize (rem 1.9), lineHeight (rem 2.1), margin2 (rem 1) (rem 1.5) ]
         ]

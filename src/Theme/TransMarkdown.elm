@@ -1,13 +1,13 @@
 module Theme.TransMarkdown exposing (markdownToHtml, markdownToView)
 
-import Css exposing (Style, absolute, batch, before, center, color, decimal, disc, em, firstChild, fontSize, int, left, lineHeight, listStyle, listStyleType, marginBlockEnd, marginBlockStart, none, paddingLeft, position, property, relative, rem, square, textAlign, textDecoration, top, underline)
+import Css exposing (Style, absolute, batch, before, center, color, decimal, disc, em, firstChild, fontSize, fontWeight, int, left, lineHeight, listStyle, listStyleType, marginBlockEnd, marginBlockStart, none, paddingLeft, position, property, relative, rem, square, textAlign, textDecoration, top, underline)
 import Html.Styled as Html
 import Html.Styled.Attributes as Attr exposing (css)
 import Markdown.Block as Block
 import Markdown.Html
 import Markdown.Parser
 import Markdown.Renderer
-import Theme.Global exposing (pink, white)
+import Theme.Global exposing (pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp)
 
 
 markdownToHtml : String -> List (Html.Html msg)
@@ -222,7 +222,9 @@ headerStyle =
 h2Style : Style
 h2Style =
     batch
-        [ textAlign center ]
+        [ textAlign center
+        , marginBlockStart (em 2)
+        ]
 
 
 paragraphStyle : Style
@@ -230,7 +232,13 @@ paragraphStyle =
     batch
         [ marginBlockStart (em 1)
         , marginBlockEnd (em 1)
-        , firstChild [ fontSize (rem 1.2) ]
+        , withMediaSmallDesktopUp
+            [ fontSize (rem 1.2) ]
+        , firstChild
+            [ fontSize (rem 1.2)
+            , marginBlockEnd (em 2)
+            , withMediaSmallDesktopUp [ fontSize (rem 1.825), lineHeight (em 1.35) ]
+            ]
         ]
 
 
@@ -238,8 +246,8 @@ ulStyle : Style
 ulStyle =
     batch
         [ listStyle none
-        , marginBlockStart (em 1)
-        , marginBlockEnd (em 1)
+        , marginBlockStart (em 2)
+        , marginBlockEnd (em 2)
         ]
 
 
@@ -258,6 +266,11 @@ ulLiStyle =
     batch
         [ paddingLeft (rem 1.5)
         , position relative
+        , fontWeight (int 600)
+        , withMediaTabletLandscapeUp
+            [ marginBlockStart (em 0.5)
+            , marginBlockEnd (em 0.5)
+            ]
         , before
             [ property "content" "\"\\25A0\""
             , color pink
