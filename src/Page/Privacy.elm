@@ -38,6 +38,7 @@ page =
 
 type alias Data =
     { title : String
+    , subtitle : String
     , body : List (Html.Html Msg)
     }
 
@@ -46,13 +47,15 @@ data : DataSource Data
 data =
     DataSource.File.bodyWithFrontmatter
         (\markdownString ->
-            Decode.map2
-                (\title renderedMarkdown ->
+            Decode.map3
+                (\title subtitle renderedMarkdown ->
                     { title = title
+                    , subtitle = subtitle
                     , body = renderedMarkdown
                     }
                 )
                 (Decode.field "title" Decode.string)
+                (Decode.field "subtitle" Decode.string)
                 (markdownString
                     |> TransMarkdown.markdownToView
                     |> Decode.fromResult
@@ -88,5 +91,5 @@ view :
     -> View Msg
 view maybeUrl sharedModel static =
     { title = static.data.title
-    , body = [ TextHeavyPage.view static.data.title static.data.body ]
+    , body = [ TextHeavyPage.view static.data.title static.data.subtitle static.data.body ]
     }
