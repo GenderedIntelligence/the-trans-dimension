@@ -9,7 +9,9 @@ type Msg
         , query : Maybe String
         , fragment : Maybe String
         }
+      -- Header
     | ToggleMenu
+      -- Shared
     | SharedMsg SharedMsg
 
 

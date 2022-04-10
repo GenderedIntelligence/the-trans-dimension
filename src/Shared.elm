@@ -75,7 +75,8 @@ init :
             }
     -> ( Model, Cmd Msg )
 init navigationKey flags maybePagePath =
-    ( { showMobileMenu = False }
+    ( { showMobileMenu = False
+      }
     , Cmd.none
     )
 
@@ -86,9 +87,11 @@ update msg model =
         OnPageChange _ ->
             ( { model | showMobileMenu = False }, Cmd.none )
 
+        -- Header
         ToggleMenu ->
             ( { model | showMobileMenu = not model.showMobileMenu }, Cmd.none )
 
+        -- Shared
         SharedMsg globalMsg ->
             ( model, Cmd.none )
 
