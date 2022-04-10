@@ -1,12 +1,13 @@
 module Theme.TransMarkdown exposing (markdownToHtml, markdownToView)
 
-import Css exposing (Style, batch, decimal, disc, em, listStyleType, marginBlockEnd, marginBlockStart, paddingLeft)
+import Css exposing (Style, absolute, batch, before, center, color, decimal, disc, em, firstChild, fontSize, fontWeight, int, left, lineHeight, listStyle, listStyleType, marginBlockEnd, marginBlockStart, none, paddingLeft, position, property, relative, rem, square, textAlign, textDecoration, top, underline)
 import Html.Styled as Html
 import Html.Styled.Attributes as Attr exposing (css)
 import Markdown.Block as Block
 import Markdown.Html
 import Markdown.Parser
 import Markdown.Renderer
+import Theme.Global exposing (pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp)
 
 
 markdownToHtml : String -> List (Html.Html msg)
@@ -41,7 +42,7 @@ transHtmlRenderer =
                     Html.h1 [ css [ headerStyle ] ] children
 
                 Block.H2 ->
-                    Html.h2 [ css [ headerStyle ] ] children
+                    Html.h2 [ css [ headerStyle, h2Style ] ] children
 
                 Block.H3 ->
                     Html.h3 [ css [ headerStyle ] ] children
@@ -73,11 +74,12 @@ transHtmlRenderer =
                     Html.a
                         [ Attr.href link.destination
                         , Attr.title title
+                        , css [ linkStyle ]
                         ]
                         content
 
                 Nothing ->
-                    Html.a [ Attr.href link.destination ] content
+                    Html.a [ Attr.href link.destination, css [ linkStyle ] ] content
     , image =
         \imageInfo ->
             case imageInfo.title of
@@ -127,7 +129,7 @@ transHtmlRenderer =
                                                         ]
                                                         []
                                     in
-                                    Html.li [ css [ liStyle ] ] (checkbox :: children)
+                                    Html.li [ css [ ulLiStyle ] ] (checkbox :: children)
                         )
                 )
     , orderedList =
@@ -143,7 +145,7 @@ transHtmlRenderer =
                 (items
                     |> List.map
                         (\itemBlocks ->
-                            Html.li [ css [ liStyle ] ]
+                            Html.li [ css [ olLiStyle ] ]
                                 itemBlocks
                         )
                 )
@@ -209,21 +211,43 @@ transHtmlRenderer =
 
 headerStyle : Style
 headerStyle =
-    batch [ marginBlockStart (em 1), marginBlockEnd (em 1) ]
+    batch
+        [ marginBlockStart (em 1)
+        , marginBlockEnd (em 1)
+        , color pink
+        , lineHeight (em 1.2)
+        ]
+
+
+h2Style : Style
+h2Style =
+    batch
+        [ textAlign center
+        , marginBlockStart (em 2)
+        ]
 
 
 paragraphStyle : Style
 paragraphStyle =
-    batch [ marginBlockStart (em 1), marginBlockEnd (em 1) ]
+    batch
+        [ marginBlockStart (em 1)
+        , marginBlockEnd (em 1)
+        , withMediaSmallDesktopUp
+            [ fontSize (rem 1.2) ]
+        , firstChild
+            [ fontSize (rem 1.2)
+            , marginBlockEnd (em 2)
+            , withMediaSmallDesktopUp [ fontSize (rem 1.825), lineHeight (em 1.35) ]
+            ]
+        ]
 
 
 ulStyle : Style
 ulStyle =
     batch
-        [ listStyleType disc
-        , paddingLeft (em 2)
-        , marginBlockStart (em 1)
-        , marginBlockEnd (em 1)
+        [ listStyle none
+        , marginBlockStart (em 2)
+        , marginBlockEnd (em 2)
         ]
 
 
@@ -237,7 +261,37 @@ olStyle =
         ]
 
 
-liStyle : Style
-liStyle =
+ulLiStyle : Style
+ulLiStyle =
     batch
-        [ paddingLeft (em 1) ]
+        [ paddingLeft (rem 1.5)
+        , position relative
+        , fontWeight (int 600)
+        , withMediaTabletLandscapeUp
+            [ marginBlockStart (em 0.5)
+            , marginBlockEnd (em 0.5)
+            ]
+        , before
+            [ property "content" "\"\\25A0\""
+            , color pink
+            , fontSize (em 1.5)
+            , position absolute
+            , left (rem 0)
+            , top (em -0.25)
+            ]
+        ]
+
+
+olLiStyle : Style
+olLiStyle =
+    batch
+        [ paddingLeft (em 1)
+        ]
+
+
+linkStyle : Style
+linkStyle =
+    batch
+        [ color white
+        , property "text-decoration-color" "#FF7AA7"
+        ]
