@@ -1,35 +1,13 @@
 module Theme.TransMarkdown exposing (markdownToHtml, markdownToView)
 
-import Css exposing (Style, batch, decimal, disc, em, listStyleType, marginBlockEnd, marginBlockStart, paddingLeft)
+import Css exposing (Style, absolute, batch, before, center, color, decimal, disc, em, firstChild, fontSize, int, left, lineHeight, listStyle, listStyleType, marginBlockEnd, marginBlockStart, none, paddingLeft, position, property, relative, rem, square, textAlign, textDecoration, top, underline)
 import Html.Styled as Html
 import Html.Styled.Attributes as Attr exposing (css)
 import Markdown.Block as Block
 import Markdown.Html
 import Markdown.Parser
 import Markdown.Renderer
-import Css exposing (color)
-import Theme.Global exposing (pink)
-import Css exposing (firstChild)
-import Css exposing (rem)
-import Css exposing (fontSize)
-import Css exposing (square)
-import Theme.Global exposing (white)
-import Css exposing (before)
-import Css exposing (property)
-import Css exposing (listStyle)
-import Css exposing (none)
-import Css exposing (position)
-import Css exposing (relative)
-import Css exposing (absolute)
-
-import Css exposing (top)
-import Css exposing (left)
-import Css exposing (int)
-import Css exposing (lineHeight)
-import Css exposing (textAlign)
-import Css exposing (center)
-import Css exposing (textDecoration)
-import Css exposing (underline)
+import Theme.Global exposing (pink, white)
 
 
 markdownToHtml : String -> List (Html.Html msg)
@@ -93,17 +71,15 @@ transHtmlRenderer =
         \link content ->
             case link.title of
                 Just title ->
-                    
-                         Html.a
+                    Html.a
                         [ Attr.href link.destination
                         , Attr.title title
                         , css [ linkStyle ]
                         ]
-                        content 
+                        content
 
                 Nothing ->
-                    
-                    Html.a [ Attr.href link.destination, css [ linkStyle ] ] content 
+                    Html.a [ Attr.href link.destination, css [ linkStyle ] ] content
     , image =
         \imageInfo ->
             case imageInfo.title of
@@ -235,24 +211,27 @@ transHtmlRenderer =
 
 headerStyle : Style
 headerStyle =
-    batch 
+    batch
         [ marginBlockStart (em 1)
-        , marginBlockEnd (em 1) 
+        , marginBlockEnd (em 1)
         , color pink
         , lineHeight (em 1.2)
         ]
+
 
 h2Style : Style
 h2Style =
     batch
         [ textAlign center ]
 
+
 paragraphStyle : Style
 paragraphStyle =
-    batch 
+    batch
         [ marginBlockStart (em 1)
-        , marginBlockEnd (em 1) 
-        , firstChild [ fontSize (rem 1.2) ]]
+        , marginBlockEnd (em 1)
+        , firstChild [ fontSize (rem 1.2) ]
+        ]
 
 
 ulStyle : Style
@@ -279,20 +258,24 @@ ulLiStyle =
     batch
         [ paddingLeft (rem 1.5)
         , position relative
-        , before [
-            property "content" "\"\\25A0\""
+        , before
+            [ property "content" "\"\\25A0\""
             , color pink
             , fontSize (em 1.5)
             , position absolute
             , left (rem 0)
             , top (em -0.25)
-        ] ]
+            ]
+        ]
+
 
 olLiStyle : Style
 olLiStyle =
     batch
         [ paddingLeft (em 1)
-         ]
+        ]
+
+
 linkStyle : Style
 linkStyle =
     batch

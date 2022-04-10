@@ -10,7 +10,7 @@ import Theme.PageTemplate as PageTemplate
 
 view : String -> String -> List (Html msg) -> Html msg
 view title subtitle body =
-    PageTemplate.viewNews { title = title, bigText = subtitle, smallText = [] } (Just (section [ css [ bodyStyle]] body )) (Nothing)
+    PageTemplate.viewNews { title = title, bigText = subtitle, smallText = [] } (Just (section [ css [ bodyStyle ] ] body)) Nothing
 
 
 bodyStyle : Style
