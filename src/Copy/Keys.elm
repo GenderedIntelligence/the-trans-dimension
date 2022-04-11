@@ -33,10 +33,6 @@ type Key
     | IndexIntroTitle
     | IndexIntroMessage
     | IndexIntroButtonText
-    | IndexResourcesHeading
-    | IndexResourcesSubheading
-    | IndexResourcesDescription
-    | IndexResourcesButtonText
     | IndexFeaturedHeader
     | IndexFeaturedButtonText
     | IndexNewsHeader
@@ -87,10 +83,5 @@ type Key
     | NewsItemTitle String
     | NewsItemDescription String
     | NewsItemReturnButton
-      --- Resources Page
-    | ResourcesTitle
-    | ResourcesMetaDescription
-    | ResourcesIntro
-    | ResourcesEmptyText
       --- Privacy
     | PrivacyTitle

@@ -16,7 +16,6 @@ type Route
     | News
     | Partner String
     | Partners
-    | Resources
     | Privacy
 
 
@@ -49,9 +48,6 @@ toPageTitle route =
 
         Partners ->
             t PartnersTitle
-
-        Resources ->
-            t ResourcesTitle
 
         Privacy ->
             t PrivacyTitle
@@ -86,9 +82,6 @@ toPath route =
 
         Partners ->
             Path.fromString "partners"
-
-        Resources ->
-            Path.fromString "resources"
 
         Privacy ->
             Path.fromString "privacy"

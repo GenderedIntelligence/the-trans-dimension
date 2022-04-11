@@ -97,18 +97,6 @@ t key =
         IndexIntroButtonText ->
             "See what's on near you"
 
-        IndexResourcesHeading ->
-            "Need help?"
-
-        IndexResourcesSubheading ->
-            "Check out our resources."
-
-        IndexResourcesDescription ->
-            "We've collated a selection of useful links and services both run for and led by trans people."
-
-        IndexResourcesButtonText ->
-            "[cCc] Resources"
-
         IndexFeaturedHeader ->
             "[cCc] Featured Events"
 
@@ -224,19 +212,6 @@ t key =
 
         NewsItemReturnButton ->
             "Go back to news"
-
-        -- Resources Page
-        ResourcesTitle ->
-            "Resources"
-
-        ResourcesMetaDescription ->
-            "[cCc] Resources meta description"
-
-        ResourcesIntro ->
-            "[cCc] Resources page introduction"
-
-        ResourcesEmptyText ->
-            "[cCc] No resources"
 
         -- Join Form
         JoinFormInputNameLabel ->

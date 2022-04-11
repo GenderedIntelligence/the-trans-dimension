@@ -41,8 +41,6 @@ suite =
                 viewBodyHtml viewParamsForHome
                     |> Query.contains
                         [ Html.text (t IndexIntroMessage)
-                        , Html.text (t IndexResourcesHeading)
-                        , Html.text (t IndexResourcesDescription)
                         , Html.text (t IndexFeaturedHeader)
                         , Html.text (t IndexNewsHeader)
                         ]
@@ -62,12 +60,4 @@ suite =
                         , Selector.attribute (Html.Attributes.href (TransRoutes.toAbsoluteUrl News))
                         ]
                     |> Query.contains [ Html.text (t IndexNewsButtonText) ]
-        , test "Has link to resources page" <|
-            \_ ->
-                viewBodyHtml viewParamsForHome
-                    |> Query.find
-                        [ Selector.tag "a"
-                        , Selector.attribute (Html.Attributes.href (TransRoutes.toAbsoluteUrl Resources))
-                        ]
-                    |> Query.contains [ Html.text (t IndexResourcesButtonText) ]
         ]

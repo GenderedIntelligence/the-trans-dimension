@@ -16,7 +16,7 @@ import Theme.Logo
 
 headerNavigationItems : List Route
 headerNavigationItems =
-    [ Home, Partners, Events, News, About, Resources ]
+    [ Home, Partners, Events, News, About ]
 
 
 viewPageHeader : Bool -> Html Msg
