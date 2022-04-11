@@ -5,12 +5,21 @@ import Html.Styled exposing (Html, div, h2, section, text)
 import Html.Styled.Attributes exposing (css)
 import List exposing (concat)
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate
+import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 
 
 view : String -> String -> List (Html msg) -> Html msg
 view title subtitle body =
-    PageTemplate.viewNews { title = title, bigText = subtitle, smallText = [] } (Just (section [ css [ bodyStyle ] ] body)) Nothing
+    PageTemplate.view
+        { variant = InvisibleHeader
+        , intro =
+            { title = title
+            , bigText = subtitle
+            , smallText = []
+            }
+        }
+        (Just (section [ css [ bodyStyle ] ] body))
+        Nothing
 
 
 bodyStyle : Style

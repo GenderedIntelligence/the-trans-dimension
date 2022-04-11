@@ -1,6 +1,6 @@
 ---
 title: "Built using PlaceCal"
-subtitleimg: "/images/logos/TDD_About_PlaceCal.svg"
+subtitleimg: "/images/logos/about_placecal.svg"
 subtitleimgalt: "PlaceCal logo"
 ---
 

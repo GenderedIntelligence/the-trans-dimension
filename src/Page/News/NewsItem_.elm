@@ -16,7 +16,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate
+import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import View exposing (View)
 
 
@@ -98,7 +98,14 @@ view :
 view maybeUrl sharedModel static =
     { title = static.data.title
     , body =
-        [ PageTemplate.viewNews { title = t NewsTitle, bigText = static.data.title, smallText = [] }
+        [ PageTemplate.view
+            { variant = InvisibleHeader
+            , intro =
+                { title = t NewsTitle
+                , bigText = static.data.title
+                , smallText = []
+                }
+            }
             (Just
                 (viewArticle
                     static.data

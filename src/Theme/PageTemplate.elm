@@ -6,19 +6,36 @@ import Css exposing (Color, Style, absolute, after, auto, backgroundColor, backg
 import Html.Styled as Html exposing (Html, div, h1, h2, img, main_, p, section, span, text)
 import Html.Styled.Attributes exposing (alt, css, src)
 import List exposing (append)
-import Theme.Global as Theme exposing (darkBlue, pink, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (contentContainerStyle, contentWrapperStyle, darkBlue, introTextLargeStyle, introTextSmallStyle, pink, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+
+
+type alias Header =
+    { variant : HeaderType
+    , intro : PageIntro
+    }
+
+
+type HeaderType
+    = PinkHeader
+    | InvisibleHeader
+    | AboutHeader
 
 
 type alias PageIntro =
     { title : String, bigText : String, smallText : List String }
 
 
-view : PageIntro -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
-view intro maybeBoxContents maybeFooter =
+view : Header -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
+view header maybeBoxContents maybeFooter =
     main_ [ css [ mainStyle ] ]
-        [ viewHeader intro.title
+        [ viewHeader header
         , div [ css [ contentWrapperStyle ] ]
-            [ viewIntro intro.bigText intro.smallText
+            [ case header.variant of
+                InvisibleHeader ->
+                    viewIntroBlue header.intro.bigText header.intro.smallText
+
+                _ ->
+                    viewIntro header.intro.bigText header.intro.smallText
             , case maybeBoxContents of
                 Just boxContents ->
                     div [ css [ contentContainerStyle ] ] [ boxContents ]
@@ -35,30 +52,8 @@ view intro maybeBoxContents maybeFooter =
         ]
 
 
-viewNews : PageIntro -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
-viewNews intro maybeBoxContents maybeFooter =
-    main_ [ css [ mainStyle ] ]
-        [ viewHeader intro.title
-        , div [ css [ contentWrapperStyle ] ]
-            [ viewIntroBlue intro.bigText intro.smallText
-            , case maybeBoxContents of
-                Just boxContents ->
-                    div [ css [ contentContainerStyle ] ] [ boxContents ]
-
-                Nothing ->
-                    text ""
-            ]
-        , case maybeFooter of
-            Just footerContent ->
-                footerContent
-
-            Nothing ->
-                text ""
-        ]
-
-
-viewHeader : String -> Html msg
-viewHeader title =
+viewHeader : Header -> Html msg
+viewHeader header =
     section [ css [ headerSectionStyle ] ]
         [ h1 [ css [ headerLogoStyle ] ]
             [ img
@@ -68,13 +63,39 @@ viewHeader title =
                 ]
                 []
             ]
-        , h2 [ css [ pageHeadingStyle ] ] [ text title ]
+        , h2
+            [ css
+                [ pageHeadingStyle
+                , case header.variant of
+                    AboutHeader ->
+                        pageHeadingAboutStyle
+
+                    _ ->
+                        pageHeadingGenericStyle
+                ]
+            ]
+            [ text header.intro.title ]
+        ]
+
+
+viewAboutHeader : String -> Html msg
+viewAboutHeader title =
+    section [ css [ headerSectionStyle ] ]
+        [ h1 [ css [ headerLogoStyle ] ]
+            [ img
+                [ src "/images/logos/tdd_logo_with_strapline.svg"
+                , alt (t SiteTitle)
+                , css [ headerLogoImageStyle ]
+                ]
+                []
+            ]
+        , h2 [ css [ pageHeadingStyle, pageHeadingAboutStyle ] ] [ text title ]
         ]
 
 
 viewIntro : String -> List String -> Html msg
 viewIntro bigText smallTextList =
-    section [ css [ introBoxStyle ] ]
+    section [ css [ textBoxPinkStyle ] ]
         (append [ p [ css [ introTextLargeStyle ] ] [ text bigText ] ]
             (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) smallTextList)
         )
@@ -82,7 +103,7 @@ viewIntro bigText smallTextList =
 
 viewIntroBlue : String -> List String -> Html msg
 viewIntroBlue bigText smallTextList =
-    section [ css [ introBoxInvisibleStyle ] ]
+    section [ css [ textBoxInvisibleStyle ] ]
         (append [ p [ css [ introTextLargeStyle ] ] [ text bigText ] ]
             (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) smallTextList)
         )
@@ -130,105 +151,103 @@ pageHeadingStyle =
         , marginBlockEnd (rem 0)
         , position relative
         , paddingTop (rem 2)
+        , paddingBottom (rem 0.5)
         , before
             [ property "content" "\"\""
             , display block
             , width (vw 100)
-            , height (px 240)
             , backgroundSize (px 420)
             , backgroundPosition center
             , position absolute
             , zIndex (int -1)
             , backgroundRepeat noRepeat
-            , backgroundImage (url "/images/illustrations/320px/generic_header.png")
-            , top (px -130)
             , margin2 (rem 0) (rem -0.75)
             , withMediaMediumDesktopUp
-                [ backgroundImage (url "/images/illustrations/1920px/generic_header.png")
-                , backgroundSize (px 1920)
-                , height (px 846)
+                [ backgroundSize (px 1920)
                 ]
             , withMediaSmallDesktopUp
-                [ backgroundImage (url "/images/illustrations/1366px/generic_header.png")
-                , backgroundSize (px 1366)
-                , height (px 486)
+                [ backgroundSize (px 1366)
                 , margin2 (rem 0) (calc (vw -50) minus (px -575))
                 ]
             , withMediaTabletLandscapeUp
-                [ backgroundImage (url "/images/illustrations/1024px/generic_header.png")
-                , backgroundSize (px 1200)
-                , height (px 499)
-                , top (px -100)
+                [ backgroundSize (px 1200)
                 , margin2 (rem 0) (rem -1.5)
                 ]
             , withMediaTabletPortraitUp
-                [ backgroundImage (url "/images/illustrations/768px/generic_header.png")
-                , backgroundSize (px 900)
-                , height (px 432)
-                , top (px -75)
+                [ backgroundSize (px 900)
                 , margin2 (rem 0) (rem -2)
                 ]
             ]
         , withMediaTabletLandscapeUp
-            [ fontSize (rem 3.1), paddingTop (px 275) ]
+            [ fontSize (rem 3.1) ]
         , withMediaTabletPortraitUp
-            [ fontSize (rem 2.5), paddingTop (px 250) ]
+            [ fontSize (rem 2.5) ]
         ]
 
 
-introBoxStyle : Style
-introBoxStyle =
+pageHeadingGenericStyle : Style
+pageHeadingGenericStyle =
     batch
-        [ backgroundColor pink
-        , color darkBlue
-        , padding (rem 1)
-        , borderRadius (rem 0.3)
-        , boxSizing borderBox
-        , withMediaMediumDesktopUp
-            [ paddingBottom (rem 2) ]
-        , withMediaTabletPortraitUp
-            [ paddingTop (rem 3), paddingLeft (rem 3.5), paddingRight (rem 3.5) ]
-        ]
-
-
-introBoxInvisibleStyle : Style
-introBoxInvisibleStyle =
-    batch
-        [ backgroundColor darkBlue
-        , color pink
-        , borderRadius (rem 0.3)
-        , boxSizing borderBox
-        , margin2 (rem 2) (rem 0)
-        , withMediaTabletPortraitUp
-            [ paddingLeft (rem 1.25), paddingRight (rem 1.25) ]
-        ]
-
-
-introTextLargeStyle : Style
-introTextLargeStyle =
-    batch
-        [ textAlign center
-        , fontSize (rem 1.6)
-        , lineHeight (rem 2)
-        , fontStyle italic
-        , fontWeight (int 400)
-        , margin (rem 1)
+        [ before
+            [ height (px 240)
+            , backgroundImage (url "/images/illustrations/320px/generic_header.png")
+            , top (px -130)
+            , withMediaMediumDesktopUp
+                [ backgroundImage (url "/images/illustrations/1920px/generic_header.png")
+                , height (px 846)
+                ]
+            , withMediaSmallDesktopUp
+                [ backgroundImage (url "/images/illustrations/1366px/generic_header.png")
+                , height (px 486)
+                ]
+            , withMediaTabletLandscapeUp
+                [ backgroundImage (url "/images/illustrations/1024px/generic_header.png")
+                , height (px 499)
+                , top (px -100)
+                ]
+            , withMediaTabletPortraitUp
+                [ backgroundImage (url "/images/illustrations/768px/generic_header.png")
+                , height (px 432)
+                , top (px -75)
+                ]
+            ]
         , withMediaTabletLandscapeUp
-            [ fontSize (rem 2.5), lineHeight (rem 3.1), maxWidth (px 838), margin2 (rem 3) auto ]
+            [ paddingTop (px 275) ]
         , withMediaTabletPortraitUp
-            [ fontSize (rem 1.9), lineHeight (rem 2.1), margin2 (rem 1) (rem 1.5) ]
+            [ paddingTop (px 250) ]
         ]
 
 
-introTextSmallStyle : Style
-introTextSmallStyle =
+pageHeadingAboutStyle : Style
+pageHeadingAboutStyle =
     batch
-        [ textAlign center
-        , margin2 (rem 1.5) (rem 0)
+        [ before
+            [ height (px 240)
+            , backgroundImage (url "/images/illustrations/320px/about_1_header.png")
+            , top (px -130)
+            , withMediaMediumDesktopUp
+                [ backgroundImage (url "/images/illustrations/1920px/about_1_header.png")
+                , height (px 846)
+                ]
+            , withMediaSmallDesktopUp
+                [ backgroundImage (url "/images/illustrations/1366px/about_1_header.png")
+                , height (px 486)
+                ]
+            , withMediaTabletLandscapeUp
+                [ backgroundImage (url "/images/illustrations/1024px/about_1_header.png")
+                , height (px 499)
+                , top (px -100)
+                ]
+            , withMediaTabletPortraitUp
+                [ backgroundImage (url "/images/illustrations/768px/about_1_header.png")
+                , height (px 432)
+                , top (px -75)
+                ]
+            ]
         , withMediaTabletLandscapeUp
-            [ fontSize (rem 1.2), margin2 (rem 1.5) (rem 6.5) ]
+            [ paddingTop (px 275) ]
         , withMediaTabletPortraitUp
-            [ margin2 (rem 1.5) (rem 3.5) ]
+            [ paddingTop (px 250) ]
         ]
 
 
@@ -289,24 +308,4 @@ mainStyle =
             [ margin4 (rem 1) (rem 1.5) (px 180) (rem 1.5) ]
         , withMediaTabletPortraitUp
             [ margin4 (rem 1) (rem 2) (px 150) (rem 2) ]
-        ]
-
-
-contentWrapperStyle : Style
-contentWrapperStyle =
-    batch
-        [ borderRadius (rem 0.3)
-        , backgroundColor darkBlue
-        , borderColor pink
-        , borderStyle solid
-        , borderWidth (px 1)
-        ]
-
-
-contentContainerStyle : Style
-contentContainerStyle =
-    batch
-        [ margin (rem 0.75)
-        , withMediaMediumDesktopUp [ margin (rem 1.5) ]
-        , withMediaTabletPortraitUp [ margin2 (rem 0) (rem 2) ]
         ]

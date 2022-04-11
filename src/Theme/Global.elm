@@ -1,11 +1,14 @@
-module Theme.Global exposing (black, blue, containerContent, containerPage, darkBlue, darkPurple, generateId, globalStyles, gridStyle, lightPink, maxMobile, oneColumn, pink, purple, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (black, blue, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkPurple, generateId, globalStyles, gridStyle, introTextLargeStyle, introTextSmallStyle, lightPink, maxMobile, oneColumn, pink, purple, smallFloatingTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp, pinkBackgroundStyle, darkBlueBackgroundStyle, whiteBackgroundStyle, blueBackgroundStyle, buttonWrapperStyle, buttonStyle, viewFloatingButton)
 
-import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, start, textAlign, top, url, vw, width, wrap, zIndex, zero)
+import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, left, letterSpacing, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
-import Html.Styled exposing (Html, div, text)
+import Html.Styled exposing (Html, div, text, p, a)
 import Html.Styled.Attributes exposing (css, id)
-
+import Css exposing (textDecoration)
+import Css exposing (padding4)
+import Css exposing (marginRight)
+import Html.Styled.Attributes exposing (href)
 
 
 -- Brand colours
@@ -113,6 +116,163 @@ maxMediumDesktop =
 withMediaLargeDesktopUp : List Style -> Style
 withMediaLargeDesktopUp =
     withMedia [ only screen [ Media.minWidth (px maxMediumDesktop) ] ]
+
+
+pinkBackgroundStyle : Style
+pinkBackgroundStyle =
+    backgroundColor pink
+
+
+blueBackgroundStyle : Style
+blueBackgroundStyle =
+    backgroundColor blue
+
+
+darkBlueBackgroundStyle : Style
+darkBlueBackgroundStyle =
+    batch
+        [ backgroundColor darkBlue
+        , borderColor pink
+        , borderStyle solid
+        , borderWidth (px 1)
+        ]
+
+
+whiteBackgroundStyle : Style
+whiteBackgroundStyle =
+    batch
+        [ backgroundColor white
+        , color darkBlue
+        ]
+
+viewFloatingButton : String -> String -> Style -> Html msg
+viewFloatingButton link label backgroundStyle =
+     p [ css [ buttonWrapperStyle ] ]
+            [ a
+                [ href link
+                , css [ buttonStyle, backgroundStyle ]
+                ]
+                [ text label ]
+            ]
+
+
+buttonWrapperStyle : Style
+buttonWrapperStyle =
+    batch
+        [ margin2 (rem 1) auto
+        , display block
+        , position absolute
+        , bottom (rem -2)
+        , textAlign center
+        , width (pct 100)
+        ]
+
+
+buttonStyle : Style
+buttonStyle =
+    batch
+        [ backgroundColor white
+        , color darkBlue
+        , textDecoration none
+        , padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
+        , borderRadius (rem 0.3)
+        , fontWeight (int 600)
+        , marginRight (rem 1.75)
+        , fontSize (rem 1.2)
+        ]
+
+smallFloatingTitleStyle : Style
+smallFloatingTitleStyle =
+    batch
+        [ textTransform uppercase
+        , color white
+        , fontSize (rem 1.2)
+        , textAlign center
+        , letterSpacing (px 1.9)
+        , position absolute
+        , top (rem -3)
+        , width (calc (pct 100) minus (rem 2))
+        , left (rem 1)
+        ]
+
+
+textBoxStyle : Style
+textBoxStyle =
+    batch
+        [ borderRadius (rem 0.3)
+        , boxSizing borderBox
+        , padding2 (rem 1) (rem 0.75)
+        , withMediaMediumDesktopUp
+            [ paddingBottom (rem 2) ]
+        , withMediaTabletPortraitUp
+            [ paddingTop (rem 3), paddingLeft (rem 3.5), paddingRight (rem 3.5) ]
+        ]
+
+
+textBoxPinkStyle : Style
+textBoxPinkStyle =
+    batch
+        [ textBoxStyle
+        , backgroundColor pink
+        , color darkBlue
+        ]
+
+
+textBoxInvisibleStyle : Style
+textBoxInvisibleStyle =
+    batch
+        [ backgroundColor darkBlue
+        , color pink
+        , textBoxStyle
+        ]
+
+
+contentWrapperStyle : Style
+contentWrapperStyle =
+    batch
+        [ borderRadius (rem 0.3)
+        , backgroundColor darkBlue
+        , borderColor pink
+        , borderStyle solid
+        , borderWidth (px 1)
+        ]
+
+
+contentContainerStyle : Style
+contentContainerStyle =
+    batch
+        [ margin (rem 0.75)
+        , withMediaMediumDesktopUp [ margin (rem 1.5) ]
+        , withMediaTabletPortraitUp [ margin2 (rem 0) (rem 2) ]
+        ]
+
+
+introTextLargeStyle : Style
+introTextLargeStyle =
+    batch
+        [ textAlign center
+        , fontSize (rem 1.6)
+        , lineHeight (rem 2)
+        , fontStyle italic
+        , fontWeight (int 400)
+        , margin (rem 1)
+        , withMediaTabletLandscapeUp
+            [ fontSize (rem 2.5), lineHeight (rem 3.1), maxWidth (px 838), margin2 (rem 3) auto ]
+        , withMediaTabletPortraitUp
+            [ fontSize (rem 1.9), lineHeight (rem 2.1), margin2 (rem 1) (rem 1.5) ]
+        ]
+
+
+introTextSmallStyle : Style
+introTextSmallStyle =
+    batch
+        [ textAlign center
+        , margin2 (rem 1.5) (rem 0)
+        , withMediaTabletLandscapeUp
+            [ fontSize (rem 1.2), margin2 (rem 1.5) (rem 6.5) ]
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 1.5) (rem 3.5) ]
+        ]
 
 
 {-| Injects a <style> tag into the body, and can target element or
