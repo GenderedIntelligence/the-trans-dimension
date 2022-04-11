@@ -7,6 +7,7 @@ import Html.Styled as Html exposing (Html, div, h1, h2, img, main_, p, section, 
 import Html.Styled.Attributes exposing (alt, css, src)
 import List exposing (append)
 import Theme.Global as Theme exposing (contentContainerStyle, contentWrapperStyle, darkBlue, introTextLargeStyle, introTextSmallStyle, pink, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Css exposing (left)
 
 
 type alias Header =
@@ -227,7 +228,8 @@ pageHeadingAboutStyle =
             , top (px -130)
             , withMediaMediumDesktopUp
                 [ backgroundImage (url "/images/illustrations/1920px/about_1_header.png")
-                , height (px 846)
+                , height (px 1150)
+                , top (px -130)
                 ]
             , withMediaSmallDesktopUp
                 [ backgroundImage (url "/images/illustrations/1366px/about_1_header.png")
@@ -242,6 +244,27 @@ pageHeadingAboutStyle =
                 [ backgroundImage (url "/images/illustrations/768px/about_1_header.png")
                 , height (px 432)
                 , top (px -75)
+                ]
+            ]
+        , after
+            [ withMediaSmallDesktopUp
+                [ width (px 231)
+                , height (px 434)
+                , backgroundSize (px 231)
+                , bottom (px -250)
+                , left (px -100)]
+            , withMediaTabletLandscapeUp
+                [ property "content" "\"\""
+                , display block
+                , width (px 162)
+                , height (px 305)
+                , backgroundSize (px 162)
+                , backgroundPosition center
+                , position absolute
+                , zIndex (int 2)
+                , backgroundRepeat noRepeat 
+                , backgroundImage (url "/images/characters/girl_with_afro.png")
+                , bottom (px -90)
                 ]
             ]
         , withMediaTabletLandscapeUp
