@@ -69,11 +69,11 @@ data routeParams =
                         -- There should only be one, so take the head
                         |> List.head
                     )
-            , events = []
+            , events = Data.PlaceCal.Events.eventsFromPartnerId eventData routeParams.partner
             }
         )
         Data.PlaceCal.Partners.partnersData
-        Data.PlaceCal.Events.eventsData
+        (DataSource.map (\eventsData -> eventsData.allEvents) Data.PlaceCal.Events.eventsData)
 
 
 head :
