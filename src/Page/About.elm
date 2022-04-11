@@ -1,6 +1,6 @@
 module Page.About exposing (Data, Model, Msg, page, view)
 
-import Css exposing (Style, absolute, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, center, color, display, em, firstChild, fontSize, height, int, margin, margin2, margin4, marginBlockEnd, marginBottom, marginTop, noRepeat, nthChild, paddingBottom, paddingTop, pct, position, property, px, relative, rem, top, url, vw, width, zIndex)
+import Css exposing (Style, absolute, alignItems, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, center, color, display, displayFlex, em, firstChild, flexShrink, fontSize, height, important, int, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginTop, noRepeat, nthChild, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, top, url, vw, width, zIndex)
 import Css.Global exposing (descendants, typeSelector)
 import DataSource exposing (DataSource)
 import DataSource.File
@@ -14,7 +14,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMobileOnly)
+import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMobileOnly, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
@@ -244,7 +244,7 @@ viewAboutSections static =
 viewAboutAccessibility : StaticPayload Data RouteParams -> Html.Html Msg
 viewAboutAccessibility static =
     section [ css [ contentWrapperStyle, accessibilityStyle ] ]
-        [ h3 [ css [ smallFloatingTitleStyle, top (rem -4.5) ] ] [ text static.data.accessibility.title ]
+        [ h3 [ css [ smallFloatingTitleStyle, withMediaMobileOnly [ top (rem -4.5) ] ] ] [ text static.data.accessibility.title ]
         , div [ css [ textBoxPinkStyle ] ] [ p [ css [ introTextLargeStyle ] ] [ text static.data.accessibility.subtitle ] ]
         , div [ css [ contentContainerStyle, aboutAccessibilityTextStyle ] ] static.data.accessibility.body
         ]
@@ -262,8 +262,8 @@ viewMakers static =
 
 viewMaker : Maker -> Html.Html Msg
 viewMaker maker =
-    div [ css [ textBoxPinkStyle, marginTop (rem 3), paddingBottom (rem 3), marginBottom (rem 3), position relative ] ]
-        [ h4 [] [ img [ src maker.logo, alt maker.name, css [ makerLogoStyle ] ] [] ]
+    div [ css [ textBoxPinkStyle, makerStyle ] ]
+        [ h4 [ css [ makerHeaderStyle ] ] [ img [ src maker.logo, alt maker.name, css [ makerLogoStyle ] ] [] ]
         , div [ css [ normalFirstParagraphStyle ] ] maker.body
         , viewFloatingButton maker.url "Find out more" whiteBackgroundStyle
         ]
@@ -277,11 +277,22 @@ viewAboutPlaceCal static =
             [ img
                 [ src static.data.placecal.subtitleimg
                 , alt static.data.placecal.subtitleimgalt
-                , css [ makerLogoStyle, marginTop (rem 1), marginBottom (rem 1) ]
+                , css [ placeCalLogoStyle ]
                 ]
                 []
             ]
-        , div [ css [ contentContainerStyle, normalFirstParagraphStyle ] ] static.data.placecal.body
+        , div [ css [ contentContainerStyle, normalFirstParagraphStyle, columnsStyle ] ] static.data.placecal.body
+        ]
+
+
+columnsStyle : Style
+columnsStyle =
+    batch
+        [ withMediaTabletPortraitUp
+            [ property "columns" "2"
+            , important (marginTop (rem 3))
+            , important (marginBottom (rem 3))
+            ]
         ]
 
 
@@ -294,6 +305,7 @@ normalFirstParagraphStyle =
                     [ firstChild
                         [ fontSize (rem 1)
                         , marginBlockEnd (em 1)
+                        , withMediaTabletPortraitUp [ marginBlockStart (em 0) ]
                         ]
                     ]
                 ]
@@ -331,6 +343,7 @@ aboutTextStyle =
                     ]
                 ]
             ]
+        , columnsStyle
         ]
 
 
@@ -371,7 +384,17 @@ accessibilityStyle =
             , height (px 290)
             , top (px -355)
             , backgroundImage (url "/images/illustrations/320px/about_3.png")
+            , withMediaTabletPortraitUp
+                [ backgroundImage (url "/images/illustrations/768px/about_2.png")
+                , backgroundSize (px 900)
+                , margin2 (rem 0) (rem -2)
+                , height (px 200)
+                , top (px -190)
+                , zIndex (int -1)
+                ]
             ]
+        , withMediaTabletPortraitUp
+            [ marginTop (px 200) ]
         ]
 
 
@@ -395,14 +418,6 @@ aboutAccessibilityTextStyle =
         ]
 
 
-makerLogoStyle : Style
-makerLogoStyle =
-    batch
-        [ width (px 200)
-        , margin4 (rem 2) auto (rem 3) auto
-        ]
-
-
 makersStyle : Style
 makersStyle =
     batch
@@ -420,7 +435,52 @@ makersStyle =
             , height (px 230)
             , top (px -250)
             , backgroundImage (url "/images/illustrations/320px/about_5.png")
+            , withMediaTabletPortraitUp
+                [ backgroundImage (url "/images/illustrations/768px/about_3.png")
+                , backgroundSize (px 900)
+                , margin2 (rem 0) (rem -2)
+                , height (px 200)
+                , top (px -190)
+                , zIndex (int -1)
+                ]
             ]
+        , withMediaTabletPortraitUp
+            [ marginTop (px 150) ]
+        ]
+
+
+makerStyle : Style
+makerStyle =
+    batch
+        [ marginTop (rem 3)
+        , paddingBottom (rem 3)
+        , marginBottom (rem 3)
+        , position relative
+        , withMediaTabletPortraitUp
+            [ displayFlex
+            , alignItems center
+            , paddingTop (rem 2)
+            ]
+        ]
+
+
+makerHeaderStyle : Style
+makerHeaderStyle =
+    batch
+        [ withMediaTabletPortraitUp
+            [ flexShrink (int 0)
+            , paddingLeft (rem 1)
+            , paddingRight (rem 3)
+            ]
+        ]
+
+
+makerLogoStyle : Style
+makerLogoStyle =
+    batch
+        [ width (px 200)
+        , margin4 (rem 2) auto (rem 3) auto
+        , withMediaTabletPortraitUp [ margin (rem 0) ]
         ]
 
 
@@ -441,5 +501,25 @@ placeCalStyle =
             , height (px 480)
             , top (px -520)
             , backgroundImage (url "/images/illustrations/320px/about_6.png")
+            , withMediaTabletPortraitUp
+                [ backgroundImage (url "/images/illustrations/768px/about_4.png")
+                , backgroundSize (px 900)
+                , margin2 (rem 0) (rem -2)
+                , height (px 200)
+                , top (px -190)
+                , zIndex (int -1)
+                ]
             ]
+        , withMediaTabletPortraitUp
+            [ marginTop (px 200) ]
+        ]
+
+
+placeCalLogoStyle : Style
+placeCalLogoStyle =
+    batch
+        [ width (px 200)
+        , margin2 (rem 1) auto
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 1.5) auto ]
         ]

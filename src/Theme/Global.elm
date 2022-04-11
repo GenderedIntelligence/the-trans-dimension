@@ -204,7 +204,7 @@ textBoxStyle =
         , withMediaMediumDesktopUp
             [ paddingBottom (rem 2) ]
         , withMediaTabletPortraitUp
-            [ paddingTop (rem 3), paddingLeft (rem 3.5), paddingRight (rem 3.5) ]
+            [ paddingLeft (rem 1.5), paddingRight (rem 1.5) ]
         ]
 
 
