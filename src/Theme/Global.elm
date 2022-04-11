@@ -1,14 +1,11 @@
-module Theme.Global exposing (black, blue, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkPurple, generateId, globalStyles, gridStyle, introTextLargeStyle, introTextSmallStyle, lightPink, maxMobile, oneColumn, pink, purple, smallFloatingTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, white, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp, pinkBackgroundStyle, darkBlueBackgroundStyle, whiteBackgroundStyle, blueBackgroundStyle, buttonWrapperStyle, buttonStyle, viewFloatingButton)
+module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, gridStyle, introTextLargeStyle, introTextSmallStyle, lightPink, maxMobile, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, viewFloatingButton, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, left, letterSpacing, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
+import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, left, letterSpacing, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
-import Html.Styled exposing (Html, div, text, p, a)
-import Html.Styled.Attributes exposing (css, id)
-import Css exposing (textDecoration)
-import Css exposing (padding4)
-import Css exposing (marginRight)
-import Html.Styled.Attributes exposing (href)
+import Html.Styled exposing (Html, a, div, p, text)
+import Html.Styled.Attributes exposing (css, href, id)
+
 
 
 -- Brand colours
@@ -145,15 +142,16 @@ whiteBackgroundStyle =
         , color darkBlue
         ]
 
+
 viewFloatingButton : String -> String -> Style -> Html msg
 viewFloatingButton link label backgroundStyle =
-     p [ css [ buttonWrapperStyle ] ]
-            [ a
-                [ href link
-                , css [ buttonStyle, backgroundStyle ]
-                ]
-                [ text label ]
+    p [ css [ buttonWrapperStyle ] ]
+        [ a
+            [ href link
+            , css [ buttonStyle, backgroundStyle ]
             ]
+            [ text label ]
+        ]
 
 
 buttonWrapperStyle : Style
@@ -180,6 +178,7 @@ buttonStyle =
         , marginRight (rem 1.75)
         , fontSize (rem 1.2)
         ]
+
 
 smallFloatingTitleStyle : Style
 smallFloatingTitleStyle =

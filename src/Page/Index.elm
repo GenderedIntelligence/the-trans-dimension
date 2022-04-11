@@ -242,9 +242,6 @@ sectionStyle =
         ]
 
 
-
-
-
 sectionSubtitleStyle : Style
 sectionSubtitleStyle =
     batch
@@ -495,4 +492,3 @@ newsSectionStyle =
 
 
 -- ( px 430, px 626 )
-

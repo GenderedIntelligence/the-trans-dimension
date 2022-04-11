@@ -1,6 +1,6 @@
 module Page.About exposing (Data, Model, Msg, page, view)
 
-import Css exposing (Style, absolute, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, center, color, display, em, firstChild, fontSize, height, int, margin2, marginBlockEnd, marginTop, noRepeat, nthChild, paddingTop, pct, position, property, px, relative, rem, top, url, vw, width, zIndex)
+import Css exposing (Style, absolute, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, center, color, display, em, firstChild, fontSize, height, int, margin, margin2, margin4, marginBlockEnd, marginBottom, marginTop, noRepeat, nthChild, paddingBottom, paddingTop, pct, position, property, px, relative, rem, top, url, vw, width, zIndex)
 import Css.Global exposing (descendants, typeSelector)
 import DataSource exposing (DataSource)
 import DataSource.File
@@ -14,17 +14,10 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, withMediaMobileOnly)
+import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMobileOnly)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
-import Css exposing (marginBottom)
-import Css exposing (margin)
-import Css exposing (auto)
-import Css exposing (margin4)
-import Theme.Global exposing (viewFloatingButton)
-import Theme.Global exposing (whiteBackgroundStyle)
-import Css exposing (paddingBottom)
 
 
 type alias Model =
@@ -233,7 +226,11 @@ view maybeUrl sharedModel static =
 viewAboutIntro : StaticPayload Data RouteParams -> Html.Html Msg
 viewAboutIntro static =
     section [ css [ aboutIntroTextStyle ] ] static.data.main.body
-    -- [fFf] from design wireframe - enter your email to be notified when we come to your area
+
+
+
+-- [fFf] from design wireframe - enter your email to be notified when we come to your area
+
 
 viewAboutSections : StaticPayload Data RouteParams -> Html.Html Msg
 viewAboutSections static =
@@ -255,9 +252,9 @@ viewAboutAccessibility static =
 
 viewMakers : StaticPayload Data RouteParams -> Html.Html Msg
 viewMakers static =
-    section [ css [ makersStyle ]]
+    section [ css [ makersStyle ] ]
         (concat
-            [ [ h3 [ css [ smallFloatingTitleStyle ]] [ text "Meet the Makers" ] ]
+            [ [ h3 [ css [ smallFloatingTitleStyle ] ] [ text "Meet the Makers" ] ]
             , List.map (\maker -> viewMaker maker) static.data.makers
             ]
         )
@@ -265,19 +262,18 @@ viewMakers static =
 
 viewMaker : Maker -> Html.Html Msg
 viewMaker maker =
-    div [ css [ textBoxPinkStyle, marginTop (rem 3), paddingBottom (rem 3), marginBottom (rem 3), position relative ]]
-        [ h4 [] [  img [ src maker.logo, alt maker.name, css [ makerLogoStyle ] ] [] ]
-        , div [ css [ normalFirstParagraphStyle ]] maker.body
+    div [ css [ textBoxPinkStyle, marginTop (rem 3), paddingBottom (rem 3), marginBottom (rem 3), position relative ] ]
+        [ h4 [] [ img [ src maker.logo, alt maker.name, css [ makerLogoStyle ] ] [] ]
+        , div [ css [ normalFirstParagraphStyle ] ] maker.body
         , viewFloatingButton maker.url "Find out more" whiteBackgroundStyle
-       
         ]
 
 
 viewAboutPlaceCal : StaticPayload Data RouteParams -> Html.Html Msg
 viewAboutPlaceCal static =
-    section [ css [ contentWrapperStyle, placeCalStyle ]]
-        [ h3 [ css [ smallFloatingTitleStyle ]] [ text static.data.placecal.title ]
-        , div [ css [ textBoxPinkStyle ]]
+    section [ css [ contentWrapperStyle, placeCalStyle ] ]
+        [ h3 [ css [ smallFloatingTitleStyle ] ] [ text static.data.placecal.title ]
+        , div [ css [ textBoxPinkStyle ] ]
             [ img
                 [ src static.data.placecal.subtitleimg
                 , alt static.data.placecal.subtitleimgalt
@@ -285,12 +281,13 @@ viewAboutPlaceCal static =
                 ]
                 []
             ]
-        , div [ css [ contentContainerStyle, normalFirstParagraphStyle ]] static.data.placecal.body
+        , div [ css [ contentContainerStyle, normalFirstParagraphStyle ] ] static.data.placecal.body
         ]
+
 
 normalFirstParagraphStyle : Style
 normalFirstParagraphStyle =
-    batch 
+    batch
         [ descendants
             [ typeSelector "p"
                 [ batch
@@ -298,7 +295,11 @@ normalFirstParagraphStyle =
                         [ fontSize (rem 1)
                         , marginBlockEnd (em 1)
                         ]
-                ]]]]
+                    ]
+                ]
+            ]
+        ]
+
 
 aboutTextStyle : Style
 aboutTextStyle =
@@ -352,12 +353,13 @@ aboutIntroTextStyle =
             ]
         ]
 
+
 accessibilityStyle : Style
 accessibilityStyle =
     batch
         [ position relative
         , marginTop (px 370)
-        , before 
+        , before
             [ property "content" "\"\""
             , display block
             , width (vw 100)
@@ -369,7 +371,9 @@ accessibilityStyle =
             , height (px 290)
             , top (px -355)
             , backgroundImage (url "/images/illustrations/320px/about_3.png")
-            ]]
+            ]
+        ]
+
 
 aboutAccessibilityTextStyle : Style
 aboutAccessibilityTextStyle =
@@ -390,6 +394,7 @@ aboutAccessibilityTextStyle =
             ]
         ]
 
+
 makerLogoStyle : Style
 makerLogoStyle =
     batch
@@ -397,12 +402,13 @@ makerLogoStyle =
         , margin4 (rem 2) auto (rem 3) auto
         ]
 
+
 makersStyle : Style
 makersStyle =
-    batch 
+    batch
         [ position relative
         , marginTop (px 250)
-        , before 
+        , before
             [ property "content" "\"\""
             , display block
             , width (vw 100)
@@ -417,12 +423,13 @@ makersStyle =
             ]
         ]
 
+
 placeCalStyle : Style
 placeCalStyle =
     batch
         [ position relative
         , marginTop (px 530)
-        , before 
+        , before
             [ property "content" "\"\""
             , display block
             , width (vw 100)
