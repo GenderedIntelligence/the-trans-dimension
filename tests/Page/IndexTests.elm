@@ -35,7 +35,7 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsForHome
                     |> Query.findAll [ Selector.tag "h2" ]
-                    |> Query.count (Expect.equal 4)
+                    |> Query.count (Expect.equal 3)
         , test "Has expected content headings & intro text" <|
             \_ ->
                 viewBodyHtml viewParamsForHome
