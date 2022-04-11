@@ -16,22 +16,25 @@ import TestUtils exposing (queryFromStyledList)
 
 viewParamsWithPartner =
     { data =
-        { id = "1"
-        , name = "Partner name"
-        , description = "Partner description"
-        , summary = "Partner summary"
-        , maybeUrl = Just "https://www.example.com"
-        , contactDetails =
-            { email = "partner@example.com"
-            , telephone = "0161 496 0000"
-            }
-        , maybeAddress =
-            Just
-                { streetAddress = "1 The Street"
-                , addressRegion = "Exampleton"
-                , postalCode = "A1 2BC"
+        { partner =
+            { id = "1"
+            , name = "Partner name"
+            , description = "Partner description"
+            , summary = "Partner summary"
+            , maybeUrl = Just "https://www.example.com"
+            , contactDetails =
+                { email = "partner@example.com"
+                , telephone = "0161 496 0000"
                 }
-        , areasServed = []
+            , maybeAddress =
+                Just
+                    { streetAddress = "1 The Street"
+                    , addressRegion = "Exampleton"
+                    , postalCode = "A1 2BC"
+                    }
+            , areasServed = []
+            }
+        , events = []
         }
     , path = Path.fromString "partner/1"
     , routeParams = { partner = "1" }
@@ -44,7 +47,12 @@ viewParamsWithoutMaybes =
         setData oldData =
             { oldData | maybeUrl = Nothing, maybeAddress = Nothing }
     in
-    { viewParamsWithPartner | data = setData viewParamsWithPartner.data }
+    { viewParamsWithPartner
+        | data =
+            { partner = setData viewParamsWithPartner.data.partner
+            , events = viewParamsWithPartner.data.events
+            }
+    }
 
 
 viewBodyHtml viewParams =
