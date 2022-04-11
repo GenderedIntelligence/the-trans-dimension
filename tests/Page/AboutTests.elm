@@ -12,7 +12,26 @@ import TestUtils exposing (queryFromStyledList)
 
 
 viewParamsWithAbout =
-    { data = { title = "About Page Test Title", body = [] }
+    { data =
+        { main = 
+            { title = "About Page Test Title"
+            , subtitle = "Test subtitle here."
+            , body = []
+            }
+        , accessibility = 
+            { title = "Accessibility"
+            , subtitle = "Accessibility is good for everyone"
+            , body = []
+            }
+        , makers = 
+            [ { name = "Makername", url = "google.com", logo = "logo.png", body = [] } ]
+        , placecal = 
+            { title = "PlaceCal lives here"
+            , subtitleimg = "img.jpeg"
+            , subtitleimgalt = "PlaceCal logo"
+            , body = []
+            }
+        }
     , path = Path.fromString "about"
     , routeParams = {}
     , sharedData =

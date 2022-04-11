@@ -1,6 +1,6 @@
 module Page.About exposing (Data, Model, Msg, page, view)
 
-import Css exposing (Style, absolute, alignItems, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, center, color, display, displayFlex, em, firstChild, flexShrink, fontSize, height, important, int, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginTop, noRepeat, nthChild, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, top, url, vw, width, zIndex)
+import Css exposing (Style, absolute, after, alignItems, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bottom, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexShrink, fontSize, height, important, int, justifyContent, left, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noRepeat, nthChild, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, right, spaceAround, spaceBetween, top, url, vw, width, zIndex)
 import Css.Global exposing (descendants, typeSelector)
 import DataSource exposing (DataSource)
 import DataSource.File
@@ -14,28 +14,10 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMobileOnly, withMediaTabletPortraitUp)
+import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
-import Theme.Global exposing (withMediaTabletLandscapeUp)
-import Css exposing (flexDirection)
-import Css exposing (column)
-import Css exposing (flexGrow)
-import Css exposing (justifyContent)
-import Css exposing (spaceBetween)
-import Css exposing (spaceAround)
-import Css exposing (after)
-import Css exposing (bottom, right)
-import Css exposing (left)
-import Theme.Global exposing (withMediaSmallDesktopUp)
-import Css exposing (lineHeight)
-import Css exposing (calc)
-import Css exposing (minus)
-import Theme.Global exposing (withMediaMediumDesktopUp)
-import Css exposing (maxWidth)
-import Css exposing (marginLeft)
-import Css exposing (marginRight)
 
 
 type alias Model =
@@ -299,7 +281,7 @@ viewAboutPlaceCal static =
                 ]
                 []
             ]
-        , div [ css [ columnsStyle, contentContainerStyle, normalFirstParagraphStyle  ] ] static.data.placecal.body
+        , div [ css [ columnsStyle, contentContainerStyle, normalFirstParagraphStyle ] ] static.data.placecal.body
         ]
 
 
@@ -311,7 +293,7 @@ columnsStyle =
             , maxWidth (px 848)
             , marginLeft auto
             , marginRight auto
-             ]
+            ]
         , withMediaTabletPortraitUp
             [ property "columns" "2"
             , important (marginTop (rem 3))
@@ -330,7 +312,7 @@ normalFirstParagraphStyle =
                         [ fontSize (rem 1)
                         , marginBlockEnd (em 1)
                         , lineHeight (em 1.5)
-                        , withMediaSmallDesktopUp [ fontSize (rem 1.2)]
+                        , withMediaSmallDesktopUp [ fontSize (rem 1.2) ]
                         , withMediaTabletPortraitUp [ marginBlockStart (em 0) ]
                         ]
                     ]
@@ -403,7 +385,9 @@ aboutIntroTextStyle =
                 , height (px 541)
                 , bottom (px -160)
                 , right (px -350)
-                , backgroundImage (url "/images/characters/flag_holder.png") ]]
+                , backgroundImage (url "/images/characters/flag_holder.png")
+                ]
+            ]
         ]
 
 
@@ -429,10 +413,11 @@ accessibilityStyle =
                 , backgroundImage (url "/images/illustrations/1920px/about_2.png")
                 , height (px 250)
                 , backgroundSize (px 1920)
-                , top (px -260)]
+                , top (px -260)
+                ]
             , withMediaSmallDesktopUp
                 [ margin2 (rem 0) (rem -7)
-                , backgroundImage (url "/images/illustrations/1366px/about_2.png") 
+                , backgroundImage (url "/images/illustrations/1366px/about_2.png")
                 , backgroundSize (px 1367)
                 , height (px 200)
                 ]
@@ -440,7 +425,8 @@ accessibilityStyle =
                 [ backgroundImage (url "/images/illustrations/1024px/about_2.png")
                 , height (px 280)
                 , backgroundSize (px 1200)
-                , top (px -250)]
+                , top (px -250)
+                ]
             , withMediaTabletPortraitUp
                 [ backgroundImage (url "/images/illustrations/768px/about_2.png")
                 , backgroundSize (px 900)
@@ -451,12 +437,13 @@ accessibilityStyle =
                 ]
             ]
         , withMediaSmallDesktopUp
-            [ marginTop (px 250)]
+            [ marginTop (px 250) ]
         , withMediaTabletLandscapeUp
             [ marginTop (px 220) ]
         , withMediaTabletPortraitUp
             [ marginTop (px 200) ]
         ]
+
 
 accessibilityCharactersStyle : Style
 accessibilityCharactersStyle =
@@ -478,12 +465,12 @@ accessibilityCharactersStyle =
                 , backgroundPosition center
                 , position absolute
                 , zIndex (int 2)
-                , backgroundRepeat noRepeat 
+                , backgroundRepeat noRepeat
                 , backgroundImage (url "/images/characters/person_in_wheelchair.png")
                 , top (px -190)
                 , left (px 10)
                 ]
-            ] 
+            ]
         , after
             [ withMediaSmallDesktopUp
                 [ width (px 429)
@@ -501,15 +488,16 @@ accessibilityCharactersStyle =
                 , backgroundPosition center
                 , position absolute
                 , zIndex (int 2)
-                , backgroundRepeat noRepeat 
+                , backgroundRepeat noRepeat
                 , backgroundImage (url "/images/characters/nb_helmet_person.png")
                 , bottom (px -50)
                 , right (px -10)
                 ]
             ]
         , withMediaTabletLandscapeUp
-            [ important (paddingLeft (rem 10)), important (paddingRight (rem 10))] 
+            [ important (paddingLeft (rem 10)), important (paddingRight (rem 10)) ]
         ]
+
 
 aboutAccessibilityTextStyle : Style
 aboutAccessibilityTextStyle =
@@ -566,7 +554,8 @@ makersStyle =
                 [ backgroundImage (url "/images/illustrations/1024px/about_3.png")
                 , backgroundSize (px 1200)
                 , height (px 280)
-                , top (px -210) ]
+                , top (px -210)
+                ]
             , withMediaTabletPortraitUp
                 [ backgroundImage (url "/images/illustrations/768px/about_3.png")
                 , backgroundSize (px 900)
@@ -577,9 +566,9 @@ makersStyle =
                 ]
             ]
         , withMediaMediumDesktopUp
-            [ marginTop (px 250)]
-        , withMediaSmallDesktopUp 
-            [ marginTop (px 200)]
+            [ marginTop (px 250) ]
+        , withMediaSmallDesktopUp
+            [ marginTop (px 200) ]
         , withMediaTabletLandscapeUp
             [ displayFlex, justifyContent spaceAround ]
         , withMediaTabletPortraitUp
@@ -597,11 +586,13 @@ makerStyle =
         , withMediaSmallDesktopUp
             [ paddingLeft (rem 3)
             , paddingRight (rem 3)
-            , paddingBottom (rem 3)]
+            , paddingBottom (rem 3)
+            ]
         , withMediaTabletLandscapeUp
             [ flexDirection column
             , width (pct 40)
-            , marginTop (rem 1)]
+            , marginTop (rem 1)
+            ]
         , withMediaTabletPortraitUp
             [ displayFlex
             , alignItems center
@@ -613,7 +604,7 @@ makerStyle =
 makerHeaderStyle : Style
 makerHeaderStyle =
     batch
-        [ withMediaTabletLandscapeUp [ padding (rem 0)]
+        [ withMediaTabletLandscapeUp [ padding (rem 0) ]
         , withMediaTabletPortraitUp
             [ flexShrink (int 0)
             , paddingLeft (rem 1)
@@ -627,7 +618,7 @@ makerLogoStyle =
     batch
         [ width (px 200)
         , margin4 (rem 2) auto (rem 3) auto
-        , withMediaSmallDesktopUp [ width (px 250)]
+        , withMediaSmallDesktopUp [ width (px 250) ]
         , withMediaTabletLandscapeUp [ margin4 (rem 1) auto (rem 3) auto ]
         , withMediaTabletPortraitUp [ margin (rem 0) ]
         ]
@@ -655,18 +646,21 @@ placeCalStyle =
                 , backgroundImage (url "/images/illustrations/1920px/about_4.png")
                 , height (px 250)
                 , top (px -250)
-                , backgroundSize (px 1920)]
+                , backgroundSize (px 1920)
+                ]
             , withMediaSmallDesktopUp
                 [ backgroundImage (url "/images/illustrations/1366px/about_4.png")
                 , width (vw 100)
                 , backgroundSize (px 1367)
                 , height (px 200)
-                , margin2 (rem 0) (rem -7)]
+                , margin2 (rem 0) (rem -7)
+                ]
             , withMediaTabletLandscapeUp
                 [ backgroundImage (url "/images/illustrations/1024px/about_4.png")
                 , backgroundSize (px 1200)
                 , height (px 280)
-                , top (px -230)]
+                , top (px -230)
+                ]
             , withMediaTabletPortraitUp
                 [ backgroundImage (url "/images/illustrations/768px/about_4.png")
                 , backgroundSize (px 900)
@@ -677,7 +671,7 @@ placeCalStyle =
                 ]
             ]
         , after
-            [ withMediaSmallDesktopUp 
+            [ withMediaSmallDesktopUp
                 [ property "content" "\"\""
                 , display block
                 , width (px 186)
@@ -688,10 +682,10 @@ placeCalStyle =
                 , height (px 516)
                 , left (px -80)
                 , top (px -70)
-                , backgroundImage (url "/images/characters/space_princess.png") 
+                , backgroundImage (url "/images/characters/space_princess.png")
                 ]
             ]
-            , withMediaMediumDesktopUp
+        , withMediaMediumDesktopUp
             [ marginTop (px 250) ]
         , withMediaTabletLandscapeUp
             [ marginTop (px 230) ]
