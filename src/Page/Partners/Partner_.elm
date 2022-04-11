@@ -3,6 +3,7 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, color, display, fontSize, fontWeight, hover, margin2, marginBottom, none, padding, pct, rem, textAlign, textDecoration, width)
+import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
@@ -11,6 +12,7 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, address, div, h2, h3, p, section, text)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
+import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
@@ -54,20 +56,24 @@ routes =
 
 data : RouteParams -> DataSource Data
 data routeParams =
-    DataSource.map
-        (\partnerData ->
-            -- There probably a better patter than succeed with empty.
+    DataSource.map2
+        (\partnerData eventData ->
+            -- There probably a better pattern than succeed with empty.
             -- In theory all will succeed since routes mapped from same list.
-            Maybe.withDefault Data.PlaceCal.Partners.emptyPartner
-                ((partnerData.allPartners
-                    -- Filter for partner with matching id
-                    |> List.filter (\partner -> partner.id == routeParams.partner)
-                 )
-                    -- There should only be one, so take the head
-                    |> List.head
-                )
+            { partner =
+                Maybe.withDefault Data.PlaceCal.Partners.emptyPartner
+                    ((partnerData.allPartners
+                        -- Filter for partner with matching id
+                        |> List.filter (\partner -> partner.id == routeParams.partner)
+                     )
+                        -- There should only be one, so take the head
+                        |> List.head
+                    )
+            , events = []
+            }
         )
         Data.PlaceCal.Partners.partnersData
+        Data.PlaceCal.Events.eventsData
 
 
 head :
@@ -83,26 +89,28 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t (PartnerMetaDescription static.data.name)
+        , description = t (PartnerMetaDescription static.data.partner.name)
         , locale = Nothing
-        , title = t (PartnerTitle static.data.name)
+        , title = t (PartnerTitle static.data.partner.name)
         }
         |> Seo.website
 
 
 type alias Data =
-    Data.PlaceCal.Partners.Partner
+    { partner : Data.PlaceCal.Partners.Partner
+    , events : List Data.PlaceCal.Events.Event
+    }
 
 
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload Data.PlaceCal.Partners.Partner RouteParams
+    -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = static.data.name
+    { title = static.data.partner.name
     , body =
-        [ PageTemplate.view { title = t PartnersTitle, bigText = static.data.name, smallText = [] }
+        [ PageTemplate.view { title = t PartnersTitle, bigText = static.data.partner.name, smallText = [] }
             (Just
                 (div []
                     [ viewInfo static.data
@@ -115,8 +123,8 @@ view maybeUrl sharedModel static =
     }
 
 
-viewInfo : Data.PlaceCal.Partners.Partner -> Html msg
-viewInfo partner =
+viewInfo : Data -> Html msg
+viewInfo { partner, events } =
     section []
         [ p [] (Theme.TransMarkdown.markdownToHtml partner.description)
         , div []
@@ -130,7 +138,11 @@ viewInfo partner =
                 ]
             ]
         , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
-        , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Partner event listing?" ]
+        , if List.length events > 0 then
+            Page.Events.viewEventsList events
+
+          else
+            text (t (PartnerEventsEmptyText partner.name))
         ]
 
 

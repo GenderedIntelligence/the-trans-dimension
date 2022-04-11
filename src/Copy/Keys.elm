@@ -67,6 +67,7 @@ type Key
     | PartnerContactsHeading
     | PartnerAddressHeading
     | PartnerAddressEmptyText
+    | PartnerEventsEmptyText String
     | BackToPartnersLinkText
       --- Join Page
     | JoinTitle
