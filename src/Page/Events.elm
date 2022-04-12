@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, page, view, viewEventsList)
+module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEventsList)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

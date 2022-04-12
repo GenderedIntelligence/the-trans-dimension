@@ -34,6 +34,6 @@ fontPreload : Html msg
 fontPreload =
     node "link"
         [ rel "stylesheet preload"
-        , href "https://use.typekit.net/qwi3qrw.css"
+        , href "https://use.typekit.net/rog1plq.css"
         ]
         []
