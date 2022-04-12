@@ -1,5 +1,6 @@
 module Page.Events exposing (Data, Model, Msg, page, view, viewEventsList)
 
+import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, int, italic, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, none, padding2, padding4, paddingBottom, pct, px, rem, row, rowReverse, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, uppercase, width, wrap)
@@ -16,6 +17,7 @@ import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
+import Path exposing (Path)
 import Shared
 import Theme.Global exposing (blue, darkBlue, darkPurple, pink, purple, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
@@ -24,7 +26,8 @@ import View exposing (View)
 
 
 type alias Model =
-    ()
+    { filterByDay : Maybe Time.Posix
+    }
 
 
 type alias Msg =
@@ -35,13 +38,49 @@ type alias RouteParams =
     {}
 
 
-page : Page RouteParams Data
+init :
+    Maybe PageUrl
+    -> Shared.Model
+    -> StaticPayload Data RouteParams
+    -> ( Model, Cmd Msg )
+init maybeUrl sharedModel static =
+    ( { filterByDay = Nothing }, Cmd.none )
+
+
+update :
+    PageUrl
+    -> Maybe Browser.Navigation.Key
+    -> Shared.Model
+    -> StaticPayload Data RouteParams
+    -> Msg
+    -> Model
+    -> ( Model, Cmd Msg )
+update pageUrl maybeNavigationKey sharedModel static msg model =
+    ( model, Cmd.none )
+
+
+subscriptions :
+    Maybe PageUrl
+    -> RouteParams
+    -> Path
+    -> Model
+    -> Sub Msg
+subscriptions _ _ _ _ =
+    Sub.none
+
+
+page : PageWithState RouteParams Data Model Msg
 page =
     Page.single
         { head = head
         , data = data
         }
-        |> Page.buildNoState { view = view }
+        |> Page.buildWithLocalState
+            { init = init
+            , view = view
+            , update = update
+            , subscriptions = subscriptions
+            }
 
 
 type alias Data =
@@ -96,9 +135,10 @@ head static =
 view :
     Maybe PageUrl
     -> Shared.Model
+    -> Model
     -> StaticPayload (List Data.PlaceCal.Events.Event) RouteParams
     -> View Msg
-view maybeUrl sharedModel static =
+view maybeUrl sharedModel localModel static =
     { title = t EventsTitle
     , body =
         [ PageTemplate.view
