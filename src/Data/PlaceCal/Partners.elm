@@ -1,4 +1,4 @@
-module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, partnerNamesFromIds, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, partnerNameFromId, partnerNamesFromIds, partnersData)
 
 import Api
 import DataSource
@@ -139,6 +139,13 @@ serviceAreaDecoder =
         |> OptimizedDecoder.Pipeline.optional "abbreviatedName"
             (OptimizedDecoder.map Just OptimizedDecoder.string)
             Nothing
+
+
+partnerNameFromId : List Partner -> String -> Maybe String
+partnerNameFromId partnerList id =
+    List.filter (\partner -> partner.id == id) partnerList
+        |> List.map (\partner -> partner.name)
+        |> List.head
 
 
 partnerNamesFromIds : List Partner -> List String -> List String

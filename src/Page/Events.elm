@@ -5,6 +5,7 @@ import Copy.Text exposing (t)
 import Css exposing (Style, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, int, italic, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, none, padding2, padding4, paddingBottom, pct, px, rem, row, rowReverse, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, uppercase, width, wrap)
 import Css.Transitions exposing (font)
 import Data.PlaceCal.Events
+import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -49,7 +50,27 @@ type alias Data =
 
 data : DataSource (List Data.PlaceCal.Events.Event)
 data =
-    DataSource.map (\sharedData -> sharedData.allEvents) Data.PlaceCal.Events.eventsData
+    DataSource.map2
+        (\eventData partnerData -> addPartnerNamesToEvents eventData.allEvents partnerData.allPartners)
+        Data.PlaceCal.Events.eventsData
+        Data.PlaceCal.Partners.partnersData
+
+
+addPartnerNamesToEvents : List Data.PlaceCal.Events.Event -> List Data.PlaceCal.Partners.Partner -> List Data.PlaceCal.Events.Event
+addPartnerNamesToEvents events partners =
+    List.map
+        (\event ->
+            { event
+                | partner =
+                    setPartnerName event.partner (Data.PlaceCal.Partners.partnerNameFromId partners event.partner.id)
+            }
+        )
+        events
+
+
+setPartnerName : Data.PlaceCal.Events.EventPartner -> Maybe String -> Data.PlaceCal.Events.EventPartner
+setPartnerName oldEventPartner partnerName =
+    { oldEventPartner | name = partnerName }
 
 
 head :
@@ -145,7 +166,12 @@ viewEvent event =
 
                     --, p [ css [ eventParagraphStyle ] ] [ text (Data.PlaceCal.Events.realmToString event.realm) ]
                     , p [ css [ eventParagraphStyle ] ] [ text event.location ]
-                    , p [ css [ eventParagraphStyle ] ] [ text ("by " ++ event.partnerId) ] -- [fFf] get partner name from id
+                    , case event.partner.name of
+                        Just partnerName ->
+                            p [ css [ eventParagraphStyle ] ] [ text ("by " ++ partnerName) ]
+
+                        Nothing ->
+                            text ""
                     ]
                 ]
             , div []

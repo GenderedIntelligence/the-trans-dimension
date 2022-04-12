@@ -1,4 +1,4 @@
-module Data.PlaceCal.Events exposing (Event, Realm(..), emptyEvent, eventsData, eventsFromPartnerId, realmToString)
+module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), emptyEvent, eventsData, eventsFromPartnerId, realmToString)
 
 import Api
 import DataSource
@@ -21,7 +21,13 @@ type alias Event =
     , location : String
 
     -- , realm : Realm
-    , partnerId : String
+    , partner : EventPartner
+    }
+
+
+type alias EventPartner =
+    { name : Maybe String
+    , id : String
     }
 
 
@@ -36,7 +42,7 @@ emptyEvent =
     , location = ""
 
     -- , realm = Offline
-    , partnerId = ""
+    , partner = { name = Nothing, id = "" }
     }
 
 
@@ -57,7 +63,7 @@ realmToString realm =
 
 eventsFromPartnerId : List Event -> String -> List Event
 eventsFromPartnerId eventsList id =
-    List.filter (\event -> event.partnerId == id) eventsList
+    List.filter (\event -> event.partner.id == id) eventsList
 
 
 
@@ -128,7 +134,13 @@ decode =
         -- |> OptimizedDecoder.Pipeline.required "realm"
         --    realmDecoder
         |> OptimizedDecoder.Pipeline.requiredAt [ "organizer", "id" ]
-            OptimizedDecoder.string
+            partnerIdDecoder
+
+
+partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
+partnerIdDecoder =
+    OptimizedDecoder.string
+        |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId })
 
 
 realmDecoder : OptimizedDecoder.Decoder Realm
