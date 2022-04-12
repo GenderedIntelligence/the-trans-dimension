@@ -13,7 +13,7 @@ import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (..)
+import Theme.Global as Theme exposing (..)
 import View exposing (View)
 
 
@@ -104,7 +104,7 @@ viewIntro introTitle introMsg eventButtonText =
 viewResources : String -> String -> String -> String -> Html msg
 viewResources title subtitle description buttonText =
     section [ css [ sectionStyle, blueBackgroundStyle, resourcesSectionStyle ] ]
-        [ h2 [ css [ sectionTitleStyle ] ] [ text title ]
+        [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
         , p [ css [ sectionSubtitleStyle ] ] [ text subtitle ]
         , p [ css [ sectionTextStyle ] ] [ text description ]
         , p
@@ -117,7 +117,7 @@ viewResources title subtitle description buttonText =
 viewFeatured : String -> String -> Html msg
 viewFeatured title buttonText =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
-        [ h2 [ css [ sectionTitleStyle ] ] [ text title ]
+        [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
         , ul []
             [ li [] [ text "Featured event [fFf]" ]
             , li [] [ text "Featured event [fFf]" ]
@@ -136,7 +136,7 @@ viewFeatured title buttonText =
 viewLatestNews : String -> String -> Html msg
 viewLatestNews title buttonText =
     section [ css [ sectionStyle, whiteBackgroundStyle, newsSectionStyle ] ]
-        [ h2 [ css [ sectionTitleStyle ] ] [ text title ]
+        [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
         , article [] [ text "News item title [fFf]" ]
         , p [ css [ buttonWrapperStyle ] ]
             [ a
@@ -239,47 +239,6 @@ sectionStyle =
             ]
         , withMediaTabletPortraitUp
             [ paddingBottom (rem 3) ]
-        ]
-
-
-pinkBackgroundStyle : Style
-pinkBackgroundStyle =
-    backgroundColor pink
-
-
-blueBackgroundStyle : Style
-blueBackgroundStyle =
-    backgroundColor blue
-
-
-darkBlueBackgroundStyle : Style
-darkBlueBackgroundStyle =
-    batch
-        [ backgroundColor darkBlue
-        , borderColor pink
-        , borderStyle solid
-        , borderWidth (px 1)
-        ]
-
-
-whiteBackgroundStyle : Style
-whiteBackgroundStyle =
-    batch
-        [ backgroundColor white
-        , color darkBlue
-        ]
-
-
-sectionTitleStyle : Style
-sectionTitleStyle =
-    batch
-        [ textTransform uppercase
-        , color white
-        , textAlign center
-        , letterSpacing (px 1.9)
-        , position absolute
-        , top (rem -3)
-        , width (calc (pct 100) minus (rem 2))
         ]
 
 
@@ -533,29 +492,3 @@ newsSectionStyle =
 
 
 -- ( px 430, px 626 )
-
-
-buttonWrapperStyle : Style
-buttonWrapperStyle =
-    batch
-        [ margin2 (rem 1) auto
-        , display block
-        , position absolute
-        , bottom (rem -2)
-        , textAlign center
-        , width (pct 100)
-        ]
-
-
-buttonStyle : Style
-buttonStyle =
-    batch
-        [ backgroundColor white
-        , color darkBlue
-        , textDecoration none
-        , padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
-        , borderRadius (rem 0.3)
-        , fontWeight (int 600)
-        , marginRight (rem 1.75)
-        , fontSize (rem 1.2)
-        ]

@@ -13,7 +13,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global
-import Theme.PageTemplate as PageTemplate
+import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import View exposing (View)
 
 
@@ -75,7 +75,16 @@ view :
 view maybeUrl sharedModel static =
     { title = t ResourcesTitle
     , body =
-        [ PageTemplate.view { title = t ResourcesTitle, bigText = t ResourcesIntro, smallText = [] } (Just (viewResources static.data)) Nothing
+        [ PageTemplate.view
+            { variant = PinkHeader
+            , intro =
+                { title = t ResourcesTitle
+                , bigText = t ResourcesIntro
+                , smallText = []
+                }
+            }
+            (Just (viewResources static.data))
+            Nothing
         ]
     }
 
