@@ -77,7 +77,6 @@ view maybeUrl sharedModel static =
     , body =
         [ div [ css [ pageWrapperStyle ] ]
             [ viewIntro (t IndexIntroTitle) (t IndexIntroMessage) (t IndexIntroButtonText)
-            , viewResources (t IndexResourcesHeading) (t IndexResourcesSubheading) (t IndexResourcesDescription) (t IndexResourcesButtonText)
             , viewFeatured (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
             , viewLatestNews (t IndexNewsHeader) (t IndexNewsButtonText)
             ]
@@ -97,19 +96,6 @@ viewIntro introTitle introMsg eventButtonText =
                 , css [ buttonStyle ]
                 ]
                 [ text eventButtonText ]
-            ]
-        ]
-
-
-viewResources : String -> String -> String -> String -> Html msg
-viewResources title subtitle description buttonText =
-    section [ css [ sectionStyle, blueBackgroundStyle, resourcesSectionStyle ] ]
-        [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
-        , p [ css [ sectionSubtitleStyle ] ] [ text subtitle ]
-        , p [ css [ sectionTextStyle ] ] [ text description ]
-        , p
-            [ css [ buttonWrapperStyle ] ]
-            [ a [ href (TransRoutes.toAbsoluteUrl Resources), css [ buttonStyle ] ] [ text buttonText ]
             ]
         ]
 
@@ -313,46 +299,6 @@ introSectionStyle =
         , withMediaTabletPortraitUp
             [ marginTop (px 820)
             ]
-        ]
-
-
-resourcesSectionStyle : Style
-resourcesSectionStyle =
-    batch
-        [ marginTop (vh 85)
-        , before
-            [ backgroundImage (url "/images/illustrations/320px/homepage_2.png")
-            , height (vh 75)
-            , top (vh -82)
-            , withMediaMediumDesktopUp
-                [ backgroundImage (url "/images/illustrations/1920px/homepage_2.png")
-                , height (px 250)
-                , top (px -220)
-                ]
-            , withMediaSmallDesktopUp
-                [ backgroundImage (url "/images/illustrations/1366px/homepage_2.png")
-                , height (px 200)
-                , top (px -200)
-                ]
-            , withMediaTabletLandscapeUp
-                [ backgroundImage (url "/images/illustrations/1024px/homepage_2.png")
-                , height (px 280)
-                , top (px -185)
-                ]
-            , withMediaTabletPortraitUp
-                [ backgroundImage (url "/images/illustrations/768px/homepage_2.png")
-                , height (px 200)
-                , top (px -185)
-                ]
-            ]
-        , withMediaMediumDesktopUp
-            [ marginTop (px 220) ]
-        , withMediaSmallDesktopUp
-            [ marginTop (px 180) ]
-        , withMediaTabletLandscapeUp
-            [ marginTop (px 150) ]
-        , withMediaTabletPortraitUp
-            [ marginTop (px 175) ]
         ]
 
 
