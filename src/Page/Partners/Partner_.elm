@@ -2,20 +2,22 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, color, display, fontSize, fontWeight, hover, margin2, marginBottom, none, padding, pct, rem, textAlign, textDecoration, width)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderColor, borderRadius, borderStyle, borderWidth, center, color, display, displayFlex, fontSize, fontStyle, fontWeight, hover, int, margin2, margin4, marginBottom, marginTop, maxWidth, none, normal, padding, padding2, pct, property, px, rem, solid, textAlign, textDecoration, width)
+import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, address, div, h2, h3, p, section, text)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled exposing (Html, a, address, div, h2, h3, hr, p, section, text)
+import Html.Styled.Attributes exposing (css, href, target)
 import Page exposing (Page, PageWithState, StaticPayload)
+import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global
-import Theme.PageTemplate as PageTemplate
+import Theme.Global exposing (normalFirstParagraphStyle, pink, smallInlineTitleStyle, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown
 import View exposing (View)
 
@@ -54,20 +56,24 @@ routes =
 
 data : RouteParams -> DataSource Data
 data routeParams =
-    DataSource.map
-        (\partnerData ->
-            -- There probably a better patter than succeed with empty.
+    DataSource.map2
+        (\partnerData eventData ->
+            -- There probably a better pattern than succeed with empty.
             -- In theory all will succeed since routes mapped from same list.
-            Maybe.withDefault Data.PlaceCal.Partners.emptyPartner
-                ((partnerData.allPartners
-                    -- Filter for partner with matching id
-                    |> List.filter (\partner -> partner.id == routeParams.partner)
-                 )
-                    -- There should only be one, so take the head
-                    |> List.head
-                )
+            { partner =
+                Maybe.withDefault Data.PlaceCal.Partners.emptyPartner
+                    ((partnerData.allPartners
+                        -- Filter for partner with matching id
+                        |> List.filter (\partner -> partner.id == routeParams.partner)
+                     )
+                        -- There should only be one, so take the head
+                        |> List.head
+                    )
+            , events = Data.PlaceCal.Events.eventsFromPartnerId eventData routeParams.partner
+            }
         )
         Data.PlaceCal.Partners.partnersData
+        (DataSource.map (\eventsData -> eventsData.allEvents) Data.PlaceCal.Events.eventsData)
 
 
 head :
@@ -83,54 +89,70 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t (PartnerMetaDescription static.data.name)
+        , description = t (PartnerMetaDescription static.data.partner.name)
         , locale = Nothing
-        , title = t (PartnerTitle static.data.name)
+        , title = t (PartnerTitle static.data.partner.name)
         }
         |> Seo.website
 
 
 type alias Data =
-    Data.PlaceCal.Partners.Partner
+    { partner : Data.PlaceCal.Partners.Partner
+    , events : List Data.PlaceCal.Events.Event
+    }
 
 
 view :
     Maybe PageUrl
     -> Shared.Model
-    -> StaticPayload Data.PlaceCal.Partners.Partner RouteParams
+    -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = static.data.name
+    { title = static.data.partner.name
     , body =
-        [ PageTemplate.view { title = t PartnersTitle, bigText = static.data.name, smallText = [] }
+        [ PageTemplate.view
+            { variant = PinkHeader
+            , intro =
+                { title = t PartnersTitle
+                , bigText = static.data.partner.name
+                , smallText = []
+                }
+            }
             (Just
-                (div []
-                    [ viewInfo static.data
-                    , a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackStyle ] ] [ text (t BackToPartnersLinkText) ]
-                    ]
-                )
+                (viewInfo static.data)
             )
-            Nothing
+            (Just viewBackButton)
         ]
     }
 
 
-viewInfo : Data.PlaceCal.Partners.Partner -> Html msg
-viewInfo partner =
-    section []
-        [ p [] (Theme.TransMarkdown.markdownToHtml partner.description)
-        , div []
-            [ div []
-                [ h3 [ css [ contactHeadingStyle ] ] [ text (t PartnerContactsHeading) ]
+viewInfo : Data -> Html msg
+viewInfo { partner, events } =
+    section [ css [ margin2 (rem 0) (rem 0.35) ] ]
+        [ div [] [ text "Space for logo or image" ]
+        , hr [ css [ hrStyle ] ] []
+        , div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml partner.description)
+        , hr [ css [ hrStyle ] ] []
+        , section [ css [ contactWrapperStyle ] ]
+            [ div [ css [ contactSectionStyle ] ]
+                [ h3 [ css [ contactHeadingStyle, Theme.Global.smallInlineTitleStyle ] ] [ text (t PartnerContactsHeading) ]
                 , viewContactDetails partner.maybeUrl partner.contactDetails
                 ]
-            , div []
-                [ h3 [ css [ contactHeadingStyle ] ] [ text (t PartnerAddressHeading) ]
+            , div [ css [ contactSectionStyle ] ]
+                [ h3 [ css [ contactHeadingStyle, Theme.Global.smallInlineTitleStyle ] ] [ text (t PartnerAddressHeading) ]
                 , viewAddress partner.maybeAddress
                 ]
             ]
-        , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
-        , div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Partner event listing?" ]
+        , hr [ css [ hrStyle ] ] []
+        , section []
+            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t PartnerUpcomingEventsText) ]
+            ]
+        , if List.length events > 0 then
+            Page.Events.viewEventsList events
+
+          else
+            p [ css [ contactItemStyle ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
+        , div [ css [] ] [ text "[fFf] Map" ]
         ]
 
 
@@ -142,14 +164,22 @@ viewContactDetails maybeUrl contactDetails =
 
           else
             text ""
-        , if String.length contactDetails.telephone > 0 then
-            p [] [ text contactDetails.email ]
+        , if String.length contactDetails.email > 0 then
+            p
+                [ css [ contactItemStyle ] ]
+                [ a
+                    [ href ("mailto:" ++ contactDetails.email)
+                    , css [ contactLinkStyle ]
+                    ]
+                    [ text contactDetails.email
+                    ]
+                ]
 
           else
             text ""
         , case maybeUrl of
             Just url ->
-                p [] [ text url ]
+                p [] [ a [ href url, target "_blank" ] [ text url ] ]
 
             Nothing ->
                 text ""
@@ -161,8 +191,8 @@ viewAddress maybeAddress =
     case maybeAddress of
         Just addressFields ->
             address []
-                [ p [] [ text addressFields.streetAddress ]
-                , p []
+                [ p [ css [ contactItemStyle ] ] [ text addressFields.streetAddress ]
+                , p [ css [ contactItemStyle ] ]
                     [ text addressFields.addressRegion
                     , text ", "
                     , text addressFields.postalCode
@@ -170,7 +200,13 @@ viewAddress maybeAddress =
                 ]
 
         Nothing ->
-            text (t PartnerAddressEmptyText)
+            p [ css [ contactItemStyle ] ] [ text (t PartnerAddressEmptyText) ]
+
+
+viewBackButton : Html msg
+viewBackButton =
+    p [ css [ goBackStyle ] ]
+        [ a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackButtonStyle ] ] [ text (t BackToPartnersLinkText) ] ]
 
 
 
@@ -179,19 +215,42 @@ viewAddress maybeAddress =
 ---------
 
 
-featurePlaceholderStyle : Style
-featurePlaceholderStyle =
+descriptionStyle : Style
+descriptionStyle =
     batch
-        [ fontWeight bold
-        , marginBottom (rem 2)
+        [ normalFirstParagraphStyle
+        , withMediaTabletLandscapeUp
+            [ margin2 (rem 0) auto
+            , maxWidth (px 636)
+            ]
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 0) (rem 2) ]
         ]
 
 
-partnerHeadingStyle : Style
-partnerHeadingStyle =
+hrStyle : Style
+hrStyle =
     batch
-        [ textAlign center
-        , fontSize (rem 2)
+        [ borderColor pink
+        , borderStyle solid
+        , borderWidth (px 0.5)
+        , margin2 (rem 3) (rem 0)
+        ]
+
+
+contactWrapperStyle : Style
+contactWrapperStyle =
+    batch
+        [ withMediaTabletPortraitUp
+            [ displayFlex ]
+        ]
+
+
+contactSectionStyle : Style
+contactSectionStyle =
+    batch
+        [ withMediaTabletPortraitUp
+            [ width (pct 50), marginTop (rem -2) ]
         ]
 
 
@@ -201,16 +260,43 @@ contactHeadingStyle =
     batch [ color Theme.Global.pink ]
 
 
+contactItemStyle : Style
+contactItemStyle =
+    batch
+        [ textAlign center
+        , fontStyle normal
+        ]
+
+
+contactLinkStyle : Style
+contactLinkStyle =
+    batch
+        [ color white
+        , property "text-decoration-color" "#FF7AA7"
+        ]
+
+
 goBackStyle : Style
 goBackStyle =
+    batch
+        [ textAlign center
+        , margin4 (rem 3) (rem 2) (rem 0) (rem 2)
+        ]
+
+
+goBackButtonStyle : Style
+goBackButtonStyle =
     batch
         [ backgroundColor Theme.Global.darkBlue
         , color Theme.Global.white
         , textDecoration none
-        , padding (rem 1)
-        , display block
-        , width (pct 25)
+        , padding2 (rem 0.5) (rem 2)
+        , fontSize (rem 1.2)
         , margin2 (rem 2) auto
         , textAlign center
-        , hover [ backgroundColor Theme.Global.blue, color Theme.Global.black ]
+        , borderColor pink
+        , borderStyle solid
+        , borderWidth (px 2)
+        , borderRadius (rem 0.3)
+        , fontWeight (int 600)
         ]

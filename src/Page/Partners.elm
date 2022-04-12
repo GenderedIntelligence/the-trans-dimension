@@ -15,7 +15,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global as Theme exposing (darkBlue, darkPurple, pink, purple, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate
+import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import View exposing (View)
 
 
@@ -78,9 +78,12 @@ view maybeUrl sharedModel static =
     { title = t PartnersTitle
     , body =
         [ PageTemplate.view
-            { title = t PartnersTitle
-            , bigText = t PartnersIntroSummary
-            , smallText = [ t PartnersIntroDescription ]
+            { variant = PinkHeader
+            , intro =
+                { title = t PartnersTitle
+                , bigText = t PartnersIntroSummary
+                , smallText = [ t PartnersIntroDescription ]
+                }
             }
             (Just (viewPartners static))
             Nothing

@@ -1,4 +1,4 @@
-module Data.PlaceCal.Events exposing (Event, Realm(..), emptyEvent, eventsData, realmToString)
+module Data.PlaceCal.Events exposing (Event, Realm(..), emptyEvent, eventsData, eventsFromPartnerId, realmToString)
 
 import Api
 import DataSource
@@ -53,6 +53,11 @@ realmToString realm =
 
         Offline ->
             "Offline"
+
+
+eventsFromPartnerId : List Event -> String -> List Event
+eventsFromPartnerId eventsList id =
+    List.filter (\event -> event.partnerId == id) eventsList
 
 
 

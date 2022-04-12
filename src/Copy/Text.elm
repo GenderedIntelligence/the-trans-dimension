@@ -177,6 +177,12 @@ t key =
         PartnerAddressEmptyText ->
             "[cCc] No address provided"
 
+        PartnerUpcomingEventsText ->
+            "Upcoming partner events"
+
+        PartnerEventsEmptyText partnerName ->
+            partnerName ++ " does not have any upcoming events [cCc]"
+
         BackToPartnersLinkText ->
             "Go to all partners"
 
