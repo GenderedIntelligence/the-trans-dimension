@@ -45,7 +45,7 @@ viewParamsWithPartner =
               , startDatetime = Time.millisToPosix 1645466400000
               , endDatetime = Time.millisToPosix 1650564000000
               , location = "Venue"
-              , partnerId = "1"
+              , partner = { id = "1", name = Nothing }
               }
             , { id = "2"
               , name = "Event 2 name"
@@ -54,7 +54,7 @@ viewParamsWithPartner =
               , startDatetime = Time.millisToPosix 1645448400000
               , endDatetime = Time.millisToPosix 1658408400000
               , location = "Venue"
-              , partnerId = "1"
+              , partner = { id = "1", name = Nothing }
               }
             ]
         }
@@ -105,6 +105,7 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithPartner
                     |> Query.contains [ Html.text "Partner description" ]
+
         -- Below: can't figure out how to get it to do multiline text so leaving it for now.
         , test "Contains address if provided" <|
             \_ ->
@@ -114,7 +115,7 @@ suite =
                         , Selector.containing
                             [ Selector.tag "p"
                             , Selector.containing
-                                [ Selector.text "1 The Street"]
+                                [ Selector.text "1 The Street" ]
                             ]
                         ]
         , test "Contains address empty text if not provided" <|
@@ -138,7 +139,6 @@ suite =
                                 ]
                             ]
                         ]
-
         , test "Can have contact details without url" <|
             \_ ->
                 viewBodyHtml viewParamsWithoutMaybes

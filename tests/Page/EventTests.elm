@@ -27,7 +27,7 @@ viewParamsWithEvent =
         , location = "Event location"
 
         --, realm = Online
-        , partnerId = "1"
+        , partner = { id = "1", name = Just "Partner one" }
         }
     , path = Path.fromString "event/1"
     , routeParams = { event = "1" }
