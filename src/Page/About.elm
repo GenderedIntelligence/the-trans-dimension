@@ -14,7 +14,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, normalFirstParagraphStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
@@ -298,25 +298,6 @@ columnsStyle =
             [ property "columns" "2"
             , important (marginTop (rem 3))
             , important (marginBottom (rem 3))
-            ]
-        ]
-
-
-normalFirstParagraphStyle : Style
-normalFirstParagraphStyle =
-    batch
-        [ descendants
-            [ typeSelector "p"
-                [ batch
-                    [ firstChild
-                        [ fontSize (rem 1)
-                        , marginBlockEnd (em 1)
-                        , lineHeight (em 1.5)
-                        , withMediaSmallDesktopUp [ fontSize (rem 1.2) ]
-                        , withMediaTabletPortraitUp [ marginBlockStart (em 0) ]
-                        ]
-                    ]
-                ]
             ]
         ]
 
