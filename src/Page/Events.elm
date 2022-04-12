@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, page, view)
+module Page.Events exposing (Data, Model, Msg, page, view, viewEventsList)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -99,7 +99,7 @@ viewEvents events =
     section []
         [ viewEventsFilters
         , viewPagination
-        , viewEventsList events
+        , viewEventsList events.data
         ]
 
 
@@ -115,11 +115,15 @@ viewPagination =
     div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Pagination by day/week" ]
 
 
-viewEventsList : StaticPayload (List Data.PlaceCal.Events.Event) RouteParams -> Html msg
+
+-- We might want to move this into theme since it is also used by Partner page
+
+
+viewEventsList : List Data.PlaceCal.Events.Event -> Html msg
 viewEventsList events =
     div []
-        [ if List.length events.data > 0 then
-            ul [ css [ eventListStyle ] ] (List.map (\event -> viewEvent event) events.data)
+        [ if List.length events > 0 then
+            ul [ css [ eventListStyle ] ] (List.map (\event -> viewEvent event) events)
 
           else
             text ""
