@@ -96,7 +96,7 @@ toPath route =
 
         Privacy ->
             Path.fromString "privacy"
-        
+
         Error ->
             Path.fromString "404"
 

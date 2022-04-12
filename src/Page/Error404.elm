@@ -1,4 +1,4 @@
-module Page.404 exposing (Data, Model, Msg, page, view)
+module Page.Error404 exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -6,13 +6,14 @@ import Css exposing (Style, batch, block, display, margin2, rem)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, button, div, form, h2, input, label, p, section, span, text, textarea)
 import Html.Styled.Attributes exposing (css, type_)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global
+import Theme.Global exposing (viewBackButton)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import View exposing (View)
 
@@ -84,7 +85,6 @@ view maybeUrl sharedModel static =
                 }
             }
             Nothing
-            Nothing
+            (Just (viewBackButton (TransRoutes.toAbsoluteUrl Error) (t ErrorButtonText)))
         ]
     }
-
