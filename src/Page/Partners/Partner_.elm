@@ -2,7 +2,7 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderColor, borderRadius, borderStyle, borderWidth, center, color, display, displayFlex, fontSize, fontStyle, fontWeight, hover, int, margin2, marginBottom, marginTop, maxWidth, none, normal, padding, padding2, pct, property, px, rem, solid, textAlign, textDecoration, width)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderColor, borderRadius, borderStyle, borderWidth, center, color, display, displayFlex, fontSize, fontStyle, fontWeight, hover, int, margin2, margin4, marginBottom, marginTop, maxWidth, none, normal, padding, padding2, pct, property, px, rem, solid, textAlign, textDecoration, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -20,7 +20,6 @@ import Theme.Global exposing (normalFirstParagraphStyle, pink, smallInlineTitleS
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown
 import View exposing (View)
-import Css exposing (margin4)
 
 
 type alias Model =
