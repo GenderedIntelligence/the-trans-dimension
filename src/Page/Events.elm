@@ -12,8 +12,9 @@ import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, article, div, h2, h3, h4, li, p, section, span, text, time, ul)
+import Html.Styled exposing (Html, a, article, button, div, h2, h3, h4, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href)
+import Html.Styled.Events
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
@@ -27,11 +28,13 @@ import View exposing (View)
 
 type alias Model =
     { filterByDay : Maybe Time.Posix
+    , nowTime : Time.Posix
     }
 
 
-type alias Msg =
-    Never
+type Msg
+    = ClickedDay Time.Posix
+    | Tick Time.Posix
 
 
 type alias RouteParams =
@@ -44,7 +47,7 @@ init :
     -> StaticPayload Data RouteParams
     -> ( Model, Cmd Msg )
 init maybeUrl sharedModel static =
-    ( { filterByDay = Nothing }, Cmd.none )
+    ( { filterByDay = Nothing, nowTime = Time.millisToPosix 0 }, Cmd.none )
 
 
 update :
@@ -55,8 +58,13 @@ update :
     -> Msg
     -> Model
     -> ( Model, Cmd Msg )
-update pageUrl maybeNavigationKey sharedModel static msg model =
-    ( model, Cmd.none )
+update pageUrl maybeNavigationKey sharedModel static msg localModel =
+    case msg of
+        ClickedDay posix ->
+            ( { localModel | filterByDay = Just posix }, Cmd.none )
+
+        Tick newTime ->
+            ( { localModel | nowTime = newTime }, Cmd.none )
 
 
 subscriptions :
@@ -65,8 +73,11 @@ subscriptions :
     -> Path
     -> Model
     -> Sub Msg
-subscriptions _ _ _ _ =
-    Sub.none
+subscriptions _ _ _ localModel =
+    -- [fFf] probably want to move this tick & nowTime value to shared
+    -- at least 2 pages will use it
+    -- Update time every minute.
+    Time.every 60000 Tick
 
 
 page : PageWithState RouteParams Data Model Msg
@@ -149,25 +160,30 @@ view maybeUrl sharedModel localModel static =
                 , smallText = []
                 }
             }
-            (Just (viewEvents static))
+            (Just (viewEvents localModel static))
             (Just viewSubscribe)
         ]
     }
 
 
-viewEvents : StaticPayload (List Data.PlaceCal.Events.Event) RouteParams -> Html msg
-viewEvents events =
+viewEvents :
+    Model
+    -> StaticPayload (List Data.PlaceCal.Events.Event) RouteParams
+    -> Html Msg
+viewEvents localModel events =
     section []
-        [ viewEventsFilters
+        [ viewEventsFilters localModel
         , viewPagination
-        , viewEventsList events.data
+        , viewEventsList localModel events.data
         ]
 
 
-viewEventsFilters : Html msg
-viewEventsFilters =
-    div [ css [ featurePlaceholderStyle ] ]
-        [ text "[fFf] Event filters"
+viewEventsFilters : Model -> Html Msg
+viewEventsFilters localModel =
+    div []
+        [ ul []
+            [ li [] [ button [ Html.Styled.Events.onClick (ClickedDay (Time.millisToPosix 1645466400000)) ] [ text "Today" ] ]
+            ]
         ]
 
 
@@ -180,8 +196,8 @@ viewPagination =
 -- We might want to move this into theme since it is also used by Partner page
 
 
-viewEventsList : List Data.PlaceCal.Events.Event -> Html msg
-viewEventsList events =
+viewEventsList : Model -> List Data.PlaceCal.Events.Event -> Html msg
+viewEventsList localModel events =
     div []
         [ if List.length events > 0 then
             ul [ css [ eventListStyle ] ] (List.map (\event -> viewEvent event) events)

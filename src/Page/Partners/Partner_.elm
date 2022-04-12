@@ -19,6 +19,7 @@ import Shared
 import Theme.Global exposing (normalFirstParagraphStyle, pink, smallInlineTitleStyle, viewBackButton, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown
+import Time
 import View exposing (View)
 
 
@@ -148,7 +149,13 @@ viewInfo { partner, events } =
             [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t PartnerUpcomingEventsText) ]
             ]
         , if List.length events > 0 then
-            Page.Events.viewEventsList events
+            -- Might move away from sharing render, but for now hardcoding model
+            Page.Events.viewEventsList
+                -- Because filter is nothing, this will be ignored
+                { filterByDay = Nothing
+                , nowTime = Time.millisToPosix 0
+                }
+                events
 
           else
             p [ css [ contactItemStyle ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
