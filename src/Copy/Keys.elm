@@ -96,3 +96,7 @@ type Key
     | ResourcesEmptyText
       --- Privacy
     | PrivacyTitle
+      --- 404
+    | ErrorTitle
+    | ErrorMessage
+    | ErrorButtonText

@@ -266,3 +266,13 @@ t key =
         --- Privacy Page (note this also comes from markdown)
         PrivacyTitle ->
             "Privacy"
+
+        --- 404 Page
+        ErrorTitle ->
+            "Error 404"
+
+        ErrorMessage ->
+            "This page could not be found."
+
+        ErrorButtonText ->
+            "Back to home"

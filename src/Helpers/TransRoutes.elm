@@ -18,6 +18,7 @@ type Route
     | Partners
     | Resources
     | Privacy
+    | Error
 
 
 toPageTitle : Route -> String
@@ -56,6 +57,9 @@ toPageTitle route =
         Privacy ->
             t PrivacyTitle
 
+        Error ->
+            t ErrorTitle
+
 
 toPath : Route -> Path.Path
 toPath route =
@@ -92,6 +96,9 @@ toPath route =
 
         Privacy ->
             Path.fromString "privacy"
+
+        Error ->
+            Path.fromString "404"
 
 
 toAbsoluteUrl : Route -> String

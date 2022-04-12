@@ -16,7 +16,7 @@ import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (normalFirstParagraphStyle, pink, smallInlineTitleStyle, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (normalFirstParagraphStyle, pink, smallInlineTitleStyle, viewBackButton, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown
 import View exposing (View)
@@ -121,7 +121,7 @@ view maybeUrl sharedModel static =
             (Just
                 (viewInfo static.data)
             )
-            (Just viewBackButton)
+            (Just (viewBackButton (TransRoutes.toAbsoluteUrl Partners) (t BackToPartnersLinkText)))
         ]
     }
 
@@ -203,12 +203,6 @@ viewAddress maybeAddress =
             p [ css [ contactItemStyle ] ] [ text (t PartnerAddressEmptyText) ]
 
 
-viewBackButton : Html msg
-viewBackButton =
-    p [ css [ goBackStyle ] ]
-        [ a [ href (TransRoutes.toAbsoluteUrl Partners), css [ goBackButtonStyle ] ] [ text (t BackToPartnersLinkText) ] ]
-
-
 
 ---------
 -- Styles
@@ -273,30 +267,4 @@ contactLinkStyle =
     batch
         [ color white
         , property "text-decoration-color" "#FF7AA7"
-        ]
-
-
-goBackStyle : Style
-goBackStyle =
-    batch
-        [ textAlign center
-        , margin4 (rem 3) (rem 2) (rem 0) (rem 2)
-        ]
-
-
-goBackButtonStyle : Style
-goBackButtonStyle =
-    batch
-        [ backgroundColor Theme.Global.darkBlue
-        , color Theme.Global.white
-        , textDecoration none
-        , padding2 (rem 0.5) (rem 2)
-        , fontSize (rem 1.2)
-        , margin2 (rem 2) auto
-        , textAlign center
-        , borderColor pink
-        , borderStyle solid
-        , borderWidth (px 2)
-        , borderRadius (rem 0.3)
-        , fontWeight (int 600)
         ]
