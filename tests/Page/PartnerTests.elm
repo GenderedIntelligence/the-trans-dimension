@@ -129,8 +129,8 @@ suite =
                     |> Query.contains
                         [ Html.address []
                             [ Html.p [] [ Html.text "0161 496 0000" ]
-                            , Html.p [] [ Html.text "partner@example.com" ]
-                            , Html.p [] [ Html.text "https://www.example.com" ]
+                            , Html.p [] [ Html.a [] [ Html.text "partner@example.com" ] ]
+                            , Html.p [] [ Html.a [] [ Html.text "https://www.example.com" ] ]
                             ]
                         ]
         , test "Can have contact details without url" <|
@@ -139,7 +139,7 @@ suite =
                     |> Query.contains
                         [ Html.address []
                             [ Html.p [] [ Html.text "0161 496 0000" ]
-                            , Html.p [] [ Html.text "partner@example.com" ]
+                            , Html.p [] [ Html.a [] [ Html.text "partner@example.com" ] ]
                             , Html.text ""
                             ]
                         ]
