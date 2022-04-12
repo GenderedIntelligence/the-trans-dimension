@@ -105,17 +105,16 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithPartner
                     |> Query.contains [ Html.text "Partner description" ]
+        -- Below: can't figure out how to get it to do multiline text so leaving it for now.
         , test "Contains address if provided" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner
-                    |> Query.contains
-                        [ Html.address []
-                            [ Html.p [] [ Html.text "1 The Street" ]
-                            , Html.p []
-                                [ Html.text "Exampleton"
-                                , Html.text ", "
-                                , Html.text "A1 2BC"
-                                ]
+                    |> Query.has
+                        [ Selector.tag "address"
+                        , Selector.containing
+                            [ Selector.tag "p"
+                            , Selector.containing
+                                [ Selector.text "1 The Street"]
                             ]
                         ]
         , test "Contains address empty text if not provided" <|
@@ -126,21 +125,34 @@ suite =
         , test "Contact details contain url if provided" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner
-                    |> Query.contains
-                        [ Html.address []
-                            [ Html.p [] [ Html.text "0161 496 0000" ]
-                            , Html.p [] [ Html.text "partner@example.com" ]
-                            , Html.p [] [ Html.text "https://www.example.com" ]
+                    |> Query.has
+                        [ Selector.tag "address"
+                        , Selector.containing
+                            [ Selector.tag "p"
+                            , Selector.containing
+                                [ Selector.tag "a"
+                                , Selector.containing
+                                    [ Selector.text "https://www.example.com"
+                                    ]
+                                , Selector.attribute (Html.Attributes.href "https://www.example.com")
+                                ]
                             ]
                         ]
+
         , test "Can have contact details without url" <|
             \_ ->
                 viewBodyHtml viewParamsWithoutMaybes
-                    |> Query.contains
-                        [ Html.address []
-                            [ Html.p [] [ Html.text "0161 496 0000" ]
-                            , Html.p [] [ Html.text "partner@example.com" ]
-                            , Html.text ""
+                    |> Query.has
+                        [ Selector.tag "address"
+                        , Selector.containing
+                            [ Selector.tag "p"
+                            , Selector.containing
+                                [ Selector.tag "a"
+                                , Selector.containing
+                                    [ Selector.text "partner@example.com"
+                                    ]
+                                , Selector.attribute (Html.Attributes.href "mailto:partner@example.com")
+                                ]
                             ]
                         ]
         , test "Contains map" <|

@@ -1,7 +1,7 @@
-module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, gridStyle, introTextLargeStyle, introTextSmallStyle, lightPink, maxMobile, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, viewFloatingButton, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, gridStyle, introTextLargeStyle, introTextSmallStyle, lightPink, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, viewFloatingButton, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, left, letterSpacing, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
-import Css.Global exposing (adjacentSiblings, global, typeSelector)
+import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, em, firstChild, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, left, letterSpacing, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
+import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Html.Styled exposing (Html, a, div, p, text)
 import Html.Styled.Attributes exposing (css, href, id)
@@ -180,18 +180,35 @@ buttonStyle =
         ]
 
 
+smallTitleStyle : Style
+smallTitleStyle =
+    batch
+        [ textTransform uppercase
+        , textAlign center
+        , letterSpacing (px 1.9)
+        ]
+
+
 smallFloatingTitleStyle : Style
 smallFloatingTitleStyle =
     batch
-        [ textTransform uppercase
-        , color white
-        , fontSize (rem 1.2)
-        , textAlign center
-        , letterSpacing (px 1.9)
+        [ smallTitleStyle
         , position absolute
         , top (rem -3)
         , width (calc (pct 100) minus (rem 2))
         , left (rem 1)
+        , fontSize (rem 1.2)
+        , color white
+        ]
+
+
+smallInlineTitleStyle : Style
+smallInlineTitleStyle =
+    batch
+        [ smallTitleStyle
+        , fontSize (rem 1)
+        , marginBlockStart (em 2)
+        , marginBlockEnd (em 1.6)
         ]
 
 
@@ -271,6 +288,29 @@ introTextSmallStyle =
             [ fontSize (rem 1.2), margin2 (rem 1.5) (rem 6.5) ]
         , withMediaTabletPortraitUp
             [ margin2 (rem 1.5) (rem 3.5) ]
+        ]
+
+
+
+--- For overriding the markdown style when we don't want it...
+
+
+normalFirstParagraphStyle : Style
+normalFirstParagraphStyle =
+    batch
+        [ descendants
+            [ typeSelector "p"
+                [ batch
+                    [ firstChild
+                        [ fontSize (rem 1)
+                        , marginBlockEnd (em 1)
+                        , lineHeight (em 1.5)
+                        , withMediaSmallDesktopUp [ fontSize (rem 1.2) ]
+                        , withMediaTabletPortraitUp [ marginBlockStart (em 0) ]
+                        ]
+                    ]
+                ]
+            ]
         ]
 
 
