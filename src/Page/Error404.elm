@@ -14,7 +14,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (viewBackButton)
-import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
+import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import View exposing (View)
 
 
@@ -80,7 +80,7 @@ view maybeUrl sharedModel static =
             { variant = PinkHeader
             , intro =
                 { title = t ErrorTitle
-                , bigText = t ErrorMessage
+                , bigText = { text = t ErrorMessage, element = Paragraph }
                 , smallText = []
                 }
             }

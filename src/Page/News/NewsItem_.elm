@@ -18,7 +18,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
+import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import View exposing (View)
 
 
@@ -118,7 +118,7 @@ view maybeUrl sharedModel static =
             { variant = InvisibleHeader
             , intro =
                 { title = t NewsTitle
-                , bigText = static.data.title
+                , bigText = { text = static.data.title, element = H3 }
                 , smallText = []
                 }
             }

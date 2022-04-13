@@ -5,7 +5,7 @@ import Html.Styled exposing (Html, div, h2, section, text)
 import Html.Styled.Attributes exposing (css)
 import List exposing (concat)
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
+import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 
 
 view : String -> String -> List (Html msg) -> Html msg
@@ -14,7 +14,7 @@ view title subtitle body =
         { variant = InvisibleHeader
         , intro =
             { title = title
-            , bigText = subtitle
+            , bigText = { text = subtitle, element = Paragraph }
             , smallText = []
             }
         }
