@@ -2,7 +2,7 @@ module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, center, color, display, em, fontSize, fontStyle, fontWeight, hover, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginTop, none, normal, num, padding, pct, rem, textAlign, textDecoration, textTransform, uppercase, width)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, hover, int, justifyContent, letterSpacing, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, none, normal, num, padding, padding4, pct, px, rem, textAlign, textDecoration, textTransform, uppercase, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners exposing (partnerNamesFromIds)
 import DataSource exposing (DataSource)
@@ -11,28 +11,17 @@ import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h2, h3, hr, img, li, main_, p, section, text, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled.Attributes exposing (css, href, src)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Page.Events exposing (addPartnerNamesToEvents)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (linkStyle, smallInlineTitleStyle)
+import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
 import Theme.TransMarkdown
 import View exposing (View)
-import Css exposing (int)
-import Css exposing (letterSpacing)
-import Css exposing (px)
-import Theme.Global exposing (pink)
-import Css exposing (padding4)
-import Theme.Global exposing (darkBlue)
-import Css exposing (displayFlex)
-import Css exposing (borderRadius)
-import Html.Styled.Attributes exposing (src)
-import Css exposing (justifyContent)
-import Css exposing (flexStart)
-import Css exposing (marginRight)
+import Html.Styled exposing (time)
 
 
 type alias Model =
@@ -122,113 +111,80 @@ view maybeUrl sharedModel static =
                 , smallText = []
                 }
             }
-            (Just (viewInfo static.data))
-            (Just
-                (section []
-                    [ Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl (Partner static.data.partner.id)) "Partner's events"
-                    , Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl Events) (t BackToEventsLinkText)
-                    ]
-                )
-            )
+            (Just (viewEventInfo static.data))
+            (Just (viewButtons static.data))
         ]
     }
 
 
-viewInfo : Data.PlaceCal.Events.Event -> Html msg
-viewInfo event =
-    section []
-        [ div [ css [ dateAndTimeStyle ] ]
-            [ p [ css [ dateStyle ] ] [ text (TransDate.humanDateFromPosix event.startDatetime) ]
-            , p [ css [ timeStyle ] ] [ text (TransDate.humanTimeFromPosix event.startDatetime), text " - ", text (TransDate.humanTimeFromPosix event.endDatetime) ]
-            ]
+viewEventInfo : Data.PlaceCal.Events.Event -> Html msg
+viewEventInfo event =
+    div []
+        [ viewDateTimeSection event
         , hr [ css [ Theme.Global.hrStyle ] ] []
-        , div []
-            [ case event.partner.name of
-                Just name ->
-                    p [ css [ eventPartnerStyle ] ] [ a [ css [ linkStyle ], href (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) ] [ text ("By " ++ name) ] ]
-
-                Nothing ->
-                    text ""
-            ]
-
-        -- , p [ css [ eventMetaStyle ] ] [ text event.location ]
-        -- , p [ css [ eventMetaStyle ] ]
-        --    [ text
-        --        (Data.PlaceCal.Events.realmToString event.realm)
-        --    ]
-        , div [ css [ eventDescriptionStyle ] ]
-            (Theme.TransMarkdown.markdownToHtml event.description)
-        , p [] [ text event.description ]
-        , div [ css [ accessibilityBoxStyle ]]
-            [ div [ css [ accessibilityIconStyle ] ] [ img [ src "/images/icons/icon_wheelchair.svg"]  [] ]
-            , p [ css [ accessibilityTextStyle ] ] [ text "Accessibility information box" ]
-            ]
+        , viewInfoSection event
         , hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
-        , div []
-            [ h3 [ css [ color Theme.Global.pink, smallInlineTitleStyle ] ] [ text "Contact Information " ]
+        , viewAddressSection event
+        , div [] [ text "[fFf] Map" ]
+        ]
+
+viewDateTimeSection : Data.PlaceCal.Events.Event -> Html msg
+viewDateTimeSection event =
+    section [ css [ dateAndTimeStyle ] ]
+            [ p [ css [ dateStyle ] ] [ time [] [ text (TransDate.humanDateFromPosix event.startDatetime) ] ]
+            , p [ css [ timeStyle ] ] [ time [] [ text (TransDate.humanTimeFromPosix event.startDatetime), text " - ", text (TransDate.humanTimeFromPosix event.endDatetime) ] ]
+            ]
+
+viewInfoSection : Data.PlaceCal.Events.Event -> Html msg
+viewInfoSection event =
+     section [ css [ infoSectionStyle ] ]
+            [ div []
+                [ case event.partner.name of
+                    Just name ->
+                        p [ css [ eventPartnerStyle ] ] [ a [ css [ linkStyle ], href (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) ] [ text ("By " ++ name) ] ]
+
+                    Nothing ->
+                        text ""
+                ]
+            , div [ css [ eventDescriptionStyle ] ]
+                (Theme.TransMarkdown.markdownToHtml event.description)
+            , p [] [ text event.description ]
+            , div [ css [ accessibilityBoxStyle ] ]
+                [ div [ css [ accessibilityIconStyle ] ] [ img [ src "/images/icons/icon_wheelchair.svg" ] [] ]
+                , p [ css [ accessibilityTextStyle ] ] [ text "Accessibility information box" ]
+                ]
+            ]
+
+viewAddressSection : Data.PlaceCal.Events.Event -> Html msg
+viewAddressSection event =
+    section [ css [ addressSectionStyle ] ] [
+        div [ css [ addressItemStyle ] ]
+            [ h3 [ css [ addressItemTitleStyle ] ] [ text "Contact Information " ]
             , p [ css [ contactItemStyle ] ] [ text "Phone number" ]
             , p [ css [ contactItemStyle ] ] [ a [ href "/", css [ Theme.Global.linkStyle ] ] [ text "Email address" ] ]
             , p [ css [ contactItemStyle ] ] [ a [ href "/", css [ Theme.Global.linkStyle ] ] [ text "Website address" ] ]
             ]
-        , div []
-            [ h3 [ css [ color Theme.Global.pink, smallInlineTitleStyle ] ] [ text "Event Address" ]
+        , div [ css [ addressItemStyle ] ]
+            [ h3 [ css [ addressItemTitleStyle ] ] [ text "Event Address" ]
             , p [ css [ contactItemStyle ] ] [ text "Address info" ]
             ]
-        , div [] [ text "[fFf] Map" ]
-        ]
+    ]
 
-
-eventPartnerStyle : Style
-eventPartnerStyle =
-    batch
-        [ fontSize (rem 1.2)
-        , textAlign center
-        ]
-
-
-eventDescriptionStyle : Style
-eventDescriptionStyle =
-    batch
-        [ marginTop (rem 1)
-        , marginBottom (rem 2)
-        ]
-
-accessibilityBoxStyle : Style
-accessibilityBoxStyle =
-    batch
-        [ padding (rem 1)
-        , backgroundColor pink
-        , color darkBlue
-        , displayFlex
-        , borderRadius (rem 0.3)
-        , margin2 (rem 2) (rem 0)
-        , justifyContent flexStart
-        ]
-
-accessibilityIconStyle : Style
-accessibilityIconStyle =
-    batch
-        [ marginTop (rem 0.2)
-        , marginRight (rem 1)]
-
-accessibilityTextStyle : Style
-accessibilityTextStyle =
-    batch
-        [ fontSize (rem 0.875)]
-
-contactItemStyle : Style
-contactItemStyle =
-    batch
-        [ textAlign center
-        , fontStyle normal
-        , marginBlockStart (em 0)
-        , marginBlockEnd (em 0)
-        ]
+viewButtons : Data.PlaceCal.Events.Event -> Html msg
+viewButtons event =
+    section [ css [ buttonsStyle ] ]
+                    [ Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) "Partner's events"
+                    , Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl Events) (t BackToEventsLinkText)
+                    ]
 
 dateAndTimeStyle : Style
 dateAndTimeStyle =
     batch
-        [ margin2 (rem 3) (rem 0)]
+        [ withMediaTabletPortraitUp
+            [ margin2 (rem 2) (rem 0) ]
+        , margin2 (rem 3) (rem 0)
+        ]
+
 
 dateStyle : Style
 dateStyle =
@@ -246,9 +202,98 @@ timeStyle : Style
 timeStyle =
     batch
         [ fontSize (rem 1.2)
-        , fontWeight (int 600) 
+        , fontWeight (int 600)
         , textAlign center
         , textTransform uppercase
         , letterSpacing (px 1.9)
         , color pink
-        , marginBlockStart (em 0) ]
+        , marginBlockStart (em 0)
+        ]
+
+
+infoSectionStyle : Style
+infoSectionStyle =
+    batch
+        [ margin2 (rem 0) (rem 2) ]
+
+eventPartnerStyle : Style
+eventPartnerStyle =
+    batch
+        [ fontSize (rem 1.2)
+        , textAlign center
+        ]
+
+eventDescriptionStyle : Style
+eventDescriptionStyle =
+    batch
+        [ marginTop (rem 1)
+        , marginBottom (rem 2)
+        ]
+
+
+accessibilityBoxStyle : Style
+accessibilityBoxStyle =
+    batch
+        [ padding (rem 1)
+        , backgroundColor pink
+        , color darkBlue
+        , displayFlex
+        , borderRadius (rem 0.3)
+        , margin2 (rem 2) (rem 0)
+        , justifyContent flexStart
+        , withMediaTabletPortraitUp [ marginBottom (rem 3) ]
+        ]
+
+
+accessibilityIconStyle : Style
+accessibilityIconStyle =
+    batch
+        [ marginTop (rem 0.2)
+        , marginRight (rem 1)
+        , withMediaTabletPortraitUp [ marginRight (rem 1.5) ]
+        ]
+
+
+accessibilityTextStyle : Style
+accessibilityTextStyle =
+    batch
+        [ fontSize (rem 0.875)
+        , withMediaTabletPortraitUp [ fontSize (rem 1) ] ]
+
+addressSectionStyle : Style
+addressSectionStyle =
+    batch
+        [ withMediaTabletPortraitUp
+            [ displayFlex ]
+        ]
+
+addressItemStyle : Style
+addressItemStyle =
+    batch
+        [ withMediaTabletPortraitUp
+            [ width (pct 50) ]
+        ]
+
+addressItemTitleStyle : Style
+addressItemTitleStyle =
+    batch
+        [ color Theme.Global.pink
+        , smallInlineTitleStyle
+        , withMediaTabletPortraitUp [ marginTop (rem 1) ] 
+        ]
+
+contactItemStyle : Style
+contactItemStyle =
+    batch
+        [ textAlign center
+        , fontStyle normal
+        , marginBlockStart (em 0)
+        , marginBlockEnd (em 0)
+        ]
+
+buttonsStyle : Style
+buttonsStyle =
+    batch
+        [ withMediaTabletPortraitUp 
+            [ displayFlex, justifyContent center ] 
+        ]

@@ -330,6 +330,8 @@ hrStyle =
         , borderStyle solid
         , borderWidth (px 0.5)
         , margin2 (rem 3) (rem 0)
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 2) (rem 0) ]
         ]
 
 
