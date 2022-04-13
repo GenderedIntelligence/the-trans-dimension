@@ -18,7 +18,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (darkBlue, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
+import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import View exposing (View)
 
 
@@ -93,7 +93,7 @@ view maybeUrl sharedModel static =
             { variant = PinkHeader
             , intro =
                 { title = t NewsTitle
-                , bigText = t NewsDescription
+                , bigText = { text = t NewsDescription, element = Paragraph }
                 , smallText = []
                 }
             }

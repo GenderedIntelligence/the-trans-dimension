@@ -98,9 +98,15 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithPartner
                     |> Query.findAll [ Selector.tag "h2" ]
-                    |> Query.count (Expect.equal 1)
-
-        --- Temporarily removed test for partner heading - not compatible with current layout, need to fix :D
+                    |> Query.index 0
+                    |> Query.contains [ Html.text (t PartnersTitle) ]
+        , test "Has expected h3 heading" <|
+            \_ ->
+                viewBodyHtml viewParamsWithPartner
+                    |> Query.findAll [ Selector.tag "h3" ]
+                    |> Query.index 0
+                    |> Query.contains [ Html.text "Partner name"]
+                    
         , test "Has partner description text" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner

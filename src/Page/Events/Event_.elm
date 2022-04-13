@@ -2,7 +2,7 @@ module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, hover, int, justifyContent, letterSpacing, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, none, normal, num, padding, padding4, pct, px, rem, textAlign, textDecoration, textTransform, uppercase, width)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, hover, int, justifyContent, letterSpacing, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, none, normal, num, padding, padding4, pct, px, rem, textAlign, textDecoration, textTransform, uppercase, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners exposing (partnerNamesFromIds)
 import DataSource exposing (DataSource)
@@ -10,18 +10,17 @@ import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h2, h3, hr, img, li, main_, p, section, text, ul)
+import Html.Styled exposing (Html, a, div, h2, h3, h4, hr, img, li, main_, p, section, text, time, ul)
 import Html.Styled.Attributes exposing (css, href, src)
 import Page exposing (Page, PageWithState, StaticPayload)
 import Page.Events exposing (addPartnerNamesToEvents)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
+import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import Theme.TransMarkdown
 import View exposing (View)
-import Html.Styled exposing (time)
 
 
 type alias Model =
@@ -107,7 +106,7 @@ view maybeUrl sharedModel static =
             { variant = PinkHeader
             , intro =
                 { title = t EventsTitle
-                , bigText = static.data.name
+                , bigText = { text = static.data.name, element = H3 }
                 , smallText = []
                 }
             }
@@ -128,54 +127,59 @@ viewEventInfo event =
         , div [] [ text "[fFf] Map" ]
         ]
 
+
 viewDateTimeSection : Data.PlaceCal.Events.Event -> Html msg
 viewDateTimeSection event =
     section [ css [ dateAndTimeStyle ] ]
-            [ p [ css [ dateStyle ] ] [ time [] [ text (TransDate.humanDateFromPosix event.startDatetime) ] ]
-            , p [ css [ timeStyle ] ] [ time [] [ text (TransDate.humanTimeFromPosix event.startDatetime), text " - ", text (TransDate.humanTimeFromPosix event.endDatetime) ] ]
-            ]
+        [ p [ css [ dateStyle ] ] [ time [] [ text (TransDate.humanDateFromPosix event.startDatetime) ] ]
+        , p [ css [ timeStyle ] ] [ time [] [ text (TransDate.humanTimeFromPosix event.startDatetime), text " - ", text (TransDate.humanTimeFromPosix event.endDatetime) ] ]
+        ]
+
 
 viewInfoSection : Data.PlaceCal.Events.Event -> Html msg
 viewInfoSection event =
-     section [ css [ infoSectionStyle ] ]
-            [ div []
-                [ case event.partner.name of
-                    Just name ->
-                        p [ css [ eventPartnerStyle ] ] [ a [ css [ linkStyle ], href (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) ] [ text ("By " ++ name) ] ]
+    section [ css [ infoSectionStyle ] ]
+        [ div []
+            [ case event.partner.name of
+                Just name ->
+                    p [ css [ eventPartnerStyle ] ] [ a [ css [ linkStyle ], href (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) ] [ text ("By " ++ name) ] ]
 
-                    Nothing ->
-                        text ""
-                ]
-            , div [ css [ eventDescriptionStyle ] ]
-                (Theme.TransMarkdown.markdownToHtml event.description)
-            , p [] [ text event.description ]
-            , div [ css [ accessibilityBoxStyle ] ]
-                [ div [ css [ accessibilityIconStyle ] ] [ img [ src "/images/icons/icon_wheelchair.svg" ] [] ]
-                , p [ css [ accessibilityTextStyle ] ] [ text "Accessibility information box" ]
-                ]
+                Nothing ->
+                    text ""
             ]
+        , div [ css [ eventDescriptionStyle ] ]
+            --  (Theme.TransMarkdown.markdownToHtml event.description)
+            [ p [] [ text event.description ] ]
+        , div [ css [ accessibilityBoxStyle ] ]
+            [ div [ css [ accessibilityIconStyle ] ] [ img [ src "/images/icons/icon_wheelchair.svg" ] [] ]
+            , p [ css [ accessibilityTextStyle ] ] [ text "Accessibility information box" ]
+            ]
+        ]
+
 
 viewAddressSection : Data.PlaceCal.Events.Event -> Html msg
 viewAddressSection event =
-    section [ css [ addressSectionStyle ] ] [
-        div [ css [ addressItemStyle ] ]
-            [ h3 [ css [ addressItemTitleStyle ] ] [ text "Contact Information " ]
+    section [ css [ addressSectionStyle ] ]
+        [ div [ css [ addressItemStyle ] ]
+            [ h4 [ css [ addressItemTitleStyle ] ] [ text "Contact Information " ]
             , p [ css [ contactItemStyle ] ] [ text "Phone number" ]
             , p [ css [ contactItemStyle ] ] [ a [ href "/", css [ Theme.Global.linkStyle ] ] [ text "Email address" ] ]
             , p [ css [ contactItemStyle ] ] [ a [ href "/", css [ Theme.Global.linkStyle ] ] [ text "Website address" ] ]
             ]
         , div [ css [ addressItemStyle ] ]
-            [ h3 [ css [ addressItemTitleStyle ] ] [ text "Event Address" ]
-            , p [ css [ contactItemStyle ] ] [ text "Address info" ]
+            [ h4 [ css [ addressItemTitleStyle ] ] [ text "Event Address" ]
+            , p [ css [ contactItemStyle ] ] [ text event.location ]
             ]
-    ]
+        ]
+
 
 viewButtons : Data.PlaceCal.Events.Event -> Html msg
 viewButtons event =
     section [ css [ buttonsStyle ] ]
-                    [ Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) "Partner's events"
-                    , Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl Events) (t BackToEventsLinkText)
-                    ]
+        [ Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) "Partner's events"
+        , Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl Events) (t BackToEventsLinkText)
+        ]
+
 
 dateAndTimeStyle : Style
 dateAndTimeStyle =
@@ -214,7 +218,10 @@ timeStyle =
 infoSectionStyle : Style
 infoSectionStyle =
     batch
-        [ margin2 (rem 0) (rem 2) ]
+        [ withMediaTabletLandscapeUp [ maxWidth (px 636), margin2 (rem 0) auto ]
+        , withMediaTabletPortraitUp [ margin2 (rem 0) (rem 2) ]
+        ]
+
 
 eventPartnerStyle : Style
 eventPartnerStyle =
@@ -223,11 +230,14 @@ eventPartnerStyle =
         , textAlign center
         ]
 
+
 eventDescriptionStyle : Style
 eventDescriptionStyle =
     batch
         [ marginTop (rem 1)
         , marginBottom (rem 2)
+        , withMediaTabletPortraitUp [ marginTop (rem 3) ]
+        , withMediaTabletPortraitUp [ marginTop (rem 2) ]
         ]
 
 
@@ -241,6 +251,7 @@ accessibilityBoxStyle =
         , borderRadius (rem 0.3)
         , margin2 (rem 2) (rem 0)
         , justifyContent flexStart
+        , withMediaSmallDesktopUp [ marginTop (rem 3) ]
         , withMediaTabletPortraitUp [ marginBottom (rem 3) ]
         ]
 
@@ -258,7 +269,9 @@ accessibilityTextStyle : Style
 accessibilityTextStyle =
     batch
         [ fontSize (rem 0.875)
-        , withMediaTabletPortraitUp [ fontSize (rem 1) ] ]
+        , withMediaTabletPortraitUp [ fontSize (rem 1) ]
+        ]
+
 
 addressSectionStyle : Style
 addressSectionStyle =
@@ -267,6 +280,7 @@ addressSectionStyle =
             [ displayFlex ]
         ]
 
+
 addressItemStyle : Style
 addressItemStyle =
     batch
@@ -274,13 +288,15 @@ addressItemStyle =
             [ width (pct 50) ]
         ]
 
+
 addressItemTitleStyle : Style
 addressItemTitleStyle =
     batch
         [ color Theme.Global.pink
         , smallInlineTitleStyle
-        , withMediaTabletPortraitUp [ marginTop (rem 1) ] 
+        , withMediaTabletPortraitUp [ marginTop (rem 1) ]
         ]
+
 
 contactItemStyle : Style
 contactItemStyle =
@@ -291,9 +307,10 @@ contactItemStyle =
         , marginBlockEnd (em 0)
         ]
 
+
 buttonsStyle : Style
 buttonsStyle =
     batch
-        [ withMediaTabletPortraitUp 
-            [ displayFlex, justifyContent center ] 
+        [ withMediaTabletPortraitUp
+            [ displayFlex, justifyContent center ]
         ]

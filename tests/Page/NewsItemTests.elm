@@ -45,12 +45,11 @@ suite =
                     |> Query.find [ Selector.tag "h2" ]
                     |> Query.contains [ Html.text (t NewsTitle) ]
 
-        -- , test "Has expected h3 heading" <|
-        --     \_ ->
-        --         viewBodyHtml viewParamsWithNewsItem
-        --             |> Query.find [ Selector.tag "h3" ]
-        --             |> Query.contains [ Html.text "News Item Title" ]
-        -- again the h3 problem, commented out until I fix this in the PageTemplate
+        , test "Has expected h3 heading" <|
+            \_ ->
+                viewBodyHtml viewParamsWithNewsItem
+                    |> Query.find [ Selector.tag "h3" ]
+                    |> Query.contains [ Html.text "News Item Title" ]
         , test "Contains Date info" <|
             \_ ->
                 viewBodyHtml viewParamsWithNewsItem
