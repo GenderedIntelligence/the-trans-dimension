@@ -213,7 +213,7 @@ sectionStyle =
                 ]
             , withMediaTabletPortraitUp
                 [ backgroundSize (px 900)
-                , margin2 (rem 0) (rem -2.5)
+                , margin2 (rem 0) (rem -6)
                 ]
             ]
         , withMediaMediumDesktopUp
@@ -422,7 +422,7 @@ newsSectionStyle =
                 , backgroundSize (px 900)
                 , height (px 200)
                 , bottom (px -195)
-                , margin2 (rem 0) (rem -2.5)
+                , margin2 (rem 0) (rem -6)
                 ]
             ]
         , withMediaMediumDesktopUp
