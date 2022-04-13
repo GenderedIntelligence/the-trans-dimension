@@ -146,7 +146,7 @@ pageWrapperStyle =
     batch
         [ margin2 (rem 0) (rem 0.75)
         , withMediaSmallDesktopUp [ margin2 (rem 0) (rem 6) ]
-        , withMediaTabletPortraitUp [ margin2 (rem 0) (rem 5) ]
+        , withMediaTabletLandscapeUp [ margin2 (rem 0) (rem 5) ]
         , withMediaTabletPortraitUp [ margin2 (rem 0) (rem 1.5) ]
         ]
 
@@ -213,7 +213,7 @@ sectionStyle =
                 ]
             , withMediaTabletPortraitUp
                 [ backgroundSize (px 900)
-                , margin2 (rem 0) (rem -6)
+                , margin2 (rem 0) (rem -2.5)
                 ]
             ]
         , withMediaMediumDesktopUp
@@ -422,7 +422,7 @@ newsSectionStyle =
                 , backgroundSize (px 900)
                 , height (px 200)
                 , bottom (px -195)
-                , margin2 (rem 0) (rem -6)
+                , margin2 (rem 0) (rem -2.5)
                 ]
             ]
         , withMediaMediumDesktopUp
