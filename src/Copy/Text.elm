@@ -188,13 +188,52 @@ t key =
 
         --- Join Page
         JoinTitle ->
-            "[cCc] Join Us"
+            "Join us"
+
+        JoinSubtitle ->
+            "Want to be listed on The Trans Dimension?"
 
         JoinMetaDescription ->
-            "[cCc] Join The Trans Dimension as a partner"
+            "Want to be listed on The Trans Dimension? Get in touch and learn how you can create space and spaces for us."
 
         JoinDescription ->
-            "[cCc] This is why you should join as a Trans Dimension partner and this is how it works and this is what you do. Fill out our form below etc."
+            "Get in touch and learn how you can create space and spaces for us."
+
+        JoinFormInputNameLabel ->
+            "Name"
+
+        JoinFormInputEmailLabel ->
+            "Email address"
+
+        JoinFormInputPhoneLabel ->
+            "Phone number"
+
+        JoinFormInputJobLabel ->
+            "Job title"
+
+        JoinFormInputOrgLabel ->
+            "Organisation name"
+
+        JoinFormInputAddressLabel ->
+            "Postcode"
+
+        JoinFormCheckboxesLabel ->
+            "I'd like:"
+
+        JoinFormCheckbox1 ->
+            "A ring back"
+
+        JoinFormCheckbox2 ->
+            "More information"
+
+        JoinFormInputMessageLabel ->
+            "Your message"
+
+        JoinFormInputMessagePlaceholder ->
+            "Enter information about your organisation and events here or any questions you may have!"
+
+        JoinFormSubmitButton ->
+            "Submit"
 
         --- News Listing Page
         NewsTitle ->
@@ -218,25 +257,6 @@ t key =
 
         NewsItemReturnButton ->
             "Go back to news"
-
-        -- Join Form
-        JoinFormInputNameLabel ->
-            "Name"
-
-        JoinFormInputTitleLabel ->
-            "Title"
-
-        JoinFormInputOrgLabel ->
-            "Organisation"
-
-        JoinFormInputContactLabel ->
-            "Contact details"
-
-        JoinFormInputMessageLabel ->
-            "Message"
-
-        JoinFormSubmitButton ->
-            "Submit"
 
         --- Privacy Page (note this also comes from markdown)
         PrivacyTitle ->

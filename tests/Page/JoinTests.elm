@@ -35,11 +35,11 @@ suite =
                 viewBodyHtml viewParamsWithJoin
                     |> Query.find [ Selector.tag "h2" ]
                     |> Query.contains [ Html.text (t JoinTitle) ]
-        , test "Has 5 inputs" <|
+        , test "Has 8 inputs" <|
             \_ ->
                 viewBodyHtml viewParamsWithJoin
                     |> Query.findAll [ Selector.tag "input" ]
-                    |> Query.count (Expect.equal 4)
+                    |> Query.count (Expect.equal 8)
         , test "Has 1 textarea" <|
             \_ ->
                 viewBodyHtml viewParamsWithJoin
@@ -51,15 +51,20 @@ suite =
                     |> Query.findAll [ Selector.tag "label" ]
                     |> Query.keep (Selector.tag "span")
                     |> Expect.all
-                        [ Query.index 0 >> Query.has [ Selector.text (t JoinFormInputNameLabel ++ ":") ]
-                        , Query.index 1 >> Query.has [ Selector.text (t JoinFormInputTitleLabel ++ ":") ]
-                        , Query.index 2 >> Query.has [ Selector.text (t JoinFormInputOrgLabel ++ ":") ]
-                        , Query.index 3 >> Query.has [ Selector.text (t JoinFormInputContactLabel ++ ":") ]
-                        , Query.index 4 >> Query.has [ Selector.text (t JoinFormInputMessageLabel ++ ":") ]
+                        [ Query.index 0 >> Query.has [ Selector.text (t JoinFormInputNameLabel) ]
+                        , Query.index 1 >> Query.has [ Selector.text (t JoinFormInputEmailLabel) ]
+                        , Query.index 2 >> Query.has [ Selector.text (t JoinFormInputPhoneLabel) ]
+                        
+                        , Query.index 3 >> Query.has [ Selector.text (t JoinFormInputJobLabel) ]
+                        , Query.index 4 >> Query.has [ Selector.text (t JoinFormInputOrgLabel) ]
+                        , Query.index 5 >> Query.has [ Selector.text (t JoinFormInputAddressLabel) ]
+                        , Query.index 6 >> Query.has [ Selector.text (t JoinFormCheckbox1) ]
+                        , Query.index 7 >> Query.has [ Selector.text (t JoinFormCheckbox2) ]
+                        , Query.index 8 >> Query.has [ Selector.text (t JoinFormInputMessageLabel) ]
                         ]
         , test "Has a submit button" <|
             \_ ->
                 viewBodyHtml viewParamsWithJoin
                     |> Query.find [ Selector.tag "form" ]
-                    |> Query.contains [ Html.button [ Html.Attributes.type_ "submit" ] [ Html.text (t JoinFormSubmitButton) ] ]
+                    |> Query.contains [ Html.text (t JoinFormSubmitButton)  ]
         ]

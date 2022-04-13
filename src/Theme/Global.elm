@@ -270,7 +270,7 @@ introTextLargeStyle =
         , fontSize (rem 1.6)
         , lineHeight (rem 2)
         , fontStyle italic
-        , fontWeight (int 400)
+        , fontWeight (int 500)
         , margin (rem 1)
         , withMediaTabletLandscapeUp
             [ fontSize (rem 2.5), lineHeight (rem 3.1), maxWidth (px 838), margin2 (rem 3) auto ]
