@@ -186,7 +186,7 @@ dateAndTimeStyle =
     batch
         [ withMediaTabletPortraitUp
             [ margin2 (rem 2) (rem 0) ]
-        , margin2 (rem 3) (rem 0)
+        , margin4 (rem 2) (rem 0) (rem 1) (rem 0)
         ]
 
 
@@ -236,7 +236,7 @@ eventDescriptionStyle =
     batch
         [ marginTop (rem 1)
         , marginBottom (rem 2)
-        , withMediaTabletPortraitUp [ marginTop (rem 3) ]
+        , withMediaTabletLandscapeUp [ marginTop (rem 3) ]
         , withMediaTabletPortraitUp [ marginTop (rem 2) ]
         ]
 

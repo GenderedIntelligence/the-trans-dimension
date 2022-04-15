@@ -5,6 +5,8 @@ import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Html.Styled exposing (Html, a, div, p, text)
 import Html.Styled.Attributes exposing (css, href, id)
+import Css exposing (overflow)
+import Css exposing (hidden)
 
 
 
@@ -62,7 +64,7 @@ black =
 
 maxMobile : Float
 maxMobile =
-    500
+    600
 
 
 withMediaMobileOnly : List Style -> Style
@@ -240,6 +242,11 @@ textBoxInvisibleStyle =
         [ backgroundColor darkBlue
         , color pink
         , textBoxStyle
+        , paddingBottom (rem 0)
+        ,  descendants
+            [ typeSelector "h3" [ batch [ color pink, withMediaTabletLandscapeUp [ margin4 (rem 2) auto (rem 0) auto] ] ]
+            , typeSelector "p" [ batch [ color pink, withMediaTabletLandscapeUp [ margin4 (rem 2) auto (rem 0) auto] ] ]
+            ]
         ]
 
 
@@ -271,7 +278,7 @@ introTextLargeStyle =
         , lineHeight (rem 2)
         , fontStyle italic
         , fontWeight (int 500)
-        , margin (rem 1)
+        , margin2 (rem 1) (rem 0.5)
         , withMediaTabletLandscapeUp
             [ fontSize (rem 2.5), lineHeight (rem 3.1), maxWidth (px 838), margin2 (rem 3) auto ]
         , withMediaTabletPortraitUp
@@ -329,9 +336,7 @@ hrStyle =
         [ borderColor pink
         , borderStyle solid
         , borderWidth (px 0.5)
-        , margin2 (rem 3) (rem 0)
-        , withMediaTabletPortraitUp
-            [ margin2 (rem 2) (rem 0) ]
+        , margin2 (rem 2) (rem 0)
         ]
 
 
@@ -419,7 +424,7 @@ containerPage : String -> List (Html msg) -> Html msg
 containerPage pageTitle content =
     div
         [ id ("page-" ++ generateId pageTitle)
-        , css [ margin2 zero auto, width (pct 100) ]
+        , css [ margin2 zero auto, width (pct 100), overflow hidden ]
         ]
         content
 

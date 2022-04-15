@@ -237,7 +237,7 @@ paragraphStyle =
         , firstChild
             [ fontSize (rem 1.2)
             , marginBlockEnd (em 2)
-            , withMediaSmallDesktopUp [ fontSize (rem 1.825), lineHeight (em 1.35) ]
+            , withMediaTabletLandscapeUp [ fontSize (rem 1.825), lineHeight (em 1.35) ]
             ]
         ]
 

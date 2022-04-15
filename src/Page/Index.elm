@@ -15,6 +15,7 @@ import Pages.Url
 import Shared
 import Theme.Global as Theme exposing (..)
 import View exposing (View)
+import Html.Styled exposing (main_)
 
 
 type alias Model =
@@ -267,11 +268,11 @@ sectionTextStyle =
 introSectionStyle : Style
 introSectionStyle =
     batch
-        [ marginTop (vh 75)
+        [ marginTop (px 430)
         , before
             [ backgroundImage (url "/images/illustrations/320px/homepage_1_header.png")
-            , height (vh 100)
-            , top (vh -93)
+            , height (px 626)
+            , top (px -550)
             , withMediaMediumDesktopUp
                 [ backgroundImage (url "/images/illustrations/1920px/homepage_1_header.png")
                 , height (px 1306)
@@ -305,12 +306,12 @@ introSectionStyle =
 eventsSectionStyle : Style
 eventsSectionStyle =
     batch
-        [ marginTop (vh 43)
+        [ marginTop (px 250)
         , paddingTop (rem 3)
         , before
             [ backgroundImage (url "/images/illustrations/320px/homepage_3.png")
-            , height (vh 40)
-            , top (vh -43)
+            , height (px 240)
+            , top (px -250)
             , withMediaMediumDesktopUp
                 [ backgroundImage (url "/images/illustrations/1920px/homepage_3.png")
                 , height (px 250)
@@ -356,12 +357,12 @@ eventsSectionStyle =
 newsSectionStyle : Style
 newsSectionStyle =
     batch
-        [ marginTop (vh 43)
-        , marginBottom (vh 43)
+        [ marginTop (px 240)
+        , marginBottom (px 240)
         , before
             [ backgroundImage (url "/images/illustrations/320px/homepage_4.png")
-            , height (vh 40)
-            , top (vh -43)
+            , height (px 240)
+            , top (px -240)
             , withMediaMediumDesktopUp
                 [ backgroundImage (url "/images/illustrations/1920px/homepage_4.png")
                 , height (px 250)
@@ -394,8 +395,8 @@ newsSectionStyle =
             , zIndex (int -1)
             , backgroundRepeat noRepeat
             , margin2 (rem 0) (rem -1.75)
-            , bottom (vh -50)
-            , height (vh 40)
+            , bottom (px -270)
+            , height (px 240)
             , withMediaMediumDesktopUp
                 [ backgroundSize (px 1920)
                 , backgroundImage (url "/images/illustrations/1920px/homepage_5.png")

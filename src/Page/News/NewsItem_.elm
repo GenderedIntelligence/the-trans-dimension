@@ -20,6 +20,9 @@ import Shared
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import View exposing (View)
+import Theme.Global exposing (viewBackButton)
+import Css exposing (fontStyle)
+import Css exposing (italic)
 
 
 type alias Model =
@@ -153,12 +156,8 @@ viewArticle newsItem =
 viewPagination : Html msg
 viewPagination =
     div []
-        [ p [ css [ goBackStyle ] ] [ text "[fFf] Previous/next navigation" ]
-        , a
-            [ href (TransRoutes.toAbsoluteUrl News)
-            , css [ goBackStyle ]
-            ]
-            [ text (t NewsItemReturnButton) ]
+        [ p [ ] [ text "[fFf] Previous/next navigation" ]
+        , viewBackButton (TransRoutes.toAbsoluteUrl News) (t NewsItemReturnButton)
         ]
 
 
@@ -176,7 +175,7 @@ articleMetaStyle =
         [ textAlign center
         , fontWeight bold
         , display block
-        , margin2 (rem 2) (rem 0)
+        , margin (rem 0)
         , withMediaTabletPortraitUp [ margin4 (rem 0) (rem 2) (rem 3) (rem 2) ]
         ]
 
@@ -206,7 +205,8 @@ articleFigureCaptionStyle =
     batch
         [ fontSize (rem 0.875)
         , textAlign center
-        , margin2 (rem 0.75) (rem 0)
+        , margin (rem 0.75)
+        , fontStyle italic
         ]
 
 
@@ -234,15 +234,3 @@ newsItemAuthorStyle =
         ]
 
 
-goBackStyle : Style
-goBackStyle =
-    batch
-        [ backgroundColor Theme.Global.darkBlue
-        , color Theme.Global.white
-        , textDecoration none
-        , padding (rem 1)
-        , display block
-        , width (pct 25)
-        , margin2 (rem 2) auto
-        , textAlign center
-        ]

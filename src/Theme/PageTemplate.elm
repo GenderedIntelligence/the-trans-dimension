@@ -32,7 +32,7 @@ type alias PageIntro =
 
 view : Header -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
 view header maybeBoxContents maybeFooter =
-    main_ [ css [ mainStyle ] ]
+    div [ css [ mainStyle ] ]
         [ viewHeader header
         , div [ css [ contentWrapperStyle ] ]
             [ case header.variant of
@@ -85,14 +85,22 @@ viewHeader header =
 
 viewIntro : Header -> Html msg
 viewIntro header =
-    section [ css [ textBoxPinkStyle ] ]
+    section [ css 
+                (if List.isEmpty header.intro.smallText then 
+                    [ textBoxPinkStyle ] 
+                else
+                    [ withMediaTabletPortraitUp 
+                        [ paddingTop (rem 1.5)]
+                    , textBoxPinkStyle ]
+                )
+            ]
         (append
             [ case header.intro.bigText.element of
                 Paragraph ->
                     p [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
 
                 H3 ->
-                    h3 [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
+                    h3 [ css [ introTextH3Style, introTextLargeStyle ] ] [ text header.intro.bigText.text ]
             ]
             (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) header.intro.smallText)
         )
@@ -183,7 +191,7 @@ pageHeadingStyle =
                 ]
             ]
         , withMediaTabletLandscapeUp
-            [ fontSize (rem 3.1) ]
+            [ fontSize (rem 3.1), paddingBottom (rem 1) ]
         , withMediaTabletPortraitUp
             [ fontSize (rem 2.5) ]
         ]
@@ -285,7 +293,7 @@ mainStyle =
         , margin (rem 0.75)
         , boxSizing borderBox
         , position relative
-        , marginBottom (px 200)
+        , marginBottom (px 150)
         , after
             [ property "content" "\"\""
             , display block
@@ -297,7 +305,7 @@ mainStyle =
             , zIndex (int -1)
             , backgroundRepeat noRepeat
             , backgroundImage (url "/images/illustrations/320px/generic_footer.png")
-            , bottom (px -200)
+            , bottom (px -180)
             , margin2 (rem 0) (rem -0.75)
             , withMediaMediumDesktopUp
                 [ backgroundImage (url "/images/illustrations/1920px/generic_footer.png")
@@ -335,4 +343,11 @@ mainStyle =
             [ margin4 (rem 1) (rem 1.5) (px 180) (rem 1.5) ]
         , withMediaTabletPortraitUp
             [ margin4 (rem 1) (rem 2) (px 150) (rem 2) ]
+        ]
+
+introTextH3Style : Style
+introTextH3Style =
+    batch
+        [ withMediaTabletLandscapeUp
+            [ margin2 (rem 1) auto ]
         ]

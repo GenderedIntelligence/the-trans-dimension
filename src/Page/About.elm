@@ -246,7 +246,7 @@ viewAboutAccessibility static =
     section [ css [ contentWrapperStyle, accessibilityStyle ] ]
         [ h3 [ css [ smallFloatingTitleStyle, withMediaMobileOnly [ top (rem -4.5) ] ] ] [ text static.data.accessibility.title ]
         , div [ css [ textBoxPinkStyle, accessibilityCharactersStyle ] ] [ p [ css [ introTextLargeStyle ] ] [ text static.data.accessibility.subtitle ] ]
-        , div [ css [ aboutAccessibilityTextStyle, contentContainerStyle ] ] static.data.accessibility.body
+        , div [ css [ contentContainerStyle, aboutAccessibilityTextStyle ] ] static.data.accessibility.body
         ]
 
 

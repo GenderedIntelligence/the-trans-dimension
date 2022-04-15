@@ -105,7 +105,7 @@ view maybeUrl sharedModel static =
             { variant = PinkHeader
             , intro =
                 { title = t EventsTitle
-                , bigText = { text = t EventsSummary, element = Paragraph }
+                , bigText = { text = t EventsSummary, element = H3 }
                 , smallText = []
                 }
             }
@@ -192,7 +192,7 @@ viewSubscribe =
         [ css [ subscribeBoxStyle ] ]
         [ p
             [ css [ subscribeTextStyle ] ]
-            [ a [ css [ subscribeLinkStyle ] ] [ text (t EventsSubscribeText) ] ]
+            [ a [ css [ subscribeLinkStyle ] ] [ text (t EventsSubscribeText) ] ] -- [fFf]
         ]
 
 
@@ -311,6 +311,7 @@ subscribeBoxStyle =
         [ padding2 (rem 0.75) (rem 1.5)
         , backgroundColor darkPurple
         , borderRadius (rem 0.3)
+        , margin2 (rem 1.5) (rem 0)
         ]
 
 

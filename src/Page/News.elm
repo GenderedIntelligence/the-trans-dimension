@@ -93,7 +93,7 @@ view maybeUrl sharedModel static =
             { variant = PinkHeader
             , intro =
                 { title = t NewsTitle
-                , bigText = { text = t NewsDescription, element = Paragraph }
+                , bigText = { text = t NewsDescription, element = H3 }
                 , smallText = []
                 }
             }
