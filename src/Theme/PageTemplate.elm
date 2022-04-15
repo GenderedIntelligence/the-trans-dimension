@@ -3,7 +3,7 @@ module Theme.PageTemplate exposing (..)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Color, Style, absolute, after, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bold, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontSize, fontStyle, fontWeight, height, hover, inline, int, italic, justifyContent, left, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, solid, spaceBetween, textAlign, textDecoration, top, url, vw, width, wrap, zIndex)
-import Html.Styled as Html exposing (Html, div, h1, h2, img, main_, p, section, span, text)
+import Html.Styled as Html exposing (Html, div, h1, h2, h3, img, main_, p, section, span, text)
 import Html.Styled.Attributes exposing (alt, css, src)
 import List exposing (append)
 import Theme.Global as Theme exposing (contentContainerStyle, contentWrapperStyle, darkBlue, introTextLargeStyle, introTextSmallStyle, pink, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
@@ -21,8 +21,13 @@ type HeaderType
     | AboutHeader
 
 
+type BigTextType
+    = H3
+    | Paragraph
+
+
 type alias PageIntro =
-    { title : String, bigText : String, smallText : List String }
+    { title : String, bigText : { text : String, element : BigTextType }, smallText : List String }
 
 
 view : Header -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
@@ -32,10 +37,10 @@ view header maybeBoxContents maybeFooter =
         , div [ css [ contentWrapperStyle ] ]
             [ case header.variant of
                 InvisibleHeader ->
-                    viewIntroBlue header.intro.bigText header.intro.smallText
+                    viewIntroBlue header
 
                 _ ->
-                    viewIntro header.intro.bigText header.intro.smallText
+                    viewIntro header
             , case maybeBoxContents of
                 Just boxContents ->
                     div [ css [ contentContainerStyle ] ] [ boxContents ]
@@ -78,34 +83,33 @@ viewHeader header =
         ]
 
 
-viewAboutHeader : String -> Html msg
-viewAboutHeader title =
-    section [ css [ headerSectionStyle ] ]
-        [ h1 [ css [ headerLogoStyle ] ]
-            [ img
-                [ src "/images/logos/tdd_logo_with_strapline.svg"
-                , alt (t SiteTitle)
-                , css [ headerLogoImageStyle ]
-                ]
-                []
-            ]
-        , h2 [ css [ pageHeadingStyle, pageHeadingAboutStyle ] ] [ text title ]
-        ]
-
-
-viewIntro : String -> List String -> Html msg
-viewIntro bigText smallTextList =
+viewIntro : Header -> Html msg
+viewIntro header =
     section [ css [ textBoxPinkStyle ] ]
-        (append [ p [ css [ introTextLargeStyle ] ] [ text bigText ] ]
-            (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) smallTextList)
+        (append
+            [ case header.intro.bigText.element of
+                Paragraph ->
+                    p [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
+
+                H3 ->
+                    h3 [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
+            ]
+            (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) header.intro.smallText)
         )
 
 
-viewIntroBlue : String -> List String -> Html msg
-viewIntroBlue bigText smallTextList =
+viewIntroBlue : Header -> Html msg
+viewIntroBlue header =
     section [ css [ textBoxInvisibleStyle ] ]
-        (append [ p [ css [ introTextLargeStyle ] ] [ text bigText ] ]
-            (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) smallTextList)
+        (append
+            [ case header.intro.bigText.element of
+                Paragraph ->
+                    p [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
+
+                H3 ->
+                    h3 [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
+            ]
+            (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) header.intro.smallText)
         )
 
 

@@ -15,7 +15,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, normalFirstParagraphStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
+import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
 
@@ -213,7 +213,7 @@ view maybeUrl sharedModel static =
             { variant = AboutHeader
             , intro =
                 { title = static.data.main.title
-                , bigText = static.data.main.subtitle
+                , bigText = { text = static.data.main.subtitle, element = Paragraph }
                 , smallText = []
                 }
             }

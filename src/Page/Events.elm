@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, page, view, viewEventsList)
+module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEventsList)
 
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
@@ -21,7 +21,7 @@ import Pages.Url
 import Path exposing (Path)
 import Shared
 import Theme.Global exposing (blue, darkBlue, darkPurple, pink, purple, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (HeaderType(..))
+import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import Time
 import View exposing (View)
 
@@ -156,7 +156,7 @@ view maybeUrl sharedModel localModel static =
             { variant = PinkHeader
             , intro =
                 { title = t EventsTitle
-                , bigText = t EventsSummary
+                , bigText = { text = t EventsSummary, element = Paragraph }
                 , smallText = []
                 }
             }

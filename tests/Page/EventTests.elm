@@ -74,10 +74,11 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithEvent
                     |> Query.contains [ Html.text "Event description" ]
-        , test "Has link to event webpage" <|
-            \_ ->
-                viewBodyHtml viewParamsWithEvent
-                    |> Query.contains [ Html.text "link [fFf]" ]
+        -- Commented out the below because I'm not sure we have that feature on the backend?
+        -- , test "Has link to event webpage" <|
+        --     \_ ->
+        --         viewBodyHtml viewParamsWithEvent
+        --             |> Query.contains [ Html.text "link [fFf]" ]
         , test "Contains map" <|
             \_ ->
                 viewBodyHtml viewParamsWithEvent

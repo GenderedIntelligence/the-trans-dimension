@@ -69,12 +69,19 @@ type Key
       --- Join Page
     | JoinTitle
     | JoinMetaDescription
+    | JoinSubtitle
     | JoinDescription
     | JoinFormInputNameLabel
-    | JoinFormInputTitleLabel
+    | JoinFormInputEmailLabel
+    | JoinFormInputPhoneLabel
+    | JoinFormInputAddressLabel
+    | JoinFormInputJobLabel
     | JoinFormInputOrgLabel
-    | JoinFormInputContactLabel
+    | JoinFormCheckboxesLabel
+    | JoinFormCheckbox1
+    | JoinFormCheckbox2
     | JoinFormInputMessageLabel
+    | JoinFormInputMessagePlaceholder
     | JoinFormSubmitButton
       --- News Listing Page
     | NewsTitle

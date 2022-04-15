@@ -7,7 +7,7 @@ import Markdown.Block as Block
 import Markdown.Html
 import Markdown.Parser
 import Markdown.Renderer
-import Theme.Global exposing (pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp)
+import Theme.Global exposing (linkStyle, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp)
 
 
 markdownToHtml : String -> List (Html.Html msg)
@@ -286,12 +286,4 @@ olLiStyle : Style
 olLiStyle =
     batch
         [ paddingLeft (em 1)
-        ]
-
-
-linkStyle : Style
-linkStyle =
-    batch
-        [ color white
-        , property "text-decoration-color" "#FF7AA7"
         ]
