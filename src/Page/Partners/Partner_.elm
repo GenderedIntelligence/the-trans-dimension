@@ -2,7 +2,7 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderColor, borderRadius, borderStyle, borderWidth, center, color, display, displayFlex, fontSize, fontStyle, fontWeight, hover, int, margin2, margin4, marginBottom, marginTop, maxWidth, none, normal, padding, padding2, pct, property, px, rem, solid, textAlign, textDecoration, width)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderColor, borderRadius, borderStyle, borderWidth, center, color, display, displayFlex, fontSize, fontStyle, fontWeight, hover, int, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginTop, maxWidth, none, normal, padding, padding2, pct, property, px, rem, solid, textAlign, textDecoration, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -17,11 +17,9 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, viewBackButton, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
 import View exposing (View)
-import Css exposing (marginBlockStart)
-import Css exposing (marginBlockEnd)
 
 
 type alias Model =
@@ -113,17 +111,15 @@ view maybeUrl sharedModel static =
     { title = static.data.partner.name
     , body =
         [ PageTemplate.view
-            { variant = PinkHeader
-            , intro =
-                { title = t PartnersTitle
-                , bigText = { text = static.data.partner.name, element = H3 }
-                , smallText = []
-                }
+            { headerType = Just "pink"
+            , title = t PartnersTitle
+            , bigText = { text = static.data.partner.name, node = "h3" }
+            , smallText = Nothing
+            , innerContent =
+                Just
+                    (viewInfo static.data)
+            , outerContent = Just (viewBackButton (TransRoutes.toAbsoluteUrl Partners) (t BackToPartnersLinkText))
             }
-            (Just
-                (viewInfo static.data)
-            )
-            (Just (viewBackButton (TransRoutes.toAbsoluteUrl Partners) (t BackToPartnersLinkText)))
         ]
     }
 
@@ -162,7 +158,7 @@ viewContactDetails : Maybe String -> Data.PlaceCal.Partners.Contact -> Html msg
 viewContactDetails maybeUrl contactDetails =
     address []
         [ if String.length contactDetails.telephone > 0 then
-            p [css [ contactItemStyle ]] [ text contactDetails.telephone ]
+            p [ css [ contactItemStyle ] ] [ text contactDetails.telephone ]
 
           else
             text ""
@@ -181,7 +177,7 @@ viewContactDetails maybeUrl contactDetails =
             text ""
         , case maybeUrl of
             Just url ->
-                p [css [ contactItemStyle ]] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text url ] ]
+                p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text url ] ]
 
             Nothing ->
                 text ""

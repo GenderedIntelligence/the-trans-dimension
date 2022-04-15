@@ -7,7 +7,7 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled as Html exposing (Html, a, article, div, h1, h2, img, li, p, section, text, ul)
+import Html.Styled as Html exposing (Html, a, article, div, h1, h2, img, li, main_, p, section, text, ul)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
@@ -15,7 +15,6 @@ import Pages.Url
 import Shared
 import Theme.Global as Theme exposing (..)
 import View exposing (View)
-import Html.Styled exposing (main_)
 
 
 type alias Model =

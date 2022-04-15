@@ -18,7 +18,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (blue, darkBlue, darkPurple, pink, purple, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 import Time
 import View exposing (View)
 
@@ -102,15 +102,13 @@ view maybeUrl sharedModel static =
     { title = t EventsTitle
     , body =
         [ PageTemplate.view
-            { variant = PinkHeader
-            , intro =
-                { title = t EventsTitle
-                , bigText = { text = t EventsSummary, element = H3 }
-                , smallText = []
-                }
+            { headerType = Just "pink"
+            , title = t EventsTitle
+            , bigText = { text = t EventsSummary, node = "h3" }
+            , smallText = Nothing
+            , innerContent = Just (viewEvents static)
+            , outerContent = Just viewSubscribe
             }
-            (Just (viewEvents static))
-            (Just viewSubscribe)
         ]
     }
 
@@ -192,7 +190,9 @@ viewSubscribe =
         [ css [ subscribeBoxStyle ] ]
         [ p
             [ css [ subscribeTextStyle ] ]
-            [ a [ css [ subscribeLinkStyle ] ] [ text (t EventsSubscribeText) ] ] -- [fFf]
+            [ a [ css [ subscribeLinkStyle ] ] [ text (t EventsSubscribeText) ] ]
+
+        -- [fFf]
         ]
 
 

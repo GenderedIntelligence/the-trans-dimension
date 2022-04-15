@@ -9,9 +9,23 @@ import List exposing (append)
 import Theme.Global as Theme exposing (contentContainerStyle, contentWrapperStyle, darkBlue, introTextLargeStyle, introTextSmallStyle, pink, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
-type alias Header =
-    { variant : HeaderType
-    , intro : PageIntro
+type alias Msg =
+    Never
+
+
+type alias PageUsingTemplate =
+    { title : String
+    , headerType : Maybe String
+    , bigText : BigText
+    , smallText : Maybe (List String)
+    , innerContent : Maybe (Html.Html Msg)
+    , outerContent : Maybe (Html.Html Msg)
+    }
+
+
+type alias BigText =
+    { node : String
+    , text : String
     }
 
 
@@ -21,34 +35,44 @@ type HeaderType
     | AboutHeader
 
 
-type BigTextType
-    = H3
-    | Paragraph
+stringToHeaderType : Maybe String -> HeaderType
+stringToHeaderType maybeTypeString =
+    case maybeTypeString of
+        Just "pink" ->
+            PinkHeader
+
+        Just "invisible" ->
+            InvisibleHeader
+
+        Just "about" ->
+            AboutHeader
+
+        Just _ ->
+            PinkHeader
+
+        Nothing ->
+            PinkHeader
 
 
-type alias PageIntro =
-    { title : String, bigText : { text : String, element : BigTextType }, smallText : List String }
-
-
-view : Header -> Maybe (Html msg) -> Maybe (Html msg) -> Html msg
-view header maybeBoxContents maybeFooter =
+view : PageUsingTemplate -> Html.Html Msg
+view pageInfo =
     div [ css [ mainStyle ] ]
-        [ viewHeader header
+        [ viewHeader pageInfo
         , div [ css [ contentWrapperStyle ] ]
-            [ case header.variant of
+            [ case stringToHeaderType pageInfo.headerType of
                 InvisibleHeader ->
-                    viewIntroBlue header
+                    viewIntroBlue pageInfo.bigText pageInfo.smallText
 
                 _ ->
-                    viewIntro header
-            , case maybeBoxContents of
+                    viewIntro pageInfo.bigText pageInfo.smallText
+            , case pageInfo.innerContent of
                 Just boxContents ->
                     div [ css [ contentContainerStyle ] ] [ boxContents ]
 
                 Nothing ->
                     text ""
             ]
-        , case maybeFooter of
+        , case pageInfo.outerContent of
             Just footerContent ->
                 footerContent
 
@@ -57,8 +81,8 @@ view header maybeBoxContents maybeFooter =
         ]
 
 
-viewHeader : Header -> Html msg
-viewHeader header =
+viewHeader : PageUsingTemplate -> Html msg
+viewHeader pageInfo =
     section [ css [ headerSectionStyle ] ]
         [ h1 [ css [ headerLogoStyle ] ]
             [ img
@@ -71,7 +95,7 @@ viewHeader header =
         , h2
             [ css
                 [ pageHeadingStyle
-                , case header.variant of
+                , case stringToHeaderType pageInfo.headerType of
                     AboutHeader ->
                         pageHeadingAboutStyle
 
@@ -79,45 +103,56 @@ viewHeader header =
                         pageHeadingGenericStyle
                 ]
             ]
-            [ text header.intro.title ]
+            [ text pageInfo.title ]
         ]
 
 
-viewIntro : Header -> Html msg
-viewIntro header =
-    section [ css 
-                (if List.isEmpty header.intro.smallText then 
-                    [ textBoxPinkStyle ] 
-                else
-                    [ withMediaTabletPortraitUp 
-                        [ paddingTop (rem 1.5)]
-                    , textBoxPinkStyle ]
-                )
-            ]
-        (append
-            [ case header.intro.bigText.element of
-                Paragraph ->
-                    p [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
+viewIntro : BigText -> Maybe (List String) -> Html msg
+viewIntro bigText smallText =
+    section
+        [ css
+            (case smallText of
+                Nothing ->
+                    [ textBoxPinkStyle ]
 
-                H3 ->
-                    h3 [ css [ introTextH3Style, introTextLargeStyle ] ] [ text header.intro.bigText.text ]
+                Just _ ->
+                    [ withMediaTabletPortraitUp
+                        [ paddingTop (rem 1.5) ]
+                    , textBoxPinkStyle
+                    ]
+            )
+        ]
+        (append
+            [ case bigText.node of
+                "h3" ->
+                    h3 [ css [ introTextH3Style, introTextLargeStyle ] ] [ text bigText.text ]
+
+                _ ->
+                    Html.node bigText.node [ css [ introTextLargeStyle ] ] [ text bigText.text ]
             ]
-            (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) header.intro.smallText)
+            (case smallText of
+                Just textList ->
+                    List.map (\smallParagraph -> p [ css [ introTextSmallStyle ] ] [ text smallParagraph ]) textList
+
+                Nothing ->
+                    []
+            )
         )
 
 
-viewIntroBlue : Header -> Html msg
-viewIntroBlue header =
+viewIntroBlue : BigText -> Maybe (List String) -> Html msg
+viewIntroBlue bigText smallText =
     section [ css [ textBoxInvisibleStyle ] ]
         (append
-            [ case header.intro.bigText.element of
-                Paragraph ->
-                    p [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
-
-                H3 ->
-                    h3 [ css [ introTextLargeStyle ] ] [ text header.intro.bigText.text ]
+            [ Html.node bigText.node [ css [ introTextLargeStyle ] ] [ text bigText.text ]
             ]
-            (List.map (\smallText -> p [ css [ introTextSmallStyle ] ] [ text smallText ]) header.intro.smallText)
+            (case smallText of
+                Just textList ->
+                    List.map (\smallParagraph -> p [ css [ introTextSmallStyle ] ] [ text smallParagraph ]) textList
+
+                Nothing ->
+                    []
+            )
         )
 
 
@@ -344,6 +379,7 @@ mainStyle =
         , withMediaTabletPortraitUp
             [ margin4 (rem 1) (rem 2) (px 150) (rem 2) ]
         ]
+
 
 introTextH3Style : Style
 introTextH3Style =
