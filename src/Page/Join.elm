@@ -13,7 +13,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -76,15 +76,13 @@ view maybeUrl sharedModel static =
     { title = t JoinTitle
     , body =
         [ PageTemplate.view
-            { variant = PinkHeader
-            , intro =
-                { title = t JoinTitle
-                , bigText = { text = t JoinSubtitle, element = Paragraph }
-                , smallText = [ t JoinDescription ]
-                }
+            { headerType = Just "pink"
+            , title = t JoinTitle
+            , bigText = { text = t JoinSubtitle, node = "p" }
+            , smallText = Just [ t JoinDescription ]
+            , innerContent = Just viewForm
+            , outerContent = Nothing
             }
-            (Just viewForm)
-            Nothing
         ]
     }
 

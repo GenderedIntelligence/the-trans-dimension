@@ -73,6 +73,6 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithoutNews
                     |> Query.findAll [ Selector.tag "p" ]
-                    |> Query.index 1
+                    |> Query.index 0
                     |> Query.contains [ Html.text (t NewsEmptyText) ]
         ]

@@ -3,7 +3,7 @@ module Page.News exposing (Data, Model, Msg, page, view)
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
+import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, em, flexGrow, flexShrink, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -18,7 +18,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (darkBlue, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -90,21 +90,19 @@ view maybeUrl sharedModel static =
     { title = t NewsTitle
     , body =
         [ PageTemplate.view
-            { variant = PinkHeader
-            , intro =
-                { title = t NewsTitle
-                , bigText = { text = t NewsDescription, element = Paragraph }
-                , smallText = []
-                }
+            { headerType = Just "pink"
+            , title = t NewsTitle
+            , bigText = { text = t NewsDescription, node = "h3" }
+            , smallText = Nothing
+            , innerContent = Nothing
+            , outerContent =
+                Just
+                    (div []
+                        [ viewNewsList static
+                        , viewPagination
+                        ]
+                    )
             }
-            Nothing
-            (Just
-                (div []
-                    [ viewNewsList static
-                    , viewPagination
-                    ]
-                )
-            )
         ]
     }
 
@@ -222,7 +220,7 @@ newsImageStyle =
         , marginBottom (rem 1)
         , withMediaSmallDesktopUp [ marginTop (rem 1) ]
         , withMediaTabletLandscapeUp [ width (px 303) ]
-        , withMediaTabletPortraitUp [ width (px 294) ]
+        , withMediaTabletPortraitUp [ width (px 294), maxWidth (pct 50) ]
         ]
 
 
@@ -243,6 +241,7 @@ newsItemTitleStyle =
         , fontStyle italic
         , textAlign center
         , fontSize (rem 1.85)
+        , lineHeight (em 1.3)
         , withMediaTabletPortraitUp [ textAlign left ]
         ]
 

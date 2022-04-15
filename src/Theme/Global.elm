@@ -1,6 +1,6 @@
 module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, goBackButtonStyle, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewFloatingButton, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, em, firstChild, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, int, italic, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
+import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, em, firstChild, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, int, italic, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Html.Styled exposing (Html, a, div, p, text)
@@ -62,7 +62,7 @@ black =
 
 maxMobile : Float
 maxMobile =
-    500
+    600
 
 
 withMediaMobileOnly : List Style -> Style
@@ -240,6 +240,11 @@ textBoxInvisibleStyle =
         [ backgroundColor darkBlue
         , color pink
         , textBoxStyle
+        , paddingBottom (rem 0)
+        , descendants
+            [ typeSelector "h3" [ batch [ color pink, withMediaTabletLandscapeUp [ margin4 (rem 2) auto (rem 0) auto ] ] ]
+            , typeSelector "p" [ batch [ color pink, withMediaTabletLandscapeUp [ margin4 (rem 2) auto (rem 0) auto ] ] ]
+            ]
         ]
 
 
@@ -271,7 +276,7 @@ introTextLargeStyle =
         , lineHeight (rem 2)
         , fontStyle italic
         , fontWeight (int 500)
-        , margin (rem 1)
+        , margin2 (rem 1) (rem 0.5)
         , withMediaTabletLandscapeUp
             [ fontSize (rem 2.5), lineHeight (rem 3.1), maxWidth (px 838), margin2 (rem 3) auto ]
         , withMediaTabletPortraitUp
@@ -329,9 +334,7 @@ hrStyle =
         [ borderColor pink
         , borderStyle solid
         , borderWidth (px 0.5)
-        , margin2 (rem 3) (rem 0)
-        , withMediaTabletPortraitUp
-            [ margin2 (rem 2) (rem 0) ]
+        , margin2 (rem 2) (rem 0)
         ]
 
 
@@ -419,7 +422,7 @@ containerPage : String -> List (Html msg) -> Html msg
 containerPage pageTitle content =
     div
         [ id ("page-" ++ generateId pageTitle)
-        , css [ margin2 zero auto, width (pct 100) ]
+        , css [ margin2 zero auto, width (pct 100), overflow hidden ]
         ]
         content
 

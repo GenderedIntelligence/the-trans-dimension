@@ -18,7 +18,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
 import View exposing (View)
 
@@ -103,15 +103,13 @@ view maybeUrl sharedModel static =
     { title = static.data.name
     , body =
         [ PageTemplate.view
-            { variant = PinkHeader
-            , intro =
-                { title = t EventsTitle
-                , bigText = { text = static.data.name, element = H3 }
-                , smallText = []
-                }
+            { headerType = Just "pink"
+            , title = t EventsTitle
+            , bigText = { text = static.data.name, node = "h3" }
+            , smallText = Nothing
+            , innerContent = Just (viewEventInfo static.data)
+            , outerContent = Just (viewButtons static.data)
             }
-            (Just (viewEventInfo static.data))
-            (Just (viewButtons static.data))
         ]
     }
 
@@ -186,7 +184,7 @@ dateAndTimeStyle =
     batch
         [ withMediaTabletPortraitUp
             [ margin2 (rem 2) (rem 0) ]
-        , margin2 (rem 3) (rem 0)
+        , margin4 (rem 2) (rem 0) (rem 1) (rem 0)
         ]
 
 
@@ -236,7 +234,7 @@ eventDescriptionStyle =
     batch
         [ marginTop (rem 1)
         , marginBottom (rem 2)
-        , withMediaTabletPortraitUp [ marginTop (rem 3) ]
+        , withMediaTabletLandscapeUp [ marginTop (rem 3) ]
         , withMediaTabletPortraitUp [ marginTop (rem 2) ]
         ]
 

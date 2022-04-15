@@ -5,21 +5,26 @@ import Html.Styled exposing (Html, div, h2, section, text)
 import Html.Styled.Attributes exposing (css)
 import List exposing (concat)
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 
 
-view : String -> String -> List (Html msg) -> Html msg
+type alias Msg =
+    Never
+
+
+view : String -> String -> List (Html Msg) -> Html Msg
 view title subtitle body =
     PageTemplate.view
-        { variant = InvisibleHeader
-        , intro =
-            { title = title
-            , bigText = { text = subtitle, element = Paragraph }
-            , smallText = []
+        { title = title
+        , headerType = Just "invisible"
+        , bigText =
+            { node = "p"
+            , text = subtitle
             }
+        , smallText = Nothing
+        , innerContent = Just (section [ css [ bodyStyle ] ] body)
+        , outerContent = Nothing
         }
-        (Just (section [ css [ bodyStyle ] ] body))
-        Nothing
 
 
 bodyStyle : Style
