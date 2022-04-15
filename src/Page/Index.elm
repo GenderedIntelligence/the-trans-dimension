@@ -291,7 +291,7 @@ introSectionStyle =
             , withMediaTabletPortraitUp
                 [ backgroundImage (url "/images/illustrations/768px/homepage_1_header.png")
                 , height (px 960)
-                , top (px -930)
+                , top (px -900)
                 ]
             ]
         , withMediaMediumDesktopUp [ marginTop (px 1000) ]

@@ -20,6 +20,9 @@ import Shared
 import Theme.Global exposing (darkBlue, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import View exposing (View)
+import Css exposing (flexShrink)
+import Css exposing (lineHeight)
+import Css exposing (em)
 
 
 type alias Model =
@@ -222,7 +225,7 @@ newsImageStyle =
         , marginBottom (rem 1)
         , withMediaSmallDesktopUp [ marginTop (rem 1) ]
         , withMediaTabletLandscapeUp [ width (px 303) ]
-        , withMediaTabletPortraitUp [ width (px 294) ]
+        , withMediaTabletPortraitUp [ width (px 294), maxWidth (pct 50) ]
         ]
 
 
@@ -243,6 +246,7 @@ newsItemTitleStyle =
         , fontStyle italic
         , textAlign center
         , fontSize (rem 1.85)
+        , lineHeight (em 1.3)
         , withMediaTabletPortraitUp [ textAlign left ]
         ]
 

@@ -20,6 +20,8 @@ import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, pin
 import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
 import Theme.TransMarkdown
 import View exposing (View)
+import Css exposing (marginBlockStart)
+import Css exposing (marginBlockEnd)
 
 
 type alias Model =
@@ -160,7 +162,7 @@ viewContactDetails : Maybe String -> Data.PlaceCal.Partners.Contact -> Html msg
 viewContactDetails maybeUrl contactDetails =
     address []
         [ if String.length contactDetails.telephone > 0 then
-            p [] [ text contactDetails.telephone ]
+            p [css [ contactItemStyle ]] [ text contactDetails.telephone ]
 
           else
             text ""
@@ -179,7 +181,7 @@ viewContactDetails maybeUrl contactDetails =
             text ""
         , case maybeUrl of
             Just url ->
-                p [] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text url ] ]
+                p [css [ contactItemStyle ]] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text url ] ]
 
             Nothing ->
                 text ""
@@ -249,4 +251,6 @@ contactItemStyle =
     batch
         [ textAlign center
         , fontStyle normal
+        , marginBlockStart (rem 0)
+        , marginBlockEnd (rem 0)
         ]

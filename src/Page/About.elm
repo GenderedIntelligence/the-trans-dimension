@@ -291,8 +291,8 @@ columnsStyle =
         [ withMediaSmallDesktopUp
             [ property "column-gap" "2rem"
             , maxWidth (px 848)
-            , marginLeft auto
-            , marginRight auto
+            , important (marginLeft auto)
+            , important (marginRight auto)
             ]
         , withMediaTabletPortraitUp
             [ property "columns" "2"

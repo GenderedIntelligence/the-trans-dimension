@@ -267,6 +267,8 @@ ulLiStyle =
         [ paddingLeft (rem 1.5)
         , position relative
         , fontWeight (int 600)
+        , withMediaSmallDesktopUp
+            [ fontSize (rem 1.2) ]
         , withMediaTabletLandscapeUp
             [ marginBlockStart (em 0.5)
             , marginBlockEnd (em 0.5)
@@ -286,4 +288,6 @@ olLiStyle : Style
 olLiStyle =
     batch
         [ paddingLeft (em 1)
+        , withMediaSmallDesktopUp
+            [ fontSize (rem 1.2) ]
         ]
