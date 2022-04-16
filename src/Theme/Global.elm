@@ -1,8 +1,9 @@
-module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, goBackButtonStyle, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewFloatingButton, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonFloatingWrapperStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkPurple, generateId, globalStyles, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, white, whiteBackgroundStyle, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, em, firstChild, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, int, italic, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
+import Css exposing (Color, Style, absolute, active, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, em, firstChild, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, int, italic, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus, noRepeat, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
+import Css.Transitions exposing (transition)
 import Html.Styled exposing (Html, a, div, p, text)
 import Html.Styled.Attributes exposing (css, href, id)
 
@@ -143,19 +144,8 @@ whiteBackgroundStyle =
         ]
 
 
-viewFloatingButton : String -> String -> Style -> Html msg
-viewFloatingButton link label backgroundStyle =
-    p [ css [ buttonWrapperStyle ] ]
-        [ a
-            [ href link
-            , css [ buttonStyle, backgroundStyle ]
-            ]
-            [ text label ]
-        ]
-
-
-buttonWrapperStyle : Style
-buttonWrapperStyle =
+buttonFloatingWrapperStyle : Style
+buttonFloatingWrapperStyle =
     batch
         [ margin2 (rem 1) auto
         , display block
@@ -166,17 +156,73 @@ buttonWrapperStyle =
         ]
 
 
-buttonStyle : Style
-buttonStyle =
+baseButtonStyle : Style
+baseButtonStyle =
     batch
-        [ backgroundColor white
-        , color darkBlue
-        , textDecoration none
+        [ textDecoration none
         , padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
         , borderRadius (rem 0.3)
         , fontWeight (int 600)
-        , marginRight (rem 1.75)
         , fontSize (rem 1.2)
+        , display block
+        , textAlign center
+        , maxWidth maxContent
+        , margin2 (rem 0) auto
+        , borderWidth (rem 0.2)
+        , borderStyle solid
+        , transition [ Css.Transitions.backgroundColor 500, Css.Transitions.color 500, Css.Transitions.border 500 ]
+        ]
+
+
+whiteButtonStyle : Style
+whiteButtonStyle =
+    batch
+        [ baseButtonStyle
+        , backgroundColor white
+        , color darkBlue
+        , borderColor white
+        , hover [ backgroundColor purple, color white ]
+        , active [ backgroundColor darkBlue, color white ]
+        , focus [ backgroundColor darkBlue, color white ]
+        ]
+
+
+darkBlueButtonStyle : Style
+darkBlueButtonStyle =
+    batch
+        [ baseButtonStyle
+        , backgroundColor darkBlue
+        , color white
+        , borderColor pink
+        , hover [ backgroundColor purple, color white, borderColor white ]
+        , active [ backgroundColor pink, color darkBlue, borderColor white ]
+        , focus [ backgroundColor pink, color darkBlue, borderColor white ]
+        ]
+
+
+pinkButtonOnDarkBackgroundStyle : Style
+pinkButtonOnDarkBackgroundStyle =
+    batch
+        [ baseButtonStyle
+        , backgroundColor pink
+        , color darkBlue
+        , borderColor pink
+        , hover [ backgroundColor lightPink, borderColor lightPink ]
+        , active [ backgroundColor white, borderColor white ]
+        , focus [ backgroundColor white, borderColor white ]
+        ]
+
+
+pinkButtonOnLightBackgroundStyle : Style
+pinkButtonOnLightBackgroundStyle =
+    batch
+        [ baseButtonStyle
+        , backgroundColor pink
+        , color darkBlue
+        , borderColor pink
+        , hover [ backgroundColor purple, borderColor white, color white ]
+        , active [ backgroundColor darkBlue, borderColor white, color white ]
+        , focus [ backgroundColor darkBlue, borderColor white, color white ]
         ]
 
 
@@ -299,7 +345,7 @@ introTextSmallStyle =
 viewBackButton : String -> String -> Html msg
 viewBackButton link buttonText =
     p [ css [ goBackStyle ] ]
-        [ a [ href link, css [ goBackButtonStyle ] ] [ text buttonText ] ]
+        [ a [ href link, css [ darkBlueButtonStyle ] ] [ text buttonText ] ]
 
 
 goBackStyle : Style
@@ -307,24 +353,6 @@ goBackStyle =
     batch
         [ textAlign center
         , margin4 (rem 3) (rem 2) (rem 0) (rem 2)
-        ]
-
-
-goBackButtonStyle : Style
-goBackButtonStyle =
-    batch
-        [ backgroundColor darkBlue
-        , color white
-        , textDecoration none
-        , padding2 (rem 0.5) (rem 2)
-        , fontSize (rem 1.2)
-        , margin2 (rem 2) auto
-        , textAlign center
-        , borderColor pink
-        , borderStyle solid
-        , borderWidth (px 2)
-        , borderRadius (rem 0.3)
-        , fontWeight (int 600)
         ]
 
 

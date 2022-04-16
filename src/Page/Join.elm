@@ -12,7 +12,7 @@ import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (pinkButtonOnDarkBackgroundStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -109,7 +109,7 @@ viewForm =
                 ]
             ]
         , label [ css [ formTextAreaItemStyle ] ] [ span [ css [ formTextAreaLabelStyle ] ] [ text (t JoinFormInputMessageLabel) ], textarea [ placeholder (t JoinFormInputMessagePlaceholder), css [ textAreaStyle ] ] [] ]
-        , div [ css [ buttonWrapperStyle ] ] [ button [ css [ buttonStyle ], type_ "submit" ] [ text (t JoinFormSubmitButton) ] ]
+        , div [ css [ buttonWrapperStyle ] ] [ button [ css [ pinkButtonOnDarkBackgroundStyle ], type_ "submit" ] [ text (t JoinFormSubmitButton) ] ]
         ]
 
 
@@ -253,17 +253,4 @@ buttonWrapperStyle =
     batch
         [ textAlign center
         , withMediaTabletPortraitUp [ width (pct 100) ]
-        ]
-
-
-buttonStyle : Style
-buttonStyle =
-    batch
-        [ backgroundColor Theme.Global.pink
-        , color Theme.Global.darkBlue
-        , borderRadius (rem 0.3)
-        , borderStyle none
-        , padding2 (rem 0.25) (rem 4)
-        , fontSize (rem 1.2)
-        , fontWeight (int 500)
         ]

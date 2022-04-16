@@ -72,7 +72,7 @@ viewHeaderNavigationItem route =
 viewPageHeaderAsk : String -> String -> Html Msg
 viewPageHeaderAsk copyText linkTo =
     div [ css [ askStyle ] ]
-        [ a [ href linkTo, css [ askButtonStyle ] ] [ text copyText ]
+        [ a [ href linkTo, css [ Theme.whiteButtonStyle ] ] [ text copyText ]
         ]
 
 
@@ -217,28 +217,4 @@ askStyle =
     batch
         [ display none
         , withMediaTabletPortraitUp [ display unset ]
-        ]
-
-
-askButtonStyle : Style
-askButtonStyle =
-    batch
-        [ display block
-        , backgroundColor white
-        , color black
-        , textDecoration none
-        , padding2 (rem 0.5) (rem 0.75)
-        , width (rem 5)
-        , textAlign center
-        , fontWeight bold
-        , fontSize (rem 1.1)
-        , borderRadius (rem 0.3)
-        , marginRight (rem 1)
-        , hover [ backgroundColor purple, color white ]
-        , active [ backgroundColor darkBlue, color white ]
-        , focus [ backgroundColor darkBlue, color white ]
-        , borderWidth (rem 0.2)
-        , borderColor white
-        , borderStyle solid
-        , transition [ Css.Transitions.backgroundColor 500, Css.Transitions.color 500, Css.Transitions.border 500 ]
         ]

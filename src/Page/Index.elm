@@ -90,10 +90,10 @@ viewIntro introTitle introMsg eventButtonText =
         [ h1 [ css [ logoStyle ] ] [ img [ src "/images/logos/tdd_logo_with_strapline.svg", alt (t SiteTitle), css [ logoImageStyle ] ] [] ]
         , h2 [ css [ sectionSubtitleStyle ] ] [ text introTitle ]
         , p [ css [ sectionTextStyle ] ] [ text introMsg ]
-        , p [ css [ buttonWrapperStyle ] ]
+        , p [ css [ buttonFloatingWrapperStyle ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
-                , css [ buttonStyle ]
+                , css [ whiteButtonStyle ]
                 ]
                 [ text eventButtonText ]
             ]
@@ -109,10 +109,10 @@ viewFeatured title buttonText =
             , li [] [ text "Featured event [fFf]" ]
             , li [] [ text "Featured event [fFf]" ]
             ]
-        , p [ css [ buttonWrapperStyle ] ]
+        , p [ css [ buttonFloatingWrapperStyle ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
-                , css [ buttonStyle, pinkBackgroundStyle ]
+                , css [ pinkButtonOnDarkBackgroundStyle ]
                 ]
                 [ text buttonText ]
             ]
@@ -124,17 +124,17 @@ viewLatestNews title buttonText =
     section [ css [ sectionStyle, whiteBackgroundStyle, newsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
         , article [] [ text "News item title [fFf]" ]
-        , p [ css [ buttonWrapperStyle ] ]
+        , p [ css [ buttonFloatingWrapperStyle ] ]
             [ a
                 [ href "/"
-                , css [ buttonStyle, pinkBackgroundStyle ]
+                , css [ pinkButtonOnLightBackgroundStyle ]
                 ]
                 [ text (t NewsReadMore) ]
             ]
-        , p [ css [ buttonWrapperStyle, bottom (rem -6) ] ]
+        , p [ css [ buttonFloatingWrapperStyle, bottom (rem -6) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl News)
-                , css [ buttonStyle, darkBlueBackgroundStyle, color white ]
+                , css [ darkBlueButtonStyle ]
                 ]
                 [ text buttonText ]
             ]

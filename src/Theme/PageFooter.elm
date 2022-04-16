@@ -8,7 +8,7 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
 import List exposing (append)
-import Theme.Global exposing (darkBlue, lightPink, pink, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (darkBlue, lightPink, pink, pinkButtonOnDarkBackgroundStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
 viewPageFooter : Html msg
@@ -104,7 +104,7 @@ viewPageFooterSignup copyText buttonText =
         , input [ type_ "hidden", name "anticsrf", value "true" ] []
         , button
             [ type_ "submit"
-            , css [ formButtonStyle ]
+            , css [ pinkButtonOnDarkBackgroundStyle ]
             ]
             [ text buttonText ]
         ]
@@ -394,24 +394,6 @@ formInputStyle =
         , margin2 (rem 1) (rem 0)
         , focus [ outline none, borderColor white ]
         , withMediaTabletPortraitUp [ marginTop (rem 0) ]
-        ]
-
-
-formButtonStyle : Style
-formButtonStyle =
-    batch
-        [ display block
-        , maxWidth maxContent
-        , backgroundColor pink
-        , margin2 (rem 0) auto
-        , borderStyle none
-        , borderRadius (rem 0.2)
-        , padding2 (rem 0.4) (rem 0.7)
-        , fontWeight (int 700)
-        , transition [ Css.Transitions.backgroundColor 300 ]
-        , hover [ backgroundColor lightPink ]
-        , focus [ backgroundColor lightPink ]
-        , active [ backgroundColor white ]
         ]
 
 
