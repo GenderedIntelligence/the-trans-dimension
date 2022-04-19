@@ -6,6 +6,7 @@ import Css.Media as Media exposing (only, screen, withMedia)
 import Html.Styled exposing (Html, a, div, input, label, p, span, text)
 import Html.Styled.Attributes exposing (css, for, href, id, type_, value)
 import Html.Styled.Events exposing (onCheck)
+import Css exposing (plus)
 
 
 
@@ -401,7 +402,7 @@ textInputErrorStyle =
 
 viewCheckbox : String -> String -> Bool -> (Bool -> msg) -> List (Html msg)
 viewCheckbox boxId labelText checkedValue update =
-    [ label [ css [ checkboxLabelStyle ], for boxId ] [ text labelText ]
+    [ label [ css [ (if checkedValue == True then checkboxLabelCheckedStyle else checkboxLabelStyle) ], for boxId ] [ text labelText ]
     , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
     ]
 
@@ -431,31 +432,28 @@ checkboxLabelStyle =
             ]
         ]
 
+checkboxLabelCheckedStyle : Style
+checkboxLabelCheckedStyle =
+    batch
+        [ checkboxLabelStyle
+        , before
+            [ display block
+            , property "content" "\"\""
+            , width (em 1.25)
+            , height (em 1.25)
+            , margin (calc (em 0.8) plus (px 2))
+            , position absolute
+            , top (px 0)
+            , right (px 0)
+            , backgroundColor pink
+            , borderRadius (em 1)
+            ]
+        ]
 
 checkboxStyle : Style
 checkboxStyle =
     batch
         [ display none
-        , checked
-            [ adjacentSiblings
-                [ typeSelector "label"
-                    [ batch
-                        [ before
-                            [ display block
-                            , property "content" "\"O\""
-                            , width (em 2)
-                            , height (em 2)
-                            , position absolute
-                            , top (px 0)
-                            , left (px 0)
-                            , right (px 0)
-                            , bottom (px 0)
-                            , color white
-                            ]
-                        ]
-                    ]
-                ]
-            ]
         ]
 
 
