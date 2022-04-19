@@ -1,10 +1,11 @@
-module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, goBackButtonStyle, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewFloatingButton, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, checkboxStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, goBackButtonStyle, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewFloatingButton, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, absolute, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, em, firstChild, flexWrap, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, int, italic, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, repeat, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, uppercase, url, vw, width, wrap, zIndex, zero)
+import Css exposing (Color, Style, absolute, after, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, checked, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, int, italic, justifyContent, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, pointer, position, property, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
-import Html.Styled exposing (Html, a, div, p, text)
-import Html.Styled.Attributes exposing (css, href, id)
+import Html.Styled exposing (Html, a, div, input, label, p, span, text)
+import Html.Styled.Attributes exposing (css, for, href, id, type_, value)
+import Html.Styled.Events exposing (onCheck)
 
 
 
@@ -362,6 +363,95 @@ normalFirstParagraphStyle =
                         , lineHeight (em 1.5)
                         , withMediaSmallDesktopUp [ fontSize (rem 1.2) ]
                         , withMediaTabletPortraitUp [ marginBlockStart (em 0) ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+
+
+
+-- Formfields
+
+
+textInputStyle : Style
+textInputStyle =
+    batch
+        [ backgroundColor darkBlue
+        , borderColor pink
+        , borderWidth (px 2)
+        , borderStyle solid
+        , borderRadius (rem 0.3)
+        , padding2 (rem 0.5) (rem 1)
+        , color white
+        , outline none
+        , focus [ borderColor white ]
+        ]
+
+
+textInputErrorStyle : Style
+textInputErrorStyle =
+    batch
+        [ textInputStyle
+        , backgroundColor pink
+        , color darkBlue
+        , borderColor white
+        ]
+
+
+viewCheckbox : String -> String -> Bool -> (Bool -> msg) -> List (Html msg)
+viewCheckbox boxId labelText checkedValue update =
+    [ label [ css [ checkboxLabelStyle ], for boxId ] [ text labelText ]
+    , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
+    ]
+
+
+checkboxLabelStyle : Style
+checkboxLabelStyle =
+    batch
+        [ color pink
+        , fontWeight (int 500)
+        , displayFlex
+        , flexDirection row
+        , alignItems center
+        , justifyContent center
+        , margin (rem 0)
+        , position relative
+        , cursor pointer
+        , after
+            [ property "content" "\"\""
+            , textInputStyle
+            , padding (rem 0)
+            , width (em 2)
+            , height (em 2)
+            , backgroundColor transparent
+            , property "appearance" "none"
+            , margin (rem 0.5)
+            , display block
+            ]
+        ]
+
+
+checkboxStyle : Style
+checkboxStyle =
+    batch
+        [ display none
+        , checked
+            [ adjacentSiblings
+                [ typeSelector "label"
+                    [ batch
+                        [ before
+                            [ display block
+                            , property "content" "\"O\""
+                            , width (em 2)
+                            , height (em 2)
+                            , position absolute
+                            , top (px 0)
+                            , left (px 0)
+                            , right (px 0)
+                            , bottom (px 0)
+                            , color white
+                            ]
                         ]
                     ]
                 ]
