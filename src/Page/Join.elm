@@ -3,7 +3,7 @@ module Page.Join exposing (Data, Model, Msg, blankForm, page, view)
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, auto, backgroundColor, batch, block, border, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, display, displayFlex, fitContent, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, margin, margin2, marginRight, marginTop, maxWidth, minus, none, padding, padding2, pct, property, px, rem, row, solid, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, auto, backgroundColor, batch, block, border, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, display, displayFlex, fitContent, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, local, margin, margin2, marginRight, marginTop, maxWidth, minus, none, padding, padding2, pct, property, px, rem, row, solid, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -64,7 +64,8 @@ type alias Checkbox =
 
 
 type alias Model =
-    { userInput : FormInput }
+    { userInput : FormInput
+    }
 
 
 blankForm : FormInput
@@ -246,6 +247,7 @@ update pageUrl maybeNavigationKey sharedModel static msg ({ userInput } as model
                     { oldField | value = newString }
             in
             ( { model | userInput = { userInput | message = newField } }, Cmd.none )
+
 
 
 subscriptions :
