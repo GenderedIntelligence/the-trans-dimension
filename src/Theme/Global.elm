@@ -1,12 +1,11 @@
 module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, checkboxStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, goBackButtonStyle, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewFloatingButton, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, absolute, after, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, checked, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, int, italic, justifyContent, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, pointer, position, property, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zIndex, zero)
+import Css exposing (Color, Style, absolute, after, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, checked, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, int, italic, justifyContent, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, plus, pointer, position, property, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Html.Styled exposing (Html, a, div, input, label, p, span, text)
 import Html.Styled.Attributes exposing (css, for, href, id, type_, value)
 import Html.Styled.Events exposing (onCheck)
-import Css exposing (plus)
 
 
 
@@ -402,7 +401,17 @@ textInputErrorStyle =
 
 viewCheckbox : String -> String -> Bool -> (Bool -> msg) -> List (Html msg)
 viewCheckbox boxId labelText checkedValue update =
-    [ label [ css [ (if checkedValue == True then checkboxLabelCheckedStyle else checkboxLabelStyle) ], for boxId ] [ text labelText ]
+    [ label
+        [ css
+            [ if checkedValue == True then
+                checkboxLabelCheckedStyle
+
+              else
+                checkboxLabelStyle
+            ]
+        , for boxId
+        ]
+        [ text labelText ]
     , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
     ]
 
@@ -432,6 +441,7 @@ checkboxLabelStyle =
             ]
         ]
 
+
 checkboxLabelCheckedStyle : Style
 checkboxLabelCheckedStyle =
     batch
@@ -441,7 +451,7 @@ checkboxLabelCheckedStyle =
             , property "content" "\"\""
             , width (em 1.25)
             , height (em 1.25)
-            , margin (calc (em 0.8) plus (px 2))
+            , margin (em 1)
             , position absolute
             , top (px 0)
             , right (px 0)
@@ -449,6 +459,7 @@ checkboxLabelCheckedStyle =
             , borderRadius (em 1)
             ]
         ]
+
 
 checkboxStyle : Style
 checkboxStyle =

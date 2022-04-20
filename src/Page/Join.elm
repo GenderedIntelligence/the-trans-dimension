@@ -1,4 +1,4 @@
-module Page.Join exposing (Data, Model, Msg, page, view)
+module Page.Join exposing (Data, Model, Msg, blankForm, page, view)
 
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
@@ -315,44 +315,11 @@ view maybeUrl sharedModel localModel static =
             , title = t JoinTitle
             , bigText = { text = t JoinSubtitle, node = "p" }
             , smallText = Just [ t JoinDescription ]
-            , innerContent = Just (div [] [ testValues localModel.userInput, viewForm localModel.userInput ])
+            , innerContent = Just (viewForm localModel.userInput)
             , outerContent = Nothing
             }
         ]
     }
-
-
-testValues : FormInput -> Html msg
-testValues formState =
-    div []
-        [ p [] [ text "Name: ", text formState.name.value ]
-        , p [] [ text "Email: ", text formState.email.value ]
-        , p [] [ text "Phone: ", text formState.phone.value ]
-        , p [] [ text "Job: ", text formState.job.value ]
-        , p [] [ text "Org: ", text formState.org.value ]
-        , p [] [ text "Address: ", text formState.address.value ]
-        , p []
-            [ text "Ring back: "
-            , text
-                (if formState.ringBack.value == True then
-                    "Checked"
-
-                 else
-                    "Unchecked"
-                )
-            ]
-        , p []
-            [ text "More info: "
-            , text
-                (if formState.moreInfo.value == True then
-                    "Checked"
-
-                 else
-                    "Unchecked"
-                )
-            ]
-        , p [] [ text "Message: ", text formState.message.value ]
-        ]
 
 
 viewForm : FormInput -> Html Msg
