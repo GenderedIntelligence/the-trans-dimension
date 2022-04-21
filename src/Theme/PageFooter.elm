@@ -8,7 +8,7 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
 import List exposing (append)
-import Theme.Global exposing (darkBlue, lightPink, pink, pinkButtonOnDarkBackgroundStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (colorTransition, darkBlue, darkPurple, lightPink, pink, pinkButtonOnDarkBackgroundStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
 viewPageFooter : Html msg
@@ -410,7 +410,12 @@ infoParagraphStyle =
 creditLinkStyle : Style
 creditLinkStyle =
     batch
-        [ color darkBlue ]
+        [ color darkBlue
+        , hover [ color darkPurple ]
+        , focus [ color white ]
+        , active [ color white ]
+        , transition [ colorTransition ]
+        ]
 
 
 poweredByPlaceCalStyle : Style
