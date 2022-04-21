@@ -45,6 +45,10 @@ type Key
     | EventsMetaDescription
     | EventsSummary
     | EventsSubHeading
+    | EventsEmptyText
+    | EventsFilterLabelToday
+    | EventsFilterLabelTomorrow
+    | EventsFilterLabelAll
     | EventsSubscribeText
       --- Event Page
     | EventTitle String

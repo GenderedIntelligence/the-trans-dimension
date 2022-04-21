@@ -36,6 +36,7 @@ type alias Model =
 
 type Msg
     = ClickedDay Time.Posix
+    | ClickedAllEvents
     | GetTime Time.Posix
 
 
@@ -76,6 +77,14 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
                             TransDate.isSameDay event.startDatetime posix
                         )
                         static.data
+              }
+            , Cmd.none
+            )
+
+        ClickedAllEvents ->
+            ( { localModel
+                | filterByDay = Nothing
+                , visibleEvents = static.data
               }
             , Cmd.none
             )
@@ -201,14 +210,20 @@ viewPagination localModel =
             (List.map
                 (\( label, buttonTime ) -> li [] [ button [ Html.Styled.Events.onClick (ClickedDay buttonTime) ] [ text label ] ])
                 (todayTomorrowNext5DaysPosix localModel.nowTime)
+                ++ [ li []
+                        [ button
+                            [ Html.Styled.Events.onClick ClickedAllEvents ]
+                            [ text (t EventsFilterLabelAll) ]
+                        ]
+                   ]
             )
         ]
 
 
 todayTomorrowNext5DaysPosix : Time.Posix -> List ( String, Time.Posix )
 todayTomorrowNext5DaysPosix now =
-    [ ( "Today", now )
-    , ( "Tomorrow", addDays 1 now )
+    [ ( t EventsFilterLabelToday, now )
+    , ( t EventsFilterLabelTomorrow, addDays 1 now )
     ]
         ++ List.map
             (\days ->
@@ -236,7 +251,7 @@ viewEventsList events =
                 (List.map (\event -> viewEvent event) events)
 
           else
-            text ""
+            text (t EventsEmptyText)
         ]
 
 
