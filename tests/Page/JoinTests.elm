@@ -6,7 +6,7 @@ import Data.TestFixtures as Fixtures
 import Expect
 import Html
 import Html.Attributes
-import Page.Join exposing (view)
+import Page.Join exposing (view, blankForm)
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
@@ -24,7 +24,12 @@ viewParamsWithJoin =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view
+            Nothing
+            { showMobileMenu = False }
+            { userInput = blankForm }
+            viewParams
+        ).body
 
 
 suite : Test
@@ -49,12 +54,10 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithJoin
                     |> Query.findAll [ Selector.tag "label" ]
-                    |> Query.keep (Selector.tag "span")
                     |> Expect.all
-                        [ Query.index 0 >> Query.has [ Selector.text (t JoinFormInputNameLabel) ]
+                        [ Query.count (Expect.equal 9), Query.index 0 >> Query.has [ Selector.text (t JoinFormInputNameLabel) ]
                         , Query.index 1 >> Query.has [ Selector.text (t JoinFormInputEmailLabel) ]
-                        , Query.index 2 >> Query.has [ Selector.text (t JoinFormInputPhoneLabel) ]
-                        
+                        , Query.index 2 >> Query.has [ Selector.text (t JoinFormInputPhoneLabel) ]                    
                         , Query.index 3 >> Query.has [ Selector.text (t JoinFormInputJobLabel) ]
                         , Query.index 4 >> Query.has [ Selector.text (t JoinFormInputOrgLabel) ]
                         , Query.index 5 >> Query.has [ Selector.text (t JoinFormInputAddressLabel) ]

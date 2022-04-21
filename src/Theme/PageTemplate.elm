@@ -13,13 +13,13 @@ type alias Msg =
     Never
 
 
-type alias PageUsingTemplate =
+type alias PageUsingTemplate msg =
     { title : String
     , headerType : Maybe String
     , bigText : BigText
     , smallText : Maybe (List String)
-    , innerContent : Maybe (Html.Html Msg)
-    , outerContent : Maybe (Html.Html Msg)
+    , innerContent : Maybe (Html.Html msg)
+    , outerContent : Maybe (Html.Html msg)
     }
 
 
@@ -54,7 +54,7 @@ stringToHeaderType maybeTypeString =
             PinkHeader
 
 
-view : PageUsingTemplate -> Html.Html Msg
+view : PageUsingTemplate msg -> Html.Html msg
 view pageInfo =
     div [ css [ mainStyle ] ]
         [ viewHeader pageInfo
@@ -81,7 +81,7 @@ view pageInfo =
         ]
 
 
-viewHeader : PageUsingTemplate -> Html msg
+viewHeader : PageUsingTemplate msg -> Html msg
 viewHeader pageInfo =
     section [ css [ headerSectionStyle ] ]
         [ h1 [ css [ headerLogoStyle ] ]
