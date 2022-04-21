@@ -47,10 +47,6 @@ isoDateStringDecoder =
 
 isSameDay : Time.Posix -> Time.Posix -> Bool
 isSameDay aDay anotherDay =
-    let
-        _ =
-            Debug.log (String.fromInt (Time.toDay Time.utc aDay)) (String.fromInt (Time.toDay Time.utc anotherDay))
-    in
     Time.toDay Time.utc aDay
         == Time.toDay Time.utc anotherDay
         && Time.toMonth Time.utc aDay

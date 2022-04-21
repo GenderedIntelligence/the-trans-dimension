@@ -71,20 +71,11 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
             ( { localModel
                 | filterByDay = Just posix
                 , visibleEvents =
-                    case localModel.filterByDay of
-                        Nothing ->
-                            static.data
-
-                        Just filterTime ->
-                            let
-                                _ =
-                                    Debug.log "FILTER" (String.fromInt (Time.toDay Time.utc filterTime))
-                            in
-                            List.filter
-                                (\event ->
-                                    TransDate.isSameDay event.startDatetime filterTime
-                                )
-                                static.data
+                    List.filter
+                        (\event ->
+                            TransDate.isSameDay event.startDatetime posix
+                        )
+                        static.data
               }
             , Cmd.none
             )
