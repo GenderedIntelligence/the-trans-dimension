@@ -237,7 +237,6 @@ listItemStyle =
                 , typeSelector "div" [ borderBottomColor white ]
                 ]
             ]
-        , transition [ Css.Transitions.color 500 ]
         , withMediaTabletLandscapeUp [ width (calc (pct 50) minus (rem 2)) ]
         , withMediaTabletPortraitUp [ margin2 (rem 1.5) (rem 1) ]
         ]
