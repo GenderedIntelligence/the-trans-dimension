@@ -128,7 +128,7 @@ view sharedData page model toMsg pageView =
             (Theme.Global.containerPage pageView.title
                 [ View.fontPreload
                 , Theme.Global.globalStyles
-                , viewPageHeader model.showMobileMenu |> Html.Styled.map toMsg
+                , viewPageHeader page model.showMobileMenu |> Html.Styled.map toMsg
                 , Html.Styled.main_ [] pageView.body
                 , viewPageFooter
                 ]

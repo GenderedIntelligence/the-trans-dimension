@@ -3,11 +3,11 @@ module Page.Join exposing (Data, Model, Msg, blankForm, page, view)
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, auto, backgroundColor, batch, block, border, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, display, displayFlex, fitContent, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, local, margin, margin2, marginRight, marginTop, maxWidth, minus, none, padding, padding2, pct, property, px, rem, row, solid, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, column, display, displayFlex, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, margin, margin2, marginRight, marginTop, maxWidth, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html.Styled exposing (Html, a, button, div, form, h2, input, label, p, section, span, text, textarea)
+import Html.Styled exposing (Html, a, button, div, form, input, label, p, span, text, textarea)
 import Html.Styled.Attributes exposing (css, placeholder, type_, value)
 import Html.Styled.Events exposing (onInput)
 import Page exposing (Page, PageWithState, StaticPayload)
@@ -15,7 +15,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Path exposing (Path)
 import Shared
-import Theme.Global exposing (textInputStyle, viewCheckbox, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (pinkButtonOnDarkBackgroundStyle, textInputStyle, viewCheckbox, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -249,7 +249,6 @@ update pageUrl maybeNavigationKey sharedModel static msg ({ userInput } as model
             ( { model | userInput = { userInput | message = newField } }, Cmd.none )
 
 
-
 subscriptions :
     Maybe PageUrl
     -> RouteParams
@@ -340,7 +339,7 @@ viewForm formState =
             , div [] (viewCheckbox "joinbox2" (t JoinFormCheckbox2) formState.moreInfo.value UpdateMoreInfo)
             ]
         , label [ css [ formTextAreaItemStyle ] ] [ span [ css [ formTextAreaLabelStyle ] ] [ text (t JoinFormInputMessageLabel) ], textarea [ placeholder (t JoinFormInputMessagePlaceholder), css [ textAreaStyle ], value formState.message.value, onInput UpdateMessage ] [] ]
-        , div [ css [ buttonWrapperStyle ] ] [ button [ css [ buttonStyle ], type_ "submit" ] [ text (t JoinFormSubmitButton) ] ]
+        , div [ css [ buttonWrapperStyle ] ] [ button [ css [ pinkButtonOnDarkBackgroundStyle ], type_ "submit" ] [ text (t JoinFormSubmitButton) ] ]
         ]
 
 
@@ -441,17 +440,4 @@ buttonWrapperStyle =
     batch
         [ textAlign center
         , withMediaTabletPortraitUp [ width (pct 100) ]
-        ]
-
-
-buttonStyle : Style
-buttonStyle =
-    batch
-        [ backgroundColor Theme.Global.pink
-        , color Theme.Global.darkBlue
-        , borderRadius (rem 0.3)
-        , borderStyle none
-        , padding2 (rem 0.25) (rem 4)
-        , fontSize (rem 1.2)
-        , fontWeight (int 500)
         ]
