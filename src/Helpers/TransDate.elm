@@ -1,8 +1,10 @@
 module Helpers.TransDate exposing
     ( humanDateFromPosix
+    , humanDayDateMonthFromPosix
     , humanDayFromPosix
     , humanShortMonthFromPosix
     , humanTimeFromPosix
+    , isSameDay
     , isoDateStringDecoder
     )
 
@@ -38,6 +40,26 @@ isoDateStringDecoder =
 
 
 
+---------------------
+-- Comparison helpers
+---------------------
+
+
+isSameDay : Time.Posix -> Time.Posix -> Bool
+isSameDay aDay anotherDay =
+    let
+        _ =
+            Debug.log (String.fromInt (Time.toDay Time.utc aDay)) (String.fromInt (Time.toDay Time.utc anotherDay))
+    in
+    Time.toDay Time.utc aDay
+        == Time.toDay Time.utc anotherDay
+        && Time.toMonth Time.utc aDay
+        == Time.toMonth Time.utc anotherDay
+        && Time.toYear Time.utc aDay
+        == Time.toYear Time.utc anotherDay
+
+
+
 ------------------
 -- Display helpers
 ------------------
@@ -57,6 +79,24 @@ humanDateFromPosix timestamp =
             , DateFormat.monthNameFull
             , DateFormat.text " "
             , DateFormat.yearNumber
+            ]
+            -- Note hardcoded to UTC zone
+            Time.utc
+            timestamp
+
+
+humanDayDateMonthFromPosix : Time.Posix -> String
+humanDayDateMonthFromPosix timestamp =
+    if timestamp == defaultPosix then
+        "Invalid day"
+
+    else
+        DateFormat.format
+            [ DateFormat.dayOfWeekNameAbbreviated
+            , DateFormat.text " "
+            , DateFormat.dayOfMonthFixed
+            , DateFormat.text " "
+            , DateFormat.monthNameAbbreviated
             ]
             -- Note hardcoded to UTC zone
             Time.utc

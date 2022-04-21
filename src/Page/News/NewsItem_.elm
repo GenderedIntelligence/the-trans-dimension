@@ -2,7 +2,7 @@ module Page.News.NewsItem_ exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, after, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, firstChild, fontSize, fontWeight, height, inlineBlock, margin, margin2, margin4, marginBottom, marginTop, maxWidth, none, num, padding, pct, property, px, rem, textAlign, textDecoration, width)
+import Css exposing (Style, after, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, firstChild, fontSize, fontStyle, fontWeight, height, inlineBlock, italic, margin, margin2, margin4, marginBottom, marginTop, maxWidth, none, num, padding, pct, property, px, rem, textAlign, textDecoration, width)
 import Css.Global exposing (descendants, typeSelector)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
@@ -17,8 +17,8 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.Global exposing (viewBackButton, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -115,26 +115,18 @@ view maybeUrl sharedModel static =
     { title = static.data.title
     , body =
         [ PageTemplate.view
-            { variant = InvisibleHeader
-            , intro =
-                { title = t NewsTitle
-                , bigText = { text = static.data.title, element = H3 }
-                , smallText = []
-                }
+            { headerType = Just "invisible"
+            , title = t NewsTitle
+            , bigText = { text = static.data.title, node = "h3" }
+            , smallText = Nothing
+            , innerContent = Just (viewArticle static.data)
+            , outerContent = Just viewPagination
             }
-            (Just
-                (viewArticle
-                    static.data
-                )
-            )
-            (Just
-                viewPagination
-            )
         ]
     }
 
 
-viewArticle : Data.PlaceCal.Articles.Article -> Html msg
+viewArticle : Data.PlaceCal.Articles.Article -> Html Msg
 viewArticle newsItem =
     article [ css [ articleStyle ] ]
         [ p [ css [ articleMetaStyle ] ]
@@ -150,15 +142,11 @@ viewArticle newsItem =
         ]
 
 
-viewPagination : Html msg
+viewPagination : Html Msg
 viewPagination =
     div []
-        [ p [ css [ goBackStyle ] ] [ text "[fFf] Previous/next navigation" ]
-        , a
-            [ href (TransRoutes.toAbsoluteUrl News)
-            , css [ goBackStyle ]
-            ]
-            [ text (t NewsItemReturnButton) ]
+        [ p [] [ text "[fFf] Previous/next navigation" ]
+        , viewBackButton (TransRoutes.toAbsoluteUrl News) (t NewsItemReturnButton)
         ]
 
 
@@ -176,7 +164,7 @@ articleMetaStyle =
         [ textAlign center
         , fontWeight bold
         , display block
-        , margin2 (rem 2) (rem 0)
+        , margin (rem 0)
         , withMediaTabletPortraitUp [ margin4 (rem 0) (rem 2) (rem 3) (rem 2) ]
         ]
 
@@ -206,7 +194,8 @@ articleFigureCaptionStyle =
     batch
         [ fontSize (rem 0.875)
         , textAlign center
-        , margin2 (rem 0.75) (rem 0)
+        , margin (rem 0.75)
+        , fontStyle italic
         ]
 
 
@@ -231,18 +220,4 @@ newsItemAuthorStyle : Style
 newsItemAuthorStyle =
     batch
         [ after [ property "content" "\"•\"", margin2 (rem 0) (rem 0.25) ]
-        ]
-
-
-goBackStyle : Style
-goBackStyle =
-    batch
-        [ backgroundColor Theme.Global.darkBlue
-        , color Theme.Global.white
-        , textDecoration none
-        , padding (rem 1)
-        , display block
-        , width (pct 25)
-        , margin2 (rem 2) auto
-        , textAlign center
         ]

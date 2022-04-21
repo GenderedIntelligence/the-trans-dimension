@@ -14,7 +14,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (viewBackButton)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
 
@@ -77,14 +77,12 @@ view maybeUrl sharedModel static =
     { title = t ErrorTitle
     , body =
         [ PageTemplate.view
-            { variant = PinkHeader
-            , intro =
-                { title = t ErrorTitle
-                , bigText = { text = t ErrorMessage, element = Paragraph }
-                , smallText = []
-                }
+            { headerType = Just "pink"
+            , title = t ErrorTitle
+            , bigText = { text = t ErrorMessage, node = "p" }
+            , smallText = Nothing
+            , innerContent = Nothing
+            , outerContent = Just (viewBackButton (TransRoutes.toAbsoluteUrl Error) (t ErrorButtonText))
             }
-            Nothing
-            (Just (viewBackButton (TransRoutes.toAbsoluteUrl Error) (t ErrorButtonText)))
         ]
     }

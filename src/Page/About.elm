@@ -15,7 +15,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, normalFirstParagraphStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
 
@@ -210,15 +210,13 @@ view maybeUrl sharedModel static =
     { title = static.data.main.title
     , body =
         [ PageTemplate.view
-            { variant = AboutHeader
-            , intro =
-                { title = static.data.main.title
-                , bigText = { text = static.data.main.subtitle, element = Paragraph }
-                , smallText = []
-                }
+            { headerType = Just "about"
+            , title = static.data.main.title
+            , bigText = { text = static.data.main.subtitle, node = "p" }
+            , smallText = Nothing
+            , innerContent = Just (viewAboutIntro static)
+            , outerContent = Just (viewAboutSections static)
             }
-            (Just (viewAboutIntro static))
-            (Just (viewAboutSections static))
         ]
     }
 
@@ -246,7 +244,7 @@ viewAboutAccessibility static =
     section [ css [ contentWrapperStyle, accessibilityStyle ] ]
         [ h3 [ css [ smallFloatingTitleStyle, withMediaMobileOnly [ top (rem -4.5) ] ] ] [ text static.data.accessibility.title ]
         , div [ css [ textBoxPinkStyle, accessibilityCharactersStyle ] ] [ p [ css [ introTextLargeStyle ] ] [ text static.data.accessibility.subtitle ] ]
-        , div [ css [ aboutAccessibilityTextStyle, contentContainerStyle ] ] static.data.accessibility.body
+        , div [ css [ contentContainerStyle, aboutAccessibilityTextStyle ] ] static.data.accessibility.body
         ]
 
 
@@ -291,8 +289,8 @@ columnsStyle =
         [ withMediaSmallDesktopUp
             [ property "column-gap" "2rem"
             , maxWidth (px 848)
-            , marginLeft auto
-            , marginRight auto
+            , important (marginLeft auto)
+            , important (marginRight auto)
             ]
         , withMediaTabletPortraitUp
             [ property "columns" "2"

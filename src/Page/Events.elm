@@ -20,21 +20,23 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Path exposing (Path)
 import Shared
+import Task
 import Theme.Global exposing (blue, darkBlue, darkPurple, pink, purple, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate exposing (BigTextType(..), HeaderType(..))
+import Theme.PageTemplate as PageTemplate
 import Time
 import View exposing (View)
 
 
 type alias Model =
     { filterByDay : Maybe Time.Posix
+    , visibleEvents : List Data.PlaceCal.Events.Event
     , nowTime : Time.Posix
     }
 
 
 type Msg
     = ClickedDay Time.Posix
-    | Tick Time.Posix
+    | GetTime Time.Posix
 
 
 type alias RouteParams =
@@ -47,7 +49,12 @@ init :
     -> StaticPayload Data RouteParams
     -> ( Model, Cmd Msg )
 init maybeUrl sharedModel static =
-    ( { filterByDay = Nothing, nowTime = Time.millisToPosix 0 }, Cmd.none )
+    ( { filterByDay = Nothing
+      , visibleEvents = static.data
+      , nowTime = Time.millisToPosix 0
+      }
+    , Task.perform GetTime Time.now
+    )
 
 
 update :
@@ -61,9 +68,28 @@ update :
 update pageUrl maybeNavigationKey sharedModel static msg localModel =
     case msg of
         ClickedDay posix ->
-            ( { localModel | filterByDay = Just posix }, Cmd.none )
+            ( { localModel
+                | filterByDay = Just posix
+                , visibleEvents =
+                    case localModel.filterByDay of
+                        Nothing ->
+                            static.data
 
-        Tick newTime ->
+                        Just filterTime ->
+                            let
+                                _ =
+                                    Debug.log "FILTER" (String.fromInt (Time.toDay Time.utc filterTime))
+                            in
+                            List.filter
+                                (\event ->
+                                    TransDate.isSameDay event.startDatetime filterTime
+                                )
+                                static.data
+              }
+            , Cmd.none
+            )
+
+        GetTime newTime ->
             ( { localModel | nowTime = newTime }, Cmd.none )
 
 
@@ -73,11 +99,8 @@ subscriptions :
     -> Path
     -> Model
     -> Sub Msg
-subscriptions _ _ _ localModel =
-    -- [fFf] probably want to move this tick & nowTime value to shared
-    -- at least 2 pages will use it
-    -- Update time every minute.
-    Time.every 60000 Tick
+subscriptions _ _ _ _ =
+    Sub.none
 
 
 page : PageWithState RouteParams Data Model Msg
@@ -153,54 +176,73 @@ view maybeUrl sharedModel localModel static =
     { title = t EventsTitle
     , body =
         [ PageTemplate.view
-            { variant = PinkHeader
-            , intro =
-                { title = t EventsTitle
-                , bigText = { text = t EventsSummary, element = Paragraph }
-                , smallText = []
-                }
+            { headerType = Just "pink"
+            , title = t EventsTitle
+            , bigText = { text = t EventsSummary, node = "h3" }
+            , smallText = Nothing
+            , innerContent = Just (viewEvents localModel)
+            , outerContent = Just viewSubscribe
             }
-            (Just (viewEvents localModel static))
-            (Just viewSubscribe)
         ]
     }
 
 
 viewEvents :
     Model
-    -> StaticPayload (List Data.PlaceCal.Events.Event) RouteParams
     -> Html Msg
-viewEvents localModel events =
+viewEvents localModel =
     section []
         [ viewEventsFilters localModel
-        , viewPagination
-        , viewEventsList localModel events.data
+        , viewPagination localModel
+        , viewEventsList localModel.visibleEvents
         ]
 
 
 viewEventsFilters : Model -> Html Msg
 viewEventsFilters localModel =
+    div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Event filters" ]
+
+
+viewPagination : Model -> Html Msg
+viewPagination localModel =
     div []
-        [ ul []
-            [ li [] [ button [ Html.Styled.Events.onClick (ClickedDay (Time.millisToPosix 1645466400000)) ] [ text "Today" ] ]
-            ]
+        [ ul [ css [ paginationButtonListStyle ] ]
+            (List.map
+                (\( label, buttonTime ) -> li [] [ button [ Html.Styled.Events.onClick (ClickedDay buttonTime) ] [ text label ] ])
+                (todayTomorrowNext5DaysPosix localModel.nowTime)
+            )
         ]
 
 
-viewPagination : Html msg
-viewPagination =
-    div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Pagination by day/week" ]
+todayTomorrowNext5DaysPosix : Time.Posix -> List ( String, Time.Posix )
+todayTomorrowNext5DaysPosix now =
+    [ ( "Today", now )
+    , ( "Tomorrow", addDays 1 now )
+    ]
+        ++ List.map
+            (\days ->
+                ( TransDate.humanDayDateMonthFromPosix (addDays days now), addDays days now )
+            )
+            [ 2, 3, 4, 5, 6 ]
+
+
+addDays : Int -> Time.Posix -> Time.Posix
+addDays days now =
+    (days * 24 * 60 * 60 * 1000)
+        + Time.posixToMillis now
+        |> Time.millisToPosix
 
 
 
 -- We might want to move this into theme since it is also used by Partner page
 
 
-viewEventsList : Model -> List Data.PlaceCal.Events.Event -> Html msg
-viewEventsList localModel events =
+viewEventsList : List Data.PlaceCal.Events.Event -> Html msg
+viewEventsList events =
     div []
         [ if List.length events > 0 then
-            ul [ css [ eventListStyle ] ] (List.map (\event -> viewEvent event) events)
+            ul [ css [ eventListStyle ] ]
+                (List.map (\event -> viewEvent event) events)
 
           else
             text ""
@@ -249,6 +291,8 @@ viewSubscribe =
         [ p
             [ css [ subscribeTextStyle ] ]
             [ a [ css [ subscribeLinkStyle ] ] [ text (t EventsSubscribeText) ] ]
+
+        -- [fFf]
         ]
 
 
@@ -353,6 +397,16 @@ eventParagraphStyle =
         ]
 
 
+paginationButtonListStyle : Style
+paginationButtonListStyle =
+    batch [ displayFlex ]
+
+
+paginationButtonListItemStyle : Style
+paginationButtonListItemStyle =
+    batch []
+
+
 featurePlaceholderStyle : Style
 featurePlaceholderStyle =
     batch
@@ -367,6 +421,7 @@ subscribeBoxStyle =
         [ padding2 (rem 0.75) (rem 1.5)
         , backgroundColor darkPurple
         , borderRadius (rem 0.3)
+        , margin2 (rem 1.5) (rem 0)
         ]
 
 
