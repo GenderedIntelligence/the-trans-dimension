@@ -1,6 +1,6 @@
 module Theme.Global exposing (backgroundColorTransition, black, blue, blueBackgroundStyle, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkPurple, generateId, globalStyles, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteBackgroundStyle, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus,  none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zero)
+import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus, none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Transitions exposing (Transition, linear, transition)
@@ -135,14 +135,20 @@ backgroundColorTransition : Transition
 backgroundColorTransition =
     Css.Transitions.backgroundColor3 500 0 linear
 
+
+
 -- Buttons (components)
+
 
 viewBackButton : String -> String -> Html msg
 viewBackButton link buttonText =
     p [ css [ backButtonStyle ] ]
         [ a [ href link, css [ darkBlueButtonStyle ] ] [ text buttonText ] ]
 
+
+
 -- Buttons (styles)
+
 
 buttonFloatingWrapperStyle : Style
 buttonFloatingWrapperStyle =
@@ -154,6 +160,7 @@ buttonFloatingWrapperStyle =
         , textAlign center
         , width (pct 100)
         ]
+
 
 whiteButtonStyle : Style
 whiteButtonStyle =
@@ -206,6 +213,7 @@ pinkButtonOnLightBackgroundStyle =
         , focus [ backgroundColor darkBlue, borderColor white, color white ]
         ]
 
+
 baseButtonStyle : Style
 baseButtonStyle =
     batch
@@ -223,12 +231,14 @@ baseButtonStyle =
         , transition [ backgroundColorTransition, borderTransition, colorTransition ]
         ]
 
+
 backButtonStyle : Style
 backButtonStyle =
     batch
         [ textAlign center
         , margin4 (rem 3) (rem 2) (rem 0) (rem 2)
         ]
+
 
 pinkBackgroundStyle : Style
 pinkBackgroundStyle =
@@ -257,7 +267,10 @@ whiteBackgroundStyle =
         , color darkBlue
         ]
 
+
+
 -- Titles
+
 
 smallTitleStyle : Style
 smallTitleStyle =
@@ -290,7 +303,10 @@ smallInlineTitleStyle =
         , marginBlockEnd (em 1.6)
         ]
 
+
+
 -- Page Elements
+
 
 textBoxStyle : Style
 textBoxStyle =
@@ -347,6 +363,7 @@ contentContainerStyle =
         , withMediaTabletPortraitUp [ margin2 (rem 0) (rem 2) ]
         ]
 
+
 hrStyle : Style
 hrStyle =
     batch
@@ -356,7 +373,10 @@ hrStyle =
         , margin2 (rem 2) (rem 0)
         ]
 
+
+
 -- Text styles
+
 
 introTextLargeStyle : Style
 introTextLargeStyle =
@@ -390,10 +410,18 @@ linkStyle : Style
 linkStyle =
     batch
         [ color white
-        , property "text-decoration-color" "#FF7AA7"
+        , borderBottomColor pink
+        , borderBottomStyle solid
+        , borderBottomWidth (px 1)
+        , textDecoration none
+        , hover [ color pink, borderBottomColor white ]
+        , transition [ borderTransition, colorTransition ]
         ]
 
+
+
 --- For overriding the markdown style when we don't want it...
+
 
 normalFirstParagraphStyle : Style
 normalFirstParagraphStyle =
@@ -416,6 +444,7 @@ normalFirstParagraphStyle =
 
 
 -- Form field components
+
 
 viewSelect : String -> List { label : String, value : String } -> String -> (String -> msg) -> Bool -> msg -> Html msg
 viewSelect fieldName optionList fieldValue update toggleValue toggleUpdate =
@@ -456,6 +485,7 @@ viewSelect fieldName optionList fieldValue update toggleValue toggleUpdate =
             ]
         ]
 
+
 viewSearchInput : String -> String -> (String -> msg) -> Html msg
 viewSearchInput labelText inputValue update =
     label [ css [ searchStyle ] ]
@@ -485,7 +515,10 @@ viewCheckbox boxId labelText checkedValue update =
     , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
     ]
 
+
+
 -- Form field styles
+
 
 textInputStyle : Style
 textInputStyle =
@@ -562,6 +595,7 @@ checkboxStyle =
     batch
         [ display none
         ]
+
 
 searchStyle : Style
 searchStyle =
@@ -672,7 +706,10 @@ selectOptionStyle =
         , hover [ backgroundColor white ]
         ]
 
+
+
 -- Global
+
 
 {-| Injects a <style> tag into the body, and can target element or
 class selectors anywhere, including outside the Elm app.

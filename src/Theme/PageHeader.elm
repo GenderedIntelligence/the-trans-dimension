@@ -2,7 +2,7 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, alignItems, backgroundColor, batch, block, bold, border, borderBottom, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, columnReverse, display, displayFlex, flexDirection, flexGrow, flexWrap, focus, fontSize, fontWeight, hex, hover, int, justifyContent, lighter, margin, margin2, marginRight, marginTop, none, padding, padding2, paddingBottom, paddingLeft, paddingTop, pct, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, width, wrap, zero)
+import Css exposing (Style, active, alignItems, backgroundColor, batch, block, bold, border, borderBottom, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, columnReverse, display, displayFlex, flexDirection, flexGrow, flexWrap, focus, fontSize, fontWeight, hex, hover, int, justifyContent, lighter, margin, margin2, marginRight, marginTop, none, padding, padding2, paddingBottom, paddingLeft, paddingTop, pct, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, underline, unset, width, wrap, zero)
 import Css.Media exposing (grid)
 import Css.Transitions exposing (easeIn, transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
@@ -10,22 +10,21 @@ import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span,
 import Html.Styled.Attributes exposing (css, href)
 import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
-import Theme.Global as Theme exposing (black, blue, darkBlue, pink, purple, white, withMediaTabletPortraitUp)
-import Theme.Logo
 import Path exposing (Path)
 import Route exposing (Route)
-import Css exposing (underline)
+import Theme.Global as Theme exposing (black, blue, darkBlue, pink, purple, white, withMediaTabletPortraitUp)
+import Theme.Logo
+
 
 headerNavigationItems : List TransRoutes.Route
 headerNavigationItems =
     [ Home, Partners, Events, News, About ]
 
 
-viewPageHeader : { path : Path, route : Maybe Route} -> Bool -> Html Msg
+viewPageHeader : { path : Path, route : Maybe Route } -> Bool -> Html Msg
 viewPageHeader currentPath showMobileMenu =
     header [ css [ headerStyle ] ]
-        [
-         div [ css [ barStyle ] ]
+        [ div [ css [ barStyle ] ]
             [ viewPageHeaderNavigation showMobileMenu headerNavigationItems currentPath.path
             , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
             ]
@@ -57,8 +56,20 @@ viewPageHeaderNavigation showMobileMenu listItems currentPath =
                        )
                 )
             ]
-            (List.map (\item -> 
-            if  (TransRoutes.toAbsoluteUrl item == "/") then (viewHeaderNavigationItem item) else if (TransRoutes.toAbsoluteUrl item) == (Path.toAbsolute currentPath) then (viewHeaderNavigationItemCurrent item) else if String.contains (TransRoutes.toAbsoluteUrl item) (Path.toAbsolute currentPath) then (viewHeaderNavigationItemCurrentCategory item) else (viewHeaderNavigationItem item))
+            (List.map
+                (\item ->
+                    if TransRoutes.toAbsoluteUrl item == "/" then
+                        viewHeaderNavigationItem item
+
+                    else if TransRoutes.toAbsoluteUrl item == Path.toAbsolute currentPath then
+                        viewHeaderNavigationItemCurrent item
+
+                    else if String.contains (TransRoutes.toAbsoluteUrl item) (Path.toAbsolute currentPath) then
+                        viewHeaderNavigationItemCurrentCategory item
+
+                    else
+                        viewHeaderNavigationItem item
+                )
                 listItems
             )
         ]
@@ -72,6 +83,7 @@ viewHeaderNavigationItem route =
             ]
         ]
 
+
 viewHeaderNavigationItemCurrent : TransRoutes.Route -> Html Msg
 viewHeaderNavigationItemCurrent route =
     li [ css [ navigationListItemStyle ] ]
@@ -80,6 +92,7 @@ viewHeaderNavigationItemCurrent route =
             ]
         ]
 
+
 viewHeaderNavigationItemCurrentCategory : TransRoutes.Route -> Html Msg
 viewHeaderNavigationItemCurrentCategory route =
     li [ css [ navigationListItemStyle ] ]
@@ -87,6 +100,7 @@ viewHeaderNavigationItemCurrentCategory route =
             [ text (TransRoutes.toPageTitle route)
             ]
         ]
+
 
 viewPageHeaderAsk : String -> String -> Html Msg
 viewPageHeaderAsk copyText linkTo =
@@ -230,6 +244,7 @@ navigationLinkStyle =
         , withMediaTabletPortraitUp [ hover [ borderBottomColor black ] ]
         ]
 
+
 navigationCurrentStyle : Style
 navigationCurrentStyle =
     batch
@@ -239,9 +254,10 @@ navigationCurrentStyle =
         , display block
         , borderBottomWidth (rem 0.2)
         , borderBottomStyle solid
-        , withMediaTabletPortraitUp [  borderBottomColor black ]
+        , withMediaTabletPortraitUp [ borderBottomColor black ]
         , transition [ Theme.borderTransition, Theme.colorTransition ]
         ]
+
 
 navigationLinkCurrentCategoryStyle : Style
 navigationLinkCurrentCategoryStyle =
@@ -252,11 +268,10 @@ navigationLinkCurrentCategoryStyle =
         , display block
         , borderBottomWidth (rem 0.2)
         , borderBottomStyle solid
-        , withMediaTabletPortraitUp [  borderBottomColor black ]
+        , withMediaTabletPortraitUp [ borderBottomColor black ]
         , transition [ Theme.colorTransition ]
         , hover [ color white ]
         ]
-
 
 
 askStyle : Style
