@@ -239,7 +239,7 @@ navigationLinkStyle =
         , borderBottomWidth (rem 0.2)
         , borderBottomStyle solid
         , borderBottomColor pink
-        , transition [ Theme.borderTransition, Theme.colorTransition ]
+        , transition [ Theme.borderTransition ]
         , hover [ color white ]
         , withMediaTabletPortraitUp [ hover [ borderBottomColor black ] ]
         ]
@@ -255,7 +255,7 @@ navigationCurrentStyle =
         , borderBottomWidth (rem 0.2)
         , borderBottomStyle solid
         , withMediaTabletPortraitUp [ borderBottomColor black ]
-        , transition [ Theme.borderTransition, Theme.colorTransition ]
+        , transition [ Theme.borderTransition ]
         ]
 
 
@@ -269,7 +269,6 @@ navigationLinkCurrentCategoryStyle =
         , borderBottomWidth (rem 0.2)
         , borderBottomStyle solid
         , withMediaTabletPortraitUp [ borderBottomColor black ]
-        , transition [ Theme.colorTransition ]
         , hover [ color white ]
         ]
 
