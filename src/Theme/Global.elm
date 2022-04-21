@@ -1,9 +1,9 @@
-module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonFloatingWrapperStyle, checkboxStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkPurple, generateId, globalStyles, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteBackgroundStyle, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (backgroundColorTransition, black, blue, blueBackgroundStyle, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkPurple, generateId, globalStyles, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteBackgroundStyle, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, checked, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus, noRepeat, none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, plus, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zIndex, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
-import Css.Transitions exposing (transition)
+import Css.Transitions exposing (Transition, linear, transition)
 import Html.Styled exposing (Html, a, div, img, input, label, li, option, p, select, span, text, ul)
 import Html.Styled.Attributes exposing (attribute, css, for, href, id, placeholder, src, tabindex, type_, value)
 import Html.Styled.Events exposing (onCheck, onClick, onInput)
@@ -118,6 +118,25 @@ withMediaLargeDesktopUp =
     withMedia [ only screen [ Media.minWidth (px maxMediumDesktop) ] ]
 
 
+
+-- Transitions
+
+
+borderTransition : Transition
+borderTransition =
+    Css.Transitions.border3 500 0 linear
+
+
+colorTransition : Transition
+colorTransition =
+    Css.Transitions.color3 500 0 linear
+
+
+backgroundColorTransition : Transition
+backgroundColorTransition =
+    Css.Transitions.backgroundColor3 500 0 linear
+
+
 pinkBackgroundStyle : Style
 pinkBackgroundStyle =
     backgroundColor pink
@@ -172,7 +191,7 @@ baseButtonStyle =
         , margin2 (rem 0) auto
         , borderWidth (rem 0.2)
         , borderStyle solid
-        , transition [ Css.Transitions.backgroundColor 500, Css.Transitions.color 500, Css.Transitions.border 500 ]
+        , transition [ backgroundColorTransition, borderTransition, colorTransition ]
         ]
 
 

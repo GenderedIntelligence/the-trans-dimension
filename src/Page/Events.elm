@@ -4,7 +4,7 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, none, padding2, padding4, paddingBottom, pct, px, rem, row, rowReverse, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
-import Css.Transitions exposing (font, transition)
+import Css.Transitions exposing (transition)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -18,7 +18,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (blue, darkBlue, darkPurple, pink, purple, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (blue, borderTransition, colorTransition, darkBlue, darkPurple, pink, purple, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Time
 import View exposing (View)
@@ -254,7 +254,7 @@ eventDayStyle =
         , fontSize (rem 2.5)
         , display block
         , lineHeight (em 1)
-        , transition [ Css.Transitions.color 500 ]
+        , transition [ colorTransition ]
         , withMediaTabletPortraitUp [ fontSize (rem 3.1222), marginTop (rem -0.75) ]
         ]
 
@@ -267,7 +267,7 @@ eventMonthStyle =
         , fontSize (rem 1.2)
         , fontWeight (int 900)
         , letterSpacing (px 1.9)
-        , transition [ Css.Transitions.color 500 ]
+        , transition [ colorTransition ]
         ]
 
 
@@ -290,7 +290,7 @@ eventTitleStyle =
         , borderBottomWidth (px 2)
         , borderBottomColor pink
         , borderBottomStyle solid
-        , transition [ Css.Transitions.color 500, Css.Transitions.border 500 ]
+        , transition [ colorTransition, borderTransition ]
         , withMediaTabletPortraitUp [ fontSize (rem 1.5), lineHeight (rem 1.877) ]
         ]
 
@@ -300,7 +300,7 @@ eventLinkStyle =
     batch
         [ textDecoration none
         , color white
-        , transition [ Css.Transitions.color 500 ]
+        , transition [ colorTransition ]
         ]
 
 

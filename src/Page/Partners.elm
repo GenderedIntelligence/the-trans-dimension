@@ -253,7 +253,7 @@ partnerTopRowStyle =
         , borderBottomWidth (px 2)
         , borderBottomStyle solid
         , withMediaTabletLandscapeUp [ padding2 (rem 0.75) (rem 0) ]
-        , transition [ Css.Transitions.border 500 ]
+        , transition [ Theme.borderTransition ]
         ]
 
 
@@ -272,7 +272,7 @@ partnerLink =
     batch
         [ textDecoration none
         , color white
-        , transition [ Css.Transitions.color 500 ]
+        , transition [ Theme.colorTransition ]
         ]
 
 
@@ -282,7 +282,7 @@ partnerNameStyle =
         [ fontSize (rem 1.2)
         , fontStyle italic
         , color white
-        , transition [ Css.Transitions.color 500 ]
+        , transition [ Theme.colorTransition ]
         , withMediaTabletPortraitUp [ fontSize (rem 1.5) ]
         ]
 
