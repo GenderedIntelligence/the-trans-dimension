@@ -130,9 +130,6 @@ t key =
         EventsSubHeading ->
             "Upcoming events"
 
-        EventsSubscribeText ->
-            "[cCc] Subscribe with iCal / Google Calendar etc"
-
         EventsEmptyText ->
             "There are no upcoming events"
 

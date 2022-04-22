@@ -49,7 +49,6 @@ type Key
     | EventsFilterLabelToday
     | EventsFilterLabelTomorrow
     | EventsFilterLabelAll
-    | EventsSubscribeText
       --- Event Page
     | EventTitle String
     | EventMetaDescription String String
