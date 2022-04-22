@@ -3,6 +3,9 @@ module Page.Index exposing (Data, Model, Msg, page, view)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, absolute, after, auto, backgroundClip, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderColor, borderRadius, borderStyle, borderWidth, bottom, calc, center, color, cover, display, em, fontSize, fontStyle, fontWeight, height, important, inlineBlock, int, italic, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noRepeat, none, nthOfType, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, plus, position, property, px, relative, rem, solid, textAlign, textDecoration, textTransform, top, uppercase, url, vh, vw, width, zIndex)
+import Data.PlaceCal.Articles
+import Data.PlaceCal.Events
+import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -10,6 +13,8 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled as Html exposing (Html, a, article, div, h1, h2, img, li, main_, p, section, text, ul)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
+import Page.Events exposing (addPartnerNamesToEvents, viewEventsList)
+import Page.News
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
@@ -40,7 +45,22 @@ page =
 
 data : DataSource Data
 data =
-    DataSource.succeed ()
+    DataSource.map3
+        (\eventData newsData partnerData ->
+            { latestNews =
+                List.head
+                    (List.map
+                        (\article ->
+                            { article | partnerIds = Data.PlaceCal.Partners.partnerNamesFromIds partnerData article.partnerIds }
+                        )
+                        newsData.allArticles
+                    )
+            , featuredEvents = List.take 4 (addPartnerNamesToEvents eventData.allEvents partnerData)
+            }
+        )
+        Data.PlaceCal.Events.eventsData
+        Data.PlaceCal.Articles.articlesData
+        (DataSource.map (\partnersData -> partnersData.allPartners) Data.PlaceCal.Partners.partnersData)
 
 
 head :
@@ -64,7 +84,9 @@ head static =
 
 
 type alias Data =
-    ()
+    { latestNews : Maybe Data.PlaceCal.Articles.Article
+    , featuredEvents : List Data.PlaceCal.Events.Event
+    }
 
 
 view :
@@ -77,8 +99,8 @@ view maybeUrl sharedModel static =
     , body =
         [ div [ css [ pageWrapperStyle ] ]
             [ viewIntro (t IndexIntroTitle) (t IndexIntroMessage) (t IndexIntroButtonText)
-            , viewFeatured (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
-            , viewLatestNews (t IndexNewsHeader) (t IndexNewsButtonText)
+            , viewFeatured static.data.featuredEvents (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
+            , viewLatestNews static.data.latestNews (t IndexNewsHeader) (t IndexNewsButtonText)
             ]
         ]
     }
@@ -100,15 +122,11 @@ viewIntro introTitle introMsg eventButtonText =
         ]
 
 
-viewFeatured : String -> String -> Html msg
-viewFeatured title buttonText =
+viewFeatured : List Data.PlaceCal.Events.Event -> String -> String -> Html msg
+viewFeatured eventList title buttonText =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
-        , ul []
-            [ li [] [ text "Featured event [fFf]" ]
-            , li [] [ text "Featured event [fFf]" ]
-            , li [] [ text "Featured event [fFf]" ]
-            ]
+        , viewEventsList eventList
         , p [ css [ buttonFloatingWrapperStyle ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
@@ -119,11 +137,16 @@ viewFeatured title buttonText =
         ]
 
 
-viewLatestNews : String -> String -> Html msg
-viewLatestNews title buttonText =
+viewLatestNews : Maybe Data.PlaceCal.Articles.Article -> String -> String -> Html msg
+viewLatestNews maybeNewsItem title buttonText =
     section [ css [ sectionStyle, whiteBackgroundStyle, newsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
-        , article [] [ text "News item title [fFf]" ]
+        , case maybeNewsItem of
+            Just news ->
+                Page.News.viewNewsArticle news
+
+            Nothing ->
+                text ""
         , p [ css [ buttonFloatingWrapperStyle ] ]
             [ a
                 [ href "/"

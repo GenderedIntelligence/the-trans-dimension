@@ -98,13 +98,13 @@ t key =
             "See what's on near you"
 
         IndexFeaturedHeader ->
-            "[cCc] Featured Events"
+            "Featured Events"
 
         IndexFeaturedButtonText ->
-            "[cCc] More events"
+            "More events"
 
         IndexNewsHeader ->
-            "[cCc] Latest update"
+            "Latest update"
 
         IndexNewsButtonText ->
             "View more news"
