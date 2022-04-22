@@ -66,16 +66,19 @@ suite =
         , test "Has pagination by day/week" <|
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithEvents
-                    -- Note this is currently a placeholder
-                    |> Query.contains [ Html.text "[fFf] Pagination by day/week" ]
+                    |> Query.findAll [ Selector.tag "ul" ]
+                    |> Query.first
+                    |> Query.children [ Selector.tag "li" ]
+                    |> Query.count (Expect.equal 8)
         , test "Contains a list of upcoming events" <|
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithEvents
-                    |> Query.find [ Selector.tag "ul" ]
+                    |> Query.findAll [ Selector.tag "ul" ]
+                    |> Query.index 1
                     |> Query.children [ Selector.tag "li" ]
                     |> Query.count (Expect.equal 2)
-        , test "Does not contain list if there are no events" <|
+        , test "Contains empty text if there are no events" <|
             \_ ->
                 viewBodyHtml eventsModelNoEvents viewParamsWithoutEvents
-                    |> Query.hasNot [ Selector.tag "ul" ]
+                    |> Query.contains [ Html.text (t EventsEmptyText) ]
         ]
