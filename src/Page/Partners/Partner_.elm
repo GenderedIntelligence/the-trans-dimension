@@ -89,7 +89,7 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t (PartnerMetaDescription static.data.partner.name)
+        , description = t (PartnerMetaDescription static.data.partner.name static.data.partner.summary)
         , locale = Nothing
         , title = t (PartnerTitle static.data.partner.name)
         }
@@ -143,7 +143,7 @@ viewInfo { partner, events } =
             ]
         , hr [ css [ hrStyle ] ] []
         , section []
-            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t PartnerUpcomingEventsText) ]
+            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
             ]
         , if List.length events > 0 then
             Page.Events.viewEventsList events

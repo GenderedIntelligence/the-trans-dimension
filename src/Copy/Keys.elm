@@ -48,7 +48,7 @@ type Key
     | EventsSubscribeText
       --- Event Page
     | EventTitle String
-    | EventMetaDescription String
+    | EventMetaDescription String String
     | BackToEventsLinkText
       --- Partners Page
     | PartnersTitle
@@ -56,14 +56,13 @@ type Key
     | PartnersIntroSummary
     | PartnersIntroDescription
     | PartnersListEmpty
-    | PartnersLinkToPartner
       --- Partner Page
     | PartnerTitle String
-    | PartnerMetaDescription String
+    | PartnerMetaDescription String String
     | PartnerContactsHeading
     | PartnerAddressHeading
     | PartnerAddressEmptyText
-    | PartnerUpcomingEventsText
+    | PartnerUpcomingEventsText String
     | PartnerEventsEmptyText String
     | BackToPartnersLinkText
       --- Join Page
@@ -90,7 +89,7 @@ type Key
     | NewsDescription
       --- News Single Article Page
     | NewsItemTitle String
-    | NewsItemDescription String
+    | NewsItemMetaDescription String String
     | NewsItemReturnButton
       --- Privacy
     | PrivacyTitle

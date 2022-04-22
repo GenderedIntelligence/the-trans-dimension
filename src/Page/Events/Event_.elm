@@ -83,7 +83,7 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t (EventMetaDescription static.data.name)
+        , description = t (EventMetaDescription static.data.name static.data.summary)
         , locale = Nothing
         , title = t (EventTitle static.data.name)
         }
