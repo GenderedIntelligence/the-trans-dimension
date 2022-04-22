@@ -21,6 +21,11 @@ import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, 
 import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
 import View exposing (View)
+import Css exposing (height)
+import Css exposing (property)
+import Css exposing (calc)
+import Css exposing (minus)
+import Theme.Global exposing (withMediaMediumDesktopUp)
 
 
 type alias Model =
@@ -122,7 +127,8 @@ viewEventInfo event =
         , viewInfoSection event
         , hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
         , viewAddressSection event
-        , div [] [ text "[fFf] Map" ]
+        , div [ css [ mapContainerStyle ] ]
+            [ img [ src "https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(-0.11852,51.53101)/-0.118520,51.531010,15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g", css [ mapStyle ] ] [] ]
         ]
 
 
@@ -311,4 +317,24 @@ buttonsStyle =
     batch
         [ withMediaTabletPortraitUp
             [ displayFlex, justifyContent center ]
+        ]
+
+mapContainerStyle : Style
+mapContainerStyle =
+    batch
+        [ margin4 (rem 3) (calc (rem -1.1) minus (px 1)) (calc (rem -0.75) minus (px 1)) (calc (rem -1.1) minus (px 1))
+        , withMediaMediumDesktopUp
+            [ margin4 (rem 3) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) ]
+        , withMediaTabletPortraitUp
+            [ margin4 (rem 3) (calc (rem -2) minus (px 1)) (px -1) (calc (rem -2) minus (px 1)) ]
+        ]
+
+
+mapStyle : Style
+mapStyle =
+    batch
+        [ height (px 318)
+        , width (pct 100)
+        , property "object-fit" "cover"
+        , withMediaTabletLandscapeUp [ height (px 400) ]
         ]
