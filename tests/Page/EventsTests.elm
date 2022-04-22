@@ -70,6 +70,21 @@ suite =
                     |> Query.first
                     |> Query.children [ Selector.tag "li" ]
                     |> Query.count (Expect.equal 8)
+        , test "Has pagination by day/week with expected labels" <|
+            \_ ->
+                viewBodyHtml eventsModel viewParamsWithEvents
+                    |> Query.findAll [ Selector.tag "ul" ]
+                    |> Query.first
+                    |> Query.contains
+                        [ Html.text (t EventsFilterLabelToday)
+                        , Html.text (t EventsFilterLabelTomorrow)
+                        , Html.text "Sat 03 Jan"
+                        , Html.text "Sun 04 Jan"
+                        , Html.text "Mon 05 Jan"
+                        , Html.text "Tue 06 Jan"
+                        , Html.text "Wed 07 Jan"
+                        , Html.text (t EventsFilterLabelAll)
+                        ]
         , test "Contains a list of upcoming events" <|
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithEvents
