@@ -2,13 +2,13 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, active, after, alignItems, auto, backgroundColor, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexGrow, flexWrap, focus, fontSize, fontWeight, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxContent, maxWidth, none, nthLastChild, num, outline, padding, padding2, padding4, pct, position, property, px, relative, rem, right, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, top, uppercase, width, wrap)
+import Css exposing (Style, absolute, active, after, alignItems, auto, backgroundColor, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexGrow, flexWrap, focus, fontSize, fontWeight, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, num, outline, padding, padding2, padding4, pct, position, property, px, relative, rem, right, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, top, uppercase, width, wrap)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
 import List exposing (append)
-import Theme.Global exposing (colorTransition, darkBlue, darkPurple, lightPink, pink, pinkButtonOnDarkBackgroundStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
 viewPageFooter : Html msg

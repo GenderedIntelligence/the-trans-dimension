@@ -2,24 +2,23 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderColor, borderRadius, borderStyle, borderWidth, center, color, display, displayFlex, fontSize, fontStyle, fontWeight, hover, int, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginTop, maxWidth, none, normal, padding, padding2, pct, property, px, rem, solid, textAlign, textDecoration, width)
+import Css exposing (Style, auto, batch, center, color, displayFlex, fontStyle, margin2, marginBlockEnd, marginBlockStart, marginTop, maxWidth, normal, pct, px, rem, textAlign, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, address, div, h2, h3, hr, p, section, text)
+import Html.Styled exposing (Html, a, address, div, h3, hr, p, section, text)
 import Html.Styled.Attributes exposing (css, href, target)
-import Page exposing (Page, PageWithState, StaticPayload)
+import Page exposing (Page, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, viewBackButton, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, smallInlineTitleStyle, viewBackButton, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
-import Time
 import View exposing (View)
 
 

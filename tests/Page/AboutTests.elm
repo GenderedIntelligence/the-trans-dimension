@@ -1,7 +1,5 @@
 module Page.AboutTests exposing (..)
 
-import Data.TestFixtures as Fixtures
-import Expect
 import Html
 import Page.About exposing (view)
 import Path
@@ -13,19 +11,19 @@ import TestUtils exposing (queryFromStyledList)
 
 viewParamsWithAbout =
     { data =
-        { main = 
+        { main =
             { title = "About Page Test Title"
             , subtitle = "Test subtitle here."
             , body = []
             }
-        , accessibility = 
+        , accessibility =
             { title = "Accessibility"
             , subtitle = "Accessibility is good for everyone"
             , body = []
             }
-        , makers = 
+        , makers =
             [ { name = "Makername", url = "google.com", logo = "logo.png", body = [] } ]
-        , placecal = 
+        , placecal =
             { title = "PlaceCal lives here"
             , subtitleimg = "img.jpeg"
             , subtitleimgalt = "PlaceCal logo"

@@ -3,7 +3,7 @@ module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, vi
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, none, padding2, padding4, paddingBottom, pct, px, rem, row, rowReverse, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, backgroundColor, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, none, padding2, paddingBottom, pct, px, rem, row, rowReverse, solid, spaceBetween, textAlign, textDecoration, textTransform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
 import Css.Transitions exposing (transition)
 import Data.PlaceCal.Events
@@ -13,16 +13,16 @@ import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, article, button, div, h2, h3, h4, li, p, section, span, text, time, ul)
+import Html.Styled exposing (Html, a, article, button, div, h4, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Html.Styled.Events
-import Page exposing (Page, PageWithState, StaticPayload)
+import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Path exposing (Path)
 import Shared
 import Task
-import Theme.Global exposing (blue, borderTransition, colorTransition, darkBlue, darkPurple, pink, purple, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (borderTransition, colorTransition, darkPurple, pink, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Time
 import View exposing (View)
@@ -424,11 +424,6 @@ eventParagraphStyle =
 paginationButtonListStyle : Style
 paginationButtonListStyle =
     batch [ displayFlex ]
-
-
-paginationButtonListItemStyle : Style
-paginationButtonListItemStyle =
-    batch []
 
 
 featurePlaceholderStyle : Style

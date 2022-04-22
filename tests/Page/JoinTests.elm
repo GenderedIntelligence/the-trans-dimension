@@ -2,11 +2,9 @@ module Page.JoinTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures as Fixtures
 import Expect
 import Html
-import Html.Attributes
-import Page.Join exposing (view, blankForm)
+import Page.Join exposing (blankForm, view)
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
@@ -55,9 +53,10 @@ suite =
                 viewBodyHtml viewParamsWithJoin
                     |> Query.findAll [ Selector.tag "label" ]
                     |> Expect.all
-                        [ Query.count (Expect.equal 9), Query.index 0 >> Query.has [ Selector.text (t JoinFormInputNameLabel) ]
+                        [ Query.count (Expect.equal 9)
+                        , Query.index 0 >> Query.has [ Selector.text (t JoinFormInputNameLabel) ]
                         , Query.index 1 >> Query.has [ Selector.text (t JoinFormInputEmailLabel) ]
-                        , Query.index 2 >> Query.has [ Selector.text (t JoinFormInputPhoneLabel) ]                    
+                        , Query.index 2 >> Query.has [ Selector.text (t JoinFormInputPhoneLabel) ]
                         , Query.index 3 >> Query.has [ Selector.text (t JoinFormInputJobLabel) ]
                         , Query.index 4 >> Query.has [ Selector.text (t JoinFormInputOrgLabel) ]
                         , Query.index 5 >> Query.has [ Selector.text (t JoinFormInputAddressLabel) ]
@@ -69,5 +68,5 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithJoin
                     |> Query.find [ Selector.tag "form" ]
-                    |> Query.contains [ Html.text (t JoinFormSubmitButton)  ]
+                    |> Query.contains [ Html.text (t JoinFormSubmitButton) ]
         ]

@@ -2,12 +2,9 @@ module Page.EventTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.PlaceCal.Events exposing (Realm(..))
-import Data.TestFixtures as Fixtures
 import Expect
 import Html
 import Page.Events.Event_ exposing (view)
-import Pages.Url
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
@@ -74,6 +71,7 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithEvent
                     |> Query.contains [ Html.text "Event description" ]
+
         -- Commented out the below because I'm not sure we have that feature on the backend?
         -- , test "Has link to event webpage" <|
         --     \_ ->

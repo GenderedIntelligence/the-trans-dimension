@@ -2,7 +2,7 @@ module Page.Index exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, after, auto, backgroundClip, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderColor, borderRadius, borderStyle, borderWidth, bottom, calc, center, color, cover, display, em, fontSize, fontStyle, fontWeight, height, important, inlineBlock, int, italic, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noRepeat, none, nthOfType, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, plus, position, property, px, relative, rem, solid, textAlign, textDecoration, textTransform, top, uppercase, url, vh, vw, width, zIndex)
+import Css exposing (Style, absolute, after, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderRadius, bottom, calc, center, color, display, em, fontSize, fontStyle, fontWeight, height, important, inlineBlock, int, italic, lineHeight, margin2, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noRepeat, none, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, textAlign, top, url, vw, width, zIndex)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
@@ -10,7 +10,7 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled as Html exposing (Html, a, article, div, h1, h2, img, li, main_, p, section, text, ul)
+import Html.Styled exposing (Html, a, div, h1, h2, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
 import Page.Events exposing (addPartnerNamesToEvents, viewEventsList)

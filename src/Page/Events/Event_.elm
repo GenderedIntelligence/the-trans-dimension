@@ -2,24 +2,23 @@ module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, hover, int, justifyContent, letterSpacing, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, none, normal, num, padding, padding4, pct, px, rem, textAlign, textDecoration, textTransform, uppercase, width)
+import Css exposing (Style, auto, backgroundColor, batch, borderRadius, center, color, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, int, justifyContent, letterSpacing, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, normal, padding, pct, px, rem, textAlign, textTransform, uppercase, width)
 import Data.PlaceCal.Events
-import Data.PlaceCal.Partners exposing (partnerNamesFromIds)
+import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h2, h3, h4, hr, img, li, main_, p, section, text, time, ul)
+import Html.Styled exposing (Html, a, div, h4, hr, img, p, section, text, time)
 import Html.Styled.Attributes exposing (css, href, src)
-import Page exposing (Page, PageWithState, StaticPayload)
+import Page exposing (Page, StaticPayload)
 import Page.Events exposing (addPartnerNamesToEvents)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
-import Theme.TransMarkdown
 import View exposing (View)
 
 
