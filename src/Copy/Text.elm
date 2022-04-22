@@ -133,6 +133,18 @@ t key =
         EventsSubscribeText ->
             "[cCc] Subscribe with iCal / Google Calendar etc"
 
+        EventsEmptyText ->
+            "[cCc] There are no events."
+
+        EventsFilterLabelToday ->
+            "Today"
+
+        EventsFilterLabelTomorrow ->
+            "Tomorrow"
+
+        EventsFilterLabelAll ->
+            "All Events"
+
         --- Event Page
         EventTitle eventName ->
             "Event - " ++ eventName

@@ -16,7 +16,10 @@ import TestUtils exposing (queryFromStyledList)
 
 
 viewParamsForHome =
-    { data = ()
+    { data = 
+        { latestNews = List.head Fixtures.news
+        , featuredEvents = List.take 4 Fixtures.events
+        }
     , path = Path.fromString "/"
     , routeParams = {}
     , sharedData = ()

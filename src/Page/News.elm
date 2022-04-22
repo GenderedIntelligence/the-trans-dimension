@@ -1,9 +1,9 @@
-module Page.News exposing (Data, Model, Msg, page, view)
+module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, em, flexGrow, flexShrink, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
+import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, em, flexGrow, flexShrink, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, ms, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -133,39 +133,43 @@ defaultNewsImages =
 viewNewsItem : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsItem newsItem =
     li [ css [ newsItemStyle ] ]
-        [ article [ css [ newsItemArticleStyle ] ]
-            [ img
-                [ src
-                    (case Array.get 0 defaultNewsImages of
-                        Just string ->
-                            string
+        [ viewNewsArticle newsItem ]
 
-                        Nothing ->
-                            ""
+
+viewNewsArticle : Data.PlaceCal.Articles.Article -> Html msg
+viewNewsArticle newsItem =
+    article [ css [ newsItemArticleStyle ] ]
+        [ img
+            [ src
+                (case Array.get 0 defaultNewsImages of
+                    Just string ->
+                        string
+
+                    Nothing ->
+                        ""
+                )
+            , css [ newsImageStyle ]
+            ]
+            []
+        , div [ css [ newsItemInfoStyle ] ]
+            [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
+            , p [ css [ newsItemMetaStyle ] ]
+                [ span [ css [ newsItemAuthorStyle ] ]
+                    [ text (String.join ", " newsItem.partnerIds)
+                    ]
+                , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
+                ]
+            , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]
+            ]
+        , div [ css [ buttonFloatingWrapperStyle ] ]
+            [ a
+                [ css [ pinkButtonOnLightBackgroundStyle ]
+                , href
+                    (TransRoutes.toAbsoluteUrl
+                        (NewsItem (TransRoutes.stringToSlug newsItem.title))
                     )
-                , css [ newsImageStyle ]
                 ]
-                []
-            , div [ css [ newsItemInfoStyle ] ]
-                [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
-                , p [ css [ newsItemMetaStyle ] ]
-                    [ span [ css [ newsItemAuthorStyle ] ]
-                        [ text (String.join ", " newsItem.partnerIds)
-                        ]
-                    , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
-                    ]
-                , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]
-                ]
-            , div [ css [ buttonFloatingWrapperStyle ] ]
-                [ a
-                    [ css [ pinkButtonOnLightBackgroundStyle ]
-                    , href
-                        (TransRoutes.toAbsoluteUrl
-                            (NewsItem (TransRoutes.stringToSlug newsItem.title))
-                        )
-                    ]
-                    [ text (t NewsReadMore) ]
-                ]
+                [ text (t NewsReadMore) ]
             ]
         ]
 

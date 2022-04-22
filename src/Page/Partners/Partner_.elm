@@ -19,6 +19,7 @@ import Shared
 import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, viewBackButton, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
+import Time
 import View exposing (View)
 
 
@@ -146,6 +147,7 @@ viewInfo { partner, events } =
             [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
             ]
         , if List.length events > 0 then
+            -- Might move away from sharing render, but for now hardcoding model
             Page.Events.viewEventsList events
 
           else
