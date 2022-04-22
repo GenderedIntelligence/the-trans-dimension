@@ -134,7 +134,7 @@ t key =
             "[cCc] Subscribe with iCal / Google Calendar etc"
 
         EventsEmptyText ->
-            "[cCc] There are no events."
+            "There are no upcoming events"
 
         EventsFilterLabelToday ->
             "Today"
