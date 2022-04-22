@@ -30,6 +30,13 @@ eventsModel =
     }
 
 
+eventsModelNoEvents =
+    { filterByDay = Nothing
+    , visibleEvents = []
+    , nowTime = Time.millisToPosix 0
+    }
+
+
 viewParamsWithoutEvents =
     { data = []
     , path = Path.fromString "events"
@@ -69,6 +76,6 @@ suite =
                     |> Query.count (Expect.equal 2)
         , test "Does not contain list if there are no events" <|
             \_ ->
-                viewBodyHtml eventsModel viewParamsWithoutEvents
+                viewBodyHtml eventsModelNoEvents viewParamsWithoutEvents
                     |> Query.hasNot [ Selector.tag "ul" ]
         ]
