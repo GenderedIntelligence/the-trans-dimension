@@ -2,7 +2,7 @@ module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, hover, int, justifyContent, letterSpacing, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, none, normal, num, padding, padding4, pct, px, rem, textAlign, textDecoration, textTransform, uppercase, width)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderRadius, calc, center, color, display, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, height, hover, int, justifyContent, letterSpacing, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, minus, none, normal, num, padding, padding4, pct, property, px, rem, textAlign, textDecoration, textTransform, uppercase, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners exposing (partnerNamesFromIds)
 import DataSource exposing (DataSource)
@@ -17,15 +17,10 @@ import Page.Events exposing (addPartnerNamesToEvents)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
 import View exposing (View)
-import Css exposing (height)
-import Css exposing (property)
-import Css exposing (calc)
-import Css exposing (minus)
-import Theme.Global exposing (withMediaMediumDesktopUp)
 
 
 type alias Model =
@@ -318,6 +313,7 @@ buttonsStyle =
         [ withMediaTabletPortraitUp
             [ displayFlex, justifyContent center ]
         ]
+
 
 mapContainerStyle : Style
 mapContainerStyle =
