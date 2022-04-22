@@ -2,7 +2,9 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inline, inlineBlock, int, italic, justifyContent, letterSpacing, lineHeight, margin, margin2, marginBottom, marginRight, marginTop, minus, none, padding, padding2, pct, position, px, relative, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, top, uppercase, width, wrap)
+import Css exposing (Style, absolute, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inline, inlineBlock, int, italic, justifyContent, letterSpacing, lineHeight, margin, margin2, marginBottom, marginRight, marginTop, minus, none, padding, padding2, pct, position, px, relative, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, top, unset, uppercase, width, wrap)
+import Css.Global exposing (descendants, typeSelector)
+import Css.Transitions exposing (transition)
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
@@ -106,16 +108,20 @@ viewPartners static =
 viewPartner : Data.PlaceCal.Partners.Partner -> Html msg
 viewPartner partner =
     li [ css [ listItemStyle ] ]
-        [ div [ css [ partnerTopRowStyle ] ]
-            [ h4 [ css [ partnerNameStyle ] ]
-                [ a [ href (TransRoutes.toAbsoluteUrl (Partner partner.id)), css [ partnerNameLink ] ] [ text partner.name ] ]
-            , viewAreaTag partner.areasServed partner.maybeAddress
+        [ a
+            [ href (TransRoutes.toAbsoluteUrl (Partner partner.id))
+            , css [ partnerLink ]
             ]
-        , div [ css [ partnerBottomRowStyle ] ]
-            [ p [ css [ partnerDescriptionStyle ] ]
-                [ text partner.summary
+            [ div [ css [ partnerTopRowStyle ] ]
+                [ h4 [ css [ partnerNameStyle ] ] [ text partner.name ]
+                , viewAreaTag partner.areasServed partner.maybeAddress
                 ]
-            , span [] [ text "[fFf]" ] --- [fFf] the icon debate...
+            , div [ css [ partnerBottomRowStyle ] ]
+                [ p [ css [ partnerDescriptionStyle ] ]
+                    [ text partner.summary
+                    ]
+                , span [] [ text "[fFf]" ] --- [fFf] the icon debate...
+                ]
             ]
         ]
 
@@ -224,7 +230,14 @@ listStyle =
 listItemStyle : Style
 listItemStyle =
     batch
-        [ withMediaTabletLandscapeUp [ width (calc (pct 50) minus (rem 2)) ]
+        [ hover
+            [ descendants
+                [ typeSelector "a" [ color pink ]
+                , typeSelector "h4" [ color pink ]
+                , typeSelector "div" [ borderBottomColor white ]
+                ]
+            ]
+        , withMediaTabletLandscapeUp [ width (calc (pct 50) minus (rem 2)) ]
         , withMediaTabletPortraitUp [ margin2 (rem 1.5) (rem 1) ]
         ]
 
@@ -240,6 +253,7 @@ partnerTopRowStyle =
         , borderBottomWidth (px 2)
         , borderBottomStyle solid
         , withMediaTabletLandscapeUp [ padding2 (rem 0.75) (rem 0) ]
+        , transition [ Theme.borderTransition ]
         ]
 
 
@@ -253,21 +267,23 @@ partnerBottomRowStyle =
         ]
 
 
-partnerNameStyle : Style
-partnerNameStyle =
-    batch
-        [ color white
-        , fontSize (rem 1.2)
-        , fontStyle italic
-        , withMediaTabletPortraitUp [ fontSize (rem 1.5) ]
-        ]
-
-
-partnerNameLink : Style
-partnerNameLink =
+partnerLink : Style
+partnerLink =
     batch
         [ textDecoration none
         , color white
+        , transition [ Theme.colorTransition ]
+        ]
+
+
+partnerNameStyle : Style
+partnerNameStyle =
+    batch
+        [ fontSize (rem 1.2)
+        , fontStyle italic
+        , color white
+        , transition [ Theme.colorTransition ]
+        , withMediaTabletPortraitUp [ fontSize (rem 1.5) ]
         ]
 
 

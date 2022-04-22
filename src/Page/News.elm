@@ -17,7 +17,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (darkBlue, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlue, pink, pinkButtonOnLightBackgroundStyle, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -156,9 +156,9 @@ viewNewsItem newsItem =
                     ]
                 , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]
                 ]
-            , div [ css [ buttonWrapperStyle ] ]
+            , div [ css [ buttonFloatingWrapperStyle ] ]
                 [ a
-                    [ css [ buttonStyle ]
+                    [ css [ pinkButtonOnLightBackgroundStyle ]
                     , href
                         (TransRoutes.toAbsoluteUrl
                             (NewsItem (TransRoutes.stringToSlug newsItem.title))
@@ -270,30 +270,4 @@ newsItemSummaryStyle =
         [ textAlign center
         , marginTop (rem 0.5)
         , withMediaTabletPortraitUp [ textAlign left, fontSize (rem 1.2) ]
-        ]
-
-
-buttonWrapperStyle : Style
-buttonWrapperStyle =
-    batch
-        [ margin2 (rem 1) auto
-        , display block
-        , position absolute
-        , bottom (rem -2)
-        , textAlign center
-        , width (pct 100)
-        ]
-
-
-buttonStyle : Style
-buttonStyle =
-    batch
-        [ backgroundColor pink
-        , color darkBlue
-        , textDecoration none
-        , padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
-        , borderRadius (rem 0.3)
-        , fontWeight (int 600)
-        , marginRight (rem 1.75)
-        , fontSize (rem 1.2)
         ]

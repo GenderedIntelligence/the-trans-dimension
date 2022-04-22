@@ -14,7 +14,7 @@ import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, normalFirstParagraphStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, viewFloatingButton, whiteBackgroundStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (buttonFloatingWrapperStyle, contentContainerStyle, contentWrapperStyle, introTextLargeStyle, normalFirstParagraphStyle, pink, smallFloatingTitleStyle, textBoxPinkStyle, whiteBackgroundStyle, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
@@ -263,7 +263,7 @@ viewMaker maker =
     div [ css [ makerStyle, textBoxPinkStyle ] ]
         [ h4 [ css [ makerHeaderStyle ] ] [ img [ src maker.logo, alt maker.name, css [ makerLogoStyle ] ] [] ]
         , div [ css [ normalFirstParagraphStyle ] ] maker.body
-        , viewFloatingButton maker.url "Find out more" whiteBackgroundStyle
+        , p [ css [ buttonFloatingWrapperStyle ] ] [ a [ href maker.url, css [ whiteButtonStyle ] ] [ text "Find out more" ] ]
         ]
 
 

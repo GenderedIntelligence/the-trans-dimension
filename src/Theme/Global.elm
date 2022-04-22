@@ -1,12 +1,12 @@
-module Theme.Global exposing (black, blue, blueBackgroundStyle, buttonStyle, buttonWrapperStyle, checkboxStyle, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkPurple, generateId, globalStyles, goBackButtonStyle, goBackStyle, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewFloatingButton, viewSearchInput, viewSelect, white, whiteBackgroundStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (backgroundColorTransition, black, blue, blueBackgroundStyle, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkPurple, generateId, globalStyles, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteBackgroundStyle, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
-import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, checked, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxWidth, minus, noRepeat, none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, plus, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zIndex, zero)
+import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus, none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
+import Css.Transitions exposing (Transition, linear, transition)
 import Html.Styled exposing (Html, a, div, img, input, label, li, option, p, select, span, text, ul)
 import Html.Styled.Attributes exposing (attribute, css, for, href, id, placeholder, src, tabindex, type_, value)
 import Html.Styled.Events exposing (onCheck, onClick, onInput)
-import List exposing (concat)
 
 
 
@@ -117,6 +117,129 @@ withMediaLargeDesktopUp =
     withMedia [ only screen [ Media.minWidth (px maxMediumDesktop) ] ]
 
 
+
+-- Transitions
+
+
+borderTransition : Transition
+borderTransition =
+    Css.Transitions.border3 500 0 linear
+
+
+colorTransition : Transition
+colorTransition =
+    Css.Transitions.color3 500 0 linear
+
+
+backgroundColorTransition : Transition
+backgroundColorTransition =
+    Css.Transitions.backgroundColor3 500 0 linear
+
+
+
+-- Buttons (components)
+
+
+viewBackButton : String -> String -> Html msg
+viewBackButton link buttonText =
+    p [ css [ backButtonStyle ] ]
+        [ a [ href link, css [ darkBlueButtonStyle ] ] [ text buttonText ] ]
+
+
+
+-- Buttons (styles)
+
+
+buttonFloatingWrapperStyle : Style
+buttonFloatingWrapperStyle =
+    batch
+        [ margin2 (rem 1) auto
+        , display block
+        , position absolute
+        , bottom (rem -2)
+        , textAlign center
+        , width (pct 100)
+        ]
+
+
+whiteButtonStyle : Style
+whiteButtonStyle =
+    batch
+        [ baseButtonStyle
+        , backgroundColor white
+        , color darkBlue
+        , borderColor white
+        , hover [ backgroundColor purple, color white ]
+        , active [ backgroundColor darkBlue, color white ]
+        , focus [ backgroundColor darkBlue, color white ]
+        ]
+
+
+darkBlueButtonStyle : Style
+darkBlueButtonStyle =
+    batch
+        [ baseButtonStyle
+        , backgroundColor darkBlue
+        , color white
+        , borderColor pink
+        , hover [ backgroundColor purple, color white, borderColor white ]
+        , active [ backgroundColor pink, color darkBlue, borderColor white ]
+        , focus [ backgroundColor pink, color darkBlue, borderColor white ]
+        ]
+
+
+pinkButtonOnDarkBackgroundStyle : Style
+pinkButtonOnDarkBackgroundStyle =
+    batch
+        [ baseButtonStyle
+        , backgroundColor pink
+        , color darkBlue
+        , borderColor pink
+        , hover [ backgroundColor lightPink, borderColor lightPink ]
+        , active [ backgroundColor white, borderColor white ]
+        , focus [ backgroundColor white, borderColor white ]
+        ]
+
+
+pinkButtonOnLightBackgroundStyle : Style
+pinkButtonOnLightBackgroundStyle =
+    batch
+        [ baseButtonStyle
+        , backgroundColor pink
+        , color darkBlue
+        , borderColor pink
+        , hover [ backgroundColor purple, borderColor white, color white ]
+        , active [ backgroundColor darkBlue, borderColor white, color white ]
+        , focus [ backgroundColor darkBlue, borderColor white, color white ]
+        ]
+
+
+baseButtonStyle : Style
+baseButtonStyle =
+    batch
+        [ textDecoration none
+        , padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
+        , borderRadius (rem 0.3)
+        , fontWeight (int 600)
+        , fontSize (rem 1.2)
+        , display block
+        , textAlign center
+        , maxWidth maxContent
+        , margin2 (rem 0) auto
+        , borderWidth (rem 0.2)
+        , borderStyle solid
+        , transition [ backgroundColorTransition, borderTransition, colorTransition ]
+        ]
+
+
+backButtonStyle : Style
+backButtonStyle =
+    batch
+        [ textAlign center
+        , margin4 (rem 3) (rem 2) (rem 0) (rem 2)
+        ]
+
+
 pinkBackgroundStyle : Style
 pinkBackgroundStyle =
     backgroundColor pink
@@ -145,41 +268,8 @@ whiteBackgroundStyle =
         ]
 
 
-viewFloatingButton : String -> String -> Style -> Html msg
-viewFloatingButton link label backgroundStyle =
-    p [ css [ buttonWrapperStyle ] ]
-        [ a
-            [ href link
-            , css [ buttonStyle, backgroundStyle ]
-            ]
-            [ text label ]
-        ]
 
-
-buttonWrapperStyle : Style
-buttonWrapperStyle =
-    batch
-        [ margin2 (rem 1) auto
-        , display block
-        , position absolute
-        , bottom (rem -2)
-        , textAlign center
-        , width (pct 100)
-        ]
-
-
-buttonStyle : Style
-buttonStyle =
-    batch
-        [ backgroundColor white
-        , color darkBlue
-        , textDecoration none
-        , padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
-        , borderRadius (rem 0.3)
-        , fontWeight (int 600)
-        , marginRight (rem 1.75)
-        , fontSize (rem 1.2)
-        ]
+-- Titles
 
 
 smallTitleStyle : Style
@@ -212,6 +302,10 @@ smallInlineTitleStyle =
         , marginBlockStart (em 2)
         , marginBlockEnd (em 1.6)
         ]
+
+
+
+-- Page Elements
 
 
 textBoxStyle : Style
@@ -270,6 +364,20 @@ contentContainerStyle =
         ]
 
 
+hrStyle : Style
+hrStyle =
+    batch
+        [ borderColor pink
+        , borderStyle solid
+        , borderWidth (px 0.5)
+        , margin2 (rem 2) (rem 0)
+        ]
+
+
+
+-- Text styles
+
+
 introTextLargeStyle : Style
 introTextLargeStyle =
     batch
@@ -298,53 +406,16 @@ introTextSmallStyle =
         ]
 
 
-viewBackButton : String -> String -> Html msg
-viewBackButton link buttonText =
-    p [ css [ goBackStyle ] ]
-        [ a [ href link, css [ goBackButtonStyle ] ] [ text buttonText ] ]
-
-
-goBackStyle : Style
-goBackStyle =
-    batch
-        [ textAlign center
-        , margin4 (rem 3) (rem 2) (rem 0) (rem 2)
-        ]
-
-
-goBackButtonStyle : Style
-goBackButtonStyle =
-    batch
-        [ backgroundColor darkBlue
-        , color white
-        , textDecoration none
-        , padding2 (rem 0.5) (rem 2)
-        , fontSize (rem 1.2)
-        , margin2 (rem 2) auto
-        , textAlign center
-        , borderColor pink
-        , borderStyle solid
-        , borderWidth (px 2)
-        , borderRadius (rem 0.3)
-        , fontWeight (int 600)
-        ]
-
-
-hrStyle : Style
-hrStyle =
-    batch
-        [ borderColor pink
-        , borderStyle solid
-        , borderWidth (px 0.5)
-        , margin2 (rem 2) (rem 0)
-        ]
-
-
 linkStyle : Style
 linkStyle =
     batch
         [ color white
-        , property "text-decoration-color" "#FF7AA7"
+        , borderBottomColor pink
+        , borderBottomStyle solid
+        , borderBottomWidth (px 1)
+        , textDecoration none
+        , hover [ color pink, borderBottomColor white ]
+        , transition [ borderTransition, colorTransition ]
         ]
 
 
@@ -372,7 +443,81 @@ normalFirstParagraphStyle =
 
 
 
--- Formfields
+-- Form field components
+
+
+viewSelect : String -> List { label : String, value : String } -> String -> (String -> msg) -> Bool -> msg -> Html msg
+viewSelect fieldName optionList fieldValue update toggleValue toggleUpdate =
+    label []
+        [ span [ css [ searchLabelStyle ] ] [ text fieldName ]
+        , div [ css [ fakeSelectStyle ], tabindex 0, id "select", onClick toggleUpdate ]
+            [ div [ css [ selectStyle ] ]
+                (if fieldValue == "" then
+                    [ text "Show all" ]
+
+                 else
+                    List.map (\option -> text option.label) (List.filter (\str -> str.value == fieldValue) optionList)
+                )
+            , if toggleValue == True then
+                ul
+                    [ css [ selectOptionListStyle ], attribute "role" "listbox", tabindex 0 ]
+                    (List.map
+                        (\selectOption ->
+                            li
+                                [ css [ selectOptionStyle ]
+                                , attribute "aria-selected"
+                                    (if selectOption.value == fieldValue then
+                                        "true"
+
+                                     else
+                                        "false"
+                                    )
+                                , onClick (update selectOption.value)
+                                , attribute "role" "option"
+                                ]
+                                [ text selectOption.label ]
+                        )
+                        optionList
+                    )
+
+              else
+                text ""
+            ]
+        ]
+
+
+viewSearchInput : String -> String -> (String -> msg) -> Html msg
+viewSearchInput labelText inputValue update =
+    label [ css [ searchStyle ] ]
+        [ span [ css [ searchLabelStyle ] ] [ text labelText ]
+        , input [ css [ searchInputStyle ], type_ "search", value inputValue, onInput update, placeholder "Search" ] []
+        , if inputValue == "" then
+            text ""
+
+          else
+            img [ src "/images/icons/crossclose.svg", css [ searchInputCancelStyle ], onClick (update "") ] []
+        ]
+
+
+viewCheckbox : String -> String -> Bool -> (Bool -> msg) -> List (Html msg)
+viewCheckbox boxId labelText checkedValue update =
+    [ label
+        [ css
+            [ if checkedValue == True then
+                checkboxLabelCheckedStyle
+
+              else
+                checkboxLabelStyle
+            ]
+        , for boxId
+        ]
+        [ text labelText ]
+    , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
+    ]
+
+
+
+-- Form field styles
 
 
 textInputStyle : Style
@@ -398,23 +543,6 @@ textInputErrorStyle =
         , color darkBlue
         , borderColor white
         ]
-
-
-viewCheckbox : String -> String -> Bool -> (Bool -> msg) -> List (Html msg)
-viewCheckbox boxId labelText checkedValue update =
-    [ label
-        [ css
-            [ if checkedValue == True then
-                checkboxLabelCheckedStyle
-
-              else
-                checkboxLabelStyle
-            ]
-        , for boxId
-        ]
-        [ text labelText ]
-    , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
-    ]
 
 
 checkboxLabelStyle : Style
@@ -466,19 +594,6 @@ checkboxStyle : Style
 checkboxStyle =
     batch
         [ display none
-        ]
-
-
-viewSearchInput : String -> String -> (String -> msg) -> Html msg
-viewSearchInput labelText inputValue update =
-    label [ css [ searchStyle ] ]
-        [ span [ css [ searchLabelStyle ] ] [ text labelText ]
-        , input [ css [ searchInputStyle ], type_ "search", value inputValue, onInput update, placeholder "Search" ] []
-        , if inputValue == "" then
-            text ""
-
-          else
-            img [ src "/images/icons/crossclose.svg", css [ searchInputCancelStyle ], onClick (update "") ] []
         ]
 
 
@@ -538,46 +653,6 @@ searchInputCancelStyle =
         ]
 
 
-viewSelect : String -> List { label : String, value : String } -> String -> (String -> msg) -> Bool -> msg -> Html msg
-viewSelect fieldName optionList fieldValue update toggleValue toggleUpdate =
-    label []
-        [ span [ css [ searchLabelStyle ] ] [ text fieldName ]
-        , div [ css [ fakeSelectStyle ], tabindex 0, id "select", onClick toggleUpdate ]
-            [ div [ css [ selectStyle ] ]
-                (if fieldValue == "" then
-                    [ text "Show all" ]
-
-                 else
-                    List.map (\option -> text option.label) (List.filter (\str -> str.value == fieldValue) optionList)
-                )
-            , if toggleValue == True then
-                ul
-                    [ css [ selectOptionListStyle ], attribute "role" "listbox", tabindex 0 ]
-                    (List.map
-                        (\selectOption ->
-                            li
-                                [ css [ selectOptionStyle ]
-                                , attribute "aria-selected"
-                                    (if selectOption.value == fieldValue then
-                                        "true"
-
-                                     else
-                                        "false"
-                                    )
-                                , onClick (update selectOption.value)
-                                , attribute "role" "option"
-                                ]
-                                [ text selectOption.label ]
-                        )
-                        optionList
-                    )
-
-              else
-                text ""
-            ]
-        ]
-
-
 fakeSelectStyle : Style
 fakeSelectStyle =
     batch
@@ -630,6 +705,10 @@ selectOptionStyle =
         , padding2 (rem 0.5) (rem 1)
         , hover [ backgroundColor white ]
         ]
+
+
+
+-- Global
 
 
 {-| Injects a <style> tag into the body, and can target element or
