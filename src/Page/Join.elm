@@ -32,7 +32,7 @@ type FormRequired
 
 
 type FormError
-    = RequiredField
+    = FieldRequired
     | WrongFormat
 
 
