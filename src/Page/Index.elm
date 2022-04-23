@@ -147,13 +147,6 @@ viewLatestNews maybeNewsItem title buttonText =
 
             Nothing ->
                 text ""
-        , p [ css [ buttonFloatingWrapperStyle ] ]
-            [ a
-                [ href "/"
-                , css [ pinkButtonOnLightBackgroundStyle ]
-                ]
-                [ text (t NewsReadMore) ]
-            ]
         , p [ css [ buttonFloatingWrapperStyle, bottom (rem -6) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl News)

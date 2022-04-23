@@ -49,10 +49,9 @@ type Key
     | EventsFilterLabelToday
     | EventsFilterLabelTomorrow
     | EventsFilterLabelAll
-    | EventsSubscribeText
       --- Event Page
     | EventTitle String
-    | EventMetaDescription String
+    | EventMetaDescription String String
     | BackToEventsLinkText
       --- Partners Page
     | PartnersTitle
@@ -60,14 +59,13 @@ type Key
     | PartnersIntroSummary
     | PartnersIntroDescription
     | PartnersListEmpty
-    | PartnersLinkToPartner
       --- Partner Page
     | PartnerTitle String
-    | PartnerMetaDescription String
+    | PartnerMetaDescription String String
     | PartnerContactsHeading
     | PartnerAddressHeading
     | PartnerAddressEmptyText
-    | PartnerUpcomingEventsText
+    | PartnerUpcomingEventsText String
     | PartnerEventsEmptyText String
     | BackToPartnersLinkText
       --- Join Page
@@ -90,12 +88,12 @@ type Key
       --- News Listing Page
     | NewsTitle
     | NewsEmptyText
-    | NewsReadMore
     | NewsDescription
       --- News Single Article Page
     | NewsItemTitle String
-    | NewsItemDescription String
+    | NewsItemMetaDescription String String
     | NewsItemReturnButton
+    | NewsItemReadMore String
       --- Privacy
     | PrivacyTitle
       --- 404
