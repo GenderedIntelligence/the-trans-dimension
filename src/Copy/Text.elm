@@ -185,7 +185,7 @@ t key =
             "No address provided"
 
         PartnerUpcomingEventsText partnerName ->
-            "Upcoming " ++ partnerName ++ " events"
+            "Upcoming events by " ++ partnerName
 
         PartnerEventsEmptyText partnerName ->
             partnerName ++ " does not have any upcoming events"
@@ -249,8 +249,8 @@ t key =
         NewsEmptyText ->
             "There is no recent news"
 
-        NewsReadMore ->
-            "Read more news"
+        NewsItemReadMore title ->
+            "Read the rest of " ++ title
 
         NewsDescription ->
             "Updates & articles from The Trans Dimension."

@@ -88,12 +88,12 @@ type Key
       --- News Listing Page
     | NewsTitle
     | NewsEmptyText
-    | NewsReadMore
     | NewsDescription
       --- News Single Article Page
     | NewsItemTitle String
     | NewsItemMetaDescription String String
     | NewsItemReturnButton
+    | NewsItemReadMore String
       --- Privacy
     | PrivacyTitle
       --- 404
