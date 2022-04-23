@@ -3,9 +3,9 @@ module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, vi
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, none, padding2, padding4, paddingBottom, pct, px, rem, row, rowReverse, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, backgroundColor, batch, block, bold, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, pct, plus, position, property, pseudoElement, px, relative, rem, row, rowReverse, scroll, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
-import Css.Transitions exposing (transition)
+import Css.Transitions exposing (background, transition)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -13,8 +13,8 @@ import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, article, button, div, h2, h3, h4, li, p, section, span, text, time, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled exposing (Html, a, article, button, div, h2, h3, h4, img, li, p, section, span, text, time, ul)
+import Html.Styled.Attributes exposing (css, href, src)
 import Html.Styled.Events
 import Page exposing (Page, PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
@@ -26,6 +26,23 @@ import Theme.Global exposing (blue, borderTransition, colorTransition, darkBlue,
 import Theme.PageTemplate as PageTemplate
 import Time
 import View exposing (View)
+import Css exposing (transform)
+import Css exposing (rotate)
+import Css exposing (deg)
+import Css exposing (height)
+import Css exposing (fitContent)
+import Css exposing (auto)
+import Css exposing (maxWidth)
+import Css exposing (marginLeft)
+import Browser.Dom exposing (Element)
+import Browser.Dom exposing (getElement)
+import Html.Styled.Attributes exposing (id)
+import Browser.Dom exposing (Error)
+import Task exposing (Task)
+import Browser.Dom exposing (setViewportOf)
+import Browser.Dom exposing (getViewportOf)
+import Html.Styled.Events exposing (onClick)
+import Browser.Dom exposing (Viewport)
 
 
 type alias Model =
@@ -39,6 +56,9 @@ type Msg
     = ClickedDay Time.Posix
     | ClickedAllEvents
     | GetTime Time.Posix
+    | ScrollRight
+    | ScrollLeft
+    | NoOp
 
 
 type alias RouteParams =
@@ -92,6 +112,12 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
 
         GetTime newTime ->
             ( { localModel | nowTime = newTime }, Cmd.none )
+        ScrollRight ->
+            ( localModel, Task.attempt (\_ -> NoOp) scrollRight )
+        ScrollLeft ->
+            ( localModel, Task.attempt (\_ -> NoOp) scrollLeft ) 
+        NoOp ->
+            ( localModel, Cmd.none )
 
 
 subscriptions :
@@ -206,18 +232,22 @@ viewEventsFilters localModel =
 
 viewPagination : Model -> Html Msg
 viewPagination localModel =
-    div []
-        [ ul [ css [ paginationButtonListStyle ] ]
-            (List.map
-                (\( label, buttonTime ) -> li [] [ button [ Html.Styled.Events.onClick (ClickedDay buttonTime) ] [ text label ] ])
-                (todayTomorrowNext5DaysPosix localModel.nowTime)
-                ++ [ li []
-                        [ button
-                            [ Html.Styled.Events.onClick ClickedAllEvents ]
-                            [ text (t EventsFilterLabelAll) ]
-                        ]
-                   ]
-            )
+    div [ css [ paginationContainer ] ]
+        [ button [ css [ paginationArrowButtonStyle ], Html.Styled.Events.onClick ScrollLeft ] [ img [ src "/images/icons/leftarrow.svg", css [ paginationArrowStyle ] ] [] ]
+        , div [ css [ paginationScrollableBoxStyle ], id "scrollable" ]
+            [ ul [ css [ paginationButtonListStyle ] ]
+                (List.map
+                    (\( label, buttonTime ) -> li [ css [ paginationButtonListItemStyle ] ] [ button [ css [ paginationButtonListItemButtonStyle ], Html.Styled.Events.onClick (ClickedDay buttonTime) ] [ text label ] ])
+                    (todayTomorrowNext5DaysPosix localModel.nowTime)
+                    ++ [ li [ css [ paginationButtonListItemStyle ] ]
+                            [ button
+                                [ css [ paginationButtonListItemButtonStyle ], Html.Styled.Events.onClick ClickedAllEvents ]
+                                [ text (t EventsFilterLabelAll) ]
+                            ]
+                       ]
+                )
+            ]
+        , button [ css [ paginationArrowButtonRightStyle ], id "arrow-right", Html.Styled.Events.onClick ScrollRight ] [ img [ src "/images/icons/rightarrow.svg", css [ paginationRightArrowStyle ] ] [] ]
         ]
 
 
@@ -239,7 +269,16 @@ addDays days now =
         + Time.posixToMillis now
         |> Time.millisToPosix
 
+scrollRight : Task Error ()
+scrollRight =
+    getViewportOf "scrollable"
+        |> Task.andThen (\info -> setViewportOf "scrollable" (info.viewport.x + 95) 0)
 
+
+scrollLeft : Task Error ()
+scrollLeft =
+    getViewportOf "scrollable"
+        |> Task.andThen (\info -> setViewportOf "scrollable" (info.viewport.x - 95) 0)
 
 -- We might want to move this into theme since it is also used by Partner page
 
@@ -421,14 +460,98 @@ eventParagraphStyle =
         ]
 
 
+paginationContainer : Style
+paginationContainer =
+    batch
+        [ displayFlex
+        , maxWidth fitContent
+        , margin2 (rem 2) auto
+        ]
+
+
+paginationScrollableBoxStyle : Style
+paginationScrollableBoxStyle =
+    batch
+        [ width (calc (px 174) plus (rem 0.5))
+        , position relative
+        , overflowX scroll
+        , pseudoElement "-webkit-scrollbar" [ display none ]
+        , property "-ms-overflow-style" "none"
+        , property "scrollbar-width" "none"
+        , margin2 (rem 0) (rem 0.25)
+        , property "scroll-behaviour" "smooth"
+        ]
+
+
+paginationButtonStyle : Style
+paginationButtonStyle =
+    batch
+        [ borderStyle solid
+        , borderColor pink
+        , borderWidth (px 2)
+        , color pink
+        , borderRadius (rem 0.3)
+        , textAlign center
+        ]
+
+
+paginationArrowButtonStyle : Style
+paginationArrowButtonStyle =
+    batch
+        [ paginationButtonStyle
+        , backgroundColor pink
+        , margin4 (rem 0.25) (rem 0.15) (rem 0.25) (rem 0.1)
+        ]
+
+paginationArrowButtonRightStyle : Style
+paginationArrowButtonRightStyle =
+    batch
+        [ paginationButtonStyle
+        , backgroundColor pink
+        , margin4 (rem 0.25) (rem 0.1) (rem 0.25) (rem 0.15)
+        ]
+paginationArrowStyle : Style
+paginationArrowStyle =
+    batch 
+        [ width (px 13)
+        , height (px 11)
+        ]
+
+paginationRightArrowStyle : Style
+paginationRightArrowStyle =
+    batch
+        [ paginationArrowStyle
+        , transform (rotate (deg 180))]
+
+
 paginationButtonListStyle : Style
 paginationButtonListStyle =
-    batch [ displayFlex ]
+    batch
+        [ displayFlex
+        , flexWrap noWrap
+        , position relative
+        , width (calc (px 609) plus (rem 2))
+        ]
 
 
 paginationButtonListItemStyle : Style
 paginationButtonListItemStyle =
-    batch []
+    batch
+        [ margin (rem 0.25)
+        , firstChild [ marginLeft (rem 0)]
+        , lastChild [ marginRight (rem 0) ] ]
+
+
+paginationButtonListItemButtonStyle : Style
+paginationButtonListItemButtonStyle =
+    batch
+        [ paginationButtonStyle
+        , fontSize (rem 0.875)
+        , fontWeight (int 600)
+        , padding4 (rem 0.1) (rem 0.2) (rem 0.2) (rem 0.2)
+        , width (px 87)
+        , backgroundColor darkBlue
+        ]
 
 
 featurePlaceholderStyle : Style
