@@ -95,7 +95,7 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t (NewsItemDescription static.data.title)
+        , description = t (NewsItemMetaDescription static.data.title (String.join " & " static.data.partnerIds))
         , locale = Nothing
         , title = t (NewsItemTitle static.data.title)
         }

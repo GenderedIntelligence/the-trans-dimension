@@ -157,11 +157,12 @@ suite =
                                 ]
                             ]
                         ]
-        , test "Contains map" <|
-            \_ ->
-                viewBodyHtml viewParamsWithPartner
-                    -- Note this is currently a placeholder
-                    |> Query.contains [ Html.text "[fFf] Map" ]
+        -- Commented out as reminder to add map test
+        -- , test "Contains map" <|
+        --     \_ ->
+        --         viewBodyHtml viewParamsWithPartner
+        --             -- Note this is currently a placeholder
+        --             |> Query.contains [ Html.text "[fFf] Map" ]
         , test "Can contain events" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner

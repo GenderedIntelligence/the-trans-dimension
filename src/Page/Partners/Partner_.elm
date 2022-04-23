@@ -2,21 +2,21 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, batch, center, color, displayFlex, fontStyle, margin2, marginBlockEnd, marginBlockStart, marginTop, maxWidth, normal, pct, px, rem, textAlign, width)
+import Css exposing (Style, auto, batch, calc, center, color, displayFlex, fontStyle, height, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, pct, property, px, rem, textAlign, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, address, div, h3, hr, p, section, text)
-import Html.Styled.Attributes exposing (css, href, target)
+import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
+import Html.Styled.Attributes exposing (css, href, src, target)
 import Page exposing (Page, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, smallInlineTitleStyle, viewBackButton, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, smallInlineTitleStyle, viewBackButton, white, withMediaMediumDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
 import View exposing (View)
@@ -89,7 +89,7 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t (PartnerMetaDescription static.data.partner.name)
+        , description = t (PartnerMetaDescription static.data.partner.name static.data.partner.summary)
         , locale = Nothing
         , title = t (PartnerTitle static.data.partner.name)
         }
@@ -143,7 +143,7 @@ viewInfo { partner, events } =
             ]
         , hr [ css [ hrStyle ] ] []
         , section []
-            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t PartnerUpcomingEventsText) ]
+            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
             ]
         , if List.length events > 0 then
             -- Might move away from sharing render, but for now hardcoding model
@@ -151,7 +151,8 @@ viewInfo { partner, events } =
 
           else
             p [ css [ contactItemStyle ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
-        , div [ css [] ] [ text "[fFf] Map" ]
+        , div [ css [ mapContainerStyle ] ]
+            [ img [ src "https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(-0.11852,51.53101)/-0.118520,51.531010,15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g", css [ mapStyle ] ] [] ]
         ]
 
 
@@ -250,4 +251,25 @@ contactItemStyle =
         , fontStyle normal
         , marginBlockStart (rem 0)
         , marginBlockEnd (rem 0)
+        ]
+
+
+mapContainerStyle : Style
+mapContainerStyle =
+    batch
+        [ margin4 (rem 3) (calc (rem -1.1) minus (px 1)) (calc (rem -0.75) minus (px 1)) (calc (rem -1.1) minus (px 1))
+        , withMediaMediumDesktopUp
+            [ margin4 (rem 3) (calc (rem -1.85) minus (px 1)) (calc (rem -1.85) minus (px 1)) (calc (rem -1.85) minus (px 1)) ]
+        , withMediaTabletPortraitUp
+            [ margin4 (rem 3) (calc (rem -2.35) minus (px 1)) (px -1) (calc (rem -2.35) minus (px 1)) ]
+        ]
+
+
+mapStyle : Style
+mapStyle =
+    batch
+        [ height (px 318)
+        , width (pct 100)
+        , property "object-fit" "cover"
+        , withMediaTabletLandscapeUp [ height (px 400) ]
         ]

@@ -24,7 +24,8 @@ t key =
             "Donate"
 
         HeaderAskLink ->
-            "http://donate.com [cCc]"
+            -- Gendered Intelligence just giving page
+            "https://localgiving.org/donation/genderedintelligence?emb=3wLf1uws5L"
 
         --- Footer
         FooterSocial ->
@@ -37,7 +38,7 @@ t key =
             "Sign up"
 
         FooterInfoTitle ->
-            "The Trans Dimension, c/o Gendered Intelligence [cCc]"
+            "The Trans Dimension, c/o Gendered Intelligence"
 
         FooterInfoCharity ->
             "Gendered Intelligence is a Registered Charity in England and Wales No. 1182558."
@@ -58,7 +59,7 @@ t key =
             "Harry Woodgate"
 
         FooterCredit1Link ->
-            "link [cCc]"
+            "https://www.harrywoodgate.com/"
 
         FooterCredit2Text ->
             "design by"
@@ -67,7 +68,7 @@ t key =
             "Squid"
 
         FooterCredit2Link ->
-            "link [cCc]"
+            "https://studiosquid.co.uk/studio/"
 
         FooterCredit3Text ->
             "website by"
@@ -101,39 +102,36 @@ t key =
             "Featured Events"
 
         IndexFeaturedButtonText ->
-            "More events"
+            "View all events"
 
         IndexNewsHeader ->
-            "Latest update"
+            "Latest news"
 
         IndexNewsButtonText ->
-            "View more news"
+            "View all news"
 
         -- About Page (NOTE: also comes from md)
         AboutTitle ->
             "About"
 
         AboutMetaDescription ->
-            "[cCc] About description"
+            "The Trans Dimension is an online community hub connecting trans communities across the UK. We collate news, events and services by and for trans people."
 
         -- Events Page
         EventsTitle ->
             "Events"
 
         EventsMetaDescription ->
-            "[cCc] Events description"
+            "Events and activities by and for trans communities across the UK."
 
         EventsSummary ->
-            "Events & activities upcoming in your area."
+            "Events & activities upcoming"
 
         EventsSubHeading ->
-            "[cCc] Upcoming events"
-
-        EventsSubscribeText ->
-            "[cCc] Subscribe with iCal / Google Calendar etc"
+            "Upcoming events"
 
         EventsEmptyText ->
-            "[cCc] There are no events."
+            "There are no upcoming events"
 
         EventsFilterLabelToday ->
             "Today"
@@ -146,10 +144,10 @@ t key =
 
         --- Event Page
         EventTitle eventName ->
-            "[cCc] Event - " ++ eventName
+            "Event - " ++ eventName
 
-        EventMetaDescription eventName ->
-            "[cCc] Event description for " ++ eventName
+        EventMetaDescription eventName eventSummary ->
+            eventName ++ " - " ++ eventSummary
 
         BackToEventsLinkText ->
             "Go to all events"
@@ -159,7 +157,7 @@ t key =
             "Partners"
 
         PartnersMetaDescription ->
-            "[cCc] Partners description"
+            "Trans Dimension partners form an online community for connecting trans people across the UK by publishing service information, events and news on PlaceCal."
 
         PartnersIntroSummary ->
             "We are proud to partner with a number of charities and organisations with a long track record of supporting the trans community."
@@ -168,17 +166,14 @@ t key =
             "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
 
         PartnersListEmpty ->
-            "[cCc] There are currently no partners"
-
-        PartnersLinkToPartner ->
-            "[cCc] Read more"
+            "There are currently no Trans Dimension partners"
 
         --- Partner Page
         PartnerTitle partnerName ->
-            "[cCc] PlaceCal Partner - " ++ partnerName
+            "PlaceCal Partner - " ++ partnerName
 
-        PartnerMetaDescription partnerName ->
-            "[cCc] Partner description for " ++ partnerName
+        PartnerMetaDescription partnerName partnerSummary ->
+            partnerName ++ " - " ++ partnerSummary
 
         PartnerContactsHeading ->
             "Get in touch"
@@ -187,13 +182,13 @@ t key =
             "Address"
 
         PartnerAddressEmptyText ->
-            "[cCc] No address provided"
+            "No address provided"
 
-        PartnerUpcomingEventsText ->
-            "Upcoming partner events"
+        PartnerUpcomingEventsText partnerName ->
+            "Upcoming events by " ++ partnerName
 
         PartnerEventsEmptyText partnerName ->
-            partnerName ++ " does not have any upcoming events [cCc]"
+            partnerName ++ " does not have any upcoming events"
 
         BackToPartnersLinkText ->
             "Go to all partners"
@@ -252,20 +247,20 @@ t key =
             "News"
 
         NewsEmptyText ->
-            "[cCc] Sorry, we don't have any news"
+            "There is no recent news"
 
-        NewsReadMore ->
-            "[cCc] Read more"
+        NewsItemReadMore title ->
+            "Read the rest of " ++ title
 
         NewsDescription ->
             "Updates & articles from The Trans Dimension."
 
         --- News Single Article Page
         NewsItemTitle title ->
-            "[cCc] News -" ++ title
+            "News -" ++ title
 
-        NewsItemDescription author ->
-            "[cCc] A news post by" ++ author ++ "for The Trans Dimension"
+        NewsItemMetaDescription title author ->
+            title ++ " - by " ++ author ++ " for The Trans Dimension"
 
         NewsItemReturnButton ->
             "Go back to news"

@@ -77,11 +77,14 @@ suite =
         --     \_ ->
         --         viewBodyHtml viewParamsWithEvent
         --             |> Query.contains [ Html.text "link [fFf]" ]
-        , test "Contains map" <|
-            \_ ->
-                viewBodyHtml viewParamsWithEvent
-                    -- Note this is currently a placeholder
-                    |> Query.contains [ Html.text "[fFf] Map" ]
+
+        -- Commented out as reminder to add map test
+        
+        -- , test "Contains map" <|
+        --     \_ ->
+        --         viewBodyHtml viewParamsWithEvent
+        --             -- Note this is currently a placeholder
+        --             |> Query.contains [ Html.text "[fFf] Map" ]
         , test "Contains link back to events page" <|
             \_ ->
                 viewBodyHtml viewParamsWithEvent

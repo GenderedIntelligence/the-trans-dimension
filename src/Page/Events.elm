@@ -182,7 +182,7 @@ view maybeUrl sharedModel localModel static =
             , bigText = { text = t EventsSummary, node = "h3" }
             , smallText = Nothing
             , innerContent = Just (viewEvents localModel)
-            , outerContent = Just viewSubscribe
+            , outerContent = Nothing
             }
         ]
     }
@@ -290,18 +290,6 @@ viewEvent event =
                     ]
                 ]
             ]
-        ]
-
-
-viewSubscribe : Html msg
-viewSubscribe =
-    div
-        [ css [ subscribeBoxStyle ] ]
-        [ p
-            [ css [ subscribeTextStyle ] ]
-            [ a [ css [ subscribeLinkStyle ] ] [ text (t EventsSubscribeText) ] ]
-
-        -- [fFf]
         ]
 
 
@@ -432,31 +420,3 @@ featurePlaceholderStyle =
         [ textAlign center
         , backgroundColor darkPurple
         ]
-
-
-subscribeBoxStyle : Style
-subscribeBoxStyle =
-    batch
-        [ padding2 (rem 0.75) (rem 1.5)
-        , backgroundColor darkPurple
-        , borderRadius (rem 0.3)
-        , margin2 (rem 1.5) (rem 0)
-        ]
-
-
-subscribeTextStyle : Style
-subscribeTextStyle =
-    batch
-        [ textTransform uppercase
-        , color pink
-        , textAlign center
-        , fontSize (rem 1.1)
-        , letterSpacing (px 1.9)
-        , fontWeight (int 700)
-        ]
-
-
-subscribeLinkStyle : Style
-subscribeLinkStyle =
-    batch
-        [ color pink, textDecoration none ]
