@@ -151,7 +151,7 @@ transHtmlRenderer =
                 )
     , html = Markdown.Html.oneOf []
     , codeBlock =
-        \{ body } ->
+        \{ body, language } ->
             Html.pre []
                 [ Html.code []
                     [ Html.text body
