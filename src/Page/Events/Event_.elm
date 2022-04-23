@@ -2,7 +2,7 @@ module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, hover, int, justifyContent, letterSpacing, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, none, normal, num, padding, padding4, pct, px, rem, textAlign, textDecoration, textTransform, uppercase, width)
+import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderRadius, calc, center, color, display, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, height, hover, int, justifyContent, letterSpacing, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, minus, none, normal, num, padding, padding4, pct, property, px, rem, textAlign, textDecoration, textTransform, uppercase, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners exposing (partnerNamesFromIds)
 import DataSource exposing (DataSource)
@@ -17,7 +17,7 @@ import Page.Events exposing (addPartnerNamesToEvents)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
 import View exposing (View)
@@ -122,7 +122,8 @@ viewEventInfo event =
         , viewInfoSection event
         , hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
         , viewAddressSection event
-        , div [] [ text "[fFf] Map" ]
+        , div [ css [ mapContainerStyle ] ]
+            [ img [ src "https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(-0.11852,51.53101)/-0.118520,51.531010,15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g", css [ mapStyle ] ] [] ]
         ]
 
 
@@ -311,4 +312,25 @@ buttonsStyle =
     batch
         [ withMediaTabletPortraitUp
             [ displayFlex, justifyContent center ]
+        ]
+
+
+mapContainerStyle : Style
+mapContainerStyle =
+    batch
+        [ margin4 (rem 3) (calc (rem -1.1) minus (px 1)) (calc (rem -0.75) minus (px 1)) (calc (rem -1.1) minus (px 1))
+        , withMediaMediumDesktopUp
+            [ margin4 (rem 3) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) ]
+        , withMediaTabletPortraitUp
+            [ margin4 (rem 3) (calc (rem -2) minus (px 1)) (px -1) (calc (rem -2) minus (px 1)) ]
+        ]
+
+
+mapStyle : Style
+mapStyle =
+    batch
+        [ height (px 318)
+        , width (pct 100)
+        , property "object-fit" "cover"
+        , withMediaTabletLandscapeUp [ height (px 400) ]
         ]
