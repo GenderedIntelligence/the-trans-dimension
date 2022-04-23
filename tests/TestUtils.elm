@@ -1,6 +1,6 @@
 module TestUtils exposing (queryFromStyledList)
 
-import Html as Html
+import Html
 import Html.Styled as Styled
 import Test.Html.Query as Query
 

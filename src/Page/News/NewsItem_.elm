@@ -2,7 +2,7 @@ module Page.News.NewsItem_ exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, after, auto, backgroundColor, batch, block, bold, borderRadius, center, color, display, firstChild, fontSize, fontStyle, fontWeight, height, inlineBlock, italic, margin, margin2, margin4, marginBottom, marginTop, maxWidth, none, num, padding, pct, property, px, rem, textAlign, textDecoration, width)
+import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontStyle, fontWeight, height, italic, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
 import Css.Global exposing (descendants, typeSelector)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
@@ -11,9 +11,9 @@ import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, article, div, figcaption, figure, h2, h3, img, li, main_, p, section, span, text, time, ul)
-import Html.Styled.Attributes exposing (css, href, src)
-import Page exposing (Page, PageWithState, StaticPayload)
+import Html.Styled exposing (Html, article, div, figcaption, figure, img, p, span, text, time)
+import Html.Styled.Attributes exposing (css, src)
+import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared

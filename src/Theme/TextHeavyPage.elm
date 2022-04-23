@@ -1,9 +1,8 @@
 module Theme.TextHeavyPage exposing (view)
 
 import Css exposing (Style, auto, batch, margin2, marginBottom, marginTop, maxWidth, padding2, px, rem)
-import Html.Styled exposing (Html, div, h2, section, text)
+import Html.Styled exposing (Html, section)
 import Html.Styled.Attributes exposing (css)
-import List exposing (concat)
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 

@@ -1,4 +1,4 @@
-module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), emptyEvent, eventsData, eventsFromPartnerId, realmToString)
+module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), emptyEvent, eventsData, eventsFromPartnerId)
 
 import Api
 import DataSource
@@ -48,17 +48,6 @@ emptyEvent =
 
 type Realm
     = Online
-    | Offline
-
-
-realmToString : Realm -> String
-realmToString realm =
-    case realm of
-        Online ->
-            "Online"
-
-        Offline ->
-            "Offline"
 
 
 eventsFromPartnerId : List Event -> String -> List Event
@@ -141,23 +130,6 @@ partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
 partnerIdDecoder =
     OptimizedDecoder.string
         |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId })
-
-
-realmDecoder : OptimizedDecoder.Decoder Realm
-realmDecoder =
-    OptimizedDecoder.string
-        |> OptimizedDecoder.andThen
-            (\string ->
-                case string of
-                    "Online" ->
-                        OptimizedDecoder.succeed Online
-
-                    "Offline" ->
-                        OptimizedDecoder.succeed Offline
-
-                    _ ->
-                        OptimizedDecoder.fail "Invalid realm"
-            )
 
 
 type alias AllEventsResponse =

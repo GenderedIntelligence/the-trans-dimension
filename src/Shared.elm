@@ -1,13 +1,10 @@
-module Shared exposing (Data, Model, Msg, SharedMsg, data, template)
+module Shared exposing (Data, Model, Msg, template)
 
 import Browser.Navigation
-import Data.PlaceCal.Events
-import Data.TestFixtures as Fixtures
 import DataSource
 import Html
-import Html.Attributes
 import Html.Styled
-import Messages exposing (Msg(..), SharedMsg(..))
+import Messages exposing (Msg(..))
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
@@ -16,7 +13,6 @@ import SharedTemplate exposing (SharedTemplate)
 import Theme.Global
 import Theme.PageFooter exposing (viewPageFooter)
 import Theme.PageHeader exposing (viewPageHeader)
-import Time
 import View exposing (View)
 
 
@@ -49,10 +45,6 @@ type alias Data =
 
 type alias Msg =
     Messages.Msg
-
-
-type alias SharedMsg =
-    Messages.SharedMsg
 
 
 type alias Model =
@@ -92,7 +84,7 @@ update msg model =
             ( { model | showMobileMenu = not model.showMobileMenu }, Cmd.none )
 
         -- Shared
-        SharedMsg globalMsg ->
+        SharedMsg _ ->
             ( model, Cmd.none )
 
 
