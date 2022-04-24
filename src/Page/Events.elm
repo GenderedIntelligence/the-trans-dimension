@@ -3,7 +3,7 @@ module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, vi
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, block, bold, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, pct, plus, position, property, pseudoElement, px, relative, rem, row, rowReverse, scroll, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, backgroundColor, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, pct, plus, position, property, pseudoElement, px, relative, rem, row, rowReverse, scroll, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
 import Css.Transitions exposing (background, transition)
 import Data.PlaceCal.Events
@@ -13,16 +13,16 @@ import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, article, button, div, h2, h3, h4, img, li, p, section, span, text, time, ul)
+import Html.Styled exposing (Html, a, article, button, div, h4, img, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href, src)
 import Html.Styled.Events
-import Page exposing (Page, PageWithState, StaticPayload)
+import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Path exposing (Path)
 import Shared
 import Task
-import Theme.Global exposing (blue, borderTransition, colorTransition, darkBlue, darkPurple, pink, purple, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (borderTransition, colorTransition, darkPurple, pink, white, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Time
 import View exposing (View)
@@ -217,7 +217,7 @@ view maybeUrl sharedModel localModel static =
             , bigText = { text = t EventsSummary, node = "h3" }
             , smallText = Nothing
             , innerContent = Just (viewEvents localModel)
-            , outerContent = Just viewSubscribe
+            , outerContent = Nothing
             }
         ]
     }
@@ -364,18 +364,6 @@ viewEvent event =
                     ]
                 ]
             ]
-        ]
-
-
-viewSubscribe : Html msg
-viewSubscribe =
-    div
-        [ css [ subscribeBoxStyle ] ]
-        [ p
-            [ css [ subscribeTextStyle ] ]
-            [ a [ css [ subscribeLinkStyle ] ] [ text (t EventsSubscribeText) ] ]
-
-        -- [fFf]
         ]
 
 eventsContainerStyle : Style
@@ -649,38 +637,9 @@ paginationButtonListItemButtonActiveStyle =
         , withMediaTabletPortraitUp [ width (px 110), fontSize (rem 1) ]
         ]
 
-
 featurePlaceholderStyle : Style
 featurePlaceholderStyle =
     batch
         [ textAlign center
         , backgroundColor darkPurple
         ]
-
-
-subscribeBoxStyle : Style
-subscribeBoxStyle =
-    batch
-        [ padding2 (rem 0.75) (rem 1.5)
-        , backgroundColor darkPurple
-        , borderRadius (rem 0.3)
-        , margin2 (rem 1.5) (rem 0)
-        ]
-
-
-subscribeTextStyle : Style
-subscribeTextStyle =
-    batch
-        [ textTransform uppercase
-        , color pink
-        , textAlign center
-        , fontSize (rem 1.1)
-        , letterSpacing (px 1.9)
-        , fontWeight (int 700)
-        ]
-
-
-subscribeLinkStyle : Style
-subscribeLinkStyle =
-    batch
-        [ color pink, textDecoration none ]

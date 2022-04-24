@@ -3,7 +3,7 @@ module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, after, auto, backgroundColor, batch, block, borderBox, borderRadius, bottom, boxSizing, calc, center, color, display, displayFlex, em, flexGrow, flexShrink, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, ms, none, padding, padding4, paddingLeft, paddingRight, pct, position, property, px, relative, rem, textAlign, textDecoration, width)
+import Css exposing (Style, after, auto, backgroundColor, batch, borderBox, borderRadius, boxSizing, center, color, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -11,13 +11,13 @@ import Head
 import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, article, div, h2, h3, img, li, main_, p, section, span, text, time, ul)
+import Html.Styled exposing (Html, a, article, div, h3, img, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href, src)
-import Page exposing (Page, PageWithState, StaticPayload)
+import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlue, pink, pinkButtonOnLightBackgroundStyle, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlue, pinkButtonOnLightBackgroundStyle, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -169,7 +169,7 @@ viewNewsArticle newsItem =
                         (NewsItem (TransRoutes.stringToSlug newsItem.title))
                     )
                 ]
-                [ text (t NewsReadMore) ]
+                [ text (t (NewsItemReadMore newsItem.title)) ]
             ]
         ]
 

@@ -2,13 +2,10 @@ module Page.PartnerTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures as Fixtures
-import Expect
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
 import Html.Attributes
 import Page.Partners.Partner_ exposing (view)
-import Pages.Url
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
@@ -105,8 +102,7 @@ suite =
                 viewBodyHtml viewParamsWithPartner
                     |> Query.findAll [ Selector.tag "h3" ]
                     |> Query.index 0
-                    |> Query.contains [ Html.text "Partner name"]
-                    
+                    |> Query.contains [ Html.text "Partner name" ]
         , test "Has partner description text" <|
             \_ ->
                 viewBodyHtml viewParamsWithPartner

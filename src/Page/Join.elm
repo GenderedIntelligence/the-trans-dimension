@@ -7,10 +7,10 @@ import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html.Styled exposing (Html, a, button, div, form, input, label, p, span, text, textarea)
+import Html.Styled exposing (Html, button, div, form, input, label, p, span, text, textarea)
 import Html.Styled.Attributes exposing (css, placeholder, type_, value)
 import Html.Styled.Events exposing (onInput)
-import Page exposing (Page, PageWithState, StaticPayload)
+import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Path exposing (Path)

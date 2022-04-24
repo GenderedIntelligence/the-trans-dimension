@@ -2,7 +2,7 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, alignItems, backgroundColor, batch, block, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inline, inlineBlock, int, italic, justifyContent, letterSpacing, lineHeight, margin, margin2, marginBottom, marginRight, marginTop, minus, none, padding, padding2, pct, position, px, relative, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, top, unset, uppercase, width, wrap)
+import Css exposing (Style, alignItems, backgroundColor, batch, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inlineBlock, int, italic, justifyContent, letterSpacing, margin2, marginBottom, marginRight, minus, none, padding, padding2, pct, px, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
 import Css.Transitions exposing (transition)
 import Data.PlaceCal.Partners
@@ -10,13 +10,13 @@ import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, img, li, p, section, span, styled, text, ul)
-import Html.Styled.Attributes exposing (alt, css, href, src)
-import Page exposing (Page, PageWithState, StaticPayload)
+import Html.Styled exposing (Html, a, div, h3, h4, li, p, section, span, styled, text, ul)
+import Html.Styled.Attributes exposing (css, href)
+import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global as Theme exposing (darkBlue, darkPurple, pink, purple, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (darkPurple, pink, purple, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 

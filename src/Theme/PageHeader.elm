@@ -2,17 +2,16 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, alignItems, backgroundColor, batch, block, bold, border, borderBottom, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, columnReverse, display, displayFlex, flexDirection, flexGrow, flexWrap, focus, fontSize, fontWeight, hex, hover, int, justifyContent, lighter, margin, margin2, marginRight, marginTop, none, padding, padding2, paddingBottom, paddingLeft, paddingTop, pct, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, underline, unset, width, wrap, zero)
-import Css.Media exposing (grid)
-import Css.Transitions exposing (easeIn, transition)
+import Css exposing (Style, alignItems, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, boxSizing, center, color, column, columnReverse, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginRight, none, padding, padding2, paddingBottom, paddingLeft, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
+import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
-import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span, text, ul)
+import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, span, text, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Path exposing (Path)
 import Route exposing (Route)
-import Theme.Global as Theme exposing (black, blue, darkBlue, pink, purple, white, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (black, pink, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
 

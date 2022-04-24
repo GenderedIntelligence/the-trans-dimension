@@ -31,7 +31,7 @@ isoDateStringDecoder =
             (\isoString ->
                 OptimizedDecoder.succeed <|
                     case Iso8601.toTime isoString of
-                        Err err ->
+                        Err _ ->
                             defaultPosix
 
                         Ok posix ->

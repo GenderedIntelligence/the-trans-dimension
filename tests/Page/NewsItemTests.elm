@@ -2,14 +2,10 @@ module Page.NewsItemTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.PlaceCal.Events exposing (Realm(..))
-import Data.TestFixtures as Fixtures
-import Expect
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
 import Html.Attributes
 import Page.News.NewsItem_ exposing (view)
-import Pages.Url
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
@@ -44,7 +40,6 @@ suite =
                 viewBodyHtml viewParamsWithNewsItem
                     |> Query.find [ Selector.tag "h2" ]
                     |> Query.contains [ Html.text (t NewsTitle) ]
-
         , test "Has expected h3 heading" <|
             \_ ->
                 viewBodyHtml viewParamsWithNewsItem

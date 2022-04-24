@@ -2,11 +2,11 @@ module Theme.PageTemplate exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Color, Style, absolute, after, auto, backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bold, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, display, displayFlex, flexWrap, fontSize, fontStyle, fontWeight, height, hover, inline, int, italic, justifyContent, left, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginTop, maxWidth, minus, noRepeat, none, outline, padding, padding2, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, solid, spaceBetween, textAlign, textDecoration, top, url, vw, width, wrap, zIndex)
-import Html.Styled as Html exposing (Html, div, h1, h2, h3, img, main_, p, section, span, text)
+import Css exposing (Style, absolute, after, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, bottom, boxSizing, calc, center, color, display, fontSize, fontStyle, fontWeight, height, inline, int, italic, left, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, maxWidth, minus, noRepeat, none, outline, paddingBottom, paddingTop, pct, position, property, px, relative, rem, textAlign, top, url, vw, width, zIndex)
+import Html.Styled as Html exposing (Html, div, h1, h2, h3, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, src)
 import List exposing (append)
-import Theme.Global as Theme exposing (contentContainerStyle, contentWrapperStyle, darkBlue, introTextLargeStyle, introTextSmallStyle, pink, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
 type alias Msg =

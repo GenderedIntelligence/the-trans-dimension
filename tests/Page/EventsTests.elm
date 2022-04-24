@@ -6,7 +6,6 @@ import Data.TestFixtures as Fixtures
 import Expect
 import Html
 import Page.Events exposing (view)
-import Pages.Url
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query

@@ -2,24 +2,23 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, block, bold, borderColor, borderRadius, borderStyle, borderWidth, calc, center, color, display, displayFlex, fontSize, fontStyle, fontWeight, height, hover, int, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginTop, maxWidth, minus, none, normal, padding, padding2, pct, property, px, rem, solid, textAlign, textDecoration, width)
+import Css exposing (Style, auto, batch, calc, center, color, displayFlex, fontStyle, height, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, pct, property, px, rem, textAlign, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, address, div, h2, h3, hr, img, p, section, text)
+import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
 import Html.Styled.Attributes exposing (css, href, src, target)
-import Page exposing (Page, PageWithState, StaticPayload)
+import Page exposing (Page, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
-import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, viewBackButton, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (hrStyle, linkStyle, normalFirstParagraphStyle, smallInlineTitleStyle, viewBackButton, white, withMediaMediumDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown
-import Time
 import View exposing (View)
 import Theme.Global exposing (introTextLargeStyle)
 import Css exposing (important)
@@ -92,7 +91,7 @@ head static =
             , dimensions = Nothing
             , mimeType = Nothing
             }
-        , description = t (PartnerMetaDescription static.data.partner.name)
+        , description = t (PartnerMetaDescription static.data.partner.name static.data.partner.summary)
         , locale = Nothing
         , title = t (PartnerTitle static.data.partner.name)
         }
@@ -146,7 +145,7 @@ viewInfo { partner, events } =
             ]
         , hr [ css [ hrStyle ] ] []
         , section []
-            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t PartnerUpcomingEventsText) ]
+            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
             ]
         , if List.length events > 0 then
             -- Might move away from sharing render, but for now hardcoding model
