@@ -147,7 +147,7 @@ viewInfo { partner, events } =
             ]
         , if List.length events > 0 then
             -- Might move away from sharing render, but for now hardcoding model
-            Page.Events.viewEventsList events
+            Page.Events.viewEventsList Nothing events
 
           else
             p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]

@@ -94,5 +94,5 @@ suite =
         , test "Contains empty text if there are no events" <|
             \_ ->
                 viewBodyHtml eventsModelNoEvents viewParamsWithoutEvents
-                    |> Query.contains [ Html.text (t EventsEmptyText) ]
+                    |> Query.contains [ Html.text (t EventsEmptyTextAll) ]
         ]

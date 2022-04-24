@@ -209,7 +209,7 @@ viewEvents localModel =
     section [ css [ eventsContainerStyle ] ]
         [ viewEventsFilters localModel
         , viewPagination localModel
-        , viewEventsList localModel.visibleEvents
+        , viewEventsList localModel.filterByDay localModel.visibleEvents
         ]
 
 
@@ -335,15 +335,24 @@ scrollX scrollRemaining viewportXPosition =
 -- We might want to move this into theme since it is also used by Partner page
 
 
-viewEventsList : List Data.PlaceCal.Events.Event -> Html msg
-viewEventsList events =
+viewEventsList : Maybe Time.Posix -> List Data.PlaceCal.Events.Event -> Html msg
+viewEventsList maybeTime events =
     div []
         [ if List.length events > 0 then
             ul [ css [ eventListStyle ] ]
                 (List.map (\event -> viewEvent event) events)
 
           else
-            p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t EventsEmptyText) ]
+            p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ]
+                [ text
+                    (case maybeTime of
+                        Just _ ->
+                            t EventsEmptyText
+
+                        Nothing ->
+                            t EventsEmptyTextAll
+                    )
+                ]
         ]
 
 
