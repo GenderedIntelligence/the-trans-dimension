@@ -251,7 +251,6 @@ navigationCurrentStyle =
         , color black
         , textDecoration none
         , display block
-        
         , withMediaTabletPortraitUp [ borderBottomColor black, borderBottomWidth (rem 0.2), borderBottomStyle solid ]
         , transition [ Theme.borderTransition ]
         ]
