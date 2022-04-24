@@ -43,6 +43,16 @@ import Browser.Dom exposing (setViewportOf)
 import Browser.Dom exposing (getViewportOf)
 import Html.Styled.Events exposing (onClick)
 import Browser.Dom exposing (Viewport)
+import Process
+import Theme.Global exposing (withMediaSmallDesktopUp)
+import Css exposing (cursor)
+import Css exposing (pointer)
+import Css exposing (focus)
+import Css exposing (active)
+import Theme.Global exposing (backgroundColorTransition)
+import Theme.Global exposing (introTextLargeStyle)
+import Css exposing (important)
+import Browser.Dom exposing (getViewport)
 
 
 type alias Model =
@@ -109,13 +119,12 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
               }
             , Cmd.none
             )
-
         GetTime newTime ->
             ( { localModel | nowTime = newTime }, Cmd.none )
         ScrollRight ->
-            ( localModel, Task.attempt (\_ -> NoOp) scrollRight )
+            ( localModel, Task.attempt (\_ -> NoOp) (scrollPagination 95) )
         ScrollLeft ->
-            ( localModel, Task.attempt (\_ -> NoOp) scrollLeft ) 
+            ( localModel, Task.attempt (\_ -> NoOp) (scrollPagination -95) ) 
         NoOp ->
             ( localModel, Cmd.none )
 
@@ -218,7 +227,7 @@ viewEvents :
     Model
     -> Html Msg
 viewEvents localModel =
-    section []
+    section [ css [ eventsContainerStyle ] ]
         [ viewEventsFilters localModel
         , viewPagination localModel
         , viewEventsList localModel.visibleEvents
@@ -237,11 +246,17 @@ viewPagination localModel =
         , div [ css [ paginationScrollableBoxStyle ], id "scrollable" ]
             [ ul [ css [ paginationButtonListStyle ] ]
                 (List.map
-                    (\( label, buttonTime ) -> li [ css [ paginationButtonListItemStyle ] ] [ button [ css [ paginationButtonListItemButtonStyle ], Html.Styled.Events.onClick (ClickedDay buttonTime) ] [ text label ] ])
+                    (\( label, buttonTime ) -> li [ css [ paginationButtonListItemStyle ] ] [ button [ css [
+                            (case localModel.filterByDay of
+                                Just day ->
+                                    if (TransDate.isSameDay buttonTime day) then paginationButtonListItemButtonActiveStyle else paginationButtonListItemButtonStyle
+                                Nothing ->
+                                    paginationButtonListItemButtonStyle
+                            )], Html.Styled.Events.onClick (ClickedDay buttonTime) ] [ text label ] ])
                     (todayTomorrowNext5DaysPosix localModel.nowTime)
                     ++ [ li [ css [ paginationButtonListItemStyle ] ]
                             [ button
-                                [ css [ paginationButtonListItemButtonStyle ], Html.Styled.Events.onClick ClickedAllEvents ]
+                                [ css [ if localModel.filterByDay == Nothing then paginationButtonListItemButtonActiveStyle else paginationButtonListItemButtonStyle ], Html.Styled.Events.onClick ClickedAllEvents ]
                                 [ text (t EventsFilterLabelAll) ]
                             ]
                        ]
@@ -269,16 +284,38 @@ addDays days now =
         + Time.posixToMillis now
         |> Time.millisToPosix
 
-scrollRight : Task Error ()
-scrollRight =
+scrollPagination : Float -> Task Error ()
+scrollPagination scrollXFloat =
     getViewportOf "scrollable"
-        |> Task.andThen (\info -> setViewportOf "scrollable" (info.viewport.x + 95) 0)
+        |> Task.andThen (\info -> (scrollX scrollXFloat info.viewport.x))
+
+posOrNeg : Float -> Float
+posOrNeg numToTest = toFloat (if numToTest > 0 then 1 else -1)
+
+scrollX : Float -> Float -> Task Error ()
+scrollX scrollRemaining viewportXPosition =
+        case (round ((posOrNeg scrollRemaining) * scrollRemaining)) of
+            5 -> 
+                getViewportOf "scrollable"
+                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + (posOrNeg scrollRemaining) * 5) 0)
+            4 -> 
+                getViewportOf "scrollable"
+                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + (posOrNeg scrollRemaining) * 4) 0)
+            3 -> 
+                getViewportOf "scrollable"
+                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + (posOrNeg scrollRemaining) * 3) 0)
+            2 -> 
+                getViewportOf "scrollable"
+                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + (posOrNeg scrollRemaining) * 2) 0)
+            1 ->
+                getViewportOf "scrollable"
+                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + (posOrNeg scrollRemaining) * 1) 0)
+            _ ->
+                getViewportOf "scrollable"
+                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + (posOrNeg scrollRemaining) * 5) 0)
+                    |> Task.andThen (\_ -> scrollX (scrollRemaining - (posOrNeg scrollRemaining) * 5) (viewportXPosition + (posOrNeg scrollRemaining) * 5) )
 
 
-scrollLeft : Task Error ()
-scrollLeft =
-    getViewportOf "scrollable"
-        |> Task.andThen (\info -> setViewportOf "scrollable" (info.viewport.x - 95) 0)
 
 -- We might want to move this into theme since it is also used by Partner page
 
@@ -291,7 +328,7 @@ viewEventsList events =
                 (List.map (\event -> viewEvent event) events)
 
           else
-            text (t EventsEmptyText)
+            p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t EventsEmptyText)]
         ]
 
 
@@ -308,8 +345,6 @@ viewEvent event =
                             , span [] [ text " — " ]
                             , time [] [ text (TransDate.humanTimeFromPosix event.endDatetime) ]
                             ]
-
-                        --, p [ css [ eventParagraphStyle ] ] [ text (Data.PlaceCal.Events.realmToString event.realm) ]
                         , p [ css [ eventParagraphStyle ] ] [ text event.location ]
                         , case event.partner.name of
                             Just partnerName ->
@@ -343,14 +378,19 @@ viewSubscribe =
         -- [fFf]
         ]
 
+eventsContainerStyle : Style
+eventsContainerStyle =
+    batch
+        [ margin2 (rem 1) (rem 0) 
+        , withMediaTabletPortraitUp [ margin2 (rem 1) (rem 0)]]
 
 eventListStyle : Style
 eventListStyle =
     batch
         [ displayFlex
         , flexDirection column
-        , padding2 (rem 2) (rem 0)
-        , withMediaTabletLandscapeUp [ flexDirection row, flexWrap wrap, margin2 (rem 0) (rem -1) ]
+        , withMediaSmallDesktopUp [ margin2 (rem 2) (rem -1) ]
+        , withMediaTabletLandscapeUp [ flexDirection row, flexWrap wrap, margin2 (rem 1) (rem -1) ]
         ]
 
 
@@ -465,7 +505,9 @@ paginationContainer =
     batch
         [ displayFlex
         , maxWidth fitContent
-        , margin2 (rem 2) auto
+        , margin4 (rem 2) auto (rem 0.5) auto
+        , withMediaSmallDesktopUp [ margin4 (rem 2) auto (rem 3) auto]
+        , withMediaTabletLandscapeUp [ margin2 (rem 2) auto ]
         ]
 
 
@@ -478,8 +520,11 @@ paginationScrollableBoxStyle =
         , pseudoElement "-webkit-scrollbar" [ display none ]
         , property "-ms-overflow-style" "none"
         , property "scrollbar-width" "none"
-        , margin2 (rem 0) (rem 0.25)
+        , margin2 (rem 0) (rem 0.375)
         , property "scroll-behaviour" "smooth"
+        , withMediaSmallDesktopUp [ width (pct 100) ]
+        , withMediaTabletLandscapeUp [ width (calc (px (130 * 5)) plus (rem (1 * 4)))]
+        , withMediaTabletPortraitUp [ width (calc (px (110 * 4)) plus (rem (0.75 * 3)))]    
         ]
 
 
@@ -492,6 +537,26 @@ paginationButtonStyle =
         , color pink
         , borderRadius (rem 0.3)
         , textAlign center
+        , cursor pointer
+        , hover 
+            [ backgroundColor darkPurple
+            , color white
+            , borderColor white
+            , descendants [ typeSelector "img" [ property "filter" "invert(1)" ]]
+            ]
+        , focus
+            [ backgroundColor white
+            , color darkBlue
+            , borderColor white 
+            , descendants [ typeSelector "img" [ property "filter" "invert(0)" ]]
+            ]
+        , active
+            [ backgroundColor white
+            , color darkBlue
+            , borderColor white 
+            , descendants [ typeSelector "img" [ property "filter" "invert(0)" ]]
+            ]
+        , transition [ colorTransition, borderTransition, backgroundColorTransition ]
         ]
 
 
@@ -500,7 +565,11 @@ paginationArrowButtonStyle =
     batch
         [ paginationButtonStyle
         , backgroundColor pink
-        , margin4 (rem 0.25) (rem 0.15) (rem 0.25) (rem 0.1)
+        , margin (rem 0.25)
+        , withMediaTabletLandscapeUp
+            [ padding2 (rem 0) (rem 0.5), margin2 (rem 0.25) (rem 0.75) ]
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 0.25) (rem 0.5) ]
         ]
 
 paginationArrowButtonRightStyle : Style
@@ -508,13 +577,18 @@ paginationArrowButtonRightStyle =
     batch
         [ paginationButtonStyle
         , backgroundColor pink
-        , margin4 (rem 0.25) (rem 0.1) (rem 0.25) (rem 0.15)
+        , margin (rem 0.25)
+        , withMediaTabletLandscapeUp
+            [ padding2 (rem 0) (rem 0.5), margin2 (rem 0.25) (rem 0.75) ]
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 0.25) (rem 0.5) ]
         ]
 paginationArrowStyle : Style
 paginationArrowStyle =
     batch 
         [ width (px 13)
         , height (px 11)
+        , withMediaTabletPortraitUp [ width (px 18), height (px 15)]
         ]
 
 paginationRightArrowStyle : Style
@@ -531,6 +605,10 @@ paginationButtonListStyle =
         , flexWrap noWrap
         , position relative
         , width (calc (px 609) plus (rem 2))
+        , withMediaTabletLandscapeUp
+            [ width (calc (px (130 * 8)) plus (rem (0.5 * 7)))]
+        , withMediaTabletPortraitUp
+            [ width (calc (px (110 * 8)) plus (rem (0.25 * 7)))]
         ]
 
 
@@ -539,7 +617,9 @@ paginationButtonListItemStyle =
     batch
         [ margin (rem 0.25)
         , firstChild [ marginLeft (rem 0)]
-        , lastChild [ marginRight (rem 0) ] ]
+        , lastChild [ marginRight (rem 0) ]
+        , withMediaTabletLandscapeUp [ margin2 (rem 0.25) (rem 0.5) ]
+        , withMediaTabletPortraitUp [ margin2 (rem 0.25) (rem 0.375)] ]
 
 
 paginationButtonListItemButtonStyle : Style
@@ -551,6 +631,22 @@ paginationButtonListItemButtonStyle =
         , padding4 (rem 0.1) (rem 0.2) (rem 0.2) (rem 0.2)
         , width (px 87)
         , backgroundColor darkBlue
+        , withMediaTabletLandscapeUp [ width (px 130), fontSize (rem 1.2) ]
+        , withMediaTabletPortraitUp [ width (px 110), fontSize (rem 1) ]
+        ]
+
+paginationButtonListItemButtonActiveStyle : Style
+paginationButtonListItemButtonActiveStyle =
+    batch
+        [ paginationButtonStyle
+        , fontSize (rem 0.875)
+        , fontWeight (int 600)
+        , padding4 (rem 0.1) (rem 0.2) (rem 0.2) (rem 0.2)
+        , width (px 87)
+        , backgroundColor pink
+        , color darkBlue
+        , withMediaTabletLandscapeUp [ width (px 130), fontSize (rem 1.2) ]
+        , withMediaTabletPortraitUp [ width (px 110), fontSize (rem 1) ]
         ]
 
 

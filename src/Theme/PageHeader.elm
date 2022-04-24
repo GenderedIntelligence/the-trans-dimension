@@ -252,9 +252,8 @@ navigationCurrentStyle =
         , color black
         , textDecoration none
         , display block
-        , borderBottomWidth (rem 0.2)
-        , borderBottomStyle solid
-        , withMediaTabletPortraitUp [ borderBottomColor black ]
+        
+        , withMediaTabletPortraitUp [ borderBottomColor black, borderBottomWidth (rem 0.2), borderBottomStyle solid ]
         , transition [ Theme.borderTransition ]
         ]
 
@@ -266,10 +265,9 @@ navigationLinkCurrentCategoryStyle =
         , color black
         , textDecoration none
         , display block
-        , borderBottomWidth (rem 0.2)
-        , borderBottomStyle solid
-        , withMediaTabletPortraitUp [ borderBottomColor black ]
+        , withMediaTabletPortraitUp [ borderBottomColor black, borderBottomWidth (rem 0.2), borderBottomStyle solid ]
         , hover [ color white ]
+        , transition [ Theme.colorTransition, Theme.borderTransition ]
         ]
 
 
