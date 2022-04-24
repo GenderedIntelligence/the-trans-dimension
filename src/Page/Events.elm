@@ -1,6 +1,7 @@
 module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEventsList)
 
 import Browser.Dom exposing (Element, Error, Viewport, getElement, getViewport, getViewportOf, setViewportOf)
+import Browser.Events
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -34,6 +35,7 @@ type alias Model =
     { filterByDay : Maybe Time.Posix
     , visibleEvents : List Data.PlaceCal.Events.Event
     , nowTime : Time.Posix
+    , viewportWidth : Float
     }
 
 
@@ -41,6 +43,7 @@ type Msg
     = ClickedDay Time.Posix
     | ClickedAllEvents
     | GetTime Time.Posix
+    | GotViewport Viewport
     | ScrollRight
     | ScrollLeft
     | NoOp
@@ -59,8 +62,10 @@ init maybeUrl sharedModel static =
     ( { filterByDay = Nothing
       , visibleEvents = static.data
       , nowTime = Time.millisToPosix 0
+      , viewportWidth = 0
       }
-    , Task.perform GetTime Time.now
+    , Cmd.batch
+        [ Task.perform GetTime Time.now, Task.perform GotViewport Browser.Dom.getViewport ]
     )
 
 
@@ -99,10 +104,39 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
             ( { localModel | nowTime = newTime }, Cmd.none )
 
         ScrollRight ->
-            ( localModel, Task.attempt (\_ -> NoOp) (scrollPagination 95) )
+            ( localModel
+            , Task.attempt (\_ -> NoOp)
+                (scrollPagination
+                    (if localModel.viewportWidth < 600 then
+                        95
+
+                     else if localModel.viewportWidth < 800 then
+                        122
+
+                     else
+                        146
+                    )
+                )
+            )
 
         ScrollLeft ->
-            ( localModel, Task.attempt (\_ -> NoOp) (scrollPagination -95) )
+            ( localModel
+            , Task.attempt (\_ -> NoOp)
+                (scrollPagination
+                    (if localModel.viewportWidth < 600 then
+                        -95
+
+                     else if localModel.viewportWidth < 800 then
+                        -122
+
+                     else
+                        -146
+                    )
+                )
+            )
+
+        GotViewport viewport ->
+            ( { localModel | viewportWidth = Maybe.withDefault localModel.viewportWidth (Just viewport.scene.width) }, Cmd.none )
 
         NoOp ->
             ( localModel, Cmd.none )

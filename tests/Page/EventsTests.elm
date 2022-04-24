@@ -26,6 +26,7 @@ eventsModel =
     { filterByDay = Nothing
     , visibleEvents = Fixtures.events
     , nowTime = Time.millisToPosix 0
+    , viewportWidth = 1920
     }
 
 
@@ -33,6 +34,7 @@ eventsModelNoEvents =
     { filterByDay = Nothing
     , visibleEvents = []
     , nowTime = Time.millisToPosix 0
+    , viewportWidth = 1920
     }
 
 
