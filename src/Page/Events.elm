@@ -271,7 +271,12 @@ viewEvent event =
                             ]
 
                         --, p [ css [ eventParagraphStyle ] ] [ text (Data.PlaceCal.Events.realmToString event.realm) ]
-                        , p [ css [ eventParagraphStyle ] ] [ text event.location ]
+                        , case event.location.postCode of
+                            Just postcode ->
+                                p [ css [ eventParagraphStyle ] ] [ text postcode ]
+
+                            Nothing ->
+                                text ""
                         , case event.partner.name of
                             Just partnerName ->
                                 p [ css [ eventParagraphStyle ] ] [ text ("by " ++ partnerName) ]

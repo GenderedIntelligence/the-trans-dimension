@@ -101,7 +101,7 @@ viewPartners static =
 
           else
             p [] [ text (t PartnersListEmpty) ]
-        , viewMap
+        , viewMap static.data
         ]
 
 
@@ -126,9 +126,26 @@ viewPartner partner =
         ]
 
 
-viewMap : Html msg
-viewMap =
-    div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Map" ]
+viewMap : List Data.PlaceCal.Partners.Partner -> Html msg
+viewMap partnerList =
+    div [ css [ featurePlaceholderStyle ] ]
+        [ Theme.mapImageMulti
+            (List.filter (\partner -> partner.maybeGeo /= Nothing) partnerList
+                |> List.map
+                    (\partner ->
+                        case partner.maybeGeo of
+                            Just geo ->
+                                { latitude = geo.latitude
+                                , longitude = geo.longitude
+                                }
+
+                            Nothing ->
+                                { latitude = "0"
+                                , longitude = "0"
+                                }
+                    )
+            )
+        ]
 
 
 viewAreaTag :

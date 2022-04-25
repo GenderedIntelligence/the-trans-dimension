@@ -166,7 +166,18 @@ viewAddressSection event =
             ]
         , div [ css [ addressItemStyle ] ]
             [ h4 [ css [ addressItemTitleStyle ] ] [ text "Event Address" ]
-            , p [ css [ contactItemStyle ] ] [ text event.location ]
+            , case event.location.streetAddress of
+                Just sA ->
+                    div [] (String.split ", " sA |> List.map (\line -> p [ css [ contactItemStyle ] ] [ text line ]))
+
+                Nothing ->
+                    text ""
+            , case event.location.postCode of
+                Just pC ->
+                    p [ css [ contactItemStyle ] ] [ text pC ]
+
+                Nothing ->
+                    text ""
             ]
         ]
 

@@ -34,10 +34,12 @@ type alias Contact =
     , telephone : String
     }
 
+
 type alias Geo =
     { latitude : String
     , longitude : String
     }
+
 
 type alias ServiceArea =
     { name : String
@@ -124,11 +126,13 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.required "areasServed" (OptimizedDecoder.list serviceAreaDecoder)
         |> OptimizedDecoder.Pipeline.optional "geo" (OptimizedDecoder.map Just geoDecoder) Nothing
 
+
 geoDecoder : OptimizedDecoder.Decoder Geo
 geoDecoder =
     OptimizedDecoder.succeed Geo
         |> OptimizedDecoder.Pipeline.required "latitude" OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.required "longitude" OptimizedDecoder.string
+
 
 contactDecoder : OptimizedDecoder.Decoder Contact
 contactDecoder =
