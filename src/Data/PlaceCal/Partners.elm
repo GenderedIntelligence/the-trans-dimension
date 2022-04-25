@@ -86,6 +86,7 @@ allPartnersQuery =
                   description
                   summary
                   contact { email, telephone }
+                  geo { latitude, longitude }
                   url
                   address { streetAddress, postalCode, addressRegion }
                   areasServed { name abbreviatedName }

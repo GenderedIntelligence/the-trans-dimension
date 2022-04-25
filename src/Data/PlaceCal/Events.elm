@@ -18,7 +18,7 @@ type alias Event =
     , description : String
     , startDatetime : Time.Posix
     , endDatetime : Time.Posix
-    , location : String
+    , location : EventLocation
 
     -- , realm : Realm
     , partner : EventPartner
@@ -30,6 +30,11 @@ type alias EventPartner =
     , id : String
     }
 
+type alias EventLocation =
+    { streetAddress : Maybe String
+    , postCode : Maybe String
+    }
+
 
 emptyEvent : Event
 emptyEvent =
@@ -39,7 +44,7 @@ emptyEvent =
     , description = ""
     , startDatetime = Time.millisToPosix 0
     , endDatetime = Time.millisToPosix 0
-    , location = ""
+    , location = { streetAddress = Nothing, postCode = Nothing}
 
     -- , realm = Offline
     , partner = { name = Nothing, id = "" }
@@ -79,7 +84,7 @@ allEventsQuery =
               description
               startDate
               endDate
-              address { postalCode }
+              address { streetAddress, postalCode }
               organizer { id }
             } }
             """
@@ -118,13 +123,15 @@ decode =
             TransDate.isoDateStringDecoder
         |> OptimizedDecoder.Pipeline.required "endDate"
             TransDate.isoDateStringDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "address", "postalCode" ]
-            OptimizedDecoder.string
-        -- |> OptimizedDecoder.Pipeline.required "realm"
-        --    realmDecoder
+        |> OptimizedDecoder.Pipeline.required "address"             eventAddressDecoder
         |> OptimizedDecoder.Pipeline.requiredAt [ "organizer", "id" ]
             partnerIdDecoder
 
+eventAddressDecoder : OptimizedDecoder.Decoder EventLocation
+eventAddressDecoder =
+    OptimizedDecoder.succeed EventLocation
+        |> OptimizedDecoder.Pipeline.optional "streetAddress" (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
+        |> OptimizedDecoder.Pipeline.optional "postalCode" (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
 
 partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
 partnerIdDecoder =
