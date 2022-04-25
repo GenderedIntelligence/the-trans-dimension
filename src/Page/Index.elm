@@ -126,7 +126,7 @@ viewFeatured : List Data.PlaceCal.Events.Event -> String -> String -> Html msg
 viewFeatured eventList title buttonText =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
-        , viewEventsList eventList
+        , viewEventsList Nothing eventList
         , p [ css [ buttonFloatingWrapperStyle ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
