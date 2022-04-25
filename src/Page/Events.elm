@@ -62,7 +62,7 @@ init maybeUrl sharedModel static =
     ( { filterByDay = Nothing
       , visibleEvents = static.data
       , nowTime = Time.millisToPosix 0
-      , viewportWidth = 0
+      , viewportWidth = 320
       }
     , Cmd.batch
         [ Task.perform GetTime Time.now, Task.perform GotViewport Browser.Dom.getViewport ]
@@ -107,10 +107,10 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
             ( localModel
             , Task.attempt (\_ -> NoOp)
                 (scrollPagination
-                    (if localModel.viewportWidth < 600 then
+                    (if localModel.viewportWidth < Theme.Global.maxMobile then
                         95
 
-                     else if localModel.viewportWidth < 800 then
+                     else if localModel.viewportWidth < Theme.Global.maxTabletPortrait then
                         122
 
                      else
