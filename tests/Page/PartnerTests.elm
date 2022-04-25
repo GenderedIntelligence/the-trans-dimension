@@ -42,7 +42,7 @@ viewParamsWithPartner =
               , startDatetime = Time.millisToPosix 1645466400000
               , endDatetime = Time.millisToPosix 1650564000000
               , location = "Venue"
-              , partner = { id = "1", name = Nothing }
+              , partner = { id = "1", name = Nothing, maybeUrl = Nothing, maybeContactDetails = Nothing }
               }
             , { id = "2"
               , name = "Event 2 name"
@@ -51,7 +51,7 @@ viewParamsWithPartner =
               , startDatetime = Time.millisToPosix 1645448400000
               , endDatetime = Time.millisToPosix 1658408400000
               , location = "Venue"
-              , partner = { id = "1", name = Nothing }
+              , partner = { id = "1", name = Nothing, maybeUrl = Nothing, maybeContactDetails = Nothing }
               }
             ]
         }

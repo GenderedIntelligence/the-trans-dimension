@@ -9,7 +9,6 @@ import OptimizedDecoder
 import OptimizedDecoder.Pipeline
 import Pages.Secrets
 import Time
-import Data.PlaceCal.Partners exposing (Contact)
 
 
 type alias Event =
@@ -29,8 +28,14 @@ type alias Event =
 type alias EventPartner =
     { name : Maybe String
     , id : String
-    , contactDetails : Contact
+    , maybeContactDetails : Maybe EventPartnerContact
     , maybeUrl : Maybe String
+    }
+
+
+type alias EventPartnerContact =
+    { email : String
+    , telephone : String
     }
 
 
@@ -47,9 +52,9 @@ emptyEvent =
     -- , realm = Offline
     , partner =
         { name = Nothing
-        , id = "" 
+        , id = ""
         , maybeUrl = Nothing
-        , contactDetails = { email = "", telephone = "" }
+        , maybeContactDetails = Nothing
         }
     }
 
@@ -137,7 +142,7 @@ decode =
 partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
 partnerIdDecoder =
     OptimizedDecoder.string
-        |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId })
+        |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId, maybeContactDetails = Nothing, maybeUrl = Nothing })
 
 
 type alias AllEventsResponse =
