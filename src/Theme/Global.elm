@@ -841,4 +841,5 @@ mapStyle =
         , width (pct 100)
         , property "object-fit" "cover"
         , withMediaTabletLandscapeUp [ height (px 400) ]
+        , borderRadius (rem 0.3)
         ]

@@ -22,6 +22,7 @@ type alias Event =
 
     -- , realm : Realm
     , partner : EventPartner
+    , maybeGeo : Maybe Geo
     }
 
 
@@ -37,6 +38,12 @@ type alias EventLocation =
     }
 
 
+type alias Geo =
+    { latitude : String
+    , longitude : String
+    }
+
+
 emptyEvent : Event
 emptyEvent =
     { id = ""
@@ -49,6 +56,7 @@ emptyEvent =
 
     -- , realm = Offline
     , partner = { name = Nothing, id = "" }
+    , maybeGeo = Nothing
     }
 
 
@@ -85,7 +93,7 @@ allEventsQuery =
               description
               startDate
               endDate
-              address { streetAddress, postalCode }
+              address { streetAddress, postalCode, geo { latitude, longitude } }
               organizer { id }
             } }
             """
@@ -127,6 +135,7 @@ decode =
         |> OptimizedDecoder.Pipeline.required "address" eventAddressDecoder
         |> OptimizedDecoder.Pipeline.requiredAt [ "organizer", "id" ]
             partnerIdDecoder
+        |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
 
 
 eventAddressDecoder : OptimizedDecoder.Decoder EventLocation
@@ -140,6 +149,13 @@ partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
 partnerIdDecoder =
     OptimizedDecoder.string
         |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId })
+
+
+geoDecoder : OptimizedDecoder.Decoder Geo
+geoDecoder =
+    OptimizedDecoder.succeed Geo
+        |> OptimizedDecoder.Pipeline.required "latitude" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "longitude" OptimizedDecoder.string
 
 
 type alias AllEventsResponse =

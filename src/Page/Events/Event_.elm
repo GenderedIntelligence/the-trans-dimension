@@ -121,8 +121,14 @@ viewEventInfo event =
         , viewInfoSection event
         , hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
         , viewAddressSection event
-        , div [ css [ mapContainerStyle ] ]
-            [ img [ src "https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(-0.11852,51.53101)/-0.118520,51.531010,15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g", css [ mapStyle ] ] [] ]
+        , case event.maybeGeo of
+            Just geo ->
+                div [ css [ mapContainerStyle ] ]
+                    [ p [] [ Theme.Global.mapImage { latitude = geo.latitude, longitude = geo.longitude } ]
+                    ]
+
+            Nothing ->
+                div [ css [ mapContainerStyle ] ] [ text "" ]
         ]
 
 
@@ -167,14 +173,14 @@ viewAddressSection event =
         , div [ css [ addressItemStyle ] ]
             [ h4 [ css [ addressItemTitleStyle ] ] [ text "Event Address" ]
             , case event.location.streetAddress of
-                Just sA ->
-                    div [] (String.split ", " sA |> List.map (\line -> p [ css [ contactItemStyle ] ] [ text line ]))
+                Just aStreetAddress ->
+                    div [] (String.split ", " aStreetAddress |> List.map (\line -> p [ css [ contactItemStyle ] ] [ text line ]))
 
                 Nothing ->
                     text ""
             , case event.location.postCode of
-                Just pC ->
-                    p [ css [ contactItemStyle ] ] [ text pC ]
+                Just aPostCode ->
+                    p [ css [ contactItemStyle ] ] [ text aPostCode ]
 
                 Nothing ->
                     text ""
@@ -333,14 +339,4 @@ mapContainerStyle =
             [ margin4 (rem 3) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) ]
         , withMediaTabletPortraitUp
             [ margin4 (rem 3) (calc (rem -2) minus (px 1)) (px -1) (calc (rem -2) minus (px 1)) ]
-        ]
-
-
-mapStyle : Style
-mapStyle =
-    batch
-        [ height (px 318)
-        , width (pct 100)
-        , property "object-fit" "cover"
-        , withMediaTabletLandscapeUp [ height (px 400) ]
         ]

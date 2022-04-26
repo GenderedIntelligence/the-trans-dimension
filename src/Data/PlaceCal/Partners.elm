@@ -87,10 +87,9 @@ allPartnersQuery =
                   name
                   description
                   summary
-                  contact { email, telephone }
-                  geo { latitude, longitude }
+                  contact { email, telephone }      
                   url
-                  address { streetAddress, postalCode, addressRegion }
+                  address { streetAddress, postalCode, addressRegion, geo { latitude, longitude } }
                   areasServed { name abbreviatedName }
                 } }
           """
@@ -124,7 +123,7 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.required "contact" contactDecoder
         |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just addressDecoder) Nothing
         |> OptimizedDecoder.Pipeline.required "areasServed" (OptimizedDecoder.list serviceAreaDecoder)
-        |> OptimizedDecoder.Pipeline.optional "geo" (OptimizedDecoder.map Just geoDecoder) Nothing
+        |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
 
 
 geoDecoder : OptimizedDecoder.Decoder Geo
