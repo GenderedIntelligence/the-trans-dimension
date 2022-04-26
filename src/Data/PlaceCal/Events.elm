@@ -41,8 +41,8 @@ type alias EventPartnerContact =
 
 
 type alias EventLocation =
-    { streetAddress : Maybe String
-    , postCode : Maybe String
+    { streetAddress : String
+    , postalCode : String
     }
 
 
@@ -60,7 +60,7 @@ emptyEvent =
     , description = ""
     , startDatetime = Time.millisToPosix 0
     , endDatetime = Time.millisToPosix 0
-    , location = { streetAddress = Nothing, postCode = Nothing }
+    , location = { streetAddress = "", postalCode = "" }
 
     -- , realm = Offline
     , maybeGeo = Nothing
@@ -154,8 +154,8 @@ decode =
 eventAddressDecoder : OptimizedDecoder.Decoder EventLocation
 eventAddressDecoder =
     OptimizedDecoder.succeed EventLocation
-        |> OptimizedDecoder.Pipeline.optional "streetAddress" (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
-        |> OptimizedDecoder.Pipeline.optional "postalCode" (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
+        |> OptimizedDecoder.Pipeline.required "streetAddress" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "postalCode" OptimizedDecoder.string
 
 
 partnerIdDecoder : OptimizedDecoder.Decoder EventPartner

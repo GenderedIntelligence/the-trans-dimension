@@ -21,7 +21,7 @@ viewParamsWithEvent =
         , summary = "Event summary"
         , startDatetime = Time.millisToPosix 1645448400000
         , endDatetime = Time.millisToPosix 1645455600000
-        , location = { postCode = Nothing, streetAddress = Nothing }
+        , location = { postalCode = "", streetAddress = "" }
         , maybeGeo = Nothing
         --, realm = Online
         , partner = { id = "1", name = Just "Partner one", maybeContactDetails = Just { telephone = "999", email = "partner@partner.com" }, maybeUrl = Just "https://google.com" }

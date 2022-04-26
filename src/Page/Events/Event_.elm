@@ -192,18 +192,16 @@ viewAddressSection event =
             ]
         , div [ css [ addressItemStyle ] ]
             [ h4 [ css [ addressItemTitleStyle ] ] [ text "Event Address" ]
-            , case event.location.streetAddress of
-                Just aStreetAddress ->
-                    div [] (String.split ", " aStreetAddress |> List.map (\line -> p [ css [ contactItemStyle ] ] [ text line ]))
+            , if event.location.streetAddress == "" then
+                text ""
 
-                Nothing ->
-                    text ""
-            , case event.location.postCode of
-                Just aPostCode ->
-                    p [ css [ contactItemStyle ] ] [ text aPostCode ]
+              else
+                div [] (String.split ", " event.location.streetAddress |> List.map (\line -> p [ css [ contactItemStyle ] ] [ text line ]))
+            , if event.location.postalCode == "" then
+                text ""
 
-                Nothing ->
-                    text ""
+              else
+                p [ css [ contactItemStyle ] ] [ text event.location.postalCode ]
             ]
         ]
 
