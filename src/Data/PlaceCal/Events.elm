@@ -61,6 +61,7 @@ emptyEvent =
     , startDatetime = Time.millisToPosix 0
     , endDatetime = Time.millisToPosix 0
     , location = { streetAddress = Nothing, postCode = Nothing }
+
     -- , realm = Offline
     , maybeGeo = Nothing
     , partner =
