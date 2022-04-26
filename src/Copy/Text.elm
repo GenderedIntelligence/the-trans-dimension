@@ -130,8 +130,11 @@ t key =
         EventsSubHeading ->
             "Upcoming events"
 
+        EventsEmptyTextAll ->
+            "There are no upcoming events. Check back for updates!"
+
         EventsEmptyText ->
-            "There are no upcoming events"
+            "There are no upcoming events on this date. Check back for updates!"
 
         EventsFilterLabelToday ->
             "Today"
@@ -188,7 +191,7 @@ t key =
             "Upcoming events by " ++ partnerName
 
         PartnerEventsEmptyText partnerName ->
-            partnerName ++ " does not have any upcoming events"
+            partnerName ++ " does not have any upcoming events. Check back for updates!"
 
         BackToPartnersLinkText ->
             "Go to all partners"

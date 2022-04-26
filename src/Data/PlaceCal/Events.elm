@@ -29,6 +29,14 @@ type alias Event =
 type alias EventPartner =
     { name : Maybe String
     , id : String
+    , maybeContactDetails : Maybe EventPartnerContact
+    , maybeUrl : Maybe String
+    }
+
+
+type alias EventPartnerContact =
+    { email : String
+    , telephone : String
     }
 
 
@@ -53,10 +61,14 @@ emptyEvent =
     , startDatetime = Time.millisToPosix 0
     , endDatetime = Time.millisToPosix 0
     , location = { streetAddress = Nothing, postCode = Nothing }
-
     -- , realm = Offline
-    , partner = { name = Nothing, id = "" }
     , maybeGeo = Nothing
+    , partner =
+        { name = Nothing
+        , id = ""
+        , maybeUrl = Nothing
+        , maybeContactDetails = Nothing
+        }
     }
 
 
@@ -148,7 +160,7 @@ eventAddressDecoder =
 partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
 partnerIdDecoder =
     OptimizedDecoder.string
-        |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId })
+        |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId, maybeContactDetails = Nothing, maybeUrl = Nothing })
 
 
 geoDecoder : OptimizedDecoder.Decoder Geo
