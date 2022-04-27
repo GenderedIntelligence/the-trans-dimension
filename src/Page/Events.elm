@@ -214,7 +214,7 @@ view maybeUrl sharedModel localModel static =
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"
-            , title = t (PageMetaTitle (t EventsTitle))
+            , title = t EventsTitle
             , bigText = { text = t EventsSummary, node = "h3" }
             , smallText = Nothing
             , innerContent = Just (viewEvents localModel)

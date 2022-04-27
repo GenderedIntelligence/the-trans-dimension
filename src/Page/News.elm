@@ -80,7 +80,7 @@ view maybeUrl sharedModel static =
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"
-            , title = t (PageMetaTitle (t NewsTitle))
+            , title = t NewsTitle
             , bigText = { text = t NewsDescription, node = "h3" }
             , smallText = Nothing
             , innerContent = Nothing
