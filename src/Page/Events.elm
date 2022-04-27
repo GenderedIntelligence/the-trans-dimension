@@ -241,15 +241,9 @@ viewEvents :
     -> Html Msg
 viewEvents localModel =
     section [ css [ eventsContainerStyle ] ]
-        [ viewEventsFilters localModel
-        , viewPagination localModel
+        [ viewPagination localModel
         , viewEventsList localModel.filterByDay localModel.visibleEvents
         ]
-
-
-viewEventsFilters : Model -> Html Msg
-viewEventsFilters localModel =
-    div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Event filters" ]
 
 
 viewPagination : Model -> Html Msg

@@ -59,11 +59,6 @@ suite =
                 viewBodyHtml eventsModel viewParamsWithEvents
                     |> Query.find [ Selector.tag "h2" ]
                     |> Query.contains [ Html.text (t EventsTitle) ]
-        , test "Contains filter controls" <|
-            \_ ->
-                viewBodyHtml eventsModel viewParamsWithEvents
-                    -- Note this is currently a placeholder
-                    |> Query.contains [ Html.text "[fFf] Event filters" ]
         , test "Has pagination by day/week" <|
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithEvents
