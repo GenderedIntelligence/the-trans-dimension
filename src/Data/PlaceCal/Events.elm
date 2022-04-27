@@ -28,6 +28,14 @@ type alias Event =
 type alias EventPartner =
     { name : Maybe String
     , id : String
+    , maybeContactDetails : Maybe EventPartnerContact
+    , maybeUrl : Maybe String
+    }
+
+
+type alias EventPartnerContact =
+    { email : String
+    , telephone : String
     }
 
 
@@ -42,7 +50,12 @@ emptyEvent =
     , location = ""
 
     -- , realm = Offline
-    , partner = { name = Nothing, id = "" }
+    , partner =
+        { name = Nothing
+        , id = ""
+        , maybeUrl = Nothing
+        , maybeContactDetails = Nothing
+        }
     }
 
 
@@ -129,7 +142,7 @@ decode =
 partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
 partnerIdDecoder =
     OptimizedDecoder.string
-        |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId })
+        |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId, maybeContactDetails = Nothing, maybeUrl = Nothing })
 
 
 type alias AllEventsResponse =

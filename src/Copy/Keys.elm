@@ -45,6 +45,7 @@ type Key
     | EventsMetaDescription
     | EventsSummary
     | EventsSubHeading
+    | EventsEmptyTextAll
     | EventsEmptyText
     | EventsFilterLabelToday
     | EventsFilterLabelTomorrow

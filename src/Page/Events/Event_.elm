@@ -11,7 +11,7 @@ import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h4, hr, img, p, section, text, time)
-import Html.Styled.Attributes exposing (css, href, src)
+import Html.Styled.Attributes exposing (css, href, src, target)
 import Page exposing (Page, StaticPayload)
 import Page.Events exposing (addPartnerNamesToEvents)
 import Pages.PageUrl exposing (PageUrl)
@@ -58,10 +58,10 @@ data : RouteParams -> DataSource Data
 data routeParams =
     DataSource.map2
         (\sharedData partnerData ->
-            Maybe.withDefault Data.PlaceCal.Events.emptyEvent
-                ((addPartnerNamesToEvents sharedData.allEvents partnerData.allPartners
-                    |> List.filter (\event -> event.id == routeParams.event)
-                 )
+            Maybe.withDefault
+                Data.PlaceCal.Events.emptyEvent
+                (List.filter (\event -> event.id == routeParams.event) sharedData.allEvents
+                    |> List.map (\event -> { event | partner = Data.PlaceCal.Partners.eventPartnerFromId partnerData.allPartners event.partner.id })
                     |> List.head
                 )
         )
@@ -160,9 +160,29 @@ viewAddressSection event =
     section [ css [ addressSectionStyle ] ]
         [ div [ css [ addressItemStyle ] ]
             [ h4 [ css [ addressItemTitleStyle ] ] [ text "Contact Information " ]
-            , p [ css [ contactItemStyle ] ] [ text "Phone number" ]
-            , p [ css [ contactItemStyle ] ] [ a [ href "/", css [ Theme.Global.linkStyle ] ] [ text "Email address" ] ]
-            , p [ css [ contactItemStyle ] ] [ a [ href "/", css [ Theme.Global.linkStyle ] ] [ text "Website address" ] ]
+            , case event.partner.maybeContactDetails of
+                Just contact ->
+                    div []
+                        [ if contact.telephone /= "" then
+                            p [ css [ contactItemStyle ] ] [ text contact.telephone ]
+
+                          else
+                            text ""
+                        , if contact.email /= "" then
+                            p [ css [ contactItemStyle ] ] [ a [ href ("mailto:" ++ contact.email), css [ Theme.Global.linkStyle ] ] [ text contact.email ] ]
+
+                          else
+                            text ""
+                        ]
+
+                Nothing ->
+                    text ""
+            , case event.partner.maybeUrl of
+                Just url ->
+                    p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ Theme.Global.linkStyle ] ] [ text url ] ]
+
+                Nothing ->
+                    text ""
             ]
         , div [ css [ addressItemStyle ] ]
             [ h4 [ css [ addressItemTitleStyle ] ] [ text "Event Address" ]

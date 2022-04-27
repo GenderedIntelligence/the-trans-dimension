@@ -1,6 +1,7 @@
-module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, partnerNameFromId, partnerNamesFromIds, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, eventPartnerFromId, partnerNameFromId, partnerNamesFromIds, partnersData)
 
 import Api
+import Data.PlaceCal.Events exposing (EventPartner)
 import DataSource
 import DataSource.Http
 import Json.Encode
@@ -153,3 +154,18 @@ partnerNamesFromIds partnerList idList =
     -- If the partner isn't in our sites partners, it won't be in the list
     List.filter (\partner -> List.member partner.id idList) partnerList
         |> List.map (\partner -> partner.name)
+
+
+eventPartnerFromId : List Partner -> String -> EventPartner
+eventPartnerFromId partnerList partnerId =
+    List.filter (\partner -> partner.id == partnerId) partnerList
+        |> List.map
+            (\partner ->
+                { name = Just partner.name
+                , maybeContactDetails = Just partner.contactDetails
+                , id = partner.id
+                , maybeUrl = partner.maybeUrl
+                }
+            )
+        |> List.head
+        |> Maybe.withDefault { name = Nothing, maybeContactDetails = Nothing, maybeUrl = Nothing, id = partnerId }

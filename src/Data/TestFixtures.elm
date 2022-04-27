@@ -83,7 +83,7 @@ events =
       , location = "Venue"
 
       --, realm = Online
-      , partner = { id = "1", name = Just "Partner one" }
+      , partner = { id = "1", name = Just "Partner one", maybeUrl = Nothing, maybeContactDetails = Nothing }
       }
     , { id = "2"
       , name = "Event 2 name"
@@ -94,7 +94,7 @@ events =
       , location = "Venue"
 
       --, realm = Offline
-      , partner = { id = "2", name = Just "Partner two" }
+      , partner = { id = "2", name = Just "Partner two", maybeUrl = Nothing, maybeContactDetails = Nothing }
       }
     ]
 
