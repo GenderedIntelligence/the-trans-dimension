@@ -16,6 +16,12 @@ t key =
         SiteStrapline ->
             "Space and spaces for us"
 
+        SiteLogoSrc ->
+            "/images/logos/tdd_logo_with_strapline_on_darkBlue.png"
+
+        PageMetaTitle pageTitle ->
+            String.join " | " [ pageTitle, t SiteTitle ]
+
         --- Header
         HeaderMobileMenuButton ->
             "Menu"

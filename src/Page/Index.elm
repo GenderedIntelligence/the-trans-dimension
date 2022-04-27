@@ -78,7 +78,7 @@ head static =
             }
         , description = t IndexMetaDescription
         , locale = Nothing
-        , title = t IndexTitle -- metadata.title
+        , title = t IndexTitle
         }
         |> Seo.website
 

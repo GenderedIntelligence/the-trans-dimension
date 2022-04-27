@@ -1,5 +1,7 @@
 module Page.About exposing (Data, Model, Msg, page, view)
 
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import Css exposing (Style, absolute, after, alignItems, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bottom, calc, center, column, display, displayFlex, flexDirection, flexShrink, height, important, int, justifyContent, left, margin, margin2, margin4, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noRepeat, nthChild, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, right, spaceAround, top, url, vw, width, zIndex)
 import Css.Global exposing (descendants, typeSelector)
 import DataSource exposing (DataSource)
@@ -185,20 +187,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = "TODO"
-        , locale = Nothing
-        , title = "TODO title" -- metadata.title -- TODO
+    PageTemplate.pageMetaTags
+        { title = AboutTitle
+        , description = AboutMetaDescription
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 view :
@@ -207,7 +200,7 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = static.data.main.title
+    { title = t (PageMetaTitle (t AboutTitle))
     , body =
         [ PageTemplate.view
             { headerType = Just "about"
