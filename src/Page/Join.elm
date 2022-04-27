@@ -6,13 +6,11 @@ import Copy.Text exposing (t)
 import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, column, display, displayFlex, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, margin, margin2, marginRight, marginTop, maxWidth, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
 import DataSource exposing (DataSource)
 import Head
-import Head.Seo as Seo
 import Html.Styled exposing (Html, button, div, form, input, label, p, span, text, textarea)
 import Html.Styled.Attributes exposing (css, placeholder, type_, value)
 import Html.Styled.Events exposing (onInput)
 import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Path exposing (Path)
 import Shared
 import Theme.Global exposing (pinkButtonOnDarkBackgroundStyle, textInputStyle, viewCheckbox, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)

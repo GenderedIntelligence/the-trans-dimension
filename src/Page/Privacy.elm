@@ -5,12 +5,10 @@ import Copy.Text exposing (t)
 import DataSource exposing (DataSource)
 import DataSource.File
 import Head
-import Head.Seo as Seo
 import Html.Styled as Html
 import OptimizedDecoder as Decode
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Shared
 import Theme.PageTemplate as PageTemplate
 import Theme.TextHeavyPage as TextHeavyPage

@@ -7,14 +7,12 @@ import Css.Global exposing (descendants, typeSelector)
 import DataSource exposing (DataSource)
 import DataSource.File
 import Head
-import Head.Seo as Seo
 import Html.Styled as Html exposing (a, div, h3, h4, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import List exposing (concat)
 import OptimizedDecoder as Decode
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Shared
 import Theme.Global exposing (buttonFloatingWrapperStyle, contentContainerStyle, contentWrapperStyle, introTextLargeStyle, normalFirstParagraphStyle, smallFloatingTitleStyle, textBoxPinkStyle, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
@@ -67,7 +65,11 @@ type alias SectionWithImageHeader =
 
 
 type alias Maker =
-    { name : String, url : String, logo : String, body : List (Html.Html Msg) }
+    { name : String
+    , url : String
+    , logo : String
+    , body : List (Html.Html Msg)
+    }
 
 
 data : DataSource Data
