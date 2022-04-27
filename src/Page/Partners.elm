@@ -55,20 +55,11 @@ head :
     StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = t SiteTitle
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t PartnersMetaDescription
-        , locale = Nothing
-        , title = t PartnersTitle
+    PageTemplate.pageMetaTags
+        { title = PartnersTitle
+        , description = PartnersMetaDescription
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 view :
@@ -77,7 +68,7 @@ view :
     -> StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t PartnersTitle
+    { title = t (PageMetaTitle (t PartnersTitle))
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"

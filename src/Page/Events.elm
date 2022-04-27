@@ -199,20 +199,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = t SiteTitle
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t EventsMetaDescription
-        , locale = Nothing
-        , title = t EventsTitle
+    PageTemplate.pageMetaTags
+        { title = EventsTitle
+        , description = EventsMetaDescription
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 view :
@@ -222,11 +213,11 @@ view :
     -> StaticPayload (List Data.PlaceCal.Events.Event) RouteParams
     -> View Msg
 view maybeUrl sharedModel localModel static =
-    { title = t EventsTitle
+    { title = t (PageMetaTitle (t EventsTitle))
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"
-            , title = t EventsTitle
+            , title = t (PageMetaTitle (t EventsTitle))
             , bigText = { text = t EventsSummary, node = "h3" }
             , smallText = Nothing
             , innerContent = Just (viewEvents localModel)

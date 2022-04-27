@@ -99,6 +99,7 @@ type Key
     | NewsItemReadMore String
       --- Privacy
     | PrivacyTitle
+    | PrivacyMetaDescription
       --- 404
     | ErrorTitle
     | ErrorMessage

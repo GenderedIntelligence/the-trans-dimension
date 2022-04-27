@@ -86,20 +86,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = t SiteTitle
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t (NewsItemMetaDescription static.data.title (String.join " & " static.data.partnerIds))
-        , locale = Nothing
-        , title = t (NewsItemTitle static.data.title)
+    PageTemplate.pageMetaTags
+        { title = NewsItemTitle static.data.title
+        , description = NewsItemMetaDescription static.data.title (String.join " & " static.data.partnerIds)
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 type alias Data =
@@ -112,7 +103,7 @@ view :
     -> StaticPayload Data.PlaceCal.Articles.Article RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = static.data.title
+    { title = t (PageMetaTitle static.data.title)
     , body =
         [ PageTemplate.view
             { headerType = Just "invisible"

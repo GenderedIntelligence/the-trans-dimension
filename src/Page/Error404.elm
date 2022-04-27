@@ -45,20 +45,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = t SiteTitle
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t ErrorMessage
-        , locale = Nothing
-        , title = t ErrorTitle -- metadata.title
+    PageTemplate.pageMetaTags
+        { title = ErrorTitle
+        , description = ErrorMessage
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 type alias Data =
@@ -71,7 +62,7 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t ErrorTitle
+    { title = t (PageMetaTitle (t ErrorTitle))
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"

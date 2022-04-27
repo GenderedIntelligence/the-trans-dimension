@@ -73,20 +73,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t (EventMetaDescription static.data.name static.data.summary)
-        , locale = Nothing
-        , title = t (EventTitle static.data.name)
+    PageTemplate.pageMetaTags
+        { title = EventTitle static.data.name
+        , description = EventMetaDescription static.data.name static.data.summary
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 type alias Data =
@@ -99,7 +90,7 @@ view :
     -> StaticPayload Data.PlaceCal.Events.Event RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = static.data.name
+    { title = t (PageMetaTitle static.data.name)
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"

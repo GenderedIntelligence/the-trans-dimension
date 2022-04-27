@@ -278,6 +278,9 @@ t key =
         PrivacyTitle ->
             "Privacy"
 
+        PrivacyMetaDescription ->
+            "Privacy information for The Trans Dimension website."
+
         --- 404 Page
         ErrorTitle ->
             "Error 404"

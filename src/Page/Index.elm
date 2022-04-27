@@ -71,13 +71,15 @@ head static =
         { canonicalUrlOverride = Nothing
         , siteName = t SiteTitle
         , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
+            { url = Pages.Url.external (t SiteLogoSrc)
+            , alt = "The Trans Dimension logo"
             , dimensions = Nothing
             , mimeType = Nothing
             }
         , description = t IndexMetaDescription
         , locale = Nothing
+
+        -- Index doesn't use PageTemplate.pageMetaTags. Don't repeat title
         , title = t IndexTitle
         }
         |> Seo.website

@@ -1,5 +1,7 @@
 module Page.Privacy exposing (Data, Model, Msg, page, view)
 
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import DataSource exposing (DataSource)
 import DataSource.File
 import Head
@@ -10,6 +12,7 @@ import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
+import Theme.PageTemplate as PageTemplate
 import Theme.TextHeavyPage as TextHeavyPage
 import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
@@ -68,20 +71,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = "TODO"
-        , locale = Nothing
-        , title = "TODO title" -- metadata.title -- TODO
+    PageTemplate.pageMetaTags
+        { title = PrivacyTitle
+        , description = PrivacyMetaDescription
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 view :
@@ -90,6 +84,6 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = static.data.title
+    { title = t (PageMetaTitle (t PrivacyTitle))
     , body = [ TextHeavyPage.view static.data.title static.data.subtitle static.data.body ]
     }
