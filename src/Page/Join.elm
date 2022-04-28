@@ -3,17 +3,22 @@ module Page.Join exposing (Data, Model, Msg, blankForm, page, view)
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, column, display, displayFlex, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, margin, margin2, marginRight, marginTop, maxWidth, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, margin, margin2, marginRight, marginTop, maxWidth, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
+import Data.TestFixtures exposing (news)
 import DataSource exposing (DataSource)
 import Head
-import Html.Styled exposing (Html, button, div, form, input, label, p, span, text, textarea)
+import Html.Styled exposing (Html, button, div, form, h1, input, label, p, span, text, textarea)
 import Html.Styled.Attributes exposing (css, placeholder, type_, value)
-import Html.Styled.Events exposing (onInput)
+import Html.Styled.Events exposing (onClick, onInput, onSubmit)
+import Http
+import Json.Encode
+import List exposing (isEmpty)
 import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Shared
-import Theme.Global exposing (pinkButtonOnDarkBackgroundStyle, textInputStyle, viewCheckbox, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Task
+import Theme.Global exposing (pink, pinkButtonOnDarkBackgroundStyle, textInputErrorStyle, textInputStyle, viewCheckbox, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -55,6 +60,14 @@ type alias FormInputField =
     }
 
 
+type FormState
+    = Inputting
+    | ValidationError
+    | Sending
+    | Sent
+    | SendingError
+
+
 type alias Checkbox =
     { value : Bool
     , required : FormRequired
@@ -63,6 +76,7 @@ type alias Checkbox =
 
 type alias Model =
     { userInput : FormInput
+    , formState : FormState
     }
 
 
@@ -121,6 +135,52 @@ blankForm =
     }
 
 
+validateForm : FormInput -> List Msg
+validateForm formData =
+    let
+        fieldsToError =
+            [ { isEmpty = formData.name.value == "", errorCmd = ErrorName FieldRequired }
+            , { isEmpty = formData.email.value == "", errorCmd = ErrorEmail FieldRequired }
+            , { isEmpty = formData.message.value == "", errorCmd = ErrorMessage FieldRequired }
+            ]
+                |> List.filter (\field -> field.isEmpty)
+                |> List.map (\field -> field.errorCmd)
+    in
+    if List.isEmpty fieldsToError then
+        [ SendEmail, SetFormState Sending ]
+
+    else
+        List.append [ SetFormState ValidationError ] fieldsToError
+
+
+emailPostRequest : Json.Encode.Value -> Cmd Msg
+emailPostRequest bodyValue =
+    Http.post
+        { url = "https://fervent-colden-5f0cd2.netlify.app/.netlify/functions/transDim"
+        , body = Http.jsonBody bodyValue
+        , expect = Http.expectWhatever ReceiveEmailResponse
+        }
+
+
+emailBody : FormInput -> Json.Encode.Value
+emailBody formData =
+    Json.Encode.object
+        [ ( "formData"
+          , Json.Encode.object
+                [ ( "name", Json.Encode.string formData.name.value )
+                , ( "email", Json.Encode.string formData.email.value )
+                , ( "job", Json.Encode.string formData.job.value )
+                , ( "organisation", Json.Encode.string formData.org.value )
+                , ( "ringBack", Json.Encode.bool formData.ringBack.value )
+                , ( "moreInfo", Json.Encode.bool formData.moreInfo.value )
+                , ( "message", Json.Encode.string formData.message.value )
+                , ( "phone", Json.Encode.string formData.phone.value )
+                , ( "postcode", Json.Encode.string formData.address.value )
+                ]
+          )
+        ]
+
+
 type Msg
     = UpdateName String
     | UpdateEmail String
@@ -131,6 +191,18 @@ type Msg
     | UpdateRingBack Bool
     | UpdateMoreInfo Bool
     | UpdateMessage String
+    | ErrorName FormError
+    | ErrorEmail FormError
+    | ErrorMessage FormError
+    | SetFormState FormState
+    | ClickSend
+    | SendEmail
+    | ReceiveEmailResponse (Result Http.Error ())
+
+
+run : Msg -> Cmd Msg
+run m =
+    Task.perform (always m) (Task.succeed ())
 
 
 type alias RouteParams =
@@ -143,7 +215,7 @@ init :
     -> StaticPayload Data RouteParams
     -> ( Model, Cmd Msg )
 init maybeUrl sharedModel static =
-    ( { userInput = blankForm }, Cmd.none )
+    ( { userInput = blankForm, formState = Inputting }, Cmd.none )
 
 
 update :
@@ -246,6 +318,53 @@ update pageUrl maybeNavigationKey sharedModel static msg ({ userInput } as model
             in
             ( { model | userInput = { userInput | message = newField } }, Cmd.none )
 
+        ErrorName errorType ->
+            let
+                oldField =
+                    userInput.name
+
+                newField =
+                    { oldField | error = Just errorType }
+            in
+            ( { model | userInput = { userInput | name = newField } }, Cmd.none )
+
+        ErrorEmail errorType ->
+            let
+                oldField =
+                    userInput.email
+
+                newField =
+                    { oldField | error = Just errorType }
+            in
+            ( { model | userInput = { userInput | email = newField } }, Cmd.none )
+
+        ErrorMessage errorType ->
+            let
+                oldField =
+                    userInput.message
+
+                newField =
+                    { oldField | error = Just errorType }
+            in
+            ( { model | userInput = { userInput | message = newField } }, Cmd.none )
+
+        ClickSend ->
+            ( model, Cmd.batch (List.map (\message -> run message) (validateForm model.userInput)) )
+
+        SendEmail ->
+            ( model, emailPostRequest (emailBody model.userInput) )
+
+        SetFormState newState ->
+            ( { model | formState = newState }, Cmd.none )
+
+        ReceiveEmailResponse result ->
+            case result of
+                Ok _ ->
+                    ( { userInput = blankForm, formState = Sent }, Cmd.none )
+
+                Err httpError ->
+                    ( { model | formState = SendingError }, Cmd.none )
+
 
 subscriptions :
     Maybe PageUrl
@@ -305,30 +424,119 @@ view maybeUrl sharedModel localModel static =
             , title = t JoinTitle
             , bigText = { text = t JoinSubtitle, node = "p" }
             , smallText = Just [ t JoinDescription ]
-            , innerContent = Just (viewForm localModel.userInput)
+            , innerContent = Just (viewForm localModel)
             , outerContent = Nothing
+
+            -- , outerContent = Just (viewFormStateForTesting localModel.formState)
             }
         ]
     }
 
 
-viewForm : FormInput -> Html Msg
-viewForm formState =
-    form [ css [ formStyle ] ]
-        -- [fFf] Join form
-        [ label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputNameLabel) ], input [ css [ textInputStyle ], value formState.name.value, onInput UpdateName ] [] ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputEmailLabel) ], input [ css [ textInputStyle ], value formState.email.value, onInput UpdateEmail ] [] ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputPhoneLabel) ], input [ css [ textInputStyle ], value formState.phone.value, onInput UpdatePhone ] [] ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputJobLabel) ], input [ css [ textInputStyle ], value formState.job.value, onInput UpdateJob ] [] ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputOrgLabel) ], input [ css [ textInputStyle ], value formState.org.value, onInput UpdateOrg ] [] ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputAddressLabel) ], input [ css [ textInputStyle ], value formState.address.value, onInput UpdateAddress ] [] ]
+
+-- viewFormStateForTesting : FormState -> Html Msg
+-- viewFormStateForTesting formState =
+--     h1 [ css [ color pink ] ]
+--         [ text
+--             (case formState of
+--                 Inputting ->
+--                     "Inputting"
+--                 ValidationError ->
+--                     "Validation Error"
+--                 Sending ->
+--                     "Sending"
+--                 Sent ->
+--                     "Sent"
+--                 SendingError ->
+--                     "Sending Error"
+--             )
+--         ]
+
+
+viewForm : Model -> Html Msg
+viewForm state =
+    form [ css [ formStyle ], onSubmit ClickSend ]
+        [ label [ css [ formItemStyle ] ]
+            [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputNameLabel) ]
+            , input
+                [ css
+                    [ if state.userInput.name.error == Nothing then
+                        textInputStyle
+
+                      else
+                        textInputErrorStyle
+                    ]
+                , value state.userInput.name.value
+                , onInput UpdateName
+                ]
+                []
+            ]
+        , label [ css [ formItemStyle ] ]
+            [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputEmailLabel) ]
+            , input
+                [ css
+                    [ if state.userInput.email.error == Nothing then
+                        textInputStyle
+
+                      else
+                        textInputErrorStyle
+                    ]
+                , value state.userInput.email.value
+                , onInput UpdateEmail
+                ]
+                []
+            ]
+        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputPhoneLabel) ], input [ css [ textInputStyle ], value state.userInput.phone.value, onInput UpdatePhone ] [] ]
+        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputJobLabel) ], input [ css [ textInputStyle ], value state.userInput.job.value, onInput UpdateJob ] [] ]
+        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputOrgLabel) ], input [ css [ textInputStyle ], value state.userInput.org.value, onInput UpdateOrg ] [] ]
+        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputAddressLabel) ], input [ css [ textInputStyle ], value state.userInput.address.value, onInput UpdateAddress ] [] ]
         , div [ css [ formCheckboxWrapperStyle ] ]
             [ p [ css [ formCheckboxTitleStyle ] ] [ text (t JoinFormCheckboxesLabel) ]
-            , div [] (viewCheckbox "joinbox1" (t JoinFormCheckbox1) formState.ringBack.value UpdateRingBack)
-            , div [] (viewCheckbox "joinbox2" (t JoinFormCheckbox2) formState.moreInfo.value UpdateMoreInfo)
+            , div [] (viewCheckbox "joinbox1" (t JoinFormCheckbox1) state.userInput.ringBack.value UpdateRingBack)
+            , div [] (viewCheckbox "joinbox2" (t JoinFormCheckbox2) state.userInput.moreInfo.value UpdateMoreInfo)
             ]
-        , label [ css [ formTextAreaItemStyle ] ] [ span [ css [ formTextAreaLabelStyle ] ] [ text (t JoinFormInputMessageLabel) ], textarea [ placeholder (t JoinFormInputMessagePlaceholder), css [ textAreaStyle ], value formState.message.value, onInput UpdateMessage ] [] ]
-        , div [ css [ buttonWrapperStyle ] ] [ button [ css [ pinkButtonOnDarkBackgroundStyle ], type_ "submit" ] [ text (t JoinFormSubmitButton) ] ]
+        , label [ css [ formTextAreaItemStyle ] ]
+            [ span [ css [ formTextAreaLabelStyle ] ] [ text (t JoinFormInputMessageLabel) ]
+            , textarea
+                [ placeholder (t JoinFormInputMessagePlaceholder)
+                , css
+                    [ if state.userInput.name.error == Nothing then
+                        textAreaStyle
+
+                      else
+                        textAreaErrorStyle
+                    ]
+                , value state.userInput.message.value
+                , onInput UpdateMessage
+                ]
+                []
+            ]
+        , div [ css [ buttonWrapperStyle ] ]
+            [ button [ css [ pinkButtonOnDarkBackgroundStyle ], type_ "submit" ]
+                [ text
+                    (if state.formState == Sending then
+                        "Sending..."
+
+                     else
+                        t JoinFormSubmitButton
+                    )
+                ]
+            ]
+        , if state.formState == ValidationError then
+            p [ css [ formHelperStyle ] ] [ text "Make sure you have filled in the name, email and address fields." ]
+
+          else
+            text ""
+        , if state.formState == SendingError then
+            p [ css [ formHelperStyle ] ] [ text "Your message failed to send. Please try again." ]
+
+          else
+            text ""
+        , if state.formState == Sent then
+            p [ css [ formHelperStyle ] ] [ text "Your message has been sent! We will get back to you as soon as we can." ]
+
+          else
+            text ""
         ]
 
 
@@ -424,9 +632,33 @@ textAreaStyle =
         ]
 
 
+textAreaErrorStyle : Style
+textAreaErrorStyle =
+    batch
+        [ textInputErrorStyle
+        , margin2 (rem 0.5) (rem 0)
+        , padding2 (rem 1) (rem 1.5)
+        , height (px 100)
+        , width (pct 100)
+        , boxSizing borderBox
+        ]
+
+
 buttonWrapperStyle : Style
 buttonWrapperStyle =
     batch
         [ textAlign center
         , withMediaTabletPortraitUp [ width (pct 100) ]
+        ]
+
+
+formHelperStyle : Style
+formHelperStyle =
+    batch
+        [ color pink
+        , fontSize (rem 1)
+        , fontWeight (int 500)
+        , textAlign center
+        , width (pct 100)
+        , marginTop (rem 1)
         ]
