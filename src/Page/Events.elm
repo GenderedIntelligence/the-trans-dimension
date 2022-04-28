@@ -403,7 +403,11 @@ viewEvent event =
                             , span [] [ text " — " ]
                             , time [] [ text (TransDate.humanTimeFromPosix event.endDatetime) ]
                             ]
-                        , p [ css [ eventParagraphStyle ] ] [ text event.location ]
+                        , if event.location.postalCode == "" then
+                            text ""
+
+                          else
+                            p [ css [ eventParagraphStyle ] ] [ text event.location.postalCode ]
                         , case event.partner.name of
                             Just partnerName ->
                                 p [ css [ eventParagraphStyle ] ] [ text ("by " ++ partnerName) ]

@@ -99,9 +99,10 @@ suite =
                 viewBodyHtml viewParamsWithPartners
                     -- Note this is currently a placeholder
                     |> Query.contains [ Html.text "[fFf] Filters" ]
-        , test "Contains map" <|
-            \_ ->
-                viewBodyHtml viewParamsWithPartners
-                    -- Note this is currently a placeholder
-                    |> Query.contains [ Html.text "[fFf] Map" ]
+        -- Commenting out map for now
+        -- , test "Contains map" <|
+        --     \_ ->
+        --         viewBodyHtml viewParamsWithPartners
+        --             -- Note this is currently a placeholder
+        --             |> Query.contains [ Html.text "[fFf] Map" ]
         ]
