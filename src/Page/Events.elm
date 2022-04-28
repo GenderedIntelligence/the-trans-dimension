@@ -1,18 +1,16 @@
 module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEventsList)
 
-import Browser.Dom exposing (Element, Error, Viewport, getElement, getViewport, getViewportOf, setViewportOf)
-import Browser.Events
+import Browser.Dom exposing (Error, Viewport, getViewport, getViewportOf, setViewportOf)
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, alignItems, auto, backgroundColor, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, cursor, deg, display, displayFlex, em, firstChild, fitContent, flexDirection, flexGrow, flexWrap, focus, fontSize, fontStyle, fontWeight, height, hover, important, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, pct, plus, pointer, position, property, pseudoElement, px, relative, rem, rotate, row, rowReverse, scroll, solid, spaceBetween, sub, textAlign, textDecoration, textTransform, transform, uppercase, width, wrap)
+import Css exposing (Style, active, alignItems, auto, backgroundColor, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderColor, borderRadius, borderStyle, borderWidth, calc, center, color, column, cursor, deg, display, displayFlex, em, firstChild, fitContent, flexDirection, flexGrow, flexWrap, focus, fontSize, fontStyle, fontWeight, height, hover, important, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, pct, plus, pointer, position, property, pseudoElement, px, relative, rem, rotate, row, rowReverse, scroll, solid, spaceBetween, textAlign, textDecoration, textTransform, transform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
-import Css.Transitions exposing (background, transition)
+import Css.Transitions exposing (transition)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
-import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, button, div, h4, img, li, p, section, span, text, time, ul)
@@ -20,7 +18,6 @@ import Html.Styled.Attributes exposing (css, href, id, src)
 import Html.Styled.Events exposing (onClick)
 import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Path exposing (Path)
 import Process
 import Shared
@@ -199,20 +196,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = t SiteTitle
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t EventsMetaDescription
-        , locale = Nothing
-        , title = t EventsTitle
+    PageTemplate.pageMetaTags
+        { title = EventsTitle
+        , description = EventsMetaDescription
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 view :
@@ -222,7 +210,7 @@ view :
     -> StaticPayload (List Data.PlaceCal.Events.Event) RouteParams
     -> View Msg
 view maybeUrl sharedModel localModel static =
-    { title = t EventsTitle
+    { title = t (PageMetaTitle (t EventsTitle))
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"
@@ -397,7 +385,11 @@ viewEvent event =
                             , span [] [ text " — " ]
                             , time [] [ text (TransDate.humanTimeFromPosix event.endDatetime) ]
                             ]
-                        , p [ css [ eventParagraphStyle ] ] [ text event.location ]
+                        , if event.location.postalCode == "" then
+                            text ""
+
+                          else
+                            p [ css [ eventParagraphStyle ] ] [ text event.location.postalCode ]
                         , case event.partner.name of
                             Just partnerName ->
                                 p [ css [ eventParagraphStyle ] ] [ text ("by " ++ partnerName) ]

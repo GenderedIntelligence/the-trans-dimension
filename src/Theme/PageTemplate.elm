@@ -3,9 +3,12 @@ module Theme.PageTemplate exposing (..)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, absolute, after, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, bottom, boxSizing, calc, center, color, display, fontSize, fontStyle, fontWeight, height, inline, int, italic, left, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, maxWidth, minus, noRepeat, none, outline, paddingBottom, paddingTop, pct, position, property, px, relative, rem, textAlign, top, url, vw, width, zIndex)
+import Head
+import Head.Seo as Seo
 import Html.Styled as Html exposing (Html, div, h1, h2, h3, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, src)
 import List exposing (append)
+import Pages.Url
 import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
@@ -52,6 +55,32 @@ stringToHeaderType maybeTypeString =
 
         Nothing ->
             PinkHeader
+
+
+pageMetaTags : { title : Key, description : Key, imageSrc : Maybe String } -> List Head.Tag
+pageMetaTags { title, description, imageSrc } =
+    Seo.summary
+        { canonicalUrlOverride = Nothing
+        , siteName = t SiteTitle
+        , image =
+            { url =
+                Pages.Url.external
+                    (case imageSrc of
+                        Just anImageSrc ->
+                            anImageSrc
+
+                        Nothing ->
+                            t SiteLogoSrc
+                    )
+            , alt = "" -- This will not be meaningful images are decorative
+            , dimensions = Nothing
+            , mimeType = Nothing
+            }
+        , description = t description
+        , locale = Nothing
+        , title = t (PageMetaTitle (t title))
+        }
+        |> Seo.website
 
 
 view : PageUsingTemplate msg -> Html.Html msg

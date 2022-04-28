@@ -94,9 +94,10 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithoutPartners
                     |> Query.hasNot [ Selector.tag "ul" ]
-        , test "Contains map" <|
-            \_ ->
-                viewBodyHtml viewParamsWithPartners
-                    -- Note this is currently a placeholder
-                    |> Query.contains [ Html.text "[fFf] Map" ]
+        -- Commenting out map for now
+        -- , test "Contains map" <|
+        --     \_ ->
+        --         viewBodyHtml viewParamsWithPartners
+        --             -- Note this is currently a placeholder
+        --             |> Query.contains [ Html.text "[fFf] Map" ]
         ]

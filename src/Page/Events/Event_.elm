@@ -7,15 +7,13 @@ import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
-import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h4, hr, img, p, section, text, time)
 import Html.Styled.Attributes exposing (css, href, src, target)
 import Page exposing (Page, StaticPayload)
-import Page.Events exposing (addPartnerNamesToEvents)
+import Page.Events
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Shared
 import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
@@ -73,20 +71,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t (EventMetaDescription static.data.name static.data.summary)
-        , locale = Nothing
-        , title = t (EventTitle static.data.name)
+    PageTemplate.pageMetaTags
+        { title = EventTitle static.data.name
+        , description = EventMetaDescription static.data.name static.data.summary
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 type alias Data =
@@ -99,7 +88,7 @@ view :
     -> StaticPayload Data.PlaceCal.Events.Event RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = static.data.name
+    { title = t (PageMetaTitle static.data.name)
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"
@@ -121,8 +110,14 @@ viewEventInfo event =
         , viewInfoSection event
         , hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
         , viewAddressSection event
-        , div [ css [ mapContainerStyle ] ]
-            [ img [ src "https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(-0.11852,51.53101)/-0.118520,51.531010,15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g", css [ mapStyle ] ] [] ]
+        , case event.maybeGeo of
+            Just geo ->
+                div [ css [ mapContainerStyle ] ]
+                    [ p [] [ Theme.Global.mapImage { latitude = geo.latitude, longitude = geo.longitude } ]
+                    ]
+
+            Nothing ->
+                div [ css [ mapContainerStyle ] ] [ text "" ]
         ]
 
 
@@ -186,7 +181,16 @@ viewAddressSection event =
             ]
         , div [ css [ addressItemStyle ] ]
             [ h4 [ css [ addressItemTitleStyle ] ] [ text "Event Address" ]
-            , p [ css [ contactItemStyle ] ] [ text event.location ]
+            , if event.location.streetAddress == "" then
+                text ""
+
+              else
+                div [] (String.split ", " event.location.streetAddress |> List.map (\line -> p [ css [ contactItemStyle ] ] [ text line ]))
+            , if event.location.postalCode == "" then
+                text ""
+
+              else
+                p [ css [ contactItemStyle ] ] [ text event.location.postalCode ]
             ]
         ]
 
@@ -342,14 +346,4 @@ mapContainerStyle =
             [ margin4 (rem 3) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) ]
         , withMediaTabletPortraitUp
             [ margin4 (rem 3) (calc (rem -2) minus (px 1)) (px -1) (calc (rem -2) minus (px 1)) ]
-        ]
-
-
-mapStyle : Style
-mapStyle =
-    batch
-        [ height (px 318)
-        , width (pct 100)
-        , property "object-fit" "cover"
-        , withMediaTabletLandscapeUp [ height (px 400) ]
         ]

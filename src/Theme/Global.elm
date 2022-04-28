@@ -1,11 +1,11 @@
-module Theme.Global exposing (backgroundColorTransition, black, blue, blueBackgroundStyle, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, generateId, globalStyles, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteBackgroundStyle, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (backgroundColorTransition, black, blue, blueBackgroundStyle, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, generateId, globalStyles, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, mapImage, mapImageMulti, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteBackgroundStyle, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 import Color
-import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, content, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus, none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, vw, width, wrap, zero)
+import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus, none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, width, wrap, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Transitions exposing (Transition, linear, transition)
-import Html.Styled exposing (Html, a, div, img, input, label, li, option, p, select, span, text, ul)
+import Html.Styled exposing (Html, a, div, img, input, label, li, p, span, text, ul)
 import Html.Styled.Attributes exposing (attribute, css, for, href, id, placeholder, src, tabindex, type_, value)
 import Html.Styled.Events exposing (onCheck, onClick, onInput)
 
@@ -829,3 +829,28 @@ verticalSpacing num =
 generateId : String -> String
 generateId input =
     String.trim (String.replace " " "-" (String.toLower input))
+
+
+
+-- Map
+
+
+mapImageMulti : List { latitude : String, longitude : String } -> Html msg
+mapImageMulti markerList =
+    img [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/" ++ String.join "," (List.map (\marker -> "pin-l+ffffff(" ++ marker.longitude ++ "," ++ marker.latitude ++ ")") markerList) ++ "/auto/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g"), css [ mapStyle ] ] []
+
+
+mapImage : { latitude : String, longitude : String } -> Html msg
+mapImage geo =
+    img [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(" ++ geo.longitude ++ "," ++ geo.latitude ++ ")/" ++ geo.longitude ++ "," ++ geo.latitude ++ ",15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g"), css [ mapStyle ] ] []
+
+
+mapStyle : Style
+mapStyle =
+    batch
+        [ height (px 318)
+        , width (pct 100)
+        , property "object-fit" "cover"
+        , withMediaTabletLandscapeUp [ height (px 400) ]
+        , borderRadius (rem 0.3)
+        ]

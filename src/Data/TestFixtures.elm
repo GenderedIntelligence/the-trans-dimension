@@ -24,6 +24,7 @@ partners =
       , contactDetails =
             { email = "partner1@example.com", telephone = "020 7946 0100" }
       , areasServed = []
+      , maybeGeo = Nothing
       }
     , { id = "2"
       , name = "Partner two"
@@ -41,6 +42,7 @@ partners =
       , areasServed =
             [ { name = "Central London", abbreviatedName = Just "Central Ldn" }
             ]
+      , maybeGeo = Nothing
       }
     , { id = "3"
       , name = "Partner three"
@@ -54,6 +56,7 @@ partners =
             [ { name = "Birmingham", abbreviatedName = Nothing }
             , { name = "London", abbreviatedName = Nothing }
             ]
+      , maybeGeo = Nothing
       }
     , { id = "4"
       , name = "Partner four"
@@ -69,6 +72,7 @@ partners =
       , contactDetails =
             { email = "partner4@example.com", telephone = "020 7946 0400" }
       , areasServed = []
+      , maybeGeo = Nothing
       }
     ]
 
@@ -80,7 +84,8 @@ events =
       , description = "Fusce at sodales lacus. Morbi scelerisque lacus leo, ac mattis urna ultrices et. Proin ac eros faucibus, consequat ante vel, vulputate lectus. Nunc dictum pharetra ex, eget vestibulum lacus. Maecenas molestie felis in turpis eleifend, nec accumsan massa sodales. Nulla facilisi. Vivamus id rhoncus nulla. Nunc ultricies lectus et dui tempor sodales. Curabitur interdum lectus ultricies est ultricies, at faucibus nisi semper. Praesent iaculis ornare orci. Sed vel metus pharetra, efficitur leo a, porttitor magna. Curabitur sit amet mollis ex."
       , startDatetime = Time.millisToPosix 1645466400000
       , endDatetime = Time.millisToPosix 1650564000000
-      , location = "Venue"
+      , location = { streetAddress = "54 Zoo Lane", postalCode = "M16 7WP" }
+      , maybeGeo = Nothing
 
       --, realm = Online
       , partner = { id = "1", name = Just "Partner one", maybeUrl = Nothing, maybeContactDetails = Nothing }
@@ -91,7 +96,8 @@ events =
       , description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut risus placerat, suscipit lacus quis, pretium nisl. Fusce enim erat, fringilla ac auctor scelerisque, scelerisque non ipsum. Vivamus non elit id orci aliquam lobortis at sit amet ligula. Aenean vel massa pellentesque, viverra turpis et, commodo ipsum. Vivamus nunc elit, elementum et ipsum id, rutrum commodo sapien. Integer eget mi eget lacus sagittis molestie feugiat at lacus. Cras ultrices molestie blandit. Suspendisse gravida tortor non risus vestibulum laoreet. Nam nec quam id nisi suscipit consectetur. Aliquam venenatis tortor elit, id suscipit augue feugiat ac."
       , startDatetime = Time.millisToPosix 1645448400000
       , endDatetime = Time.millisToPosix 1658408400000
-      , location = "Venue"
+      , location = { streetAddress = "54 Zoo Lane", postalCode = "M16 7WP" }
+      , maybeGeo = Nothing
 
       --, realm = Offline
       , partner = { id = "2", name = Just "Partner two", maybeUrl = Nothing, maybeContactDetails = Nothing }

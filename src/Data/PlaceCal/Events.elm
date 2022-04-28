@@ -18,10 +18,11 @@ type alias Event =
     , description : String
     , startDatetime : Time.Posix
     , endDatetime : Time.Posix
-    , location : String
+    , location : EventLocation
 
     -- , realm : Realm
     , partner : EventPartner
+    , maybeGeo : Maybe Geo
     }
 
 
@@ -39,6 +40,18 @@ type alias EventPartnerContact =
     }
 
 
+type alias EventLocation =
+    { streetAddress : String
+    , postalCode : String
+    }
+
+
+type alias Geo =
+    { latitude : String
+    , longitude : String
+    }
+
+
 emptyEvent : Event
 emptyEvent =
     { id = ""
@@ -47,9 +60,10 @@ emptyEvent =
     , description = ""
     , startDatetime = Time.millisToPosix 0
     , endDatetime = Time.millisToPosix 0
-    , location = ""
+    , location = { streetAddress = "", postalCode = "" }
 
     -- , realm = Offline
+    , maybeGeo = Nothing
     , partner =
         { name = Nothing
         , id = ""
@@ -92,7 +106,7 @@ allEventsQuery =
               description
               startDate
               endDate
-              address { postalCode }
+              address { streetAddress, postalCode, geo { latitude, longitude } }
               organizer { id }
             } }
             """
@@ -131,18 +145,30 @@ decode =
             TransDate.isoDateStringDecoder
         |> OptimizedDecoder.Pipeline.required "endDate"
             TransDate.isoDateStringDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "address", "postalCode" ]
-            OptimizedDecoder.string
-        -- |> OptimizedDecoder.Pipeline.required "realm"
-        --    realmDecoder
+        |> OptimizedDecoder.Pipeline.required "address" eventAddressDecoder
         |> OptimizedDecoder.Pipeline.requiredAt [ "organizer", "id" ]
             partnerIdDecoder
+        |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
+
+
+eventAddressDecoder : OptimizedDecoder.Decoder EventLocation
+eventAddressDecoder =
+    OptimizedDecoder.succeed EventLocation
+        |> OptimizedDecoder.Pipeline.required "streetAddress" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "postalCode" OptimizedDecoder.string
 
 
 partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
 partnerIdDecoder =
     OptimizedDecoder.string
         |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId, maybeContactDetails = Nothing, maybeUrl = Nothing })
+
+
+geoDecoder : OptimizedDecoder.Decoder Geo
+geoDecoder =
+    OptimizedDecoder.succeed Geo
+        |> OptimizedDecoder.Pipeline.required "latitude" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.required "longitude" OptimizedDecoder.string
 
 
 type alias AllEventsResponse =
