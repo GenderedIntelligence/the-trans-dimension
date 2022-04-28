@@ -7,14 +7,12 @@ import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
-import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
 import Html.Styled.Attributes exposing (css, href, src, target)
 import Page exposing (Page, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Shared
 import Theme.Global exposing (hrStyle, introTextLargeStyle, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, viewBackButton, white, withMediaMediumDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
@@ -80,20 +78,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t (PartnerMetaDescription static.data.partner.name static.data.partner.summary)
-        , locale = Nothing
-        , title = t (PartnerTitle static.data.partner.name)
+    PageTemplate.pageMetaTags
+        { title = PartnerTitle static.data.partner.name
+        , description = PartnerMetaDescription static.data.partner.name static.data.partner.summary
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 type alias Data =
@@ -108,7 +97,7 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = static.data.partner.name
+    { title = t (PageMetaTitle static.data.partner.name)
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"

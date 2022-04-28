@@ -8,14 +8,12 @@ import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
-import Head.Seo as Seo
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h3, img, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Shared
 import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlue, pinkButtonOnLightBackgroundStyle, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
@@ -65,20 +63,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = t SiteTitle
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t NewsDescription
-        , locale = Nothing
-        , title = t NewsTitle
+    PageTemplate.pageMetaTags
+        { title = NewsTitle
+        , description = NewsDescription
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 view :

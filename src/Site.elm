@@ -1,6 +1,5 @@
 module Site exposing (config)
 
-import Color
 import DataSource
 import Head
 import MimeType

@@ -4,11 +4,9 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import DataSource exposing (DataSource)
 import Head
-import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Shared
 import Theme.Global exposing (viewBackButton)
 import Theme.PageTemplate as PageTemplate
@@ -45,20 +43,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = t SiteTitle
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t ErrorMessage
-        , locale = Nothing
-        , title = t ErrorTitle -- metadata.title
+    PageTemplate.pageMetaTags
+        { title = ErrorTitle
+        , description = ErrorMessage
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 type alias Data =
@@ -71,12 +60,15 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = t ErrorTitle
+    { title = t (PageMetaTitle (t ErrorTitle))
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"
             , title = t ErrorTitle
-            , bigText = { text = t ErrorMessage, node = "p" }
+            , bigText =
+                { text = t ErrorMessage
+                , node = "p"
+                }
             , smallText = Nothing
             , innerContent = Nothing
             , outerContent = Just (viewBackButton (TransRoutes.toAbsoluteUrl Error) (t ErrorButtonText))

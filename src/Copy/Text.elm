@@ -16,6 +16,12 @@ t key =
         SiteStrapline ->
             "Space and spaces for us"
 
+        SiteLogoSrc ->
+            "/images/logos/tdd_logo_with_strapline_on_darkBlue.png"
+
+        PageMetaTitle pageTitle ->
+            String.join " | " [ pageTitle, t SiteTitle ]
+
         --- Header
         HeaderMobileMenuButton ->
             "Menu"
@@ -271,6 +277,9 @@ t key =
         --- Privacy Page (note this also comes from markdown)
         PrivacyTitle ->
             "Privacy"
+
+        PrivacyMetaDescription ->
+            "Privacy information for The Trans Dimension website."
 
         --- 404 Page
         ErrorTitle ->

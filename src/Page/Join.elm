@@ -6,13 +6,11 @@ import Copy.Text exposing (t)
 import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, column, display, displayFlex, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, margin, margin2, marginRight, marginTop, maxWidth, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
 import DataSource exposing (DataSource)
 import Head
-import Head.Seo as Seo
 import Html.Styled exposing (Html, button, div, form, input, label, p, span, text, textarea)
 import Html.Styled.Attributes exposing (css, placeholder, type_, value)
 import Html.Styled.Events exposing (onInput)
 import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Path exposing (Path)
 import Shared
 import Theme.Global exposing (pinkButtonOnDarkBackgroundStyle, textInputStyle, viewCheckbox, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
@@ -282,20 +280,11 @@ head :
     StaticPayload Data RouteParams
     -> List Head.Tag
 head static =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = t SiteTitle
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = t JoinMetaDescription
-        , locale = Nothing
-        , title = t JoinTitle -- metadata.title
+    PageTemplate.pageMetaTags
+        { title = JoinTitle
+        , description = JoinMetaDescription
+        , imageSrc = Nothing
         }
-        |> Seo.website
 
 
 type alias Data =
@@ -309,7 +298,7 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel localModel static =
-    { title = t JoinTitle
+    { title = t (PageMetaTitle (t JoinTitle))
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"

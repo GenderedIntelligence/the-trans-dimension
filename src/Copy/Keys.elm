@@ -4,6 +4,8 @@ module Copy.Keys exposing (Key(..))
 type Key
     = SiteTitle
     | SiteStrapline
+    | SiteLogoSrc
+    | PageMetaTitle String
       --- Header
     | HeaderMobileMenuButton
     | HeaderAskButton
@@ -97,6 +99,7 @@ type Key
     | NewsItemReadMore String
       --- Privacy
     | PrivacyTitle
+    | PrivacyMetaDescription
       --- 404
     | ErrorTitle
     | ErrorMessage
