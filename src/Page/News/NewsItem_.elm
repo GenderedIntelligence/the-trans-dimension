@@ -124,8 +124,9 @@ viewArticle newsItem =
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
         , figure [ css [ articleFigureStyle ] ]
-            [ img [ src "/images/news/article_6.jpg", css [ articleFigureImageStyle ] ] [] -- [fFf]
-            , figcaption [ css [ articleFigureCaptionStyle ] ] [ text "Optional image credit, note and or details." ] -- [fFf]
+            [ img [ src "/images/news/article_6.jpg", css [ articleFigureImageStyle ] ] []
+
+            -- [fFf] , figcaption [ css [ articleFigureCaptionStyle ] ] [ text "Optional image credit, note and or details." ]
             ]
         , div [ css [ articleContentStyle ] ] [ text newsItem.body ]
         ]
@@ -134,8 +135,7 @@ viewArticle newsItem =
 viewPagination : Html Msg
 viewPagination =
     div []
-        [ p [] [ text "[fFf] Previous/next navigation" ]
-        , viewBackButton (TransRoutes.toAbsoluteUrl News) (t NewsItemReturnButton)
+        [ viewBackButton (TransRoutes.toAbsoluteUrl News) (t NewsItemReturnButton)
         ]
 
 
@@ -178,14 +178,17 @@ articleFigureImageStyle =
         ]
 
 
-articleFigureCaptionStyle : Style
-articleFigureCaptionStyle =
-    batch
-        [ fontSize (rem 0.875)
-        , textAlign center
-        , margin (rem 0.75)
-        , fontStyle italic
-        ]
+
+{- not in use
+   articleFigureCaptionStyle : Style
+   articleFigureCaptionStyle =
+       batch
+           [ fontSize (rem 0.875)
+           , textAlign center
+           , margin (rem 0.75)
+           , fontStyle italic
+           ]
+-}
 
 
 articleContentStyle : Style

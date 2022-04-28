@@ -88,7 +88,6 @@ view maybeUrl sharedModel static =
                 Just
                     (div []
                         [ viewNewsList static
-                        , viewPagination
                         ]
                     )
             }
@@ -161,11 +160,6 @@ viewNewsArticle newsItem =
                 [ text (t (NewsItemReadMore newsItem.title)) ]
             ]
         ]
-
-
-viewPagination : Html msg
-viewPagination =
-    ul [] [ text "[fFf] News pagination" ]
 
 
 summaryFromArticleBody : String -> String

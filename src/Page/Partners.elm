@@ -85,8 +85,7 @@ view maybeUrl sharedModel static =
 viewPartners : StaticPayload (List Data.PlaceCal.Partners.Partner) RouteParams -> Html msg
 viewPartners static =
     section []
-        [ div [ css [ featurePlaceholderStyle ] ] [ text "[fFf] Filters" ]
-        , h3 [ css [ partnersListTitleStyle ] ] [ text "All partners" ]
+        [ h3 [ css [ partnersListTitleStyle ] ] [ text "All partners" ]
         , if List.length static.data > 0 then
             ul [ css [ listStyle ] ] (List.map (\partner -> viewPartner partner) static.data)
 
@@ -111,7 +110,6 @@ viewPartner partner =
                 [ p [ css [ partnerDescriptionStyle ] ]
                     [ text partner.summary
                     ]
-                , span [] [ text "[fFf]" ] --- [fFf] the icon debate...
                 ]
             ]
         ]

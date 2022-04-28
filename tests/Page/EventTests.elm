@@ -24,7 +24,12 @@ viewParamsWithEvent =
         , location = { postalCode = "", streetAddress = "" }
         , maybeGeo = Nothing
         --, realm = Online
-        , partner = { id = "1", name = Just "Partner one", maybeContactDetails = Just { telephone = "999", email = "partner@partner.com" }, maybeUrl = Just "https://google.com" }
+        , partner =
+            { id = "1"
+            , name = Just "Partner one"
+            , maybeContactDetails = Just { telephone = "999", email = "partner@partner.com" }
+            , maybeUrl = Just "https://google.com"
+            }
         }
     , path = Path.fromString "event/1"
     , routeParams = { event = "1" }
@@ -77,9 +82,7 @@ suite =
         --     \_ ->
         --         viewBodyHtml viewParamsWithEvent
         --             |> Query.contains [ Html.text "link [fFf]" ]
-
         -- Commented out as reminder to add map test
-        
         -- , test "Contains map" <|
         --     \_ ->
         --         viewBodyHtml viewParamsWithEvent

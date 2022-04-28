@@ -42,13 +42,6 @@ suite =
                 viewBodyHtml viewParamsWithNews
                     |> Query.find [ Selector.tag "h2" ]
                     |> Query.contains [ Html.text (t NewsTitle) ]
-        , test "Has pagination" <|
-            \_ ->
-                viewBodyHtml viewParamsWithNews
-                    |> Query.findAll [ Selector.tag "ul" ]
-                    |> Query.index 1
-                    -- Note this is currently a placeholder
-                    |> Query.contains [ Html.text "[fFf] News pagination" ]
         , test "Contains a list of news" <|
             \_ ->
                 viewBodyHtml viewParamsWithNews

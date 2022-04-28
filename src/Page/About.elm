@@ -221,10 +221,6 @@ viewAboutIntro static =
     section [ css [ aboutIntroTextStyle ] ] static.data.main.body
 
 
-
--- [fFf] from design wireframe - enter your email to be notified when we come to your area
-
-
 viewAboutSections : StaticPayload Data RouteParams -> Html.Html Msg
 viewAboutSections static =
     div []
