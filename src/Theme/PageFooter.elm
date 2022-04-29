@@ -19,8 +19,8 @@ viewPageFooter =
             , viewPageFooterNavigation
             ]
         , div [ css [ footerMiddleSectionStyle ] ]
-            [ viewPageFooterSocial (t FooterSocial)
-            , viewPageFooterSignup (t FooterSignupText) (t FooterSignupButton)
+            [ viewPageFooterSocial
+            , viewPageFooterSignup
             , viewPageFooterLogos
             ]
         , viewPageFooterInfo (t FooterInfoTitle) [ t FooterInfoCharity, t FooterInfoCompany, t FooterInfoOffice ]
@@ -66,7 +66,7 @@ viewPageFooterNavigationItem route =
 viewPageFooterLogos : Html msg
 viewPageFooterLogos =
     div [ css [ blockStyle ] ]
-        [ p [ css [ subheadStyle ] ] [ text "We are supported by" ]
+        [ p [ css [ subheadStyle ] ] [ text (t FooterByLine) ]
         , ul [ css [ logoListStyle ] ]
             [ li [ css [ logoListItemStyle ] ] [ img [ src "/images/logos/footer_gfsc.svg", css [ logoImageStyle ] ] [] ]
             , li [ css [ logoListItemStyle ] ] [ img [ src "/images/logos/GI_pink.png", css [ logoImageStyle, logoGIStyle ] ] [] ]
@@ -74,8 +74,8 @@ viewPageFooterLogos =
         ]
 
 
-viewPageFooterSignup : String -> String -> Html msg
-viewPageFooterSignup copyText buttonText =
+viewPageFooterSignup : Html msg
+viewPageFooterSignup =
     -- Ideally we'd implement an ajax form and handle the result within elm
     -- Code supplied for the embed is plain html, using that for now.
     form
@@ -89,7 +89,7 @@ viewPageFooterSignup copyText buttonText =
         , target "_blank"
         ]
         [ label [ css [ formStyle ] ]
-            [ span [ css [ subheadStyle ] ] [ text copyText ]
+            [ span [ css [ subheadStyle ] ] [ text (t FooterSignupText) ]
             , input
                 [ placeholder "Your email address"
                 , type_ "email"
@@ -104,7 +104,7 @@ viewPageFooterSignup copyText buttonText =
             [ type_ "submit"
             , css [ pinkButtonOnDarkBackgroundStyle ]
             ]
-            [ text buttonText ]
+            [ text (t FooterSignupButton) ]
         ]
 
 
@@ -123,10 +123,10 @@ viewPageFooterInfo title info =
         )
 
 
-viewPageFooterSocial : String -> Html msg
-viewPageFooterSocial socialText =
+viewPageFooterSocial : Html msg
+viewPageFooterSocial =
     div [ css [ blockStyle ] ]
-        [ p [ css [ subheadStyle ] ] [ text socialText ]
+        [ p [ css [ subheadStyle ] ] [ text (t FooterSocial) ]
         , ul
             [ css [ socialListStyle ] ]
             [ li [ css [ socialListItemStyle ] ] [ img [ src "/images/logos/footer_insta.svg" ] [] ]

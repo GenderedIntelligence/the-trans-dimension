@@ -14,6 +14,7 @@ type Key
     | FooterSocial
     | FooterSignupText
     | FooterSignupButton
+    | FooterByLine
     | FooterInfoTitle
     | FooterInfoCharity
     | FooterInfoCompany

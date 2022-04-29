@@ -43,6 +43,9 @@ t key =
         FooterSignupButton ->
             "Sign up"
 
+        FooterByLine ->
+            "Created by"
+
         FooterInfoTitle ->
             "The Trans Dimension, c/o Gendered Intelligence"
 
@@ -86,7 +89,7 @@ t key =
             "http://gfsc.studio/"
 
         FooterCopyright ->
-            "© 2022 The Trans Dimension. All rights reserved."
+            "© 2022 Gendered Intelligence. All rights reserved."
 
         --- Index Page
         IndexTitle ->
