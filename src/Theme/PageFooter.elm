@@ -143,7 +143,7 @@ viewPageFooterCredit creditTitle creditList =
             [ text creditTitle ]
         , p
             [ css [ infoParagraphStyle ] ]
-            (List.map viewPageFooterCreditItem creditList)
+            (List.intersperse (text ", ") (List.map viewPageFooterCreditItem creditList))
         , p [ css [ infoParagraphStyle ] ] [ text (t FooterCopyright) ]
         , img [ src "/images/logos/footer_placecal.svg", css [ poweredByPlaceCalStyle ] ] []
         ]
@@ -155,7 +155,6 @@ viewPageFooterCreditItem creditItem =
         [ text creditItem.text
         , text " "
         , a [ href creditItem.link, target "_blank", css [ creditLinkStyle ] ] [ text creditItem.name ]
-        , text ", "
         ]
 
 
