@@ -16,8 +16,19 @@ t key =
         SiteStrapline ->
             "Space and spaces for us"
 
+        TransDimensionDescription ->
+            -- Note this is also in content/about/main.md
+            -- If they should remain in sync, we should remove from there
+            "The Trans Dimension is an online community hub connecting trans communities in London. We collate news, events and services by and for trans people."
+
         SiteLogoSrc ->
             "/images/logos/tdd_logo_with_strapline_on_darkBlue.png"
+
+        GeeksForSocialChangeHomeUrl ->
+            "https://gfsc.studio/"
+
+        GenderedIntelligenceHomeUrl ->
+            "https://genderedintelligence.co.uk/"
 
         PageMetaTitle pageTitle ->
             String.join " | " [ pageTitle, t SiteTitle ]
@@ -42,6 +53,9 @@ t key =
 
         FooterSignupButton ->
             "Sign up"
+
+        FooterByLine ->
+            "Created by"
 
         FooterInfoTitle ->
             "The Trans Dimension, c/o Gendered Intelligence"
@@ -83,10 +97,10 @@ t key =
             "GFSC"
 
         FooterCredit3Link ->
-            "http://gfsc.studio/"
+            t GeeksForSocialChangeHomeUrl
 
         FooterCopyright ->
-            "© 2022 The Trans Dimension. All rights reserved."
+            "© 2022 Gendered Intelligence. All rights reserved."
 
         --- Index Page
         IndexTitle ->
@@ -99,7 +113,7 @@ t key =
             "Trusted, accessible, trans-friendly spaces. Always expanding."
 
         IndexIntroMessage ->
-            "The Trans Dimension is an online community hub connecting trans communities across the UK. We collate news, events and services by and for trans people."
+            t TransDimensionDescription
 
         IndexIntroButtonText ->
             "See what's on near you"
@@ -121,7 +135,7 @@ t key =
             "About"
 
         AboutMetaDescription ->
-            "The Trans Dimension is an online community hub connecting trans communities across the UK. We collate news, events and services by and for trans people."
+            t TransDimensionDescription
 
         -- Events Page
         EventsTitle ->
@@ -131,7 +145,7 @@ t key =
             "Events and activities by and for trans communities across the UK."
 
         EventsSummary ->
-            "Events & activities upcoming"
+            "Upcoming events & activities"
 
         EventsSubHeading ->
             "Upcoming events"
@@ -169,7 +183,7 @@ t key =
             "Trans Dimension partners form an online community for connecting trans people across the UK by publishing service information, events and news on PlaceCal."
 
         PartnersIntroSummary ->
-            "We are proud to partner with a number of charities and organisations with a long track record of supporting the trans community."
+            "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community."
 
         PartnersIntroDescription ->
             "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
@@ -262,7 +276,7 @@ t key =
             "Read the rest of " ++ title
 
         NewsDescription ->
-            "Updates & articles from The Trans Dimension."
+            "Updates & articles from The Trans Dimension partners"
 
         --- News Single Article Page
         NewsItemTitle title ->

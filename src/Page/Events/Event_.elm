@@ -143,10 +143,6 @@ viewInfoSection event =
         , div [ css [ eventDescriptionStyle ] ]
             --  (Theme.TransMarkdown.markdownToHtml event.description)
             [ p [] [ text event.description ] ]
-        , div [ css [ accessibilityBoxStyle ] ]
-            [ div [ css [ accessibilityIconStyle ] ] [ img [ src "/images/icons/icon_wheelchair.svg" ] [] ]
-            , p [ css [ accessibilityTextStyle ] ] [ text "Accessibility information box" ]
-            ]
         ]
 
 
@@ -260,38 +256,6 @@ eventDescriptionStyle =
         , marginBottom (rem 2)
         , withMediaTabletLandscapeUp [ marginTop (rem 3) ]
         , withMediaTabletPortraitUp [ marginTop (rem 2) ]
-        ]
-
-
-accessibilityBoxStyle : Style
-accessibilityBoxStyle =
-    batch
-        [ padding (rem 1)
-        , backgroundColor pink
-        , color darkBlue
-        , displayFlex
-        , borderRadius (rem 0.3)
-        , margin2 (rem 2) (rem 0)
-        , justifyContent flexStart
-        , withMediaSmallDesktopUp [ marginTop (rem 3) ]
-        , withMediaTabletPortraitUp [ marginBottom (rem 3) ]
-        ]
-
-
-accessibilityIconStyle : Style
-accessibilityIconStyle =
-    batch
-        [ marginTop (rem 0.2)
-        , marginRight (rem 1)
-        , withMediaTabletPortraitUp [ marginRight (rem 1.5) ]
-        ]
-
-
-accessibilityTextStyle : Style
-accessibilityTextStyle =
-    batch
-        [ fontSize (rem 0.875)
-        , withMediaTabletPortraitUp [ fontSize (rem 1) ]
         ]
 
 

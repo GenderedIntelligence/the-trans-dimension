@@ -4,8 +4,11 @@ module Copy.Keys exposing (Key(..))
 type Key
     = SiteTitle
     | SiteStrapline
+    | TransDimensionDescription
     | SiteLogoSrc
     | PageMetaTitle String
+    | GeeksForSocialChangeHomeUrl
+    | GenderedIntelligenceHomeUrl
       --- Header
     | HeaderMobileMenuButton
     | HeaderAskButton
@@ -14,6 +17,7 @@ type Key
     | FooterSocial
     | FooterSignupText
     | FooterSignupButton
+    | FooterByLine
     | FooterInfoTitle
     | FooterInfoCharity
     | FooterInfoCompany
