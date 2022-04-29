@@ -19,6 +19,12 @@ t key =
         SiteLogoSrc ->
             "/images/logos/tdd_logo_with_strapline_on_darkBlue.png"
 
+        GeeksForSocialChangeHomeUrl ->
+            "https://gfsc.studio/"
+
+        GenderedIntelligenceHomeUrl ->
+            "https://genderedintelligence.co.uk/"
+
         PageMetaTitle pageTitle ->
             String.join " | " [ pageTitle, t SiteTitle ]
 
@@ -86,7 +92,7 @@ t key =
             "GFSC"
 
         FooterCredit3Link ->
-            "http://gfsc.studio/"
+            t GeeksForSocialChangeHomeUrl
 
         FooterCopyright ->
             "© 2022 Gendered Intelligence. All rights reserved."

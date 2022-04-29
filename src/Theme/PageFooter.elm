@@ -68,8 +68,10 @@ viewPageFooterLogos =
     div [ css [ blockStyle ] ]
         [ p [ css [ subheadStyle ] ] [ text (t FooterByLine) ]
         , ul [ css [ logoListStyle ] ]
-            [ li [ css [ logoListItemStyle ] ] [ img [ src "/images/logos/footer_gfsc.svg", css [ logoImageStyle ] ] [] ]
-            , li [ css [ logoListItemStyle ] ] [ img [ src "/images/logos/GI_pink.png", css [ logoImageStyle, logoGIStyle ] ] [] ]
+            [ li [ css [ logoListItemStyle ] ]
+                [ a [ href (t GeeksForSocialChangeHomeUrl), target "_blank" ] [ img [ src "/images/logos/footer_gfsc.svg", css [ logoImageStyle ] ] [] ] ]
+            , li [ css [ logoListItemStyle ] ]
+                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank" ] [ img [ src "/images/logos/GI_pink.png", css [ logoImageStyle, logoGIStyle ] ] [] ] ]
             ]
         ]
 

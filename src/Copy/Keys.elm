@@ -6,6 +6,8 @@ type Key
     | SiteStrapline
     | SiteLogoSrc
     | PageMetaTitle String
+    | GeeksForSocialChangeHomeUrl
+    | GenderedIntelligenceHomeUrl
       --- Header
     | HeaderMobileMenuButton
     | HeaderAskButton
