@@ -1,6 +1,6 @@
 ---
 title: "About"
-subtitle: "The Trans Dimension is an online community hub connecting trans communities across the UK. We collate news, events and services by and for trans people."
+subtitle: "The Trans Dimension is an online community hub connecting trans communities in London. We collate news, events and services by and for trans people."
 ---
 
 We see and experience the barriers in place for trans, non-binary, and gender diverse people trying to meet, connect, and socialise and know that for disabled trans people the challenge is even harder. Our goal is to support and facilitate community connections through safe spaces and networks across the UK.
