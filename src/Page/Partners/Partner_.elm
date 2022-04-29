@@ -116,9 +116,7 @@ view maybeUrl sharedModel static =
 viewInfo : Data -> Html msg
 viewInfo { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
-        [ div [] [ text "Space for logo or image" ]
-        , hr [ css [ hrStyle ] ] []
-        , div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml partner.description)
+        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml partner.description)
         , hr [ css [ hrStyle ] ] []
         , section [ css [ contactWrapperStyle ] ]
             [ div [ css [ contactSectionStyle ] ]
