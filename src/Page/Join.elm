@@ -1,4 +1,4 @@
-module Page.Join exposing (Data, Model, Msg, blankForm, page, view)
+module Page.Join exposing (Data, Model, Msg, blankForm, page, view, initialFormState)
 
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
@@ -79,6 +79,8 @@ type alias Model =
     , formState : FormState
     }
 
+initialFormState : FormState
+initialFormState = Inputting
 
 blankForm : FormInput
 blankForm =

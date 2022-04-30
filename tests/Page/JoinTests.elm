@@ -10,6 +10,7 @@ import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
 import TestUtils exposing (queryFromStyledList)
+import Page.Join exposing (initialFormState)
 
 
 viewParamsWithJoin =
@@ -25,7 +26,9 @@ viewBodyHtml viewParams =
         (view
             Nothing
             { showMobileMenu = False }
-            { userInput = blankForm }
+            { userInput = blankForm
+            , formState = initialFormState
+            }
             viewParams
         ).body
 
