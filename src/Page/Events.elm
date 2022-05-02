@@ -120,10 +120,10 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
             ( localModel
             , Task.attempt (\_ -> NoOp)
                 (scrollPagination
-                    (if localModel.viewportWidth < 600 then
+                    (if localModel.viewportWidth < Theme.Global.maxMobile then
                         -95
 
-                     else if localModel.viewportWidth < 800 then
+                     else if localModel.viewportWidth < Theme.Global.maxTabletPortrait then
                         -122
 
                      else

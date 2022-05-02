@@ -565,9 +565,11 @@ checkboxLabelStyle =
         , flexDirection row
         , alignItems center
         , justifyContent center
-        , margin (rem 0)
+        , margin2 (rem 0) auto
         , position relative
         , cursor pointer
+        , maxWidth fitContent
+        , withMediaTabletPortraitUp [ maxWidth (pct 100) ]
         , after
             [ property "content" "\"\""
             , textInputStyle
