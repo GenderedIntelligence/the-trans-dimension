@@ -15,6 +15,9 @@ type Key
     | HeaderAskLink
       --- Site Footer
     | FooterSocial
+    | FooterInstaLink
+    | FooterTwitterLink
+    | FooterFacebookLink
     | FooterSignupText
     | FooterSignupButton
     | FooterByLine

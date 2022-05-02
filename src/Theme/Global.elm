@@ -289,6 +289,7 @@ smallTitleStyle =
         [ textTransform uppercase
         , textAlign center
         , letterSpacing (px 1.9)
+        , fontWeight (int 700)
         ]
 
 
