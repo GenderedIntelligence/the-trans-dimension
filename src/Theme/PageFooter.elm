@@ -2,7 +2,7 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, after, alignItems, auto, backgroundColor, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, outline, padding, padding2, padding4, pct, property, px, rem, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, uppercase, width, wrap)
+import Css exposing (Style, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, outline, padding, padding2, padding4, pct, property, px, rem, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, uppercase, url, width, wrap)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
@@ -10,10 +10,6 @@ import Html.Styled.Attributes exposing (action, attribute, css, href, method, na
 import List exposing (append, concat)
 import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, smallInlineTitleStyle, textInputStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.Logo
-import Css exposing (height)
-import Css exposing (backgroundImage)
-import Css exposing (url)
-import Css exposing (backgroundSize)
 
 
 viewPageFooter : Html msg
@@ -76,9 +72,9 @@ viewPageFooterLogos =
         [ p [ css [ subheadStyle ] ] [ text (t FooterByLine) ]
         , ul [ css [ logoListStyle ] ]
             [ li [ css [ logoListItemStyle ] ]
-                [ a [ href (t GeeksForSocialChangeHomeUrl), target "_blank", css [ Theme.Logo.logoParentStyle] ] [ Theme.Logo.viewGFSC ] ]
+                [ a [ href (t GeeksForSocialChangeHomeUrl), target "_blank", css [ Theme.Logo.logoParentStyle ] ] [ Theme.Logo.viewGFSC ] ]
             , li [ css [ logoListItemStyle ] ]
-                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ] ] [ ] ]
+                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ] ] [] ]
             ]
         ]
 
@@ -370,12 +366,13 @@ logoImageStyle =
 logoGIStyle : Style
 logoGIStyle =
     batch
-        [ width (px 185), height (px 48)
+        [ width (px 185)
+        , height (px 48)
         , backgroundImage (url "/images/logos/GI_pink.png")
         , backgroundSize (px 185)
-        , hover [ backgroundImage (url "/images/logos/GI_pink_rollover.png")]
-        , focus [ backgroundImage (url "/images/logos/GI_white.png")] 
-        , active [ backgroundImage (url "/images/logos/GI_white.png")] 
+        , hover [ backgroundImage (url "/images/logos/GI_pink_rollover.png") ]
+        , focus [ backgroundImage (url "/images/logos/GI_white.png") ]
+        , active [ backgroundImage (url "/images/logos/GI_white.png") ]
         ]
 
 
