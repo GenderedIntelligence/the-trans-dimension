@@ -1,9 +1,9 @@
-module Page.Join exposing (Data, Model, Msg, blankForm, page, view, initialFormState)
+module Page.Join exposing (Data, Model, Msg, blankForm, initialFormState, page, view)
 
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, margin, margin2, marginRight, marginTop, maxWidth, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, lineHeight, margin, margin2, marginRight, marginTop, maxWidth, minHeight, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
 import Data.TestFixtures exposing (news)
 import DataSource exposing (DataSource)
 import Head
@@ -79,8 +79,11 @@ type alias Model =
     , formState : FormState
     }
 
+
 initialFormState : FormState
-initialFormState = Inputting
+initialFormState =
+    Inputting
+
 
 blankForm : FormInput
 blankForm =
@@ -435,26 +438,6 @@ view maybeUrl sharedModel localModel static =
     }
 
 
-
--- viewFormStateForTesting : FormState -> Html Msg
--- viewFormStateForTesting formState =
---     h1 [ css [ color pink ] ]
---         [ text
---             (case formState of
---                 Inputting ->
---                     "Inputting"
---                 ValidationError ->
---                     "Validation Error"
---                 Sending ->
---                     "Sending"
---                 Sent ->
---                     "Sent"
---                 SendingError ->
---                     "Sending Error"
---             )
---         ]
-
-
 viewForm : Model -> Html Msg
 viewForm state =
     form [ css [ formStyle ], onSubmit ClickSend ]
@@ -514,7 +497,7 @@ viewForm state =
                 []
             ]
         , div [ css [ buttonWrapperStyle ] ]
-            [ button [ css [ pinkButtonOnDarkBackgroundStyle ], type_ "submit" ]
+            [ button [ css [ formButtonStyle ], type_ "submit" ]
                 [ text
                     (if state.formState == Sending then
                         "Sending..."
@@ -573,8 +556,7 @@ formTextAreaItemStyle : Style
 formTextAreaItemStyle =
     batch
         [ formItemStyle
-        , withMediaTabletPortraitUp [ important (width (pct 100)) ]
-        , flexDirection row
+        , withMediaTabletPortraitUp [ important (width (pct 100)), flexDirection row ]
         ]
 
 
@@ -628,9 +610,10 @@ textAreaStyle =
         [ textInputStyle
         , margin2 (rem 0.5) (rem 0)
         , padding2 (rem 1) (rem 1.5)
-        , height (px 100)
         , width (pct 100)
+        , height (px 140)
         , boxSizing borderBox
+        , withMediaTabletPortraitUp [ height (px 100) ]
         ]
 
 
@@ -640,9 +623,10 @@ textAreaErrorStyle =
         [ textInputErrorStyle
         , margin2 (rem 0.5) (rem 0)
         , padding2 (rem 1) (rem 1.5)
-        , height (px 100)
+        , height (px 140)
         , width (pct 100)
         , boxSizing borderBox
+        , withMediaTabletPortraitUp [ height (px 100) ]
         ]
 
 
@@ -658,9 +642,20 @@ formHelperStyle : Style
 formHelperStyle =
     batch
         [ color pink
-        , fontSize (rem 1)
-        , fontWeight (int 500)
+        , fontSize (rem 0.875)
+        , fontWeight (int 600)
         , textAlign center
         , width (pct 100)
         , marginTop (rem 1)
+        , lineHeight (em 1.3)
+        , withMediaTabletPortraitUp [ fontSize (rem 1) ]
+        ]
+
+
+formButtonStyle : Style
+formButtonStyle =
+    batch
+        [ pinkButtonOnDarkBackgroundStyle
+        , padding2 (rem 0.25) (rem 4)
+        , withMediaTabletPortraitUp [ marginTop (rem 1) ]
         ]
