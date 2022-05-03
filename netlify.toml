@@ -6,3 +6,4 @@
   from = "/*"
   to = "/error404"
   status = 404
+  force = true
