@@ -2,13 +2,14 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, after, alignItems, auto, backgroundColor, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexWrap, focus, fontSize, fontWeight, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, outline, padding, padding2, padding4, pct, property, px, rem, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, uppercase, width, wrap)
+import Css exposing (Style, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, outline, padding, padding2, padding4, pct, property, px, rem, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, uppercase, url, width, wrap)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
-import List exposing (append)
-import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, white, withMediaMediumDesktopUp, withMediaTabletPortraitUp)
+import List exposing (append, concat)
+import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, smallInlineTitleStyle, textInputStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Logo
 
 
 viewPageFooter : Html msg
@@ -23,20 +24,22 @@ viewPageFooter =
             , viewPageFooterSignup
             , viewPageFooterLogos
             ]
-        , viewPageFooterInfo (t FooterInfoTitle) [ t FooterInfoCharity, t FooterInfoCompany, t FooterInfoOffice ]
-        , viewPageFooterCredit (t FooterCreditTitle)
-            [ { name = t FooterCredit1Name
-              , link = t FooterCredit1Link
-              , text = t FooterCredit1Text
-              }
-            , { name = t FooterCredit2Name
-              , link = t FooterCredit2Link
-              , text = t FooterCredit2Text
-              }
-            , { name = t FooterCredit3Name
-              , link = t FooterCredit3Link
-              , text = t FooterCredit3Text
-              }
+        , div [ css [ footerBottomSectionStyle ] ]
+            [ viewPageFooterInfo (t FooterInfoTitle) [ t FooterInfoCharity, t FooterInfoCompany, t FooterInfoOffice ]
+            , viewPageFooterCredit (t FooterCreditTitle)
+                [ { name = t FooterCredit1Name
+                  , link = t FooterCredit1Link
+                  , text = t FooterCredit1Text
+                  }
+                , { name = t FooterCredit2Name
+                  , link = t FooterCredit2Link
+                  , text = t FooterCredit2Text
+                  }
+                , { name = t FooterCredit3Name
+                  , link = t FooterCredit3Link
+                  , text = t FooterCredit3Text
+                  }
+                ]
             ]
         ]
 
@@ -51,7 +54,7 @@ viewPageFooterNavigation =
     nav [ css [ navStyle ] ]
         [ ul [ css [ navListStyle ] ]
             (List.map viewPageFooterNavigationItem
-                [ Partners, Events, News, About, Privacy ]
+                [ Events, Partners, News, About, Privacy, Join ]
             )
         ]
 
@@ -65,13 +68,13 @@ viewPageFooterNavigationItem route =
 
 viewPageFooterLogos : Html msg
 viewPageFooterLogos =
-    div [ css [ blockStyle ] ]
+    div [ css [ createdByStyle ] ]
         [ p [ css [ subheadStyle ] ] [ text (t FooterByLine) ]
         , ul [ css [ logoListStyle ] ]
             [ li [ css [ logoListItemStyle ] ]
-                [ a [ href (t GeeksForSocialChangeHomeUrl), target "_blank" ] [ img [ src "/images/logos/footer_gfsc.svg", css [ logoImageStyle ] ] [] ] ]
+                [ a [ href (t GeeksForSocialChangeHomeUrl), target "_blank", css [ Theme.Logo.logoParentStyle ] ] [ Theme.Logo.viewGFSC ] ]
             , li [ css [ logoListItemStyle ] ]
-                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank" ] [ img [ src "/images/logos/GI_pink.png", css [ logoImageStyle, logoGIStyle ] ] [] ] ]
+                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ] ] [] ]
             ]
         ]
 
@@ -82,31 +85,30 @@ viewPageFooterSignup =
     -- Code supplied for the embed is plain html, using that for now.
     form
         [ css
-            [ blockStyle
-            , formStyle
+            [ formStyle
             ]
         , action "https://static.mailerlite.com/webforms/submit/g2r6z4"
         , attribute "data-code" "g2r6z4"
         , method "post"
         , target "_blank"
         ]
-        [ label [ css [ formStyle ] ]
-            [ span [ css [ subheadStyle ] ] [ text (t FooterSignupText) ]
-            , input
+        [ span [ css [ subheadStyle ] ] [ text (t FooterSignupText) ]
+        , div [ css [ innerFormStyle ] ]
+            [ input
                 [ placeholder "Your email address"
                 , type_ "email"
                 , name "fields[email]"
                 , css [ formInputStyle ]
                 ]
                 []
+            , input [ type_ "hidden", name "ml-submit", value "1" ] []
+            , input [ type_ "hidden", name "anticsrf", value "true" ] []
+            , button
+                [ type_ "submit"
+                , css [ pinkButtonOnDarkBackgroundStyle, padding (rem 0.25), flexShrink (int 0) ]
+                ]
+                [ text (t FooterSignupButton) ]
             ]
-        , input [ type_ "hidden", name "ml-submit", value "1" ] []
-        , input [ type_ "hidden", name "anticsrf", value "true" ] []
-        , button
-            [ type_ "submit"
-            , css [ pinkButtonOnDarkBackgroundStyle ]
-            ]
-            [ text (t FooterSignupButton) ]
         ]
 
 
@@ -127,13 +129,13 @@ viewPageFooterInfo title info =
 
 viewPageFooterSocial : Html msg
 viewPageFooterSocial =
-    div [ css [ blockStyle ] ]
+    div [ css [ socialStyle ] ]
         [ p [ css [ subheadStyle ] ] [ text (t FooterSocial) ]
         , ul
             [ css [ socialListStyle ] ]
-            [ li [ css [ socialListItemStyle ] ] [ img [ src "/images/logos/footer_insta.svg" ] [] ]
-            , li [ css [ socialListItemStyle ] ] [ img [ src "/images/logos/footer_twitter.svg" ] [] ]
-            , li [ css [ socialListItemStyle ] ] [ img [ src "/images/logos/footer_facebook.svg" ] [] ]
+            [ li [ css [ socialListItemStyle ] ] [ a [ href (t FooterInstaLink), target "_blank", css [ Theme.Logo.logoParentStyle ] ] [ Theme.Logo.viewInsta ] ]
+            , li [ css [ socialListItemStyle ] ] [ a [ href (t FooterTwitterLink), target "_blank", css [ Theme.Logo.logoParentStyle ] ] [ Theme.Logo.viewTwitter ] ]
+            , li [ css [ socialListItemStyle ] ] [ a [ href (t FooterFacebookLink), target "_blank", css [ Theme.Logo.logoParentStyle ] ] [ Theme.Logo.viewFacebook ] ]
             ]
         ]
 
@@ -145,7 +147,7 @@ viewPageFooterCredit creditTitle creditList =
             [ text creditTitle ]
         , p
             [ css [ infoParagraphStyle ] ]
-            (List.intersperse (text ", ") (List.map viewPageFooterCreditItem creditList))
+            (concat [ List.intersperse (text ", ") (List.map viewPageFooterCreditItem creditList), [ span [] [ text "." ] ] ])
         , p [ css [ infoParagraphStyle ] ] [ text (t FooterCopyright) ]
         , img [ src "/images/logos/footer_placecal.svg", css [ poweredByPlaceCalStyle ] ] []
         ]
@@ -165,6 +167,8 @@ footerStyle =
     batch
         [ backgroundColor darkBlue
         , marginTop (rem 2)
+        , displayFlex
+        , flexDirection column
         ]
 
 
@@ -176,25 +180,43 @@ footerTopSectionStyle =
             [ displayFlex
             , alignItems stretch
             , padding4 (rem 1) (rem 1) (rem 2) (rem 1)
-            , backgroundColor pink
             , boxSizing borderBox
             , justifyContent spaceBetween
             , alignItems center
             ]
+        , backgroundColor pink
         ]
 
 
 footerMiddleSectionStyle : Style
 footerMiddleSectionStyle =
     batch
-        [ withMediaMediumDesktopUp [ padding2 (rem 1) (rem 12) ]
+        [ backgroundColor darkBlue
+        , padding2 (rem 1) (rem 0)
+        , property "display" "grid"
+        , property "grid-template-columns" "1fr"
+        , property "grid-template-rows" "auto"
+        , withMediaMediumDesktopUp [ padding2 (rem 1) (rem 12) ]
+        , withMediaSmallDesktopUp
+            [ property "grid-template-columns" "4fr 6fr 4fr"
+            , property "grid-template-rows" "1fr"
+            , padding2 (rem 1) (rem 2)
+            ]
+        , withMediaTabletLandscapeUp
+            [ padding2 (rem 1) (rem 3)
+            ]
         , withMediaTabletPortraitUp
-            [ displayFlex
-            , flexWrap wrap
-            , justifyContent spaceAround
+            [ property "grid-template-columns" "1fr 1fr"
+            , property "grid-template-rows" "1fr 1fr"
             , padding (rem 1)
             ]
         ]
+
+
+footerBottomSectionStyle : Style
+footerBottomSectionStyle =
+    batch
+        [ backgroundColor pink ]
 
 
 footerLogoStyle : Style
@@ -217,8 +239,25 @@ footerLogoImageStyle =
         ]
 
 
-blockStyle : Style
-blockStyle =
+createdByStyle : Style
+createdByStyle =
+    batch
+        [ color pink
+        , padding (rem 1)
+        , boxSizing borderBox
+        , withMediaSmallDesktopUp
+            [ property "grid-column" "2 / 3"
+            , property "grid-row" "1 / 2"
+            ]
+        , withMediaTabletPortraitUp
+            [ property "grid-column" "1 / 3"
+            , property "grid-row" "2 / 3"
+            ]
+        ]
+
+
+socialStyle : Style
+socialStyle =
     batch
         [ color pink
         , padding (rem 1)
@@ -239,14 +278,11 @@ pinkBlockStyle =
 subheadStyle : Style
 subheadStyle =
     batch
-        [ color white
-        , textTransform uppercase
-        , fontWeight (int 700)
-        , letterSpacing (px 1.9)
-        , textAlign center
-        , lineHeight (rem 1.75)
+        [ smallInlineTitleStyle
+        , color white
         , display block
         , margin4 (rem 0.5) (rem 0) (rem 1) (rem 0)
+        , fontSize (rem 1.2)
         , withMediaTabletPortraitUp [ margin2 (rem 1) auto ]
         ]
 
@@ -310,12 +346,13 @@ logoListItemStyle =
             , property "content" "\"+\""
             , display block
             , fontSize (rem 2)
-            , margin2 (rem 0) (rem 1)
+            , margin2 (rem 1) (rem 1.5)
+            , withMediaTabletPortraitUp [ margin2 (rem 0) (rem 1.5) ]
             , textAlign center
             ]
         , nthLastChild "1"
             [ after [ display none ] ]
-        , withMediaTabletPortraitUp [ flexDirection row ]
+        , withMediaTabletPortraitUp [ flexDirection row, alignItems center ]
         ]
 
 
@@ -329,7 +366,14 @@ logoImageStyle =
 logoGIStyle : Style
 logoGIStyle =
     batch
-        [ width (px 185) ]
+        [ width (px 185)
+        , height (px 48)
+        , backgroundImage (url "/images/logos/GI_pink.png")
+        , backgroundSize (px 185)
+        , hover [ backgroundImage (url "/images/logos/GI_pink_rollover.png") ]
+        , focus [ backgroundImage (url "/images/logos/GI_white.png") ]
+        , active [ backgroundImage (url "/images/logos/GI_white.png") ]
+        ]
 
 
 socialListStyle : Style
@@ -337,7 +381,8 @@ socialListStyle =
     batch
         [ displayFlex
         , justifyContent center
-        , margin2 (rem 1) (rem 0)
+        , alignItems center
+        , margin2 (rem 2) (rem 0)
         ]
 
 
@@ -351,32 +396,29 @@ socialListItemStyle =
 formStyle : Style
 formStyle =
     batch
-        [ color white
-        , flexDirection column
-        , withMediaTabletPortraitUp
-            [ displayFlex
-            , flexWrap wrap
-            ]
+        [ padding (rem 1)
+        , boxSizing borderBox
+        , color white
+        , marginBottom (rem 1)
         ]
+
+
+innerFormStyle : Style
+innerFormStyle =
+    batch
+        [ withMediaTabletPortraitUp [ displayFlex, justifyContent center, alignItems center, margin2 (rem 1.5) (rem 0) ] ]
 
 
 formInputStyle : Style
 formInputStyle =
     batch
-        [ backgroundColor darkBlue
-        , borderColor pink
-        , borderRadius (px 5)
-        , borderStyle solid
-        , borderWidth (px 2)
+        [ textInputStyle
         , boxSizing borderBox
-        , color white
-        , display block
-        , focus [ outline none, borderColor white ]
         , margin2 (rem 1) auto
-        , padding2 (rem 0.25) (rem 0.5)
         , textAlign center
-        , width (px 320)
-        , withMediaTabletPortraitUp [ marginTop (rem 0) ]
+        , width (pct 100)
+        , fontSize (rem 1.2)
+        , withMediaTabletPortraitUp [ margin4 (rem 0) (rem 1) (rem 0) (rem 0) ]
         ]
 
 

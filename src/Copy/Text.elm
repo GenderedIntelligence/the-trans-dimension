@@ -48,6 +48,15 @@ t key =
         FooterSocial ->
             "Follow us out there"
 
+        FooterInstaLink ->
+            "https://www.instagram.com/genderedintelligence/"
+
+        FooterTwitterLink ->
+            "https://twitter.com/genderintell"
+
+        FooterFacebookLink ->
+            "https://www.facebook.com/GenderedIntelligence"
+
         FooterSignupText ->
             "Register for updates"
 
