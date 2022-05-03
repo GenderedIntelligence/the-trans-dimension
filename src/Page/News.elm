@@ -109,12 +109,12 @@ viewNewsList news =
 defaultNewsImages : Array String
 defaultNewsImages =
     Array.fromList
-        [ "images/news/article_1.jpg"
-        , "images/news/article_2.jpg"
-        , "images/news/article_3.jpg"
-        , "images/news/article_4.jpg"
-        , "images/news/article_5.jpg"
-        , "images/news/article_6.jpg"
+        [ "/images/news/article_1.jpg"
+        , "/images/news/article_2.jpg"
+        , "/images/news/article_3.jpg"
+        , "/images/news/article_4.jpg"
+        , "/images/news/article_5.jpg"
+        , "/images/news/article_6.jpg"
         ]
 
 
