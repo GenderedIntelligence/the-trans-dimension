@@ -114,7 +114,7 @@ viewIntro introTitle introMsg eventButtonText =
         [ h1 [ css [ logoStyle ] ] [ img [ src "/images/logos/tdd_logo_with_strapline.svg", alt (t SiteTitle), css [ logoImageStyle ] ] [] ]
         , h2 [ css [ sectionSubtitleStyle ] ] [ text introTitle ]
         , p [ css [ sectionTextStyle ] ] [ text introMsg ]
-        , p [ css [ buttonFloatingWrapperStyle ] ]
+        , p [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
                 , css [ whiteButtonStyle ]
@@ -129,7 +129,7 @@ viewFeatured eventList title buttonText =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
         , viewEventsList Nothing eventList
-        , p [ css [ buttonFloatingWrapperStyle ] ]
+        , p [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
                 , css [ pinkButtonOnDarkBackgroundStyle ]
@@ -149,7 +149,7 @@ viewLatestNews maybeNewsItem title buttonText =
 
             Nothing ->
                 text ""
-        , p [ css [ buttonFloatingWrapperStyle, bottom (rem -6) ] ]
+        , p [ css [ buttonFloatingWrapperStyle, bottom (rem -6), width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl News)
                 , css [ darkBlueButtonStyle ]
@@ -324,7 +324,6 @@ eventsSectionStyle : Style
 eventsSectionStyle =
     batch
         [ marginTop (px 250)
-        , paddingTop (rem 3)
         , before
             [ backgroundImage (url "/images/illustrations/320px/homepage_3.png")
             , height (px 240)
@@ -450,9 +449,5 @@ newsSectionStyle =
         , withMediaTabletLandscapeUp
             [ marginTop (px 150), marginBottom (px 150) ]
         , withMediaTabletPortraitUp
-            [ marginTop (px 175), marginBottom (px 175) ]
+            [ marginTop (px 175), marginBottom (px 175), paddingTop (rem 2), important (paddingBottom (rem 4)) ]
         ]
-
-
-
--- ( px 430, px 626 )

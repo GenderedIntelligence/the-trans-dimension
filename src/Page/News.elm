@@ -18,6 +18,8 @@ import Shared
 import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlue, pinkButtonOnLightBackgroundStyle, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
+import Css exposing (calc)
+import Css exposing (minus)
 
 
 type alias Model =
@@ -149,7 +151,7 @@ viewNewsArticle newsItem =
                 ]
             , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]
             ]
-        , div [ css [ buttonFloatingWrapperStyle ] ]
+        , div [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ css [ pinkButtonOnLightBackgroundStyle ]
                 , href

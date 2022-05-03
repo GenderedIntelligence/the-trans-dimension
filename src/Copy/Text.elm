@@ -282,7 +282,7 @@ t key =
             "There is no recent news"
 
         NewsItemReadMore title ->
-            "Read the rest of " ++ title
+            "Read the rest"
 
         NewsDescription ->
             "Updates & articles from The Trans Dimension partners"
