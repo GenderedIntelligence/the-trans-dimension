@@ -17,7 +17,7 @@ In connection with services offered through this site we may ask you to submit i
 
 ### The Trans Dimension collects anonymous analytics data
 
-We use [Plausable Analytics](https://plausible.io/privacy) to gather statistical data about the use of transdimension.uk. That data isn't linked to you in any way.
+We sometimes use third party services for example [Plausable Analytics](https://plausible.io/privacy), to gather statistical data about the use of transdimension.uk. That data isn't linked to you in any way.
 
 
 ## How is the information used?
@@ -48,4 +48,4 @@ This site contains links to other sites. The Trans Dimension is not responsible 
 ## Your acceptance of these terms
 By using this site, you consent to the collection and use of this information by The Trans Dimension and to The Trans Dimension privacy policy.
 
-If you have any questions or concerns about your privacy when using The Trans Dimension website, please contact us: transdimension@gfsc.studio
+If you have any questions or concerns about your privacy when using The Trans Dimension website, please contact us: info@transdimension.uk
