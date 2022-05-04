@@ -388,11 +388,16 @@ viewEvent event =
                             , span [] [ text " — " ]
                             , time [] [ text (TransDate.humanTimeFromPosix event.endDatetime) ]
                             ]
-                        , if event.location.postalCode == "" then
-                            text ""
+                        , case event.location of
+                            Just aLocation ->
+                                if aLocation.postalCode == "" then
+                                    text ""
 
-                          else
-                            p [ css [ eventParagraphStyle ] ] [ text event.location.postalCode ]
+                                else
+                                    p [ css [ eventParagraphStyle ] ] [ text aLocation.postalCode ]
+
+                            Nothing ->
+                                text ""
                         , case event.partner.name of
                             Just partnerName ->
                                 p [ css [ eventParagraphStyle ] ] [ text ("by " ++ partnerName) ]
