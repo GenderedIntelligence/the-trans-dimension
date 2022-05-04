@@ -3,7 +3,7 @@ module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, after, auto, backgroundColor, batch, borderBox, borderRadius, boxSizing, center, color, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
+import Css exposing (Style, after, auto, backgroundColor, batch, borderBox, borderRadius, boxSizing, calc, center, color, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, minus, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -149,7 +149,7 @@ viewNewsArticle newsItem =
                 ]
             , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]
             ]
-        , div [ css [ buttonFloatingWrapperStyle ] ]
+        , div [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ css [ pinkButtonOnLightBackgroundStyle ]
                 , href
