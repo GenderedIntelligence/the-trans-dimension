@@ -80,11 +80,7 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
             ( { localModel
                 | filterByDay = Just posix
                 , visibleEvents =
-                    List.filter
-                        (\event ->
-                            TransDate.isSameDay event.startDatetime posix
-                        )
-                        static.data
+                    Data.PlaceCal.Events.eventsFromDate static.data posix
               }
             , Cmd.none
             )
@@ -98,7 +94,14 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
             )
 
         GetTime newTime ->
-            ( { localModel | nowTime = newTime }, Cmd.none )
+            ( { localModel
+                | filterByDay = Just newTime
+                , nowTime = newTime
+                , visibleEvents =
+                    Data.PlaceCal.Events.eventsFromDate static.data newTime
+              }
+            , Cmd.none
+            )
 
         ScrollRight ->
             ( localModel
