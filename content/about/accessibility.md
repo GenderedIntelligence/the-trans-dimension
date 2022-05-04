@@ -9,4 +9,4 @@ As part of the process of being listed on the Trans Dimension, we insist that ve
 
 We also know that for many people, trying out new events or groups can sometimes be daunting! We try and make sure that listings go into as much detail as possible about their content and style, so that you know what to expect, and can feel well-informed and excited about attending events and getting to know the trans community in your area!
 
-We have tried to design this website to be as usable as possible. If you think that there is anything we could do to improve the site, please do [drop us a message](transdimension@gfsc.studio).
+We have tried to design this website to be as usable as possible. If you think that there is anything we could do to improve the site, please do [drop us a message](mailto:info@transdimension.uk).
