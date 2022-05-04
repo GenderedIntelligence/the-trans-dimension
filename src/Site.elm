@@ -18,7 +18,7 @@ type alias Data =
 config : SiteConfig Data
 config =
     { data = data
-    , canonicalUrl = "https://transdimension.uk/"
+    , canonicalUrl = "https://transdimension.netlify.app/"
     , manifest = manifest
     , head = head
     }
