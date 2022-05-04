@@ -72,7 +72,7 @@ We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm t
 
 Deploys to Netlify
 
--  code is tested and linted automatically before deploy 
+-  code is tested and linted automatically before deploy
 -  when a pull request is created, a preview site is deployed
 -  when a pull request is merged into `main`, the prodtion site is deployed
 
