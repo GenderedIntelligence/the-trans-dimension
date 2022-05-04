@@ -11,7 +11,7 @@ type Route
     | About
     | Event String
     | Events
-    | Join
+    | JoinUs
     | NewsItem String
     | News
     | Partner String
@@ -35,8 +35,8 @@ toPageTitle route =
         Event name ->
             t (EventTitle name)
 
-        Join ->
-            t JoinTitle
+        JoinUs ->
+            t JoinUsTitle
 
         NewsItem title ->
             t (NewsItemTitle title)
@@ -72,7 +72,7 @@ toPath route =
         Event slug ->
             Path.join [ "events", slug ]
 
-        Join ->
+        JoinUs ->
             Path.fromString "join-us"
 
         NewsItem slug ->

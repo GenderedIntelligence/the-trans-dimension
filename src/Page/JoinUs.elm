@@ -1,4 +1,4 @@
-module Page.Join exposing (Data, Model, Msg, blankForm, initialFormState, page, view)
+module Page.JoinUs exposing (Data, Model, Msg, blankForm, initialFormState, page, view)
 
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
@@ -405,8 +405,8 @@ head :
     -> List Head.Tag
 head static =
     PageTemplate.pageMetaTags
-        { title = JoinTitle
-        , description = JoinMetaDescription
+        { title = JoinUsTitle
+        , description = JoinUsMetaDescription
         , imageSrc = Nothing
         }
 
@@ -422,13 +422,13 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel localModel static =
-    { title = t (PageMetaTitle (t JoinTitle))
+    { title = t (PageMetaTitle (t JoinUsTitle))
     , body =
         [ PageTemplate.view
             { headerType = Just "pink"
-            , title = t JoinTitle
-            , bigText = { text = t JoinSubtitle, node = "p" }
-            , smallText = Just [ t JoinDescription ]
+            , title = t JoinUsTitle
+            , bigText = { text = t JoinUsSubtitle, node = "p" }
+            , smallText = Just [ t JoinUsDescription ]
             , innerContent = Just (viewForm localModel)
             , outerContent = Nothing
 
@@ -442,7 +442,7 @@ viewForm : Model -> Html Msg
 viewForm state =
     form [ css [ formStyle ], onSubmit ClickSend ]
         [ label [ css [ formItemStyle ] ]
-            [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputNameLabel) ]
+            [ span [ css [ formLabelStyle ] ] [ text (t JoinUsFormInputNameLabel) ]
             , input
                 [ css
                     [ if state.userInput.name.error == Nothing then
@@ -457,7 +457,7 @@ viewForm state =
                 []
             ]
         , label [ css [ formItemStyle ] ]
-            [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputEmailLabel) ]
+            [ span [ css [ formLabelStyle ] ] [ text (t JoinUsFormInputEmailLabel) ]
             , input
                 [ css
                     [ if state.userInput.email.error == Nothing then
@@ -471,19 +471,19 @@ viewForm state =
                 ]
                 []
             ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputPhoneLabel) ], input [ css [ textInputStyle ], value state.userInput.phone.value, onInput UpdatePhone ] [] ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputJobLabel) ], input [ css [ textInputStyle ], value state.userInput.job.value, onInput UpdateJob ] [] ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputOrgLabel) ], input [ css [ textInputStyle ], value state.userInput.org.value, onInput UpdateOrg ] [] ]
-        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinFormInputAddressLabel) ], input [ css [ textInputStyle ], value state.userInput.address.value, onInput UpdateAddress ] [] ]
+        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinUsFormInputPhoneLabel) ], input [ css [ textInputStyle ], value state.userInput.phone.value, onInput UpdatePhone ] [] ]
+        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinUsFormInputJobLabel) ], input [ css [ textInputStyle ], value state.userInput.job.value, onInput UpdateJob ] [] ]
+        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinUsFormInputOrgLabel) ], input [ css [ textInputStyle ], value state.userInput.org.value, onInput UpdateOrg ] [] ]
+        , label [ css [ formItemStyle ] ] [ span [ css [ formLabelStyle ] ] [ text (t JoinUsFormInputAddressLabel) ], input [ css [ textInputStyle ], value state.userInput.address.value, onInput UpdateAddress ] [] ]
         , div [ css [ formCheckboxWrapperStyle ] ]
-            [ p [ css [ formCheckboxTitleStyle ] ] [ text (t JoinFormCheckboxesLabel) ]
-            , div [] (viewCheckbox "joinbox1" (t JoinFormCheckbox1) state.userInput.ringBack.value UpdateRingBack)
-            , div [] (viewCheckbox "joinbox2" (t JoinFormCheckbox2) state.userInput.moreInfo.value UpdateMoreInfo)
+            [ p [ css [ formCheckboxTitleStyle ] ] [ text (t JoinUsFormCheckboxesLabel) ]
+            , div [] (viewCheckbox "joinbox1" (t JoinUsFormCheckbox1) state.userInput.ringBack.value UpdateRingBack)
+            , div [] (viewCheckbox "joinbox2" (t JoinUsFormCheckbox2) state.userInput.moreInfo.value UpdateMoreInfo)
             ]
         , label [ css [ formTextAreaItemStyle ] ]
-            [ span [ css [ formTextAreaLabelStyle ] ] [ text (t JoinFormInputMessageLabel) ]
+            [ span [ css [ formTextAreaLabelStyle ] ] [ text (t JoinUsFormInputMessageLabel) ]
             , textarea
-                [ placeholder (t JoinFormInputMessagePlaceholder)
+                [ placeholder (t JoinUsFormInputMessagePlaceholder)
                 , css
                     [ if state.userInput.name.error == Nothing then
                         textAreaStyle
@@ -503,7 +503,7 @@ viewForm state =
                         "Sending..."
 
                      else
-                        t JoinFormSubmitButton
+                        t JoinUsFormSubmitButton
                     )
                 ]
             ]
