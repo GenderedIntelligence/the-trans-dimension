@@ -225,53 +225,53 @@ t key =
         BackToPartnersLinkText ->
             "Go to all partners"
 
-        --- Join Page
-        JoinTitle ->
+        --- Join Us Page
+        JoinUsTitle ->
             "Join us"
 
-        JoinSubtitle ->
+        JoinUsSubtitle ->
             "Want to be listed on The Trans Dimension?"
 
-        JoinMetaDescription ->
+        JoinUsMetaDescription ->
             "Want to be listed on The Trans Dimension? Get in touch and learn how you can create space and spaces for us."
 
-        JoinDescription ->
+        JoinUsDescription ->
             "Get in touch and learn how you can create space and spaces for us."
 
-        JoinFormInputNameLabel ->
+        JoinUsFormInputNameLabel ->
             "Name"
 
-        JoinFormInputEmailLabel ->
+        JoinUsFormInputEmailLabel ->
             "Email address"
 
-        JoinFormInputPhoneLabel ->
+        JoinUsFormInputPhoneLabel ->
             "Phone number"
 
-        JoinFormInputJobLabel ->
+        JoinUsFormInputJobLabel ->
             "Job title"
 
-        JoinFormInputOrgLabel ->
+        JoinUsFormInputOrgLabel ->
             "Organisation name"
 
-        JoinFormInputAddressLabel ->
+        JoinUsFormInputAddressLabel ->
             "Postcode"
 
-        JoinFormCheckboxesLabel ->
+        JoinUsFormCheckboxesLabel ->
             "I'd like:"
 
-        JoinFormCheckbox1 ->
+        JoinUsFormCheckbox1 ->
             "A ring back"
 
-        JoinFormCheckbox2 ->
+        JoinUsFormCheckbox2 ->
             "More information"
 
-        JoinFormInputMessageLabel ->
+        JoinUsFormInputMessageLabel ->
             "Your message"
 
-        JoinFormInputMessagePlaceholder ->
+        JoinUsFormInputMessagePlaceholder ->
             "Enter information about your organisation and events here or any questions you may have!"
 
-        JoinFormSubmitButton ->
+        JoinUsFormSubmitButton ->
             "Submit"
 
         --- News Listing Page

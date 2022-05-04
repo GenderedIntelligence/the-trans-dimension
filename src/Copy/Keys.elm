@@ -78,23 +78,23 @@ type Key
     | PartnerUpcomingEventsText String
     | PartnerEventsEmptyText String
     | BackToPartnersLinkText
-      --- Join Page
-    | JoinTitle
-    | JoinMetaDescription
-    | JoinSubtitle
-    | JoinDescription
-    | JoinFormInputNameLabel
-    | JoinFormInputEmailLabel
-    | JoinFormInputPhoneLabel
-    | JoinFormInputAddressLabel
-    | JoinFormInputJobLabel
-    | JoinFormInputOrgLabel
-    | JoinFormCheckboxesLabel
-    | JoinFormCheckbox1
-    | JoinFormCheckbox2
-    | JoinFormInputMessageLabel
-    | JoinFormInputMessagePlaceholder
-    | JoinFormSubmitButton
+      --- Join Us Page
+    | JoinUsTitle
+    | JoinUsMetaDescription
+    | JoinUsSubtitle
+    | JoinUsDescription
+    | JoinUsFormInputNameLabel
+    | JoinUsFormInputEmailLabel
+    | JoinUsFormInputPhoneLabel
+    | JoinUsFormInputAddressLabel
+    | JoinUsFormInputJobLabel
+    | JoinUsFormInputOrgLabel
+    | JoinUsFormCheckboxesLabel
+    | JoinUsFormCheckbox1
+    | JoinUsFormCheckbox2
+    | JoinUsFormInputMessageLabel
+    | JoinUsFormInputMessagePlaceholder
+    | JoinUsFormSubmitButton
       --- News Listing Page
     | NewsTitle
     | NewsEmptyText
