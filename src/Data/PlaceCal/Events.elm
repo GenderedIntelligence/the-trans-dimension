@@ -1,4 +1,4 @@
-module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), emptyEvent, eventsData, eventsFromPartnerId)
+module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId)
 
 import Api
 import DataSource
@@ -82,6 +82,15 @@ eventsFromPartnerId eventsList id =
     List.filter (\event -> event.partner.id == id) eventsList
 
 
+eventsFromDate : List Event -> Time.Posix -> List Event
+eventsFromDate eventsList fromDate =
+    List.filter
+        (\event ->
+            TransDate.isSameDay event.startDatetime fromDate
+        )
+        eventsList
+
+
 
 ----------------------------
 -- DataSource query & decode
@@ -98,8 +107,9 @@ allEventsQuery : Json.Encode.Value
 allEventsQuery =
     Json.Encode.object
         [ ( "query"
+            -- Note hardcoded to load events from 2022-04-01
           , Json.Encode.string """
-            query { eventsByFilter(tagId: 3) {
+            query { eventsByFilter(tagId: 3, fromDate: "2022-04-01 00:00") {
               id
               name
               summary
