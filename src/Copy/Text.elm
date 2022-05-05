@@ -154,7 +154,7 @@ t key =
             "Events and activities by and for trans communities across the UK."
 
         EventsSummary ->
-            "Upcoming events & activities"
+            "Upcoming events & activities for you."
 
         EventsSubHeading ->
             "Upcoming events"
@@ -285,7 +285,7 @@ t key =
             "Read the rest"
 
         NewsDescription ->
-            "Updates & articles from The Trans Dimension partners"
+            "Updates & articles from our partners."
 
         --- News Single Article Page
         NewsItemTitle title ->

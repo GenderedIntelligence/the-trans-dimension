@@ -17,7 +17,7 @@ import Theme.Logo
 
 headerNavigationItems : List TransRoutes.Route
 headerNavigationItems =
-    [ Home, Partners, Events, News, About ]
+    [ Home, Events, Partners, News, About ]
 
 
 viewPageHeader : { path : Path, route : Maybe Route } -> Bool -> Html Msg
