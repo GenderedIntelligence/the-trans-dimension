@@ -6,7 +6,8 @@ Front-end for [The Trans Dimension](http://transdimension.uk/), an online commun
 
 Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodhub.co.uk/build-fund-2021). Read more about the project [here](https://gfsc.studio/2021/12/14/enter-trans-dimension.html).
 
--  Development URL: https://transdimension.netlify.app/
+-  Staging url: https//https://staging--transdimension.netlify.app/
+-  Temp production URL (during alpha dev): https://transdimension.netlify.app/
 -  Production URL (holding page currently): http://transdimension.uk/
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/651caf38-e14c-44de-adc3-c772f47bab38/deploy-status)](https://app.netlify.com/sites/transdimension/deploys)
