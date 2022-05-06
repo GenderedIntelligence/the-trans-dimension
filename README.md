@@ -9,6 +9,9 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 -  Development URL: https://transdimension.netlify.app/
 -  Production URL (holding page currently): http://transdimension.uk/
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/651caf38-e14c-44de-adc3-c772f47bab38/deploy-status)](https://app.netlify.com/sites/transdimension/deploys)
+
+
 # Development
 
 ## Prerequisites
