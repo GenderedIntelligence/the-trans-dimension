@@ -6,8 +6,12 @@ Front-end for [The Trans Dimension](http://transdimension.uk/), an online commun
 
 Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodhub.co.uk/build-fund-2021). Read more about the project [here](https://gfsc.studio/2021/12/14/enter-trans-dimension.html).
 
--  Development URL: https://transdimension.netlify.app/
+-  Staging url: https//https://staging--transdimension.netlify.app/
+-  Temp production URL (during alpha dev): https://transdimension.netlify.app/
 -  Production URL (holding page currently): http://transdimension.uk/
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/651caf38-e14c-44de-adc3-c772f47bab38/deploy-status)](https://app.netlify.com/sites/transdimension/deploys)
+
 
 # Development
 
@@ -33,7 +37,7 @@ We recommend integrating `elm-format@0.8.3` into your code editor, but if you do
 
 ## Testing
 
-We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://github.com/elm-explorations/test/)
+We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/)
 
 -  run tests with `npm test`
 
@@ -61,8 +65,8 @@ We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm t
 
 - Pages are in `Page/` and automatic route based on file name
 - Copy is not from a datasource (e.g. UI or SEO text) is in `Copy/Text.elm`
-- We are using `[cCc] to denote placeholder copy`
-- We are using `[fFf] to denote placeholder UI feature or section`
+- We use `[cCc] to denote placeholder copy`
+- We use `[fFf] to denote placeholder UI feature or section`
 
 ### Styling & layouts
 

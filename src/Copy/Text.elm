@@ -16,53 +16,300 @@ t key =
         SiteStrapline ->
             "Space and spaces for us"
 
+        TransDimensionDescription ->
+            -- Note this is also in content/about/main.md
+            -- If they should remain in sync, we should remove from there
+            "The Trans Dimension is an online community hub connecting trans communities in London. We collate news, events and services by and for trans people."
+
+        SiteLogoSrc ->
+            "/images/logos/tdd_logo_with_strapline_on_darkBlue.png"
+
+        GeeksForSocialChangeHomeUrl ->
+            "https://gfsc.studio/"
+
+        GenderedIntelligenceHomeUrl ->
+            "https://genderedintelligence.co.uk/"
+
+        PageMetaTitle pageTitle ->
+            String.join " | " [ pageTitle, t SiteTitle ]
+
         --- Header
+        HeaderMobileMenuButton ->
+            "Menu"
+
         HeaderAskButton ->
             "Donate"
 
         HeaderAskLink ->
-            "http://donate.com [cCc]"
+            -- Gendered Intelligence just giving page
+            "https://localgiving.org/donation/genderedintelligence?emb=3wLf1uws5L"
 
         --- Footer
+        FooterSocial ->
+            "Follow us out there"
+
+        FooterInstaLink ->
+            "https://www.instagram.com/genderedintelligence/"
+
+        FooterTwitterLink ->
+            "https://twitter.com/genderintell"
+
+        FooterFacebookLink ->
+            "https://www.facebook.com/GenderedIntelligence"
+
         FooterSignupText ->
-            "Sign up to our email list for updates [cCc]"
+            "Register for updates"
 
         FooterSignupButton ->
             "Sign up"
 
-        FooterInfoText ->
-            "The Trans Dimension, c/o Gendered Intelligence [cCc]"
+        FooterByLine ->
+            "Created by"
 
-        FooterInfoContact ->
-            "Address and contact info [cCc]"
+        FooterInfoTitle ->
+            "The Trans Dimension, c/o Gendered Intelligence"
 
-        FooterCredit ->
-            "Built using PlaceCal [cCc]"
+        FooterInfoCharity ->
+            "Gendered Intelligence is a Registered Charity in England and Wales No. 1182558."
 
-        --- Link Text
-        BackToPartnersLinkText ->
-            "Go back to partners"
+        FooterInfoCompany ->
+            "Registered as a Company Limited by Guarantee in England and Wales No. 06617608."
+
+        FooterInfoOffice ->
+            "Registered office at VAI, 200 Pentonville Road, London N1 9JP."
+
+        FooterCreditTitle ->
+            "Credits"
+
+        FooterCredit1Text ->
+            "Illustrations by"
+
+        FooterCredit1Name ->
+            "Harry Woodgate"
+
+        FooterCredit1Link ->
+            "https://www.harrywoodgate.com/"
+
+        FooterCredit2Text ->
+            "design by"
+
+        FooterCredit2Name ->
+            "Squid"
+
+        FooterCredit2Link ->
+            "https://studiosquid.co.uk/studio/"
+
+        FooterCredit3Text ->
+            "website by"
+
+        FooterCredit3Name ->
+            "GFSC"
+
+        FooterCredit3Link ->
+            t GeeksForSocialChangeHomeUrl
+
+        FooterCopyright ->
+            "© 2022 Gendered Intelligence. All rights reserved."
 
         --- Index Page
-        IndexMetaTitle ->
+        IndexTitle ->
             "Home"
 
         IndexMetaDescription ->
             "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
 
+        IndexIntroTitle ->
+            "Trusted, accessible, trans-friendly spaces. Always expanding."
+
+        IndexIntroMessage ->
+            t TransDimensionDescription
+
+        IndexIntroButtonText ->
+            "See what's on near you"
+
+        IndexFeaturedHeader ->
+            "Featured Events"
+
+        IndexFeaturedButtonText ->
+            "View all events"
+
+        IndexNewsHeader ->
+            "Latest news"
+
+        IndexNewsButtonText ->
+            "View all news"
+
+        -- About Page (NOTE: also comes from md)
+        AboutTitle ->
+            "About"
+
+        AboutMetaDescription ->
+            t TransDimensionDescription
+
+        -- Events Page
+        EventsTitle ->
+            "Events"
+
+        EventsMetaDescription ->
+            "Events and activities by and for trans communities across the UK."
+
+        EventsSummary ->
+            "Upcoming events & activities"
+
+        EventsSubHeading ->
+            "Upcoming events"
+
+        EventsEmptyTextAll ->
+            "There are no upcoming events. Check back for updates!"
+
+        EventsEmptyText ->
+            "There are no upcoming events on this date. Check back for updates!"
+
+        EventsFilterLabelToday ->
+            "Today"
+
+        EventsFilterLabelTomorrow ->
+            "Tomorrow"
+
+        EventsFilterLabelAll ->
+            "All Events"
+
+        --- Event Page
+        EventTitle eventName ->
+            "Event - " ++ eventName
+
+        EventMetaDescription eventName eventSummary ->
+            eventName ++ " - " ++ eventSummary
+
+        BackToEventsLinkText ->
+            "Go to all events"
+
         --- Partners Page
-        PartnersMetaTitle ->
+        PartnersTitle ->
             "Partners"
 
         PartnersMetaDescription ->
-            "[cCc] Partners description"
+            "Trans Dimension partners form an online community for connecting trans people across the UK by publishing service information, events and news on PlaceCal."
 
-        PartnersIntro ->
-            "[cCc] Introduction box / explainer"
+        PartnersIntroSummary ->
+            "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community."
+
+        PartnersIntroDescription ->
+            "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
+
+        PartnersListEmpty ->
+            "There are currently no Trans Dimension partners"
 
         --- Partner Page
-        PartnerMetaTitle partnerName ->
-            "[cCc] PlaceCal Partner - " ++ partnerName
+        PartnerTitle partnerName ->
+            "PlaceCal Partner - " ++ partnerName
 
-        PartnerMetaDescription partnerName ->
-            "[cCc] Partner description for " ++ partnerName
+        PartnerMetaDescription partnerName partnerSummary ->
+            partnerName ++ " - " ++ partnerSummary
+
+        PartnerContactsHeading ->
+            "Get in touch"
+
+        PartnerAddressHeading ->
+            "Address"
+
+        PartnerAddressEmptyText ->
+            "No address provided"
+
+        PartnerUpcomingEventsText partnerName ->
+            "Upcoming events by " ++ partnerName
+
+        PartnerEventsEmptyText partnerName ->
+            partnerName ++ " does not have any upcoming events. Check back for updates!"
+
+        BackToPartnersLinkText ->
+            "Go to all partners"
+
+        --- Join Us Page
+        JoinUsTitle ->
+            "Join us"
+
+        JoinUsSubtitle ->
+            "Want to be listed on The Trans Dimension?"
+
+        JoinUsMetaDescription ->
+            "Want to be listed on The Trans Dimension? Get in touch and learn how you can create space and spaces for us."
+
+        JoinUsDescription ->
+            "Get in touch and learn how you can create space and spaces for us."
+
+        JoinUsFormInputNameLabel ->
+            "Name"
+
+        JoinUsFormInputEmailLabel ->
+            "Email address"
+
+        JoinUsFormInputPhoneLabel ->
+            "Phone number"
+
+        JoinUsFormInputJobLabel ->
+            "Job title"
+
+        JoinUsFormInputOrgLabel ->
+            "Organisation name"
+
+        JoinUsFormInputAddressLabel ->
+            "Postcode"
+
+        JoinUsFormCheckboxesLabel ->
+            "I'd like:"
+
+        JoinUsFormCheckbox1 ->
+            "A ring back"
+
+        JoinUsFormCheckbox2 ->
+            "More information"
+
+        JoinUsFormInputMessageLabel ->
+            "Your message"
+
+        JoinUsFormInputMessagePlaceholder ->
+            "Enter information about your organisation and events here or any questions you may have!"
+
+        JoinUsFormSubmitButton ->
+            "Submit"
+
+        --- News Listing Page
+        NewsTitle ->
+            "News"
+
+        NewsEmptyText ->
+            "There is no recent news"
+
+        NewsItemReadMore title ->
+            "Read the rest"
+
+        NewsDescription ->
+            "Updates & articles from The Trans Dimension partners"
+
+        --- News Single Article Page
+        NewsItemTitle title ->
+            "News -" ++ title
+
+        NewsItemMetaDescription title author ->
+            title ++ " - by " ++ author ++ " for The Trans Dimension"
+
+        NewsItemReturnButton ->
+            "Go back to news"
+
+        --- Privacy Page (note this also comes from markdown)
+        PrivacyTitle ->
+            "Privacy"
+
+        PrivacyMetaDescription ->
+            "Privacy information for The Trans Dimension website."
+
+        --- 404 Page
+        ErrorTitle ->
+            "Error 404"
+
+        ErrorMessage ->
+            "This page could not be found."
+
+        ErrorButtonText ->
+            "Back to home"

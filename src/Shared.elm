@@ -1,17 +1,18 @@
-module Shared exposing (Data, Model, Msg(..), Partner, SharedMsg(..), data, emptyPartner, template)
+module Shared exposing (Data, Model, Msg, template)
 
 import Browser.Navigation
 import DataSource
 import Html
 import Html.Styled
-import PageFooter exposing (viewPageFooter)
-import PageHeader exposing (viewPageHeader)
+import Messages exposing (Msg(..))
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
-import Theme
+import Theme.Global
+import Theme.PageFooter exposing (viewPageFooter)
+import Theme.PageHeader exposing (viewPageHeader)
 import View exposing (View)
 
 
@@ -26,15 +27,6 @@ template =
     }
 
 
-type Msg
-    = OnPageChange
-        { path : Path
-        , query : Maybe String
-        , fragment : Maybe String
-        }
-    | SharedMsg SharedMsg
-
-
 
 -------------
 -- Data Types
@@ -42,34 +34,17 @@ type Msg
 
 
 type alias Data =
-    { partners : List Partner }
-
-
-type alias Partner =
-    { id : String
-    , name : String
-    , summary : String
-    , description : String
-    }
-
-
-emptyPartner : Partner
-emptyPartner =
-    { id = ""
-    , name = ""
-    , summary = ""
-    , description = ""
-    }
+    ()
 
 
 
---------------------
--- Messages & Update
---------------------
+----------------------------
+-- Model, Messages & Update
+----------------------------
 
 
-type SharedMsg
-    = NoOp
+type alias Msg =
+    Messages.Msg
 
 
 type alias Model =
@@ -92,7 +67,8 @@ init :
             }
     -> ( Model, Cmd Msg )
 init navigationKey flags maybePagePath =
-    ( { showMobileMenu = False }
+    ( { showMobileMenu = False
+      }
     , Cmd.none
     )
 
@@ -103,7 +79,12 @@ update msg model =
         OnPageChange _ ->
             ( { model | showMobileMenu = False }, Cmd.none )
 
-        SharedMsg globalMsg ->
+        -- Header
+        ToggleMenu ->
+            ( { model | showMobileMenu = not model.showMobileMenu }, Cmd.none )
+
+        -- Shared
+        SharedMsg _ ->
             ( model, Cmd.none )
 
 
@@ -114,30 +95,13 @@ subscriptions _ _ =
 
 data : DataSource.DataSource Data
 data =
-    DataSource.succeed
-        { partners =
-            [ { id = "1"
-              , name = "Partner one"
-              , summary = "Partner one Info"
-              , description = "Partner one intro"
-              }
-            , { id = "2"
-              , name = "Partner two"
-              , summary = "Partner two Info"
-              , description = "Partner two intro"
-              }
-            , { id = "3"
-              , name = "Partner three"
-              , summary = "Partner three Info"
-              , description = "Partner three intro"
-              }
-            , { id = "4"
-              , name = "Partner four"
-              , summary = "Partner four Info"
-              , description = "Partner four intro"
-              }
-            ]
-        }
+    DataSource.succeed ()
+
+
+
+-------
+-- View
+-------
 
 
 view :
@@ -153,9 +117,10 @@ view :
 view sharedData page model toMsg pageView =
     { body =
         Html.Styled.toUnstyled
-            (Theme.containerPage pageView.title
-                [ Theme.globalStyles
-                , viewPageHeader
+            (Theme.Global.containerPage pageView.title
+                [ View.fontPreload
+                , Theme.Global.globalStyles
+                , viewPageHeader page model.showMobileMenu |> Html.Styled.map toMsg
                 , Html.Styled.main_ [] pageView.body
                 , viewPageFooter
                 ]

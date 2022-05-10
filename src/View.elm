@@ -1,8 +1,7 @@
-module View exposing (View, map, placeholder)
+module View exposing (View, fontPreload, map)
 
-import Html.Styled exposing (Html, div, h1, text)
-import Html.Styled.Attributes exposing (css, id)
-import Theme
+import Html.Styled exposing (Html, node)
+import Html.Styled.Attributes exposing (href, rel)
 
 
 type alias View msg =
@@ -18,13 +17,10 @@ map fn doc =
     }
 
 
-placeholder : String -> View msg
-placeholder moduleName =
-    { title = "Placeholder - " ++ moduleName
-    , body =
-        [ h1
-            [ css [ Theme.pageHeadingStyle ]
-            ]
-            [ text moduleName ]
+fontPreload : Html msg
+fontPreload =
+    node "link"
+        [ rel "stylesheet preload"
+        , href "https://use.typekit.net/rog1plq.css"
         ]
-    }
+        []
