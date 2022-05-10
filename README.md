@@ -37,7 +37,7 @@ We recommend integrating `elm-format@0.8.3` into your code editor, but if you do
 
 ## Testing
 
-We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/)
+We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/)
 
 -  run tests with `npm test`
 
@@ -103,7 +103,11 @@ Deploys to Netlify
 
 ## License
 
-This repository is released under the [Hippocratic License](https://firstdonoharm.dev/version/3/0/license/).
+Source code is released under the [Hippocratic License](https://firstdonoharm.dev/version/3/0/license/).
+
+Graphic design by [Studio Squid](https://studiosquid.co.uk/) and © Gendered Intelligence 2022.
+
+Illustrations © [Harry Woodgate](https://www.harrywoodgate.com/) 2022.
 
 ## Contributing
 
