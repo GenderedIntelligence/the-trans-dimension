@@ -105,7 +105,7 @@ Deploys to Netlify
 
 This repository is released under the [Hippocratic License](https://firstdonoharm.dev/version/3/0/license/).
 
-# Contributing
+## Contributing
 
 We welcome new contributors but strongly recommend you have a chat with us in [Geeks for Social Change's Discord server](http://discord.gfsc.studio) and say hi before you do. We will be happy to onboard you properly before you get stuck in.
 
