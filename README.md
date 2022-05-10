@@ -96,3 +96,17 @@ Deploys to Netlify
 -  check the acceptance criteria have been met (with tests if appropriate)
 -  add comments & questions
 -  once approved, leave for the author to squash and merge
+
+## License
+
+This repository is released under the [Hippocratic License](https://firstdonoharm.dev/version/3/0/license/).
+
+# Contributing
+
+We welcome new contributors but strongly recommend you have a chat with us in [Geeks for Social Change's Discord server](http://discord.gfsc.studio) and say hi before you do. We will be happy to onboard you properly before you get stuck in.
+
+## Donations
+
+If you'd like to support development, please consider sending us a one-off or regular donation on Ko-fi.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M43THUM)
