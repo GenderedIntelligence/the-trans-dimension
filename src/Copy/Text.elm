@@ -60,6 +60,9 @@ t key =
         FooterSignupText ->
             "Register for updates"
 
+        FooterSignupEmailPlaceholder ->
+            "Your email address"
+
         FooterSignupButton ->
             "Sign up"
 
