@@ -1,5 +1,6 @@
 module Page.AboutTests exposing (..)
 
+import Data.TestFixtures exposing (sharedModelInit)
 import Html
 import Page.About exposing (view)
 import Path
@@ -38,7 +39,7 @@ viewParamsWithAbout =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing sharedModelInit viewParams).body
 
 
 suite : Test

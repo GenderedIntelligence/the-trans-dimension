@@ -31,7 +31,7 @@ viewParamsWithoutPartners =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing Fixtures.sharedModelInit viewParams).body
 
 
 suite : Test
@@ -94,6 +94,7 @@ suite =
             \_ ->
                 viewBodyHtml viewParamsWithoutPartners
                     |> Query.hasNot [ Selector.tag "ul" ]
+
         -- Commenting out map for now
         -- , test "Contains map" <|
         --     \_ ->

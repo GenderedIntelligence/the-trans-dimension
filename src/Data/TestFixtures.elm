@@ -1,4 +1,4 @@
-module Data.TestFixtures exposing (events, news, partners)
+module Data.TestFixtures exposing (events, news, partners, sharedModelInit)
 
 import Time
 
@@ -7,6 +7,12 @@ import Time
 {- These are temporarily part of our src while we build wireframes.
    Once API is functional, we will move this module into `../tests` for use there
 -}
+
+
+sharedModelInit =
+    { showMobileMenu = False
+    , nowTime = Time.millisToPosix 0
+    }
 
 
 partners =
