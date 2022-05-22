@@ -4,7 +4,7 @@ import Browser.Dom exposing (Error, Viewport, getViewport, getViewportOf, setVie
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, alignItems, auto, backgroundColor, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderColor, borderRadius, borderStyle, borderWidth, calc, center, color, column, cursor, deg, display, displayFlex, em, firstChild, fitContent, flexDirection, flexGrow, flexWrap, focus, fontSize, fontStyle, fontWeight, height, hover, important, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, pct, plus, pointer, position, property, pseudoElement, px, relative, rem, rotate, row, rowReverse, scroll, solid, spaceBetween, textAlign, textDecoration, textTransform, transform, uppercase, width, wrap)
+import Css exposing (Style, active, alignItems, auto, backgroundColor, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, cursor, deg, display, displayFlex, em, firstChild, fitContent, flexDirection, flexGrow, flexWrap, focus, fontSize, fontStyle, fontWeight, height, hover, important, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, plus, pointer, position, property, pseudoElement, px, relative, rem, rotate, row, rowReverse, scroll, solid, spaceBetween, textAlign, textDecoration, textTransform, transform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
 import Css.Transitions exposing (transition)
 import Data.PlaceCal.Events
@@ -108,13 +108,13 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
             , Task.attempt (\_ -> NoOp)
                 (scrollPagination
                     (if localModel.viewportWidth < Theme.Global.maxMobile then
-                        95
+                        buttonWidthMobile + (buttonMarginMobile * 2)
 
                      else if localModel.viewportWidth < Theme.Global.maxTabletPortrait then
-                        122
+                        buttonWidthTablet + (buttonMarginTablet * 2)
 
                      else
-                        146
+                        buttonWidthFullWidth + (buttonMarginFullWidth * 2)
                     )
                 )
             )
@@ -124,13 +124,13 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
             , Task.attempt (\_ -> NoOp)
                 (scrollPagination
                     (if localModel.viewportWidth < Theme.Global.maxMobile then
-                        -95
+                        -(buttonWidthMobile + (buttonMarginMobile * 2))
 
                      else if localModel.viewportWidth < Theme.Global.maxTabletPortrait then
-                        -122
+                        -(buttonWidthTablet + (buttonMarginTablet * 2))
 
                      else
-                        -146
+                        -(buttonWidthFullWidth + (buttonMarginFullWidth * 2))
                     )
                 )
             )
@@ -140,6 +140,41 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
 
         NoOp ->
             ( localModel, Cmd.none )
+
+
+numberOfButtons : Float
+numberOfButtons =
+    7
+
+
+buttonWidthMobile : Float
+buttonWidthMobile =
+    100
+
+
+buttonMarginMobile : Float
+buttonMarginMobile =
+    4
+
+
+buttonWidthTablet : Float
+buttonWidthTablet =
+    110
+
+
+buttonMarginTablet : Float
+buttonMarginTablet =
+    6
+
+
+buttonWidthFullWidth : Float
+buttonWidthFullWidth =
+    130
+
+
+buttonMarginFullWidth : Float
+buttonMarginFullWidth =
+    8
 
 
 subscriptions :
@@ -239,49 +274,50 @@ viewEvents localModel =
 
 viewPagination : Model -> Html Msg
 viewPagination localModel =
-    div [ css [ paginationContainer ] ]
-        [ button [ css [ paginationArrowButtonStyle ], Html.Styled.Events.onClick ScrollLeft ] [ img [ src "/images/icons/leftarrow.svg", css [ paginationArrowStyle ] ] [] ]
-        , div [ css [ paginationScrollableBoxStyle ], id "scrollable" ]
-            [ ul [ css [ paginationButtonListStyle ] ]
-                (List.map
-                    (\( label, buttonTime ) ->
-                        li [ css [ paginationButtonListItemStyle ] ]
-                            [ button
-                                [ css
-                                    [ case localModel.filterByDay of
-                                        Just day ->
-                                            if TransDate.isSameDay buttonTime day then
-                                                paginationButtonListItemButtonActiveStyle
+    div [ css [ paginationWrapper ] ]
+        [ div [ css [ paginationContainer ] ]
+            [ button [ css [ paginationArrowButtonStyle ], Html.Styled.Events.onClick ScrollLeft ] [ img [ src "/images/icons/leftarrow.svg", css [ paginationArrowStyle ] ] [] ]
+            , div [ css [ paginationScrollableBoxStyle ], id "scrollable" ]
+                [ ul [ css [ paginationButtonListStyle ] ]
+                    (List.map
+                        (\( label, buttonTime ) ->
+                            li [ css [ paginationButtonListItemStyle ] ]
+                                [ button
+                                    [ css
+                                        [ case localModel.filterByDay of
+                                            Just day ->
+                                                if TransDate.isSameDay buttonTime day then
+                                                    paginationButtonListItemButtonActiveStyle
 
-                                            else
+                                                else
+                                                    paginationButtonListItemButtonStyle
+
+                                            Nothing ->
                                                 paginationButtonListItemButtonStyle
-
-                                        Nothing ->
-                                            paginationButtonListItemButtonStyle
+                                        ]
+                                    , Html.Styled.Events.onClick (ClickedDay buttonTime)
                                     ]
-                                , Html.Styled.Events.onClick (ClickedDay buttonTime)
+                                    [ text label ]
                                 ]
-                                [ text label ]
-                            ]
+                        )
+                        (todayTomorrowNext5DaysPosix localModel.nowTime)
                     )
-                    (todayTomorrowNext5DaysPosix localModel.nowTime)
-                    ++ [ li [ css [ paginationButtonListItemStyle ] ]
-                            [ button
-                                [ css
-                                    [ if localModel.filterByDay == Nothing then
-                                        paginationButtonListItemButtonActiveStyle
-
-                                      else
-                                        paginationButtonListItemButtonStyle
-                                    ]
-                                , Html.Styled.Events.onClick ClickedAllEvents
-                                ]
-                                [ text (t EventsFilterLabelAll) ]
-                            ]
-                       ]
-                )
+                ]
+            , button [ css [ paginationArrowButtonRightStyle ], id "arrow-right", Html.Styled.Events.onClick ScrollRight ] [ img [ src "/images/icons/rightarrow.svg", css [ paginationRightArrowStyle ] ] [] ]
             ]
-        , button [ css [ paginationArrowButtonRightStyle ], id "arrow-right", Html.Styled.Events.onClick ScrollRight ] [ img [ src "/images/icons/rightarrow.svg", css [ paginationRightArrowStyle ] ] [] ]
+        , li [ css [ paginationAllEventsStyle ] ]
+            [ button
+                [ css
+                    (if localModel.filterByDay == Nothing then
+                        [ important (width (px 200)), paginationButtonListItemButtonActiveStyle ]
+
+                     else
+                        [ important (width (px 200)), paginationButtonListItemButtonStyle ]
+                    )
+                , Html.Styled.Events.onClick ClickedAllEvents
+                ]
+                [ text (t EventsFilterLabelAll) ]
+            ]
         ]
 
 
@@ -323,31 +359,18 @@ posOrNeg numToTest =
 
 scrollX : Float -> Float -> Task Error ()
 scrollX scrollRemaining viewportXPosition =
-    case round (posOrNeg scrollRemaining * scrollRemaining) of
-        5 ->
-            getViewportOf "scrollable"
-                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + posOrNeg scrollRemaining * 5) 0)
+    let
+        pixelsLeftToMove =
+            round (posOrNeg scrollRemaining * scrollRemaining)
+    in
+    if pixelsLeftToMove < 6 then
+        getViewportOf "scrollable"
+            |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + scrollRemaining) 0)
 
-        4 ->
-            getViewportOf "scrollable"
-                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + posOrNeg scrollRemaining * 4) 0)
-
-        3 ->
-            getViewportOf "scrollable"
-                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + posOrNeg scrollRemaining * 3) 0)
-
-        2 ->
-            getViewportOf "scrollable"
-                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + posOrNeg scrollRemaining * 2) 0)
-
-        1 ->
-            getViewportOf "scrollable"
-                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + posOrNeg scrollRemaining * 1) 0)
-
-        _ ->
-            getViewportOf "scrollable"
-                |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + posOrNeg scrollRemaining * 5) 0)
-                |> Task.andThen (\_ -> scrollX (scrollRemaining - posOrNeg scrollRemaining * 5) (viewportXPosition + posOrNeg scrollRemaining * 5))
+    else
+        getViewportOf "scrollable"
+            |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + posOrNeg scrollRemaining * 5) 0)
+            |> Task.andThen (\_ -> scrollX (scrollRemaining - posOrNeg scrollRemaining * 5) (viewportXPosition + posOrNeg scrollRemaining * 5))
 
 
 
@@ -543,31 +566,39 @@ eventParagraphStyle =
         ]
 
 
+paginationWrapper : Style
+paginationWrapper =
+    batch
+        [ margin2 (rem 0) (rem -0.5)
+        , withMediaSmallDesktopUp [ margin4 (rem 2) (rem -1) (rem 3) (rem -1) ]
+        , withMediaTabletLandscapeUp [ margin2 (rem 2) (rem -1) ]
+        ]
+
+
 paginationContainer : Style
 paginationContainer =
     batch
         [ displayFlex
         , maxWidth fitContent
-        , margin4 (rem 2) auto (rem 0.5) auto
-        , withMediaSmallDesktopUp [ margin4 (rem 2) auto (rem 3) auto ]
-        , withMediaTabletLandscapeUp [ margin2 (rem 2) auto ]
+        , margin4 (rem 0) auto (rem 0.5) auto
+        , withMediaSmallDesktopUp [ margin2 (rem 0) auto ]
+        , withMediaTabletLandscapeUp [ margin2 (rem 0) auto ]
         ]
 
 
 paginationScrollableBoxStyle : Style
 paginationScrollableBoxStyle =
     batch
-        [ width (calc (px 174) plus (rem 0.5))
+        [ width (px (buttonWidthMobile * 2 + buttonMarginMobile * 4))
         , position relative
         , overflowX scroll
         , pseudoElement "-webkit-scrollbar" [ display none ]
         , property "-ms-overflow-style" "none"
         , property "scrollbar-width" "none"
-        , margin2 (rem 0) (rem 0.375)
         , property "scroll-behaviour" "smooth"
         , withMediaSmallDesktopUp [ width (pct 100) ]
-        , withMediaTabletLandscapeUp [ width (calc (px (130 * 5)) plus (rem (1 * 4))) ]
-        , withMediaTabletPortraitUp [ width (calc (px (110 * 4)) plus (rem (0.75 * 3))) ]
+        , withMediaTabletLandscapeUp [ width (px (buttonWidthFullWidth * 5 + buttonMarginFullWidth * 10)) ]
+        , withMediaTabletPortraitUp [ width (px (buttonWidthTablet * 4 + buttonMarginTablet * 8)) ]
         ]
 
 
@@ -608,11 +639,13 @@ paginationArrowButtonStyle =
     batch
         [ paginationButtonStyle
         , backgroundColor pink
-        , margin (rem 0.25)
+        , margin4 (rem 0.25) (rem 0.25) (rem 0.25) (rem 0)
+        , paddingRight (rem 0.5)
+        , withMediaSmallDesktopUp [ display none ]
         , withMediaTabletLandscapeUp
             [ padding2 (rem 0) (rem 0.5), margin2 (rem 0.25) (rem 0.75) ]
         , withMediaTabletPortraitUp
-            [ margin2 (rem 0.25) (rem 0.5) ]
+            [ margin4 (rem 0.25) (rem 0.5) (rem 0.25) (rem 0) ]
         ]
 
 
@@ -621,11 +654,13 @@ paginationArrowButtonRightStyle =
     batch
         [ paginationButtonStyle
         , backgroundColor pink
-        , margin (rem 0.25)
+        , margin4 (rem 0.25) (rem 0) (rem 0.25) (rem 0.25)
+        , paddingLeft (rem 0.5)
+        , withMediaSmallDesktopUp [ display none ]
         , withMediaTabletLandscapeUp
             [ padding2 (rem 0) (rem 0.5), margin2 (rem 0.25) (rem 0.75) ]
         , withMediaTabletPortraitUp
-            [ margin2 (rem 0.25) (rem 0.5) ]
+            [ margin4 (rem 0.25) (rem 0) (rem 0.25) (rem 0.5) ]
         ]
 
 
@@ -651,23 +686,32 @@ paginationButtonListStyle =
     batch
         [ displayFlex
         , flexWrap noWrap
+        , boxSizing borderBox
         , position relative
-        , width (calc (px 609) plus (rem 2))
+        , width (px (buttonWidthMobile * numberOfButtons + buttonMarginMobile * (numberOfButtons * 2)))
         , withMediaTabletLandscapeUp
-            [ width (calc (px (130 * 8)) plus (rem (0.5 * 7))) ]
+            [ width (px (buttonWidthFullWidth * numberOfButtons + buttonMarginFullWidth * (numberOfButtons * 2))) ]
         , withMediaTabletPortraitUp
-            [ width (calc (px (110 * 8)) plus (rem (0.25 * 7))) ]
+            [ width (px (buttonWidthTablet * numberOfButtons + buttonMarginTablet * (numberOfButtons * 2))) ]
         ]
 
 
 paginationButtonListItemStyle : Style
 paginationButtonListItemStyle =
     batch
-        [ margin (rem 0.25)
-        , firstChild [ marginLeft (rem 0) ]
-        , lastChild [ marginRight (rem 0) ]
+        [ margin2 (rem 0.25) (px buttonMarginMobile)
+        , listStyleType none
         , withMediaTabletLandscapeUp [ margin2 (rem 0.25) (rem 0.5) ]
         , withMediaTabletPortraitUp [ margin2 (rem 0.25) (rem 0.375) ]
+        ]
+
+
+paginationAllEventsStyle : Style
+paginationAllEventsStyle =
+    batch
+        [ listStyleType none
+        , textAlign center
+        , margin (rem 0.5)
         ]
 
 
@@ -677,11 +721,11 @@ paginationButtonListItemButtonStyle =
         [ paginationButtonStyle
         , fontSize (rem 0.875)
         , fontWeight (int 600)
-        , padding4 (rem 0.1) (rem 0.2) (rem 0.2) (rem 0.2)
-        , width (px 87)
+        , padding4 (rem 0.2) (rem 0.2) (rem 0.3) (rem 0.2)
+        , width (px buttonWidthMobile)
         , backgroundColor darkBlue
-        , withMediaTabletLandscapeUp [ width (px 130), fontSize (rem 1.2) ]
-        , withMediaTabletPortraitUp [ width (px 110), fontSize (rem 1) ]
+        , withMediaTabletLandscapeUp [ width (px buttonWidthFullWidth), fontSize (rem 1.2) ]
+        , withMediaTabletPortraitUp [ width (px buttonWidthTablet), fontSize (rem 1) ]
         ]
 
 
@@ -691,12 +735,12 @@ paginationButtonListItemButtonActiveStyle =
         [ paginationButtonStyle
         , fontSize (rem 0.875)
         , fontWeight (int 600)
-        , padding4 (rem 0.1) (rem 0.2) (rem 0.2) (rem 0.2)
-        , width (px 87)
+        , padding4 (rem 0.2) (rem 0.2) (rem 0.3) (rem 0.2)
+        , width (px buttonWidthMobile)
         , backgroundColor pink
         , color darkBlue
-        , withMediaTabletLandscapeUp [ width (px 130), fontSize (rem 1.2) ]
-        , withMediaTabletPortraitUp [ width (px 110), fontSize (rem 1) ]
+        , withMediaTabletLandscapeUp [ width (px buttonWidthFullWidth), fontSize (rem 1.2) ]
+        , withMediaTabletPortraitUp [ width (px buttonWidthTablet), fontSize (rem 1) ]
         ]
 
 
