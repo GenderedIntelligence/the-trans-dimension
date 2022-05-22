@@ -62,7 +62,9 @@ init maybeUrl sharedModel static =
       , viewportWidth = 320
       }
     , Cmd.batch
-        [ Task.perform GetTime Time.now, Task.perform GotViewport Browser.Dom.getViewport ]
+        [ Task.perform GetTime Time.now
+        , Task.perform GotViewport Browser.Dom.getViewport
+        ]
     )
 
 
