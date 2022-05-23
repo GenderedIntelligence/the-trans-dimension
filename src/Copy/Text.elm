@@ -125,10 +125,10 @@ t key =
             t TransDimensionDescription
 
         IndexIntroButtonText ->
-            "See what's on near you"
+            "See what's on"
 
         IndexFeaturedHeader ->
-            "Featured Events"
+            "Upcoming Events"
 
         IndexFeaturedButtonText ->
             "View all events"
