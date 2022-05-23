@@ -2,7 +2,7 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, outline, padding, padding2, padding4, pct, property, px, rem, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, uppercase, url, width, wrap)
+import Css exposing (Style, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, outline, padding, padding2, padding4, pct, property, pseudoElement, px, rem, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, uppercase, url, width, wrap)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
@@ -95,7 +95,7 @@ viewPageFooterSignup =
         [ span [ css [ subheadStyle ] ] [ text (t FooterSignupText) ]
         , div [ css [ innerFormStyle ] ]
             [ input
-                [ placeholder "Your email address"
+                [ placeholder (t FooterSignupEmailPlaceholder)
                 , type_ "email"
                 , name "fields[email]"
                 , css [ formInputStyle ]
@@ -406,7 +406,13 @@ formStyle =
 innerFormStyle : Style
 innerFormStyle =
     batch
-        [ withMediaTabletPortraitUp [ displayFlex, justifyContent center, alignItems center, margin2 (rem 1.5) (rem 0) ] ]
+        [ withMediaTabletPortraitUp
+            [ displayFlex
+            , justifyContent center
+            , alignItems center
+            , margin2 (rem 1.5) (rem 0)
+            ]
+        ]
 
 
 formInputStyle : Style
@@ -418,6 +424,7 @@ formInputStyle =
         , textAlign center
         , width (pct 100)
         , fontSize (rem 1.2)
+        , pseudoElement "placeholder" [ color white ]
         , withMediaTabletPortraitUp [ margin4 (rem 0) (rem 1) (rem 0) (rem 0) ]
         ]
 

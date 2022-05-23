@@ -3,7 +3,7 @@ module Page.JoinUs exposing (Data, Model, Msg, blankForm, initialFormState, page
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, lineHeight, margin, margin2, marginRight, marginTop, maxWidth, minHeight, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, lineHeight, margin, margin2, marginRight, marginTop, maxWidth, minHeight, minus, padding2, pct, pseudoElement, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
 import Data.TestFixtures exposing (news)
 import DataSource exposing (DataSource)
 import Head
@@ -18,7 +18,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Shared
 import Task
-import Theme.Global exposing (pink, pinkButtonOnDarkBackgroundStyle, textInputErrorStyle, textInputStyle, viewCheckbox, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (pink, pinkButtonOnDarkBackgroundStyle, textInputErrorStyle, textInputStyle, viewCheckbox, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -608,11 +608,12 @@ textAreaStyle : Style
 textAreaStyle =
     batch
         [ textInputStyle
+        , boxSizing borderBox
+        , height (px 140)
         , margin2 (rem 0.5) (rem 0)
         , padding2 (rem 1) (rem 1.5)
+        , pseudoElement "placeholder" [ color white ]
         , width (pct 100)
-        , height (px 140)
-        , boxSizing borderBox
         , withMediaTabletPortraitUp [ height (px 100) ]
         ]
 

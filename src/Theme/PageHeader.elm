@@ -11,7 +11,7 @@ import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Path exposing (Path)
 import Route exposing (Route)
-import Theme.Global as Theme exposing (black, pink, white, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (darkBlue, pink, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
 
@@ -233,7 +233,7 @@ navigationLinkStyle : Style
 navigationLinkStyle =
     batch
         [ fontWeight (int 600)
-        , color black
+        , color darkBlue
         , textDecoration none
         , display block
         , borderBottomWidth (rem 0.2)
@@ -241,7 +241,7 @@ navigationLinkStyle =
         , borderBottomColor pink
         , transition [ Theme.borderTransition ]
         , hover [ color white ]
-        , withMediaTabletPortraitUp [ hover [ borderBottomColor black ] ]
+        , withMediaTabletPortraitUp [ hover [ borderBottomColor darkBlue ] ]
         ]
 
 
@@ -249,10 +249,14 @@ navigationCurrentStyle : Style
 navigationCurrentStyle =
     batch
         [ fontWeight (int 600)
-        , color black
+        , color darkBlue
         , textDecoration none
         , display block
-        , withMediaTabletPortraitUp [ borderBottomColor black, borderBottomWidth (rem 0.2), borderBottomStyle solid ]
+        , withMediaTabletPortraitUp
+            [ borderBottomColor darkBlue
+            , borderBottomWidth (rem 0.2)
+            , borderBottomStyle solid
+            ]
         , transition [ Theme.borderTransition ]
         ]
 
@@ -261,10 +265,14 @@ navigationLinkCurrentCategoryStyle : Style
 navigationLinkCurrentCategoryStyle =
     batch
         [ fontWeight (int 600)
-        , color black
+        , color darkBlue
         , textDecoration none
         , display block
-        , withMediaTabletPortraitUp [ borderBottomColor black, borderBottomWidth (rem 0.2), borderBottomStyle solid ]
+        , withMediaTabletPortraitUp
+            [ borderBottomColor darkBlue
+            , borderBottomWidth (rem 0.2)
+            , borderBottomStyle solid
+            ]
         , hover [ color white ]
         , transition [ Theme.colorTransition, Theme.borderTransition ]
         ]

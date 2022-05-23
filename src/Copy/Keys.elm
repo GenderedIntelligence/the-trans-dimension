@@ -19,6 +19,7 @@ type Key
     | FooterTwitterLink
     | FooterFacebookLink
     | FooterSignupText
+    | FooterSignupEmailPlaceholder
     | FooterSignupButton
     | FooterByLine
     | FooterInfoTitle
