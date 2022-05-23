@@ -2,6 +2,7 @@ module Page.EventTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Data.TestFixtures exposing (sharedModelInit)
 import Expect
 import Html
 import Page.Events.Event_ exposing (view)
@@ -40,7 +41,7 @@ viewParamsWithEvent =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing sharedModelInit viewParams).body
 
 
 suite : Test

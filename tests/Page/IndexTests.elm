@@ -16,9 +16,9 @@ import TestUtils exposing (queryFromStyledList)
 
 
 viewParamsForHome =
-    { data = 
+    { data =
         { latestNews = List.head Fixtures.news
-        , featuredEvents = List.take 4 Fixtures.events
+        , allEvents = Fixtures.events
         }
     , path = Path.fromString "/"
     , routeParams = {}
@@ -28,7 +28,7 @@ viewParamsForHome =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing Fixtures.sharedModelInit viewParams).body
 
 
 suite : Test

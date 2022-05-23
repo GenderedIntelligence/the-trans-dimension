@@ -2,6 +2,7 @@ module Page.NewsItemTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Data.TestFixtures exposing (sharedModelInit)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
 import Html.Attributes
@@ -29,7 +30,7 @@ viewParamsWithNewsItem =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing sharedModelInit viewParams).body
 
 
 suite : Test

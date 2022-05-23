@@ -2,6 +2,7 @@ module Page.JoinUsTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Data.TestFixtures exposing (sharedModelInit)
 import Expect
 import Html
 import Page.JoinUs exposing (blankForm, initialFormState, view)
@@ -24,7 +25,7 @@ viewBodyHtml viewParams =
     queryFromStyledList
         (view
             Nothing
-            { showMobileMenu = False }
+            sharedModelInit
             { userInput = blankForm
             , formState = initialFormState
             }

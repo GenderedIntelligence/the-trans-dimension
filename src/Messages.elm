@@ -1,6 +1,7 @@
 module Messages exposing (Msg(..), SharedMsg(..))
 
 import Path exposing (Path)
+import Time
 
 
 type Msg
@@ -9,6 +10,7 @@ type Msg
         , query : Maybe String
         , fragment : Maybe String
         }
+    | GetTime Time.Posix
       -- Header
     | ToggleMenu
       -- Shared

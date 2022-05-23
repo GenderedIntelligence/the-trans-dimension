@@ -19,6 +19,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global as Theme exposing (..)
+import Time
 import View exposing (View)
 
 
@@ -55,7 +56,7 @@ data =
                         )
                         newsData.allArticles
                     )
-            , featuredEvents = List.take 4 (addPartnerNamesToEvents eventData.allEvents partnerData)
+            , allEvents = addPartnerNamesToEvents eventData.allEvents partnerData
             }
         )
         Data.PlaceCal.Events.eventsData
@@ -87,7 +88,7 @@ head static =
 
 type alias Data =
     { latestNews : Maybe Data.PlaceCal.Articles.Article
-    , featuredEvents : List Data.PlaceCal.Events.Event
+    , allEvents : List Data.PlaceCal.Events.Event
     }
 
 
@@ -101,7 +102,7 @@ view maybeUrl sharedModel static =
     , body =
         [ div [ css [ pageWrapperStyle ] ]
             [ viewIntro (t IndexIntroTitle) (t IndexIntroMessage) (t IndexIntroButtonText)
-            , viewFeatured static.data.featuredEvents (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
+            , viewFeatured sharedModel.nowTime static.data.allEvents
             , viewLatestNews static.data.latestNews (t IndexNewsHeader) (t IndexNewsButtonText)
             ]
         ]
@@ -124,17 +125,18 @@ viewIntro introTitle introMsg eventButtonText =
         ]
 
 
-viewFeatured : List Data.PlaceCal.Events.Event -> String -> String -> Html msg
-viewFeatured eventList title buttonText =
+viewFeatured : Time.Posix -> List Data.PlaceCal.Events.Event -> Html msg
+viewFeatured fromTime eventList =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
-        [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
-        , viewEventsList Nothing eventList
+        [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text (t IndexFeaturedHeader) ]
+        , viewEventsList Nothing
+            (Data.PlaceCal.Events.next4Events eventList fromTime)
         , p [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
                 , css [ pinkButtonOnDarkBackgroundStyle ]
                 ]
-                [ text buttonText ]
+                [ text (t IndexFeaturedButtonText) ]
             ]
         ]
 

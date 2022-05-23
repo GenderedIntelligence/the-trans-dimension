@@ -2,6 +2,7 @@ module Page.PartnerTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Data.TestFixtures as Fixtures
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
 import Html.Attributes
@@ -88,7 +89,7 @@ viewParamsWithoutEvents =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing Fixtures.sharedModelInit viewParams).body
 
 
 suite : Test

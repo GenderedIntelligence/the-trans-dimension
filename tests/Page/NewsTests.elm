@@ -31,7 +31,7 @@ viewParamsWithoutNews =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing Fixtures.sharedModelInit viewParams).body
 
 
 suite : Test

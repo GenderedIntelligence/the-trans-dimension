@@ -2,7 +2,7 @@ module Page.EventsTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures as Fixtures
+import Data.TestFixtures as Fixtures exposing (sharedModelInit)
 import Expect
 import Html
 import Page.Events exposing (view)
@@ -48,7 +48,7 @@ viewParamsWithoutEvents =
 
 viewBodyHtml localModel viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } localModel viewParams).body
+        (view Nothing sharedModelInit localModel viewParams).body
 
 
 suite : Test
@@ -79,6 +79,7 @@ suite =
                         , Html.text "Mon 05 Jan"
                         , Html.text "Tue 06 Jan"
                         , Html.text "Wed 07 Jan"
+
                         -- , Html.text (t EventsFilterLabelAll)
                         ]
         , test "Contains a list of upcoming events" <|
