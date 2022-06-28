@@ -139,7 +139,7 @@ suite =
                             , Selector.containing
                                 [ Selector.tag "a"
                                 , Selector.containing
-                                    [ Selector.text "https://www.example.com"
+                                    [ Selector.text "www.example.com"
                                     ]
                                 , Selector.attribute (Html.Attributes.href "https://www.example.com")
                                 ]

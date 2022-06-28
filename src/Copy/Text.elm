@@ -1,6 +1,7 @@
-module Copy.Text exposing (t)
+module Copy.Text exposing (t, urlToDisplay)
 
 import Copy.Keys exposing (Key(..))
+import Url
 
 
 
@@ -316,3 +317,27 @@ t key =
 
         ErrorButtonText ->
             "Back to home"
+
+
+urlRecombiner : Maybe Url.Url -> String
+urlRecombiner urlRecord =
+    case urlRecord of
+        Just url ->
+            url.host ++ url.path ++ Maybe.withDefault "" url.query ++ Maybe.withDefault "" url.fragment
+
+        Nothing ->
+            ""
+
+
+chompTrailingUrlSlash : String -> String
+chompTrailingUrlSlash urlString =
+    if String.endsWith "/" urlString then
+        String.dropRight 1 urlString
+
+    else
+        urlString
+
+
+urlToDisplay : String -> String
+urlToDisplay url =
+    Url.fromString url |> urlRecombiner |> chompTrailingUrlSlash
