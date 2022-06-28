@@ -33,7 +33,7 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 ## Formatting
 
 We recommend integrating `elm-format@0.8.3` into your code editor, but if you don't...
-- Please run `npm format` to format `.elm` files in `src` before committing code.
+- Please run `npm run format` to format `.elm` files in `src` before committing code.
 
 ## Testing
 
