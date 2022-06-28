@@ -1,7 +1,7 @@
 module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (t)
+import Copy.Text exposing (t, urlToDisplay)
 import Css exposing (Style, auto, backgroundColor, batch, borderRadius, calc, center, color, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, height, int, justifyContent, letterSpacing, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, minus, normal, padding, pct, property, px, rem, textAlign, textTransform, uppercase, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
@@ -170,7 +170,7 @@ viewAddressSection event =
                     text ""
             , case event.partner.maybeUrl of
                 Just url ->
-                    p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ Theme.Global.linkStyle ] ] [ text url ] ]
+                    p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ Theme.Global.linkStyle ] ] [ text (Copy.Text.urlToDisplay url) ] ]
 
                 Nothing ->
                     text ""
