@@ -113,10 +113,19 @@ view maybeUrl sharedModel static =
     }
 
 
+descriptionText : Data.PlaceCal.Partners.Partner -> String
+descriptionText partner =
+    if String.isEmpty partner.description then
+        "Please ask " ++ partner.name ++ " for more information"
+
+    else
+        partner.description
+
+
 viewInfo : Data -> Html msg
 viewInfo { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
-        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml partner.description)
+        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (descriptionText partner))
         , hr [ css [ hrStyle ] ] []
         , section [ css [ contactWrapperStyle ] ]
             [ div [ css [ contactSectionStyle ] ]
