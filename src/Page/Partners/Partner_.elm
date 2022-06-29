@@ -205,11 +205,11 @@ descriptionStyle =
     batch
         [ normalFirstParagraphStyle
         , withMediaTabletLandscapeUp
-            [ margin2 (rem 0) auto
+            [ margin2 (rem 2) auto
             , maxWidth (px 636)
             ]
         , withMediaTabletPortraitUp
-            [ margin2 (rem 0) (rem 2) ]
+            [ margin2 (rem 2) (rem 2) ]
         ]
 
 
