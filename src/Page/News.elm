@@ -142,9 +142,12 @@ viewNewsArticle newsItem =
         , div [ css [ newsItemInfoStyle ] ]
             [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
             , p [ css [ newsItemMetaStyle ] ]
-                [ span [ css [ newsItemAuthorStyle ] ]
-                    [ text (String.join ", " newsItem.partnerIds)
-                    ]
+                [ if List.length newsItem.partnerIds > 0 then
+                    span [ css [ newsItemAuthorStyle ] ]
+                        [ text (String.join ", " newsItem.partnerIds) ]
+
+                  else
+                    text ""
                 , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
                 ]
             , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]

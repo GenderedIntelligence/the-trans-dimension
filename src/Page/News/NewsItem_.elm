@@ -119,8 +119,12 @@ viewArticle : Data.PlaceCal.Articles.Article -> Html Msg
 viewArticle newsItem =
     article [ css [ articleStyle ] ]
         [ p [ css [ articleMetaStyle ] ]
-            [ span [ css [ newsItemAuthorStyle ] ]
-                [ text (String.join ", " newsItem.partnerIds) ]
+            [ if List.length newsItem.partnerIds > 0 then
+                span [ css [ newsItemAuthorStyle ] ]
+                    [ text (String.join ", " newsItem.partnerIds) ]
+
+              else
+                text ""
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
         , figure [ css [ articleFigureStyle ] ]
