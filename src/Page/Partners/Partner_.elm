@@ -1,7 +1,7 @@
 module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (t)
+import Copy.Text exposing (partnerDescriptionText, t)
 import Css exposing (Style, auto, batch, calc, center, color, displayFlex, fontStyle, height, important, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, pct, property, px, rem, textAlign, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
@@ -113,19 +113,10 @@ view maybeUrl sharedModel static =
     }
 
 
-descriptionText : Data.PlaceCal.Partners.Partner -> String
-descriptionText partner =
-    if String.isEmpty partner.description then
-        "Please ask " ++ partner.name ++ " for more information"
-
-    else
-        partner.description
-
-
 viewInfo : Data -> Html msg
 viewInfo { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
-        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (descriptionText partner))
+        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (partnerDescriptionText partner))
         , hr [ css [ hrStyle ] ] []
         , section [ css [ contactWrapperStyle ] ]
             [ div [ css [ contactSectionStyle ] ]

@@ -1,6 +1,7 @@
-module Copy.Text exposing (t, urlToDisplay)
+module Copy.Text exposing (partnerDescriptionText, t, urlToDisplay)
 
 import Copy.Keys exposing (Key(..))
+import Data.PlaceCal.Partners exposing (Partner)
 import Url
 
 
@@ -341,3 +342,12 @@ chompTrailingUrlSlash urlString =
 urlToDisplay : String -> String
 urlToDisplay url =
     Url.fromString url |> urlRecombiner |> chompTrailingUrlSlash
+
+
+partnerDescriptionText : Partner -> String
+partnerDescriptionText partner =
+    if String.isEmpty partner.description then
+        "Please ask " ++ partner.name ++ " for more information"
+
+    else
+        partner.description
