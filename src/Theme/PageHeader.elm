@@ -17,7 +17,7 @@ import Theme.Logo
 
 headerNavigationItems : List TransRoutes.Route
 headerNavigationItems =
-    [ Home, Events, Partners, News, About ]
+    [ Home, Events, Partners, News, About, Donate ]
 
 
 viewPageHeader : { path : Path, route : Maybe Route } -> Bool -> Html Msg
@@ -25,7 +25,7 @@ viewPageHeader currentPath showMobileMenu =
     header [ css [ headerStyle ] ]
         [ div [ css [ barStyle ] ]
             [ viewPageHeaderNavigation showMobileMenu headerNavigationItems currentPath.path
-            , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
+            -- , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
             ]
         , div [ css [ titleBarStyle ] ]
             [ viewPageHeaderTitle (t SiteTitle) (t SiteStrapline)
@@ -66,6 +66,9 @@ viewPageHeaderNavigation showMobileMenu listItems currentPath =
                     else if String.contains (TransRoutes.toAbsoluteUrl item) (Path.toAbsolute currentPath) then
                         viewHeaderNavigationItemCurrentCategory item
 
+                    else if TransRoutes.toAbsoluteUrl item == "/donate" then
+                        viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
+
                     else
                         viewHeaderNavigationItem item
                 )
@@ -103,8 +106,8 @@ viewHeaderNavigationItemCurrentCategory route =
 
 viewPageHeaderAsk : String -> String -> Html Msg
 viewPageHeaderAsk copyText linkTo =
-    div [ css [ askStyle ] ]
-        [ a [ href linkTo, css [ Theme.whiteButtonStyle ] ] [ text copyText ]
+    li [ css [ navigationListItemStyle, askStyle ] ]
+    [ a [ href linkTo, css [ navigationLinkStyle {- Theme.whiteButtonStyle -} ] ] [ text copyText ]
         ]
 
 
@@ -152,9 +155,10 @@ barStyle : Style
 barStyle =
     batch
         [ withMediaTabletPortraitUp
-            [ displayFlex
-            , justifyContent spaceBetween
-            , padding (rem 0.5)
+            [ -- displayFlex
+            --, justifyContent spaceBetween
+            --,
+            padding (rem 0.5)
             , backgroundColor pink
             , alignItems center
             ]
@@ -281,6 +285,15 @@ navigationLinkCurrentCategoryStyle =
 askStyle : Style
 askStyle =
     batch
-        [ display none
-        , withMediaTabletPortraitUp [ display unset ]
+        [
+        withMediaTabletPortraitUp [
+          Css.marginLeft Css.auto
+          , display unset ]
+        ]
+
+askButtonStyle : Style
+askButtonStyle =
+    batch
+        [ -- display none
+        --, withMediaTabletPortraitUp [ display unset ]
         ]
