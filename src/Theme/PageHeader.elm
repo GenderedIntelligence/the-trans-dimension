@@ -2,7 +2,7 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginRight, none, padding, padding2, paddingBottom, paddingLeft, pointer, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
+import Css exposing (Style, alignItems, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginRight, none, padding, padding2, padding4, paddingBottom, paddingLeft, pointer, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
 import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, span, text, ul)
@@ -25,6 +25,7 @@ viewPageHeader currentPath showMobileMenu =
     header [ css [ headerStyle ] ]
         [ div [ css [ barStyle ] ]
             [ viewPageHeaderNavigation showMobileMenu headerNavigationItems currentPath.path
+
             -- , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
             ]
         , div [ css [ titleBarStyle ] ]
@@ -107,7 +108,15 @@ viewHeaderNavigationItemCurrentCategory route =
 viewPageHeaderAsk : String -> String -> Html Msg
 viewPageHeaderAsk copyText linkTo =
     li [ css [ navigationListItemStyle, askStyle ] ]
-    [ a [ href linkTo, css [ navigationLinkStyle {- Theme.whiteButtonStyle -} ] ] [ text copyText ]
+        [ a
+            [ href linkTo
+            , css
+                [ navigationLinkStyle, askButtonStyle
+
+                {- Theme.whiteButtonStyle -}
+                ]
+            ]
+            [ text copyText ]
         ]
 
 
@@ -156,10 +165,9 @@ barStyle =
     batch
         [ withMediaTabletPortraitUp
             [ -- displayFlex
-            --, justifyContent spaceBetween
-            --,
-            padding (rem 0.5)
-            , backgroundColor pink
+              --, justifyContent spaceBetween
+              --, padding (rem 0.5)
+              backgroundColor pink
             , alignItems center
             ]
         ]
@@ -229,7 +237,10 @@ navigationListItemStyle =
         , boxSizing borderBox
         , margin2 (rem 0.1) (rem 0)
         , fontSize (rem 1.2)
-        , withMediaTabletPortraitUp [ padding2 (rem 1) (rem 0.75) ]
+        , withMediaTabletPortraitUp
+            [ padding2 (rem 1) (rem 0.75)
+            , Css.alignSelf center
+            ]
         ]
 
 
@@ -285,15 +296,24 @@ navigationLinkCurrentCategoryStyle =
 askStyle : Style
 askStyle =
     batch
-        [
-        withMediaTabletPortraitUp [
-          Css.marginLeft Css.auto
-          , display unset ]
+        [ padding (rem 0)
+        , withMediaTabletPortraitUp
+            [ Css.marginLeft Css.auto
+            , display unset
+            ]
         ]
+
 
 askButtonStyle : Style
 askButtonStyle =
     batch
-        [ -- display none
-        --, withMediaTabletPortraitUp [ display unset ]
+        [ backgroundColor white
+        , borderBottomStyle none
+        , padding (rem 1)
+        , hover [ color pink ]
+        , withMediaTabletPortraitUp
+            --  [ display unset
+            [ padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
+            , Css.borderRadius (rem 0.3)
+            ]
         ]
