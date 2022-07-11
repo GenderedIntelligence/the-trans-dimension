@@ -113,8 +113,6 @@ viewPageHeaderAsk copyText linkTo =
             , css
                 [ navigationLinkStyle
                 , askButtonStyle
-
-                {- Theme.whiteButtonStyle -}
                 ]
             ]
             [ text copyText ]
