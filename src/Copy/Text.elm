@@ -220,6 +220,13 @@ t key =
         PartnerAddressEmptyText ->
             "No address provided"
 
+        PartnerDescriptionText partnerDescription partnerName ->
+            if String.isEmpty partnerDescription then
+                "Please ask " ++ partnerName ++ " for more information"
+
+            else
+                partnerDescription
+
         PartnerUpcomingEventsText partnerName ->
             "Upcoming events by " ++ partnerName
 

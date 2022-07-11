@@ -116,7 +116,7 @@ view maybeUrl sharedModel static =
 viewInfo : Data -> Html msg
 viewInfo { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
-        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml partner.description)
+        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (t (PartnerDescriptionText partner.description partner.name)))
         , hr [ css [ hrStyle ] ] []
         , section [ css [ contactWrapperStyle ] ]
             [ div [ css [ contactSectionStyle ] ]
@@ -205,11 +205,11 @@ descriptionStyle =
     batch
         [ normalFirstParagraphStyle
         , withMediaTabletLandscapeUp
-            [ margin2 (rem 0) auto
+            [ margin2 (rem 2) auto
             , maxWidth (px 636)
             ]
         , withMediaTabletPortraitUp
-            [ margin2 (rem 0) (rem 2) ]
+            [ margin2 (rem 2) (rem 2) ]
         ]
 
 

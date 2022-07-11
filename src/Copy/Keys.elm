@@ -76,6 +76,7 @@ type Key
     | PartnerContactsHeading
     | PartnerAddressHeading
     | PartnerAddressEmptyText
+    | PartnerDescriptionText String String
     | PartnerUpcomingEventsText String
     | PartnerEventsEmptyText String
     | BackToPartnersLinkText
