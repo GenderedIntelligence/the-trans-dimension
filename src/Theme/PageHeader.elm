@@ -2,7 +2,7 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginRight, none, padding, padding2, paddingBottom, paddingLeft, pointer, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
+import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginLeft, marginRight, none, padding, padding2, padding4, paddingBottom, paddingLeft, pointer, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
 import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, span, text, ul)
@@ -17,7 +17,7 @@ import Theme.Logo
 
 headerNavigationItems : List TransRoutes.Route
 headerNavigationItems =
-    [ Home, Events, Partners, News, About ]
+    [ Home, Events, Partners, News, About, Donate ]
 
 
 viewPageHeader : { path : Path, route : Maybe Route } -> Bool -> Html Msg
@@ -25,7 +25,8 @@ viewPageHeader currentPath showMobileMenu =
     header [ css [ headerStyle ] ]
         [ div [ css [ barStyle ] ]
             [ viewPageHeaderNavigation showMobileMenu headerNavigationItems currentPath.path
-            , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
+
+            -- , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
             ]
         , div [ css [ titleBarStyle ] ]
             [ viewPageHeaderTitle (t SiteTitle) (t SiteStrapline)
@@ -66,6 +67,9 @@ viewPageHeaderNavigation showMobileMenu listItems currentPath =
                     else if String.contains (TransRoutes.toAbsoluteUrl item) (Path.toAbsolute currentPath) then
                         viewHeaderNavigationItemCurrentCategory item
 
+                    else if TransRoutes.toAbsoluteUrl item == "/donate" then
+                        viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
+
                     else
                         viewHeaderNavigationItem item
                 )
@@ -103,8 +107,15 @@ viewHeaderNavigationItemCurrentCategory route =
 
 viewPageHeaderAsk : String -> String -> Html Msg
 viewPageHeaderAsk copyText linkTo =
-    div [ css [ askStyle ] ]
-        [ a [ href linkTo, css [ Theme.whiteButtonStyle ] ] [ text copyText ]
+    li [ css [ navigationListItemStyle, askStyle ] ]
+        [ a
+            [ href linkTo
+            , css
+                [ navigationLinkStyle
+                , askButtonStyle
+                ]
+            ]
+            [ text copyText ]
         ]
 
 
@@ -152,10 +163,7 @@ barStyle : Style
 barStyle =
     batch
         [ withMediaTabletPortraitUp
-            [ displayFlex
-            , justifyContent spaceBetween
-            , padding (rem 0.5)
-            , backgroundColor pink
+            [ backgroundColor pink
             , alignItems center
             ]
         ]
@@ -225,7 +233,10 @@ navigationListItemStyle =
         , boxSizing borderBox
         , margin2 (rem 0.1) (rem 0)
         , fontSize (rem 1.2)
-        , withMediaTabletPortraitUp [ padding2 (rem 1) (rem 0.75) ]
+        , withMediaTabletPortraitUp
+            [ padding2 (rem 1) (rem 0.75)
+            , alignSelf center
+            ]
         ]
 
 
@@ -281,6 +292,23 @@ navigationLinkCurrentCategoryStyle =
 askStyle : Style
 askStyle =
     batch
-        [ display none
-        , withMediaTabletPortraitUp [ display unset ]
+        [ padding (rem 0)
+        , withMediaTabletPortraitUp
+            [ marginLeft auto
+            , display unset
+            ]
+        ]
+
+
+askButtonStyle : Style
+askButtonStyle =
+    batch
+        [ backgroundColor white
+        , borderBottomStyle none
+        , padding (rem 1)
+        , hover [ color pink ]
+        , withMediaTabletPortraitUp
+            [ padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
+            , borderRadius (rem 0.3)
+            ]
         ]
