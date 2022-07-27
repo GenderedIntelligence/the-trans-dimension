@@ -13,6 +13,7 @@ type Msg
     | GetTime Time.Posix
       -- Header
     | ToggleMenu
+    | HideBetaBanner
       -- Shared
     | SharedMsg SharedMsg
 
