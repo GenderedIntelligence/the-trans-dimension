@@ -2,16 +2,16 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginLeft, marginRight, none, padding, padding2, padding4, paddingBottom, paddingLeft, pointer, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
+import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, bottom, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginLeft, marginRight, none, padding, padding2, padding4, paddingBottom, paddingLeft, pct, pointer, position, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, width, wrap, zIndex, zero)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
-import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, span, text, ul, p)
+import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Path exposing (Path)
 import Route exposing (Route)
-import Theme.Global as Theme exposing (darkBlue, pink, white, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (blue, darkBlue, pink, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
 
@@ -20,19 +20,24 @@ headerNavigationItems =
     [ Home, Events, Partners, News, About, Donate ]
 
 
-viewPageHeader : { path : Path, route : Maybe Route } -> Bool -> Html Msg
-viewPageHeader currentPath showMobileMenu =
+viewPageHeader :
+    { path : Path, route : Maybe Route }
+    -> { showMobileMenu : Bool, showBetaBanner : Bool }
+    -> Html Msg
+viewPageHeader currentPath viewOptions =
     header [ css [ headerStyle ] ]
-        [ div [ css [ barStyle ] ]
-            [ viewPageHeaderNavigation showMobileMenu headerNavigationItems currentPath.path
+        [ if viewOptions.showBetaBanner then
+            viewBetaBanner
 
-            -- , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
+          else
+            text ""
+        , div [ css [ barStyle ] ]
+            [ viewPageHeaderNavigation viewOptions.showMobileMenu headerNavigationItems currentPath.path
             ]
         , div [ css [ titleBarStyle ] ]
             [ viewPageHeaderTitle (t SiteTitle) (t SiteStrapline)
             , viewPageHeaderMenuButton (t HeaderMobileMenuButton)
             ]
-        , viewBetaBanner
         ]
 
 
@@ -42,15 +47,17 @@ viewPageHeaderTitle pageTitle strapLine =
         [ h1 [] [ Theme.Logo.view ]
         ]
 
+
 viewBetaBanner : Html Msg
 viewBetaBanner =
-  div [ css [ bannerStyle ] ]
-  [ div [ css [] ]
-      [ div [ css [ betaIconStyle ] ] []
-      , text "Trans Dimension is in BETA. Please take our survey"
-      ]
-  , div [ css [ betaCloseIconStyle ] ] [ text "Close" ]
-  ]
+    div [ css [ bannerStyle ] ]
+        [ p [ css [ bannerTextStyle ] ] [ text (t BetaBannerText) ]
+        , button
+            [ onClick HideBetaBanner
+            , css [ betaCloseButtonStyle ]
+            ]
+            [ text (t BetaBannerCloseButtonText) ]
+        ]
 
 
 viewPageHeaderNavigation : Bool -> List TransRoutes.Route -> Path -> Html Msg
@@ -327,28 +334,40 @@ askButtonStyle =
 
 bannerStyle : Style
 bannerStyle =
-  batch
-  [ backgroundColor white
-  , padding (rem 0.5)
-  , color pink
-  , Css.position Css.relative
-  ]
+    batch
+        [ backgroundColor blue
+        , borderBottomColor darkBlue
+        , borderBottomStyle solid
+        , borderBottomWidth (rem 2)
+        , bottom zero
+        , displayFlex
+        , justifyContent spaceBetween
+        , padding (rem 1.5)
+        , position Css.fixed
+        , width (pct 100)
+        , zIndex (int 999)
+        ]
 
-betaIconStyle : Style
-betaIconStyle =
-  batch
-  [ display Css.inlineBlock
-  , Css.width (Css.px 40)
-  , Css.height (Css.px 40)
-  , Css.backgroundImage (Css.url "/images/icons/construction.gif")
-  , Css.backgroundSize2 (Css.px 40) (Css.px 40)
-  ]
 
-betaCloseIconStyle : Style
-betaCloseIconStyle =
-  batch
-  [ Css.position Css.absolute
-  , Css.right (Css.px 0)
-  , Css.top (Css.px 0)
-  , Css.margin4 (Css.rem 0.5) (Css.rem 0.5) (Css.rem 0) (Css.rem 0)
-  ]
+bannerTextStyle : Style
+bannerTextStyle =
+    batch
+        [ color darkBlue
+        , fontStyle Css.italic
+        , fontSize (rem 1.5)
+        , fontWeight (int 700)
+        ]
+
+
+betaCloseButtonStyle : Style
+betaCloseButtonStyle =
+    batch
+        [ backgroundColor white
+        , border zero
+        , color darkBlue
+        , cursor pointer
+        , hover [ color pink ]
+        , margin2 (rem 0) (rem 2.5)
+        , padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
+        , borderRadius (rem 0.3)
+        ]
