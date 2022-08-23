@@ -11,6 +11,7 @@ import Time
 
 sharedModelInit =
     { showMobileMenu = False
+    , showBetaBanner = True
     , nowTime = Time.millisToPosix 0
     }
 

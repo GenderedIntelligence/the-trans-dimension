@@ -45,6 +45,13 @@ t key =
             -- Gendered Intelligence just giving page
             "https://localgiving.org/donation/genderedintelligence?emb=3wLf1uws5L"
 
+        --- Beta Banner
+        BetaBannerText ->
+            "The Trans Dimension is in BETA."
+
+        BetaBannerCloseButtonText ->
+            "Close"
+
         --- Footer
         FooterSocial ->
             "Follow us out there"
