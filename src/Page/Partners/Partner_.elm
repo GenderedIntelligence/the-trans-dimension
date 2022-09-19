@@ -116,7 +116,8 @@ view maybeUrl sharedModel static =
 viewInfo : Data -> Html msg
 viewInfo { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
-        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (t (PartnerDescriptionText partner.description partner.name)))
+        [ partnerLogo partner.logo
+        , div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (t (PartnerDescriptionText partner.description partner.name)))
         , hr [ css [ hrStyle ] ] []
         , section [ css [ contactWrapperStyle ] ]
             [ div [ css [ contactSectionStyle ] ]
@@ -192,6 +193,15 @@ viewAddress maybeAddress =
 
         Nothing ->
             p [ css [ contactItemStyle ] ] [ text (t PartnerAddressEmptyText) ]
+
+partnerLogo : Maybe String -> Html msg
+partnerLogo maybeLogoUrl =
+  case maybeLogoUrl of
+    Just logoUrl ->
+      img [ src logoUrl ] []
+    Nothing ->
+      div [] [text "no logo set"]
+
 
 
 

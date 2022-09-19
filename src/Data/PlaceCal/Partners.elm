@@ -20,6 +20,7 @@ type alias Partner =
     , maybeAddress : Maybe Address
     , areasServed : List ServiceArea
     , maybeGeo : Maybe Geo
+    , logo : Maybe String
     }
 
 
@@ -59,6 +60,7 @@ emptyPartner =
     , maybeAddress = Nothing
     , areasServed = []
     , maybeGeo = Nothing
+    , logo = Nothing
     }
 
 
@@ -88,10 +90,11 @@ allPartnersQuery =
                   name
                   description
                   summary
-                  contact { email, telephone }      
+                  contact { email, telephone }
                   url
                   address { streetAddress, postalCode, addressRegion, geo { latitude, longitude } }
                   areasServed { name abbreviatedName }
+                  logo
                 } }
           """
           )
@@ -125,6 +128,7 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just addressDecoder) Nothing
         |> OptimizedDecoder.Pipeline.required "areasServed" (OptimizedDecoder.list serviceAreaDecoder)
         |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
+        |> OptimizedDecoder.Pipeline.optional "logo" (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
 
 
 geoDecoder : OptimizedDecoder.Decoder Geo
