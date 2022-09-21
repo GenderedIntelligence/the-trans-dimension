@@ -32,6 +32,7 @@ partners =
             { email = "partner1@example.com", telephone = "020 7946 0100" }
       , areasServed = []
       , maybeGeo = Nothing
+      , maybeLogo = Nothing
       }
     , { id = "2"
       , name = "Partner two"
@@ -50,6 +51,7 @@ partners =
             [ { name = "Central London", abbreviatedName = Just "Central Ldn" }
             ]
       , maybeGeo = Nothing
+      , maybeLogo = Nothing
       }
     , { id = "3"
       , name = "Partner three"
@@ -64,6 +66,7 @@ partners =
             , { name = "London", abbreviatedName = Nothing }
             ]
       , maybeGeo = Nothing
+      , maybeLogo = Nothing
       }
     , { id = "4"
       , name = "Partner four"
@@ -80,6 +83,7 @@ partners =
             { email = "partner4@example.com", telephone = "020 7946 0400" }
       , areasServed = []
       , maybeGeo = Nothing
+      , maybeLogo = Nothing
       }
     ]
 

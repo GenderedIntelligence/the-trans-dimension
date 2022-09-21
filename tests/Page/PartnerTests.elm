@@ -35,6 +35,7 @@ viewParamsWithPartner =
                     }
             , areasServed = []
             , maybeGeo = Nothing
+            , maybeLogo = Nothing
             }
         , events =
             [ { id = "1"
