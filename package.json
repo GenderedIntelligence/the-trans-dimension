@@ -2,7 +2,7 @@
   "name": "the-trans-dimension",
   "scripts": {
     "postinstall": "elm-tooling install",
-    "start": "elm-pages dev --port 3000",
+    "start": "elm-pages dev --port 3030",
     "build": "elm-pages build",
     "format": "elm-format src",
     "test": "elm-test-rs"
