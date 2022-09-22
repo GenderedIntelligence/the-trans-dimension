@@ -127,13 +127,26 @@ viewArticle newsItem =
                 text ""
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
-        , figure [ css [ articleFigureStyle ] ]
-            [ img [ src "/images/news/article_6.jpg", css [ articleFigureImageStyle ] ] []
-
-            -- [fFf] , figcaption [ css [ articleFigureCaptionStyle ] ] [ text "Optional image credit, note and or details." ]
-            ]
+        , articleImage newsItem.maybeImage
         , div [ css [ articleContentStyle ] ] [ text newsItem.body ]
         ]
+
+
+articleImage : Maybe String -> Html Msg
+articleImage maybeImageUrl =
+    let
+        imageSource =
+          Maybe.withDefault "/images/news/article_6.jpg" maybeImageUrl
+
+    in
+        figure [ css [ articleFigureStyle ] ]
+          [ img [ src imageSource, css [ articleFigureImageStyle ] ] []
+          ]
+
+
+    -- [fFf] , figcaption [ css [ articleFigureCaptionStyle ] ] [ text "Optional image credit, note and or details." ]
+
+
 
 
 viewPagination : Html Msg
@@ -181,8 +194,6 @@ articleFigureImageStyle =
         , borderRadius (rem 0.3)
         ]
 
-
-
 {- not in use
    articleFigureCaptionStyle : Style
    articleFigureCaptionStyle =
@@ -217,3 +228,4 @@ newsItemAuthorStyle =
     batch
         [ after [ property "content" "\"•\"", margin2 (rem 0) (rem 0.25) ]
         ]
+

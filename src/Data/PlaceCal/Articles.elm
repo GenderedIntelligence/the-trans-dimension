@@ -16,6 +16,7 @@ type alias Article =
     , body : String
     , publishedDatetime : Time.Posix
     , partnerIds : List String
+    , maybeImage : Maybe String
     }
 
 
@@ -25,6 +26,7 @@ emptyArticle =
     , body = ""
     , publishedDatetime = Time.millisToPosix 0
     , partnerIds = []
+    , maybeImage = Nothing
     }
 
 
@@ -51,6 +53,7 @@ allArticlesQuery =
                   datePublished
                   headline
                   providers { id }
+                  image
             } } } }
             """
           )
@@ -83,6 +86,8 @@ decode =
             TransDate.isoDateStringDecoder
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "providers" ]
             (OptimizedDecoder.list partnerIdDecoder)
+        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "image" ]
+            (OptimizedDecoder.nullable OptimizedDecoder.string) Nothing
 
 
 partnerIdDecoder : OptimizedDecoder.Decoder String

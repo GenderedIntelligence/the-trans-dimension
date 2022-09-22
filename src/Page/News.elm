@@ -127,18 +127,7 @@ viewNewsItem newsItem =
 viewNewsArticle : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsArticle newsItem =
     article [ css [ newsItemArticleStyle ] ]
-        [ img
-            [ src
-                (case Array.get 0 defaultNewsImages of
-                    Just string ->
-                        string
-
-                    Nothing ->
-                        ""
-                )
-            , css [ newsImageStyle ]
-            ]
-            []
+        [ newsArticleImage newsItem.maybeImage
         , div [ css [ newsItemInfoStyle ] ]
             [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
             , p [ css [ newsItemMetaStyle ] ]
@@ -171,7 +160,13 @@ summaryFromArticleBody articleBody =
         |> List.take 20
         |> String.join " "
 
+newsArticleImage : Maybe String -> Html msg
+newsArticleImage maybeImage =
+    let
+        imageSource = Maybe.withDefault "/images/news/article_1.jpg" maybeImage
 
+    in
+        img [ src imageSource, css [ newsImageStyle ] ] []
 
 ---------
 -- Styles
@@ -261,3 +256,10 @@ newsItemSummaryStyle =
         , marginTop (rem 0.5)
         , withMediaTabletPortraitUp [ textAlign left, fontSize (rem 1.2) ]
         ]
+
+newsItemImageStyle : Style
+newsItemImageStyle =
+    batch
+        []
+
+
