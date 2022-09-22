@@ -87,7 +87,8 @@ decode =
         |> OptimizedDecoder.Pipeline.requiredAt [ "node", "providers" ]
             (OptimizedDecoder.list partnerIdDecoder)
         |> OptimizedDecoder.Pipeline.optionalAt [ "node", "image" ]
-            (OptimizedDecoder.nullable OptimizedDecoder.string) Nothing
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
 
 
 partnerIdDecoder : OptimizedDecoder.Decoder String

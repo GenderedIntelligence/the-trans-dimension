@@ -160,13 +160,16 @@ summaryFromArticleBody articleBody =
         |> List.take 20
         |> String.join " "
 
+
 newsArticleImage : Maybe String -> Html msg
 newsArticleImage maybeImage =
     let
-        imageSource = Maybe.withDefault "/images/news/article_1.jpg" maybeImage
-
+        imageSource =
+            Maybe.withDefault "/images/news/article_1.jpg" maybeImage
     in
-        img [ src imageSource, css [ newsImageStyle ] ] []
+    img [ src imageSource, css [ newsImageStyle ] ] []
+
+
 
 ---------
 -- Styles
@@ -257,9 +260,8 @@ newsItemSummaryStyle =
         , withMediaTabletPortraitUp [ textAlign left, fontSize (rem 1.2) ]
         ]
 
+
 newsItemImageStyle : Style
 newsItemImageStyle =
     batch
         []
-
-
