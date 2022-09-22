@@ -1,7 +1,7 @@
-module View exposing (View, fontPreload, map)
+module View exposing (View, fontPreload, map, plausibleTracker)
 
 import Html.Styled exposing (Html, node)
-import Html.Styled.Attributes exposing (href, rel)
+import Html.Styled.Attributes exposing (attribute, href, rel, src)
 
 
 type alias View msg =
@@ -22,5 +22,15 @@ fontPreload =
     node "link"
         [ rel "stylesheet preload"
         , href "https://use.typekit.net/rog1plq.css"
+        ]
+        []
+
+
+plausibleTracker : Html msg
+plausibleTracker =
+    node "SCRIPT"
+        [ attribute "defer" "defer"
+        , attribute "data-domain" "transdimension.uk"
+        , src "https://plausible.io/js/plausible.js"
         ]
         []
