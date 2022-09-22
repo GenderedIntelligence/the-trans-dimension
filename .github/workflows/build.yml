@@ -1,0 +1,11 @@
+on:
+  schedule:
+    - cron: "0 00,12 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run:
+          curl -X POST -d '{}'
+          https://api.netlify.com/build_hooks/62a3066ab986f708460f4428
