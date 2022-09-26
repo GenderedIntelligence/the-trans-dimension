@@ -9,7 +9,7 @@ import DataSource exposing (DataSource)
 import Head
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
-import Html.Styled.Attributes exposing (css, href, src, target)
+import Html.Styled.Attributes exposing (css, href, src, target, alt)
 import Page exposing (Page, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
@@ -116,7 +116,8 @@ view maybeUrl sharedModel static =
 viewInfo : Data -> Html msg
 viewInfo { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
-        [ partnerLogo partner.maybeLogo
+        [ partnerLogo partner.maybeLogo partner.name
+
         , div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (t (PartnerDescriptionText partner.description partner.name)))
         , hr [ css [ hrStyle ] ] []
         , section [ css [ contactWrapperStyle ] ]
@@ -194,12 +195,12 @@ viewAddress maybeAddress =
         Nothing ->
             p [ css [ contactItemStyle ] ] [ text (t PartnerAddressEmptyText) ]
 
-partnerLogo : Maybe String -> Html msg
-partnerLogo maybeLogoUrl =
+partnerLogo : Maybe String -> String -> Html msg
+partnerLogo maybeLogoUrl partnerName =
   case maybeLogoUrl of
     Just logoUrl ->
       div [ css [ partnerLogoContainer] ] [
-        img [ src logoUrl, css [ partnerLogoStyle ] ] []
+        img [ src logoUrl, css [ partnerLogoStyle ], alt (partnerName ++ " logo") ] []
         , hr [ css [ hrStyle ] ] []
         ]
     Nothing ->
