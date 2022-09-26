@@ -2,14 +2,14 @@ module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, auto, batch, calc, center, color, displayFlex, fontStyle, height, important, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, pct, property, px, rem, textAlign, width)
+import Css exposing (Style, auto, batch, calc, center, color, display, displayFlex, fontStyle, height, important, inlineBlock, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, paddingTop, pct, property, px, rem, textAlign, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
-import Html.Styled.Attributes exposing (css, href, src, target)
+import Html.Styled.Attributes exposing (alt, css, href, src, target)
 import Page exposing (Page, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
@@ -116,7 +116,8 @@ view maybeUrl sharedModel static =
 viewInfo : Data -> Html msg
 viewInfo { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
-        [ div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (t (PartnerDescriptionText partner.description partner.name)))
+        [ partnerLogo partner.maybeLogo partner.name
+        , div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (t (PartnerDescriptionText partner.description partner.name)))
         , hr [ css [ hrStyle ] ] []
         , section [ css [ contactWrapperStyle ] ]
             [ div [ css [ contactSectionStyle ] ]
@@ -194,6 +195,19 @@ viewAddress maybeAddress =
             p [ css [ contactItemStyle ] ] [ text (t PartnerAddressEmptyText) ]
 
 
+partnerLogo : Maybe String -> String -> Html msg
+partnerLogo maybeLogoUrl partnerName =
+    case maybeLogoUrl of
+        Just logoUrl ->
+            div [ css [ partnerLogoContainer ] ]
+                [ img [ src logoUrl, css [ partnerLogoStyle ], alt (partnerName ++ " logo") ] []
+                , hr [ css [ hrStyle ] ] []
+                ]
+
+        Nothing ->
+            div [] []
+
+
 
 ---------
 -- Styles
@@ -253,4 +267,19 @@ mapContainerStyle =
             [ margin4 (rem 3) (calc (rem -1.85) minus (px 1)) (calc (rem -1.85) minus (px 1)) (calc (rem -1.85) minus (px 1)) ]
         , withMediaTabletPortraitUp
             [ margin4 (rem 3) (calc (rem -2.35) minus (px 1)) (px -1) (calc (rem -2.35) minus (px 1)) ]
+        ]
+
+
+partnerLogoContainer : Style
+partnerLogoContainer =
+    batch
+        [ textAlign center
+        , paddingTop (rem 2)
+        ]
+
+
+partnerLogoStyle : Style
+partnerLogoStyle =
+    batch
+        [ display inlineBlock
         ]
