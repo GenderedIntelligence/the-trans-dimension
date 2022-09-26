@@ -14,7 +14,7 @@ placeCalApiUrl =
 
 
 -- Dev
---"http://localhost:3000/api/v1/graphql"
+--"http://lvh.me:3300/api/v1/graphql"
 -- Staging
 --"https://placecal-staging.org/api/v1/graphql"
 
