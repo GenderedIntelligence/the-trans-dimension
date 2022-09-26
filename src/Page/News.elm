@@ -11,7 +11,7 @@ import Head
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h3, img, li, p, section, span, text, time, ul)
-import Html.Styled.Attributes exposing (css, href, src)
+import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -167,7 +167,7 @@ newsArticleImage maybeImage =
         imageSource =
             Maybe.withDefault "/images/news/article_1.jpg" maybeImage
     in
-    img [ src imageSource, css [ newsImageStyle ] ] []
+    img [ src imageSource, css [ newsImageStyle ], alt "" ] []
 
 
 
@@ -259,9 +259,3 @@ newsItemSummaryStyle =
         , marginTop (rem 0.5)
         , withMediaTabletPortraitUp [ textAlign left, fontSize (rem 1.2) ]
         ]
-
-
-newsItemImageStyle : Style
-newsItemImageStyle =
-    batch
-        []
