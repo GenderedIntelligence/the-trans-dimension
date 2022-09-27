@@ -11,7 +11,7 @@ import Head
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h3, img, li, p, section, span, text, time, ul)
-import Html.Styled.Attributes exposing (css, href, src)
+import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -127,18 +127,7 @@ viewNewsItem newsItem =
 viewNewsArticle : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsArticle newsItem =
     article [ css [ newsItemArticleStyle ] ]
-        [ img
-            [ src
-                (case Array.get 0 defaultNewsImages of
-                    Just string ->
-                        string
-
-                    Nothing ->
-                        ""
-                )
-            , css [ newsImageStyle ]
-            ]
-            []
+        [ newsArticleImage newsItem.maybeImage
         , div [ css [ newsItemInfoStyle ] ]
             [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
             , p [ css [ newsItemMetaStyle ] ]
@@ -170,6 +159,15 @@ summaryFromArticleBody articleBody =
     String.words articleBody
         |> List.take 20
         |> String.join " "
+
+
+newsArticleImage : Maybe String -> Html msg
+newsArticleImage maybeImage =
+    let
+        imageSource =
+            Maybe.withDefault "/images/news/article_1.jpg" maybeImage
+    in
+    img [ src imageSource, css [ newsImageStyle ], alt "" ] []
 
 
 

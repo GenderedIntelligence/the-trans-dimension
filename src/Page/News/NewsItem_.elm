@@ -11,7 +11,7 @@ import Head
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, article, div, figcaption, figure, img, p, span, text, time)
-import Html.Styled.Attributes exposing (css, src)
+import Html.Styled.Attributes exposing (alt, css, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
@@ -127,12 +127,19 @@ viewArticle newsItem =
                 text ""
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
-        , figure [ css [ articleFigureStyle ] ]
-            [ img [ src "/images/news/article_6.jpg", css [ articleFigureImageStyle ] ] []
-
-            -- [fFf] , figcaption [ css [ articleFigureCaptionStyle ] ] [ text "Optional image credit, note and or details." ]
-            ]
+        , articleImage newsItem.maybeImage
         , div [ css [ articleContentStyle ] ] [ text newsItem.body ]
+        ]
+
+
+articleImage : Maybe String -> Html Msg
+articleImage maybeImageUrl =
+    let
+        imageSource =
+            Maybe.withDefault "/images/news/article_6.jpg" maybeImageUrl
+    in
+    figure [ css [ articleFigureStyle ] ]
+        [ img [ src imageSource, css [ articleFigureImageStyle ], alt "" ] []
         ]
 
 
