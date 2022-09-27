@@ -1,4 +1,4 @@
-module Copy.Text exposing (isValidUrl, t, urlToDisplay)
+module Copy.Text exposing (googleMapSearchUrl, isValidUrl, t, urlToDisplay)
 
 import Copy.Keys exposing (Key(..))
 import Url
@@ -192,11 +192,8 @@ t key =
         EventMetaDescription eventName eventSummary ->
             eventName ++ " - " ++ eventSummary
 
-        BackToPartnerEventsLinkText partnerName ->
-            "All events by " ++ Maybe.withDefault "this partner" partnerName
-
         BackToEventsLinkText ->
-            "All events"
+            "Go to all events"
 
         --- Partners Page
         PartnersTitle ->
@@ -358,6 +355,11 @@ chompTrailingUrlSlash urlString =
 urlToDisplay : String -> String
 urlToDisplay url =
     Url.fromString url |> urlRecombiner |> chompTrailingUrlSlash
+
+
+googleMapSearchUrl : String -> String
+googleMapSearchUrl address =
+    "https://www.google.com/maps/search/?api=1&query=" ++ Url.percentEncode address
 
 
 isValidUrl : String -> Bool

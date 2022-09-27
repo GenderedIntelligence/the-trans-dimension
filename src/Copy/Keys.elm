@@ -84,6 +84,7 @@ type Key
     | PartnerUpcomingEventsText String
     | PartnerEventsEmptyText String
     | BackToPartnersLinkText
+    | SeeOnGoogleMapText
       --- Join Us Page
     | JoinUsTitle
     | JoinUsMetaDescription
