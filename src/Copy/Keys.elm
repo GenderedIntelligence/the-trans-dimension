@@ -66,6 +66,7 @@ type Key
       --- Event Page
     | EventTitle String
     | EventMetaDescription String String
+    | BackToPartnerEventsLinkText (Maybe String)
     | BackToEventsLinkText
       --- Partners Page
     | PartnersTitle
