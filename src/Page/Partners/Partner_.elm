@@ -9,7 +9,7 @@ import DataSource exposing (DataSource)
 import Head
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
-import Html.Styled.Attributes exposing (alt, css, href, src, target)
+import Html.Styled.Attributes exposing (alt, css, href, id, src, target)
 import Page exposing (Page, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
@@ -130,7 +130,7 @@ viewInfo { partner, events } =
                 ]
             ]
         , hr [ css [ hrStyle ] ] []
-        , section []
+        , section [ id "events" ]
             [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
             , if List.length events > 0 then
                 -- Might move away from sharing render, but for now hardcoding model
