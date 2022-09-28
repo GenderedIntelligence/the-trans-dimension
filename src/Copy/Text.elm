@@ -193,7 +193,7 @@ t key =
             eventName ++ " - " ++ eventSummary
 
         BackToEventsLinkText ->
-            "Go to all events"
+            "All events"
 
         --- Partners Page
         PartnersTitle ->
