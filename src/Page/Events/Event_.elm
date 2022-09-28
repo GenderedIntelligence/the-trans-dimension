@@ -204,7 +204,7 @@ viewAddressSection event =
 viewButtons : Data.PlaceCal.Events.Event -> Html msg
 viewButtons event =
     section [ css [ buttonsStyle ] ]
-        [ Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) "Partner's events"
+        [ Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) ("All " ++ Maybe.withDefault "this partner" event.partner.name ++ "’s events")
         , Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl Events) (t BackToEventsLinkText)
         ]
 
