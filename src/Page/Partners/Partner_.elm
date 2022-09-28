@@ -132,21 +132,21 @@ viewInfo { partner, events } =
         , hr [ css [ hrStyle ] ] []
         , section []
             [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
+            , if List.length events > 0 then
+                -- Might move away from sharing render, but for now hardcoding model
+                Page.Events.viewEventsList Nothing events
+
+              else
+                p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
+            , case partner.maybeGeo of
+                Just geo ->
+                    div [ css [ mapContainerStyle ] ]
+                        [ p [] [ Theme.Global.mapImage { latitude = geo.latitude, longitude = geo.longitude } ]
+                        ]
+
+                Nothing ->
+                    div [ css [ mapContainerStyle ] ] [ text "" ]
             ]
-        , if List.length events > 0 then
-            -- Might move away from sharing render, but for now hardcoding model
-            Page.Events.viewEventsList Nothing events
-
-          else
-            p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
-        , case partner.maybeGeo of
-            Just geo ->
-                div [ css [ mapContainerStyle ] ]
-                    [ p [] [ Theme.Global.mapImage { latitude = geo.latitude, longitude = geo.longitude } ]
-                    ]
-
-            Nothing ->
-                div [ css [ mapContainerStyle ] ] [ text "" ]
         ]
 
 
