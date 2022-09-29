@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewFutureEventsList)
+module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEvents, viewFutureEventsList)
 
 import Browser.Dom
 import Browser.Navigation
@@ -216,10 +216,6 @@ viewEvents localModel =
         [ Paginator.viewPagination localModel
         , viewEventsList localModel.filterBy localModel.visibleEvents
         ]
-
-
-
--- We might want to move this into theme since it is also used by Partner page
 
 
 viewFutureEventsList : List Data.PlaceCal.Events.Event -> Html msg
