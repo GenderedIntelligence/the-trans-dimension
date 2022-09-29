@@ -204,6 +204,9 @@ t key =
         BackToPartnerEventsLinkText partnerName ->
             "All events by " ++ Maybe.withDefault "this partner" partnerName
 
+        EventVisitPublisherUrlText ->
+            "Visit Publisher's site"
+
         --- Partners Page
         PartnersTitle ->
             "Partners"
@@ -364,13 +367,3 @@ chompTrailingUrlSlash urlString =
 urlToDisplay : String -> String
 urlToDisplay url =
     Url.fromString url |> urlRecombiner |> chompTrailingUrlSlash
-
-
-isValidUrl : String -> Bool
-isValidUrl urlString =
-    case Url.fromString urlString of
-        Just url ->
-            url.protocol == Url.Https
-
-        Nothing ->
-            False

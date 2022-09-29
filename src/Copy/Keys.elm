@@ -70,6 +70,8 @@ type Key
     | EventMetaDescription String String
     | BackToPartnerEventsLinkText (Maybe String)
     | BackToEventsLinkText
+    | EventVisitPublisherUrlText
+
       --- Partners Page
     | PartnersTitle
     | PartnersMetaDescription

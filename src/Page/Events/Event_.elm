@@ -118,6 +118,7 @@ viewEventInfo event =
 
             Nothing ->
                 div [ css [ mapContainerStyle ] ] [ text "" ]
+        , publisherUrlSection event
         ]
 
 
@@ -215,6 +216,18 @@ viewButtons event =
         , Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl Events) (t BackToEventsLinkText)
         ]
 
+
+publisherUrlSection : Data.PlaceCal.Events.Event -> Html msg
+publisherUrlSection event =
+  div []
+      [ if (String.length event.publisherUrl) > 0 then
+          div [ css [ publisherSectionStyle ]]
+            [ hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
+            , a [ href event.publisherUrl, css [ Theme.Global.linkStyle ] ] [ text (t EventVisitPublisherUrlText) ]
+            ]
+        else
+            text ""
+      ]
 
 dateAndTimeStyle : Style
 dateAndTimeStyle =
@@ -327,4 +340,11 @@ mapContainerStyle =
             [ margin4 (rem 3) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) ]
         , withMediaTabletPortraitUp
             [ margin4 (rem 3) (calc (rem -2) minus (px 1)) (px -1) (calc (rem -2) minus (px 1)) ]
+        ]
+
+publisherSectionStyle : Style
+publisherSectionStyle =
+    batch
+        [ textAlign center
+        , marginBottom (rem 2)
         ]
