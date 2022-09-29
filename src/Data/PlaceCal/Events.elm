@@ -18,7 +18,7 @@ type alias Event =
     , description : String
     , startDatetime : Time.Posix
     , endDatetime : Time.Posix
-    , publisherUrl: String
+    , maybePublisherUrl : Maybe String
     , location : Maybe EventLocation
 
     -- , realm : Realm
@@ -61,7 +61,7 @@ emptyEvent =
     , description = ""
     , startDatetime = Time.millisToPosix 0
     , endDatetime = Time.millisToPosix 0
-    , publisherUrl = ""
+    , maybePublisherUrl = Nothing
     , location = Nothing
 
     -- , realm = Offline
@@ -165,12 +165,14 @@ decode =
         |> OptimizedDecoder.Pipeline.required "endDate"
             TransDate.isoDateStringDecoder
         |> OptimizedDecoder.Pipeline.optional "publisherUrl"
-            OptimizedDecoder.string
-            ""
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
         |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just eventAddressDecoder) Nothing
         |> OptimizedDecoder.Pipeline.requiredAt [ "organizer", "id" ]
             partnerIdDecoder
         |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
+
+
 
 -- onlineEventUrl
 -- onlineEventUrl

@@ -219,15 +219,16 @@ viewButtons event =
 
 publisherUrlSection : Data.PlaceCal.Events.Event -> Html msg
 publisherUrlSection event =
-  div []
-      [ if (String.length event.publisherUrl) > 0 then
-          div [ css [ publisherSectionStyle ]]
-            [ hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
-            , a [ href event.publisherUrl, css [ Theme.Global.linkStyle ] ] [ text (t EventVisitPublisherUrlText) ]
-            ]
-        else
+    case event.maybePublisherUrl of
+        Just publisherUrl ->
+            div [ css [ publisherSectionStyle ] ]
+                [ hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
+                , a [ href publisherUrl, css [ Theme.Global.linkStyle ] ] [ text (t EventVisitPublisherUrlText) ]
+                ]
+
+        Nothing ->
             text ""
-      ]
+
 
 dateAndTimeStyle : Style
 dateAndTimeStyle =
@@ -341,6 +342,7 @@ mapContainerStyle =
         , withMediaTabletPortraitUp
             [ margin4 (rem 3) (calc (rem -2) minus (px 1)) (px -1) (calc (rem -2) minus (px 1)) ]
         ]
+
 
 publisherSectionStyle : Style
 publisherSectionStyle =
