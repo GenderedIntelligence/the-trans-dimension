@@ -1,4 +1,4 @@
-module Copy.Text exposing (googleMapSearchUrl, isValidUrl, t, urlToDisplay)
+module Copy.Text exposing (t, urlToDisplay)
 
 import Copy.Keys exposing (Key(..))
 import Url
@@ -30,6 +30,12 @@ t key =
 
         GenderedIntelligenceHomeUrl ->
             "https://genderedintelligence.co.uk/"
+
+        GoogleMapSearchUrl address ->
+            "https://www.google.com/maps/search/?api=1&query=" ++ Url.percentEncode address
+
+        SeeOnGoogleMapText ->
+            "See on Google map"
 
         PageMetaTitle pageTitle ->
             String.join " | " [ pageTitle, t SiteTitle ]
@@ -360,13 +366,3 @@ urlToDisplay url =
 googleMapSearchUrl : String -> String
 googleMapSearchUrl address =
     "https://www.google.com/maps/search/?api=1&query=" ++ Url.percentEncode address
-
-
-isValidUrl : String -> Bool
-isValidUrl urlString =
-    case Url.fromString urlString of
-        Just url ->
-            url.protocol == Url.Https
-
-        Nothing ->
-            False

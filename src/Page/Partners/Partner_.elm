@@ -1,7 +1,7 @@
 module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (googleMapSearchUrl, isValidUrl, t)
+import Copy.Text exposing (isValidUrl, t)
 import Css exposing (Style, auto, batch, calc, center, color, display, displayFlex, fontStyle, height, important, inlineBlock, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, paddingTop, pct, property, px, rem, textAlign, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
@@ -189,6 +189,8 @@ viewAddress maybeAddress =
                 , p [ css [ contactItemStyle ] ]
                     [ text addressFields.postalCode
                     ]
+                , p [ css [ contactItemStyle ] ]
+                    [ a [ href (t (GoogleMapSearchUrl addressFields.streetAddress)), css [ linkStyle ], target "_blank" ] [ text (t SeeOnGoogleMapText) ] ]
                 ]
 
         Nothing ->

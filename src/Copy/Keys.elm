@@ -9,6 +9,8 @@ type Key
     | PageMetaTitle String
     | GeeksForSocialChangeHomeUrl
     | GenderedIntelligenceHomeUrl
+    | GoogleMapSearchUrl String
+    | SeeOnGoogleMapText
       --- Header
     | HeaderMobileMenuButton
     | HeaderAskButton
@@ -84,7 +86,6 @@ type Key
     | PartnerUpcomingEventsText String
     | PartnerEventsEmptyText String
     | BackToPartnersLinkText
-    | SeeOnGoogleMapText
       --- Join Us Page
     | JoinUsTitle
     | JoinUsMetaDescription
