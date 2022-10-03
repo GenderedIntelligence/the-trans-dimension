@@ -1,7 +1,7 @@
 module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (t)
+import Copy.Text exposing (isValidUrl, t)
 import Css exposing (Style, auto, batch, calc, center, color, display, displayFlex, fontStyle, height, important, inlineBlock, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, paddingTop, pct, property, px, rem, textAlign, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
@@ -173,7 +173,11 @@ viewContactDetails maybeUrl contactDetails =
             text ""
         , case maybeUrl of
             Just url ->
-                p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text (Copy.Text.urlToDisplay url) ] ]
+                if isValidUrl url then
+                    p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text (Copy.Text.urlToDisplay url) ] ]
+
+                else
+                    text ""
 
             Nothing ->
                 text ""
@@ -199,13 +203,17 @@ partnerLogo : Maybe String -> String -> Html msg
 partnerLogo maybeLogoUrl partnerName =
     case maybeLogoUrl of
         Just logoUrl ->
-            div [ css [ partnerLogoContainer ] ]
-                [ img [ src logoUrl, css [ partnerLogoStyle ], alt (partnerName ++ " logo") ] []
-                , hr [ css [ hrStyle ] ] []
-                ]
+            if isValidUrl logoUrl then
+                div [ css [ partnerLogoContainer ] ]
+                    [ img [ src logoUrl, css [ partnerLogoStyle ], alt (partnerName ++ " logo") ] []
+                    , hr [ css [ hrStyle ] ] []
+                    ]
+
+            else
+                text ""
 
         Nothing ->
-            div [] []
+            text ""
 
 
 

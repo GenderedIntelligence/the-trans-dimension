@@ -1,4 +1,4 @@
-module Copy.Text exposing (t, urlToDisplay)
+module Copy.Text exposing (isValidUrl, t, urlToDisplay)
 
 import Copy.Keys exposing (Key(..))
 import Url
@@ -358,3 +358,13 @@ chompTrailingUrlSlash urlString =
 urlToDisplay : String -> String
 urlToDisplay url =
     Url.fromString url |> urlRecombiner |> chompTrailingUrlSlash
+
+
+isValidUrl : String -> Bool
+isValidUrl urlString =
+    String.startsWith "https:"
+        (String.toLower urlString)
+
+
+
+-- (Maybe.withDefault "" urlString))
