@@ -196,19 +196,21 @@ viewAddress maybeAddress =
         Nothing ->
             p [ css [ contactItemStyle ] ] [ text (t PartnerAddressEmptyText) ]
 
-
 partnerLogo : Maybe String -> String -> Html msg
 partnerLogo maybeLogoUrl partnerName =
     case maybeLogoUrl of
         Just logoUrl ->
-            div [ css [ partnerLogoContainer ] ]
-                [ img [ src logoUrl, css [ partnerLogoStyle ], alt (partnerName ++ " logo") ] []
-                , hr [ css [ hrStyle ] ] []
-                ]
+            if isValidUrl logoUrl then
+                div [ css [ partnerLogoContainer ] ]
+                    [ img [ src logoUrl, css [ partnerLogoStyle ], alt (partnerName ++ " logo") ] []
+                    , hr [ css [ hrStyle ] ] []
+                    ]
+
+            else
+                text ""
 
         Nothing ->
-            div [] []
-
+            text ""
 
 
 ---------
