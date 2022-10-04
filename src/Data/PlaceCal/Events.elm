@@ -173,11 +173,6 @@ decode =
         |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
 
 
-
--- onlineEventUrl
--- onlineEventUrl
-
-
 eventAddressDecoder : OptimizedDecoder.Decoder EventLocation
 eventAddressDecoder =
     OptimizedDecoder.succeed EventLocation
