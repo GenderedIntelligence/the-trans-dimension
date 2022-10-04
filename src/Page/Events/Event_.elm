@@ -221,10 +221,14 @@ publisherUrlSection : Data.PlaceCal.Events.Event -> Html msg
 publisherUrlSection event =
     case event.maybePublisherUrl of
         Just publisherUrl ->
-            div [ css [ publisherSectionStyle ] ]
-                [ hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
-                , a [ href publisherUrl, css [ Theme.Global.linkStyle ] ] [ text (t (EventVisitPublisherUrlText event.partner.name)) ]
-                ]
+            if isValidUrl publisherUrl then
+                div [ css [ publisherSectionStyle ] ]
+                    [ hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
+                    , a [ href publisherUrl, css [ Theme.Global.linkStyle ] ] [ text (t (EventVisitPublisherUrlText event.partner.name)) ]
+                    ]
+
+            else
+                text ""
 
         Nothing ->
             text ""
