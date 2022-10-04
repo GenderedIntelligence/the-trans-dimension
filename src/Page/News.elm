@@ -2,7 +2,7 @@ module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (t)
+import Copy.Text exposing (isValidUrl, t)
 import Css exposing (Style, after, auto, backgroundColor, batch, borderBox, borderRadius, boxSizing, calc, center, color, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, minus, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
@@ -162,10 +162,19 @@ summaryFromArticleBody articleBody =
 
 
 newsArticleImage : Maybe String -> Html msg
-newsArticleImage maybeImage =
+newsArticleImage maybeImageUrl =
     let
         imageSource =
-            Maybe.withDefault "/images/news/article_1.jpg" maybeImage
+            case maybeImageUrl of
+                Just imageUrl ->
+                    if isValidUrl imageUrl then
+                        imageUrl
+
+                    else
+                        "/images/news/article_1.jpg"
+
+                Nothing ->
+                    "/images/news/article_1.jpg"
     in
     img [ src imageSource, css [ newsImageStyle ], alt "" ] []
 

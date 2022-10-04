@@ -1,7 +1,7 @@
 module Page.News.NewsItem_ exposing (..)
 
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (t)
+import Copy.Text exposing (isValidUrl, t)
 import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontStyle, fontWeight, height, italic, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
 import Css.Global exposing (descendants, typeSelector)
 import Data.PlaceCal.Articles
@@ -136,7 +136,16 @@ articleImage : Maybe String -> Html Msg
 articleImage maybeImageUrl =
     let
         imageSource =
-            Maybe.withDefault "/images/news/article_6.jpg" maybeImageUrl
+            case maybeImageUrl of
+                Just imageUrl ->
+                    if isValidUrl imageUrl then
+                        imageUrl
+
+                    else
+                        "/images/news/article_1.jpg"
+
+                Nothing ->
+                    "/images/news/article_1.jpg"
     in
     figure [ css [ articleFigureStyle ] ]
         [ img [ src imageSource, css [ articleFigureImageStyle ], alt "" ] []
