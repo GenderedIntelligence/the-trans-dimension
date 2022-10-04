@@ -90,7 +90,7 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
         ClickedAllEvents ->
             ( { localModel
                 | filterByDay = Nothing
-                , visibleEvents = Data.PlaceCal.Events.eventsAfterDate static.data localModel.nowTime
+                , visibleEvents = Data.PlaceCal.Events.afterDate static.data localModel.nowTime
               }
             , Cmd.none
             )
