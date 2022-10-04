@@ -365,6 +365,6 @@ isValidUrl urlString =
     case Url.fromString urlString of
         Just url ->
             url.protocol == Url.Https
+
         Nothing ->
             False
-
