@@ -223,7 +223,7 @@ publisherUrlSection event =
         Just publisherUrl ->
             div [ css [ publisherSectionStyle ] ]
                 [ hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
-                , a [ href publisherUrl, css [ Theme.Global.linkStyle ] ] [ text (t EventVisitPublisherUrlText) ]
+                , a [ href publisherUrl, css [ Theme.Global.linkStyle ] ] [ text (t (EventVisitPublisherUrlText event.partner.name)) ]
                 ]
 
         Nothing ->

@@ -198,14 +198,14 @@ t key =
         EventMetaDescription eventName eventSummary ->
             eventName ++ " - " ++ eventSummary
 
-        BackToEventsLinkText ->
-            "Go to all events"
-
         BackToPartnerEventsLinkText partnerName ->
             "All events by " ++ Maybe.withDefault "this partner" partnerName
 
-        EventVisitPublisherUrlText ->
-            "Visit Publisher's site"
+        BackToEventsLinkText ->
+            "All events"
+
+        EventVisitPublisherUrlText maybePartnerName ->
+            "Visit " ++ Maybe.withDefault "Publisher" maybePartnerName ++ "'s site"
 
         --- Partners Page
         PartnersTitle ->
