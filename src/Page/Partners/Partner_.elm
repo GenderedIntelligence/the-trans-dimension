@@ -173,11 +173,7 @@ viewContactDetails maybeUrl contactDetails =
             text ""
         , case maybeUrl of
             Just url ->
-                if isValidUrl url then
-                    p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text (Copy.Text.urlToDisplay url) ] ]
-
-                else
-                    text ""
+                p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text (Copy.Text.urlToDisplay url) ] ]
 
             Nothing ->
                 text ""
@@ -193,6 +189,8 @@ viewAddress maybeAddress =
                 , p [ css [ contactItemStyle ] ]
                     [ text addressFields.postalCode
                     ]
+                , p [ css [ contactItemStyle ] ]
+                    [ a [ href (t (GoogleMapSearchUrl addressFields.streetAddress)), css [ linkStyle ], target "_blank" ] [ text (t SeeOnGoogleMapText) ] ]
                 ]
 
         Nothing ->

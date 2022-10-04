@@ -9,6 +9,8 @@ type Key
     | PageMetaTitle String
     | GeeksForSocialChangeHomeUrl
     | GenderedIntelligenceHomeUrl
+    | GoogleMapSearchUrl String
+    | SeeOnGoogleMapText
       --- Header
     | HeaderMobileMenuButton
     | HeaderAskButton

@@ -31,6 +31,12 @@ t key =
         GenderedIntelligenceHomeUrl ->
             "https://genderedintelligence.co.uk/"
 
+        GoogleMapSearchUrl address ->
+            "https://www.google.com/maps/search/?api=1&query=" ++ Url.percentEncode address
+
+        SeeOnGoogleMapText ->
+            "See on Google map"
+
         PageMetaTitle pageTitle ->
             String.join " | " [ pageTitle, t SiteTitle ]
 
@@ -192,11 +198,11 @@ t key =
         EventMetaDescription eventName eventSummary ->
             eventName ++ " - " ++ eventSummary
 
+        BackToEventsLinkText ->
+            "Go to all events"
+
         BackToPartnerEventsLinkText partnerName ->
             "All events by " ++ Maybe.withDefault "this partner" partnerName
-
-        BackToEventsLinkText ->
-            "All events"
 
         --- Partners Page
         PartnersTitle ->
