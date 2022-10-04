@@ -362,8 +362,9 @@ urlToDisplay url =
 
 isValidUrl : String -> Bool
 isValidUrl urlString =
-    String.startsWith "https:"
-        (String.toLower urlString)
-
-
+    case Url.fromString urlString of
+        Just url ->
+            url.protocol == Url.Https
+        Nothing ->
+            False
 
