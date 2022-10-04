@@ -367,3 +367,13 @@ chompTrailingUrlSlash urlString =
 urlToDisplay : String -> String
 urlToDisplay url =
     Url.fromString url |> urlRecombiner |> chompTrailingUrlSlash
+
+
+isValidUrl : String -> Bool
+isValidUrl urlString =
+    case Url.fromString urlString of
+        Just url ->
+            url.protocol == Url.Https
+
+        Nothing ->
+            False
