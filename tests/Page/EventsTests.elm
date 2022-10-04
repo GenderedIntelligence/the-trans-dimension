@@ -5,12 +5,13 @@ import Copy.Text exposing (t)
 import Data.TestFixtures as Fixtures exposing (sharedModelInit)
 import Expect
 import Html
-import Page.Events exposing (Filter(..), view)
+import Page.Events exposing (view)
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
 import TestUtils exposing (queryFromStyledList)
+import Theme.Paginator as Paginator
 import Time
 
 
@@ -23,7 +24,7 @@ viewParamsWithEvents =
 
 
 eventsModel =
-    { filterBy = Future
+    { filterBy = Paginator.None
     , visibleEvents = Fixtures.events
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920
@@ -31,7 +32,7 @@ eventsModel =
 
 
 eventsModelNoEvents =
-    { filterBy = Future
+    { filterBy = Paginator.None
     , visibleEvents = []
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920
