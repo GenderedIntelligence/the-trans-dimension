@@ -136,7 +136,6 @@ articleImage : Maybe String -> Html Msg
 articleImage maybeImageUrl =
     let
         imageSource =
-            -- Maybe.withDefault "/images/news/article_6.jpg" maybeImageUrl
             case maybeImageUrl of
                 Just imageUrl ->
                     if isValidUrl imageUrl then
