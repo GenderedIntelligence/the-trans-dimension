@@ -196,6 +196,7 @@ viewAddress maybeAddress =
         Nothing ->
             p [ css [ contactItemStyle ] ] [ text (t PartnerAddressEmptyText) ]
 
+
 partnerLogo : Maybe String -> String -> Html msg
 partnerLogo maybeLogoUrl partnerName =
     case maybeLogoUrl of
@@ -211,6 +212,7 @@ partnerLogo maybeLogoUrl partnerName =
 
         Nothing ->
             text ""
+
 
 
 ---------

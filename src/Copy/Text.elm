@@ -1,4 +1,4 @@
-module Copy.Text exposing (t, urlToDisplay)
+module Copy.Text exposing (isValidUrl, t, urlToDisplay)
 
 import Copy.Keys exposing (Key(..))
 import Url
@@ -200,6 +200,9 @@ t key =
 
         BackToEventsLinkText ->
             "Go to all events"
+
+        BackToPartnerEventsLinkText partnerName ->
+            "All events by " ++ Maybe.withDefault "this partner" partnerName
 
         --- Partners Page
         PartnersTitle ->
