@@ -48,7 +48,7 @@ init :
     -> StaticPayload Data RouteParams
     -> ( Model, Cmd Msg )
 init maybeUrl sharedModel static =
-    ( { filterBy = Paginator.Future
+    ( { filterBy = Paginator.None
       , visibleEvents = static.data.events
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
@@ -246,7 +246,7 @@ viewInfo localModel { partner, events } =
                 Page.Events.viewEvents localModel
 
             else
-                Page.Events.viewFutureEventsList events
+                Page.Events.viewEventsList events
 
           else
             p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]

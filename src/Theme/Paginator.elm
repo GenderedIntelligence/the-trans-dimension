@@ -19,6 +19,8 @@ type Filter
     = Day Time.Posix
     | Past
     | Future
+    | None
+    | Unknown
 
 
 type Msg

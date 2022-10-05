@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEvents, viewFutureEventsList)
+module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEvents, viewEventsList)
 
 import Browser.Dom
 import Browser.Navigation
@@ -49,7 +49,7 @@ init :
     -> StaticPayload Data RouteParams
     -> ( Model, Cmd Msg )
 init maybeUrl sharedModel static =
-    ( { filterBy = Paginator.Future
+    ( { filterBy = Paginator.None
       , visibleEvents = static.data
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
@@ -214,21 +214,21 @@ viewEvents : Model -> Html Msg
 viewEvents localModel =
     section [ css [ eventsContainerStyle ] ]
         [ Paginator.viewPagination localModel
-        , viewEventsList localModel.filterBy localModel.visibleEvents
+        , viewFilteredEventsList localModel.filterBy localModel.visibleEvents
         ]
 
 
-viewFutureEventsList : List Data.PlaceCal.Events.Event -> Html msg
-viewFutureEventsList events =
-    viewEventsList Paginator.Future events
+viewEventsList : List Data.PlaceCal.Events.Event -> Html msg
+viewEventsList events =
+    viewFilteredEventsList Paginator.Unknown events
 
 
-viewEventsList : Paginator.Filter -> List Data.PlaceCal.Events.Event -> Html msg
-viewEventsList filter events =
+viewFilteredEventsList : Paginator.Filter -> List Data.PlaceCal.Events.Event -> Html msg
+viewFilteredEventsList filter filteredEvents =
     div []
-        [ if List.length events > 0 then
+        [ if List.length filteredEvents > 0 then
             ul [ css [ eventListStyle ] ]
-                (List.map (\event -> viewEvent event) events)
+                (List.map (\event -> viewEvent event) filteredEvents)
 
           else
             p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ]
