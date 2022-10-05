@@ -82,7 +82,7 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
         ClickedAllPastEvents ->
             ( { localModel
                 | filterBy = Paginator.Past
-                , visibleEvents = static.data.events
+                , visibleEvents = List.reverse (Data.PlaceCal.Events.onOrBeforeDate static.data.events localModel.nowTime)
               }
             , Cmd.none
             )
@@ -90,7 +90,7 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
         ClickedAllFutureEvents ->
             ( { localModel
                 | filterBy = Paginator.Future
-                , visibleEvents = static.data.events
+                , visibleEvents = Data.PlaceCal.Events.afterDate static.data.events localModel.nowTime
               }
             , Cmd.none
             )
