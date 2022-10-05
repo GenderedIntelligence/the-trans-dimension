@@ -1,4 +1,4 @@
-module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId, next4Events)
+module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), afterDate, emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId, next4Events)
 
 import Api
 import DataSource
@@ -89,6 +89,15 @@ eventsFromDate eventsList fromDate =
     List.filter
         (\event ->
             TransDate.isSameDay event.startDatetime fromDate
+        )
+        eventsList
+
+
+afterDate : List Event -> Time.Posix -> List Event
+afterDate eventsList fromDate =
+    List.filter
+        (\event ->
+            TransDate.isAfterDate event.startDatetime fromDate
         )
         eventsList
 

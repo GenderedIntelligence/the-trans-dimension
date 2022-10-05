@@ -4,6 +4,7 @@ module Helpers.TransDate exposing
     , humanDayFromPosix
     , humanShortMonthFromPosix
     , humanTimeFromPosix
+    , isAfterDate
     , isSameDay
     , isoDateStringDecoder
     )
@@ -53,6 +54,11 @@ isSameDay aDay anotherDay =
         == Time.toMonth Time.utc anotherDay
         && Time.toYear Time.utc aDay
         == Time.toYear Time.utc anotherDay
+
+
+isAfterDate : Time.Posix -> Time.Posix -> Bool
+isAfterDate aDay anotherDay =
+    Time.posixToMillis aDay > Time.posixToMillis anotherDay
 
 
 
