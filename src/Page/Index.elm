@@ -129,7 +129,7 @@ viewFeatured : Time.Posix -> List Data.PlaceCal.Events.Event -> Html msg
 viewFeatured fromTime eventList =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text (t IndexFeaturedHeader) ]
-        , Page.Events.viewFutureEventsList (Data.PlaceCal.Events.next4Events eventList fromTime)
+        , Page.Events.viewEventsList (Data.PlaceCal.Events.next4Events eventList fromTime)
         , p [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)

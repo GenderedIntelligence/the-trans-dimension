@@ -12,6 +12,7 @@ import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
 import TestUtils exposing (queryFromStyledList)
+import Theme.Paginator as Paginator
 import Time
 
 
@@ -90,9 +91,17 @@ viewParamsWithoutEvents =
     }
 
 
-viewBodyHtml viewParams =
+eventsModel =
+    { filterBy = Paginator.None
+    , visibleEvents = Fixtures.events
+    , nowTime = Time.millisToPosix 0
+    , viewportWidth = 1920
+    }
+
+
+viewBodyHtml localModel viewParams =
     queryFromStyledList
-        (view Nothing Fixtures.sharedModelInit viewParams).body
+        (view Nothing Fixtures.sharedModelInit localModel viewParams).body
 
 
 suite : Test
@@ -100,25 +109,25 @@ suite =
     describe "Partner page body"
         [ test "Has expected h2 heading" <|
             \_ ->
-                viewBodyHtml viewParamsWithPartner
+                viewBodyHtml eventsModel viewParamsWithPartner
                     |> Query.findAll [ Selector.tag "h2" ]
                     |> Query.index 0
                     |> Query.contains [ Html.text (t PartnersTitle) ]
         , test "Has expected h3 heading" <|
             \_ ->
-                viewBodyHtml viewParamsWithPartner
+                viewBodyHtml eventsModel viewParamsWithPartner
                     |> Query.findAll [ Selector.tag "h3" ]
                     |> Query.index 0
                     |> Query.contains [ Html.text "Partner name" ]
         , test "Has partner description text" <|
             \_ ->
-                viewBodyHtml viewParamsWithPartner
+                viewBodyHtml eventsModel viewParamsWithPartner
                     |> Query.contains [ Html.text "Partner description" ]
 
         -- Below: can't figure out how to get it to do multiline text so leaving it for now.
         , test "Contains address if provided" <|
             \_ ->
-                viewBodyHtml viewParamsWithPartner
+                viewBodyHtml eventsModel viewParamsWithPartner
                     |> Query.has
                         [ Selector.tag "address"
                         , Selector.containing
@@ -129,12 +138,12 @@ suite =
                         ]
         , test "Contains address empty text if not provided" <|
             \_ ->
-                viewBodyHtml viewParamsWithoutMaybes
+                viewBodyHtml eventsModel viewParamsWithoutMaybes
                     |> Query.contains
                         [ Html.text (t PartnerAddressEmptyText) ]
         , test "Contact details contain url if provided" <|
             \_ ->
-                viewBodyHtml viewParamsWithPartner
+                viewBodyHtml eventsModel viewParamsWithPartner
                     |> Query.has
                         [ Selector.tag "address"
                         , Selector.containing
@@ -150,7 +159,7 @@ suite =
                         ]
         , test "Can have contact details without url" <|
             \_ ->
-                viewBodyHtml viewParamsWithoutMaybes
+                viewBodyHtml eventsModel viewParamsWithoutMaybes
                     |> Query.has
                         [ Selector.tag "address"
                         , Selector.containing
@@ -173,7 +182,7 @@ suite =
         --             |> Query.contains [ Html.text "[fFf] Map" ]
         , test "Can contain events" <|
             \_ ->
-                viewBodyHtml viewParamsWithPartner
+                viewBodyHtml eventsModel viewParamsWithPartner
                     -- Todo just testing for event name for now
                     |> Query.contains
                         [ Html.text "Event 1 name"
@@ -181,12 +190,12 @@ suite =
                         ]
         , test "Contains events empty text if no current events" <|
             \_ ->
-                viewBodyHtml viewParamsWithoutEvents
+                viewBodyHtml eventsModel viewParamsWithoutEvents
                     |> Query.contains
                         [ Html.text (t (PartnerEventsEmptyText "Partner name")) ]
         , test "Contains link back to partners page" <|
             \_ ->
-                viewBodyHtml viewParamsWithPartner
+                viewBodyHtml eventsModel viewParamsWithPartner
                     |> Query.find
                         [ Selector.tag "a"
                         , Selector.attribute (Html.Attributes.href (TransRoutes.toAbsoluteUrl Partners))

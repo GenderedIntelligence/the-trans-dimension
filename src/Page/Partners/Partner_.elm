@@ -1,8 +1,10 @@
 module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
+import Browser.Dom
+import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (isValidUrl, t)
-import Css exposing (Style, auto, batch, calc, center, color, display, displayFlex, fontStyle, height, important, inlineBlock, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, paddingTop, pct, property, px, rem, textAlign, width)
+import Css exposing (Style, auto, batch, calc, center, color, display, displayFlex, fontStyle, important, inlineBlock, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxWidth, minus, normal, paddingTop, pct, px, rem, textAlign, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -10,36 +12,141 @@ import Head
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src, target)
-import Page exposing (Page, StaticPayload)
+import Page exposing (PageWithState, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
+import Path exposing (Path)
 import Shared
+import Task
 import Theme.Global exposing (hrStyle, introTextLargeStyle, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, viewBackButton, white, withMediaMediumDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
+import Theme.Paginator as Paginator exposing (Msg(..))
 import Theme.TransMarkdown
+import Time
 import View exposing (View)
 
 
 type alias Model =
-    ()
+    { filterBy : Paginator.Filter
+    , visibleEvents : List Data.PlaceCal.Events.Event
+    , nowTime : Time.Posix
+    , viewportWidth : Float
+    }
 
 
 type alias Msg =
-    Never
+    Paginator.Msg
 
 
 type alias RouteParams =
     { partner : String }
 
 
-page : Page RouteParams Data
+init :
+    Maybe PageUrl
+    -> Shared.Model
+    -> StaticPayload Data RouteParams
+    -> ( Model, Cmd Msg )
+init maybeUrl sharedModel static =
+    ( { filterBy = Paginator.None
+      , visibleEvents = static.data.events
+      , nowTime = Time.millisToPosix 0
+      , viewportWidth = 320
+      }
+    , Cmd.batch
+        [ Task.perform GetTime Time.now
+        , Task.perform GotViewport Browser.Dom.getViewport
+        ]
+    )
+
+
+update :
+    PageUrl
+    -> Maybe Browser.Navigation.Key
+    -> Shared.Model
+    -> StaticPayload Data RouteParams
+    -> Msg
+    -> Model
+    -> ( Model, Cmd Msg )
+update pageUrl maybeNavigationKey sharedModel static msg localModel =
+    case msg of
+        ClickedDay posix ->
+            ( { localModel
+                | filterBy = Paginator.Day posix
+                , visibleEvents =
+                    Data.PlaceCal.Events.eventsFromDate static.data.events posix
+              }
+            , Cmd.none
+            )
+
+        ClickedAllPastEvents ->
+            ( { localModel
+                | filterBy = Paginator.Past
+                , visibleEvents = List.reverse (Data.PlaceCal.Events.onOrBeforeDate static.data.events localModel.nowTime)
+              }
+            , Cmd.none
+            )
+
+        ClickedAllFutureEvents ->
+            ( { localModel
+                | filterBy = Paginator.Future
+                , visibleEvents = Data.PlaceCal.Events.afterDate static.data.events localModel.nowTime
+              }
+            , Cmd.none
+            )
+
+        GetTime newTime ->
+            ( { localModel
+                | filterBy = Paginator.Day newTime
+                , nowTime = newTime
+                , visibleEvents =
+                    Data.PlaceCal.Events.eventsFromDate static.data.events newTime
+              }
+            , Cmd.none
+            )
+
+        ScrollRight ->
+            ( localModel
+            , Task.attempt (\_ -> NoOp)
+                (Paginator.scrollPagination Paginator.Right localModel.viewportWidth)
+            )
+
+        ScrollLeft ->
+            ( localModel
+            , Task.attempt (\_ -> NoOp)
+                (Paginator.scrollPagination Paginator.Left localModel.viewportWidth)
+            )
+
+        GotViewport viewport ->
+            ( { localModel | viewportWidth = Maybe.withDefault localModel.viewportWidth (Just viewport.scene.width) }, Cmd.none )
+
+        NoOp ->
+            ( localModel, Cmd.none )
+
+
+subscriptions :
+    Maybe PageUrl
+    -> RouteParams
+    -> Path
+    -> Model
+    -> Sub Msg
+subscriptions _ _ _ _ =
+    Sub.none
+
+
+page : PageWithState RouteParams Data Model Msg
 page =
     Page.prerender
         { head = head
         , routes = routes
         , data = data
         }
-        |> Page.buildNoState { view = view }
+        |> Page.buildWithLocalState
+            { init = init
+            , view = view
+            , update = update
+            , subscriptions = subscriptions
+            }
 
 
 routes : DataSource (List RouteParams)
@@ -94,9 +201,10 @@ type alias Data =
 view :
     Maybe PageUrl
     -> Shared.Model
+    -> Model
     -> StaticPayload Data RouteParams
     -> View Msg
-view maybeUrl sharedModel static =
+view maybeUrl sharedModel localModel static =
     { title = t (PageMetaTitle static.data.partner.name)
     , body =
         [ PageTemplate.view
@@ -106,15 +214,15 @@ view maybeUrl sharedModel static =
             , smallText = Nothing
             , innerContent =
                 Just
-                    (viewInfo static.data)
+                    (viewInfo localModel static.data)
             , outerContent = Just (viewBackButton (TransRoutes.toAbsoluteUrl Partners) (t BackToPartnersLinkText))
             }
         ]
     }
 
 
-viewInfo : Data -> Html msg
-viewInfo { partner, events } =
+viewInfo : Model -> Data -> Html Msg
+viewInfo localModel { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
         [ partnerLogo partner.maybeLogo partner.name
         , div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (t (PartnerDescriptionText partner.description partner.name)))
@@ -134,8 +242,11 @@ viewInfo { partner, events } =
             [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
             ]
         , if List.length events > 0 then
-            -- Might move away from sharing render, but for now hardcoding model
-            Page.Events.viewFutureEventsList events
+            if List.length events > 20 then
+                Page.Events.viewEvents localModel
+
+            else
+                Page.Events.viewEventsList events
 
           else
             p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
