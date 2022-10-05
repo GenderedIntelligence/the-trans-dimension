@@ -188,8 +188,11 @@ t key =
         EventsFilterLabelTomorrow ->
             "Tomorrow"
 
-        EventsFilterLabelAll ->
-            "All future events"
+        EventsFilterLabelAllPast ->
+            "Past events"
+
+        EventsFilterLabelAllFuture ->
+            "Future events"
 
         --- Event Page
         EventTitle eventName ->

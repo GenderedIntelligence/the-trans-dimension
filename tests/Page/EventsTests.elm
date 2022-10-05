@@ -5,7 +5,7 @@ import Copy.Text exposing (t)
 import Data.TestFixtures as Fixtures exposing (sharedModelInit)
 import Expect
 import Html
-import Page.Events exposing (view)
+import Page.Events exposing (Filter(..), view)
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
@@ -23,7 +23,7 @@ viewParamsWithEvents =
 
 
 eventsModel =
-    { filterByDay = Nothing
+    { filterBy = Future
     , visibleEvents = Fixtures.events
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920
@@ -31,7 +31,7 @@ eventsModel =
 
 
 eventsModelNoEvents =
-    { filterByDay = Nothing
+    { filterBy = Future
     , visibleEvents = []
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920

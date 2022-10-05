@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEventsList)
+module Page.Events exposing (Data, Filter(..), Model, Msg, addPartnerNamesToEvents, page, view, viewFutureEventsList)
 
 import Browser.Dom exposing (Error, Viewport, getViewport, getViewportOf, setViewportOf)
 import Browser.Navigation
@@ -29,16 +29,23 @@ import View exposing (View)
 
 
 type alias Model =
-    { filterByDay : Maybe Time.Posix
+    { filterBy : Filter
     , visibleEvents : List Data.PlaceCal.Events.Event
     , nowTime : Time.Posix
     , viewportWidth : Float
     }
 
 
+type Filter
+    = Day Time.Posix
+    | Past
+    | Future
+
+
 type Msg
     = ClickedDay Time.Posix
-    | ClickedAllEvents
+    | ClickedAllPastEvents
+    | ClickedAllFutureEvents
     | GetTime Time.Posix
     | GotViewport Viewport
     | ScrollRight
@@ -56,7 +63,7 @@ init :
     -> StaticPayload Data RouteParams
     -> ( Model, Cmd Msg )
 init maybeUrl sharedModel static =
-    ( { filterByDay = Nothing
+    ( { filterBy = Future
       , visibleEvents = static.data
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
@@ -80,16 +87,24 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
     case msg of
         ClickedDay posix ->
             ( { localModel
-                | filterByDay = Just posix
+                | filterBy = Day posix
                 , visibleEvents =
                     Data.PlaceCal.Events.eventsFromDate static.data posix
               }
             , Cmd.none
             )
 
-        ClickedAllEvents ->
+        ClickedAllPastEvents ->
             ( { localModel
-                | filterByDay = Nothing
+                | filterBy = Past
+                , visibleEvents = List.reverse (Data.PlaceCal.Events.onOrBeforeDate static.data localModel.nowTime)
+              }
+            , Cmd.none
+            )
+
+        ClickedAllFutureEvents ->
+            ( { localModel
+                | filterBy = Future
                 , visibleEvents = Data.PlaceCal.Events.afterDate static.data localModel.nowTime
               }
             , Cmd.none
@@ -97,7 +112,7 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
 
         GetTime newTime ->
             ( { localModel
-                | filterByDay = Just newTime
+                | filterBy = Day newTime
                 , nowTime = newTime
                 , visibleEvents =
                     Data.PlaceCal.Events.eventsFromDate static.data newTime
@@ -270,7 +285,7 @@ viewEvents :
 viewEvents localModel =
     section [ css [ eventsContainerStyle ] ]
         [ viewPagination localModel
-        , viewEventsList localModel.filterByDay localModel.visibleEvents
+        , viewEventsList localModel.filterBy localModel.visibleEvents
         ]
 
 
@@ -286,15 +301,15 @@ viewPagination localModel =
                             li [ css [ paginationButtonListItemStyle ] ]
                                 [ button
                                     [ css
-                                        [ case localModel.filterByDay of
-                                            Just day ->
+                                        [ case localModel.filterBy of
+                                            Day day ->
                                                 if TransDate.isSameDay buttonTime day then
                                                     paginationButtonListItemButtonActiveStyle
 
                                                 else
                                                     paginationButtonListItemButtonStyle
 
-                                            Nothing ->
+                                            _ ->
                                                 paginationButtonListItemButtonStyle
                                         ]
                                     , Html.Styled.Events.onClick (ClickedDay buttonTime)
@@ -307,18 +322,35 @@ viewPagination localModel =
                 ]
             , button [ css [ paginationArrowButtonRightStyle ], id "arrow-right", Html.Styled.Events.onClick ScrollRight ] [ img [ src "/images/icons/rightarrow.svg", css [ paginationRightArrowStyle ] ] [] ]
             ]
-        , li [ css [ paginationAllEventsStyle ] ]
-            [ button
-                [ css
-                    (if localModel.filterByDay == Nothing then
-                        [ important (width (px 200)), paginationButtonListItemButtonActiveStyle ]
+        , div [ css [ paginationContainer ] ]
+            [ ul [ css [ allEventsButtonListStyle ] ]
+                [ li [ css [ allEventsButtonListItemStyle ] ]
+                    [ button
+                        [ css
+                            (if localModel.filterBy == Past then
+                                [ important (width (px 200)), paginationButtonListItemButtonActiveStyle ]
 
-                     else
-                        [ important (width (px 200)), paginationButtonListItemButtonStyle ]
-                    )
-                , Html.Styled.Events.onClick ClickedAllEvents
+                             else
+                                [ important (width (px 200)), paginationButtonListItemButtonStyle ]
+                            )
+                        , Html.Styled.Events.onClick ClickedAllPastEvents
+                        ]
+                        [ text (t EventsFilterLabelAllPast) ]
+                    ]
+                , li [ css [ allEventsButtonListItemStyle ] ]
+                    [ button
+                        [ css
+                            (if localModel.filterBy == Future then
+                                [ important (width (px 200)), paginationButtonListItemButtonActiveStyle ]
+
+                             else
+                                [ important (width (px 200)), paginationButtonListItemButtonStyle ]
+                            )
+                        , Html.Styled.Events.onClick ClickedAllFutureEvents
+                        ]
+                        [ text (t EventsFilterLabelAllFuture) ]
+                    ]
                 ]
-                [ text (t EventsFilterLabelAll) ]
             ]
         ]
 
@@ -379,8 +411,13 @@ scrollX scrollRemaining viewportXPosition =
 -- We might want to move this into theme since it is also used by Partner page
 
 
-viewEventsList : Maybe Time.Posix -> List Data.PlaceCal.Events.Event -> Html msg
-viewEventsList maybeTime events =
+viewFutureEventsList : List Data.PlaceCal.Events.Event -> Html msg
+viewFutureEventsList events =
+    viewEventsList Future events
+
+
+viewEventsList : Filter -> List Data.PlaceCal.Events.Event -> Html msg
+viewEventsList filter events =
     div []
         [ if List.length events > 0 then
             ul [ css [ eventListStyle ] ]
@@ -389,11 +426,11 @@ viewEventsList maybeTime events =
           else
             p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ]
                 [ text
-                    (case maybeTime of
-                        Just _ ->
+                    (case filter of
+                        Day _ ->
                             t EventsEmptyText
 
-                        Nothing ->
+                        _ ->
                             t EventsEmptyTextAll
                     )
                 ]
@@ -683,11 +720,11 @@ paginationRightArrowStyle =
         ]
 
 
-paginationButtonListStyle : Style
-paginationButtonListStyle =
+buttonListStyle : Style
+buttonListStyle =
     batch
         [ displayFlex
-        , flexWrap noWrap
+        , justifyContent center
         , boxSizing borderBox
         , position relative
         , width (px (buttonWidthMobile * numberOfButtons + buttonMarginMobile * (numberOfButtons * 2)))
@@ -695,6 +732,22 @@ paginationButtonListStyle =
             [ width (px (buttonWidthFullWidth * numberOfButtons + buttonMarginFullWidth * (numberOfButtons * 2))) ]
         , withMediaTabletPortraitUp
             [ width (px (buttonWidthTablet * numberOfButtons + buttonMarginTablet * (numberOfButtons * 2))) ]
+        ]
+
+
+paginationButtonListStyle : Style
+paginationButtonListStyle =
+    batch
+        [ buttonListStyle
+        , flexWrap noWrap
+        ]
+
+
+allEventsButtonListStyle : Style
+allEventsButtonListStyle =
+    batch
+        [ buttonListStyle
+        , flexWrap wrap
         ]
 
 
@@ -708,8 +761,8 @@ paginationButtonListItemStyle =
         ]
 
 
-paginationAllEventsStyle : Style
-paginationAllEventsStyle =
+allEventsButtonListItemStyle : Style
+allEventsButtonListItemStyle =
     batch
         [ listStyleType none
         , textAlign center
