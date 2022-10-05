@@ -1,10 +1,10 @@
 module Page.Events exposing (Data, Filter(..), Model, Msg, addPartnerNamesToEvents, page, view, viewFutureEventsList)
 
-import Browser.Dom exposing (Error, Viewport, getViewport, getViewportOf, setViewportOf)
+import Browser.Dom exposing (Viewport)
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, alignItems, auto, backgroundColor, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, cursor, deg, display, displayFlex, em, firstChild, fitContent, flexDirection, flexGrow, flexWrap, focus, fontSize, fontStyle, fontWeight, height, hover, important, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, plus, pointer, position, property, pseudoElement, px, relative, rem, rotate, row, rowReverse, scroll, solid, spaceBetween, textAlign, textDecoration, textTransform, transform, uppercase, width, wrap)
+import Css exposing (Style, active, alignItems, auto, backgroundColor, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, calc, center, color, column, cursor, deg, display, displayFlex, em, firstChild, fitContent, flexDirection, flexGrow, flexWrap, focus, fontSize, fontStyle, fontWeight, height, hover, important, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, minus, noWrap, none, overflowX, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, pseudoElement, px, relative, rem, rotate, row, rowReverse, scroll, solid, spaceBetween, textAlign, textDecoration, textTransform, transform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
 import Css.Transitions exposing (transition)
 import Data.PlaceCal.Events
@@ -15,15 +15,15 @@ import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, button, div, h4, img, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href, id, src)
-import Html.Styled.Events exposing (onClick)
+import Html.Styled.Events
 import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
-import Process
 import Shared
-import Task exposing (Task)
+import Task
 import Theme.Global exposing (backgroundColorTransition, borderTransition, colorTransition, darkBlue, darkPurple, introTextLargeStyle, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
+import Theme.Paginator as Paginator
 import Time
 import View exposing (View)
 
@@ -123,7 +123,7 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
         ScrollRight ->
             ( localModel
             , Task.attempt (\_ -> NoOp)
-                (scrollPagination
+                (Paginator.scrollPagination
                     (if localModel.viewportWidth < Theme.Global.maxMobile then
                         buttonWidthMobile + (buttonMarginMobile * 2)
 
@@ -139,7 +139,7 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
         ScrollLeft ->
             ( localModel
             , Task.attempt (\_ -> NoOp)
-                (scrollPagination
+                (Paginator.scrollPagination
                     (if localModel.viewportWidth < Theme.Global.maxMobile then
                         -(buttonWidthMobile + (buttonMarginMobile * 2))
 
@@ -372,39 +372,6 @@ addDays days now =
     (days * 24 * 60 * 60 * 1000)
         + Time.posixToMillis now
         |> Time.millisToPosix
-
-
-scrollPagination : Float -> Task Error ()
-scrollPagination scrollXFloat =
-    getViewportOf "scrollable"
-        |> Task.andThen (\info -> scrollX scrollXFloat info.viewport.x)
-
-
-posOrNeg : Float -> Float
-posOrNeg numToTest =
-    toFloat
-        (if numToTest > 0 then
-            1
-
-         else
-            -1
-        )
-
-
-scrollX : Float -> Float -> Task Error ()
-scrollX scrollRemaining viewportXPosition =
-    let
-        pixelsLeftToMove =
-            round (posOrNeg scrollRemaining * scrollRemaining)
-    in
-    if pixelsLeftToMove < 6 then
-        getViewportOf "scrollable"
-            |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + scrollRemaining) 0)
-
-    else
-        getViewportOf "scrollable"
-            |> Task.andThen (\_ -> setViewportOf "scrollable" (viewportXPosition + posOrNeg scrollRemaining * 5) 0)
-            |> Task.andThen (\_ -> scrollX (scrollRemaining - posOrNeg scrollRemaining * 5) (viewportXPosition + posOrNeg scrollRemaining * 5))
 
 
 
