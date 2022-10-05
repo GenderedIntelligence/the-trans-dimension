@@ -64,7 +64,8 @@ type Key
     | EventsEmptyText
     | EventsFilterLabelToday
     | EventsFilterLabelTomorrow
-    | EventsFilterLabelAll
+    | EventsFilterLabelAllPast
+    | EventsFilterLabelAllFuture
       --- Event Page
     | EventTitle String
     | EventMetaDescription String String

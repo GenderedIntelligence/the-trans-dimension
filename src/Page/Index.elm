@@ -13,7 +13,7 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h1, h2, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
-import Page.Events exposing (addPartnerNamesToEvents, viewEventsList)
+import Page.Events
 import Page.News
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
@@ -56,7 +56,7 @@ data =
                         )
                         newsData.allArticles
                     )
-            , allEvents = addPartnerNamesToEvents eventData.allEvents partnerData
+            , allEvents = Page.Events.addPartnerNamesToEvents eventData.allEvents partnerData
             }
         )
         Data.PlaceCal.Events.eventsData
@@ -129,8 +129,7 @@ viewFeatured : Time.Posix -> List Data.PlaceCal.Events.Event -> Html msg
 viewFeatured fromTime eventList =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text (t IndexFeaturedHeader) ]
-        , viewEventsList Nothing
-            (Data.PlaceCal.Events.next4Events eventList fromTime)
+        , Page.Events.viewFutureEventsList (Data.PlaceCal.Events.next4Events eventList fromTime)
         , p [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
