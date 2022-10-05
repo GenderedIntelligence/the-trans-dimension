@@ -109,33 +109,13 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
         ScrollRight ->
             ( localModel
             , Task.attempt (\_ -> NoOp)
-                (Paginator.scrollPagination
-                    (if localModel.viewportWidth < Theme.Global.maxMobile then
-                        buttonWidthMobile + (buttonMarginMobile * 2)
-
-                     else if localModel.viewportWidth < Theme.Global.maxTabletPortrait then
-                        buttonWidthTablet + (buttonMarginTablet * 2)
-
-                     else
-                        buttonWidthFullWidth + (buttonMarginFullWidth * 2)
-                    )
-                )
+                (Paginator.scrollPagination Paginator.Right localModel.viewportWidth)
             )
 
         ScrollLeft ->
             ( localModel
             , Task.attempt (\_ -> NoOp)
-                (Paginator.scrollPagination
-                    (if localModel.viewportWidth < Theme.Global.maxMobile then
-                        -(buttonWidthMobile + (buttonMarginMobile * 2))
-
-                     else if localModel.viewportWidth < Theme.Global.maxTabletPortrait then
-                        -(buttonWidthTablet + (buttonMarginTablet * 2))
-
-                     else
-                        -(buttonWidthFullWidth + (buttonMarginFullWidth * 2))
-                    )
-                )
+                (Paginator.scrollPagination Paginator.Left localModel.viewportWidth)
             )
 
         GotViewport viewport ->
@@ -143,36 +123,6 @@ update pageUrl maybeNavigationKey sharedModel static msg localModel =
 
         NoOp ->
             ( localModel, Cmd.none )
-
-
-buttonWidthMobile : Float
-buttonWidthMobile =
-    100
-
-
-buttonMarginMobile : Float
-buttonMarginMobile =
-    4
-
-
-buttonWidthTablet : Float
-buttonWidthTablet =
-    110
-
-
-buttonMarginTablet : Float
-buttonMarginTablet =
-    6
-
-
-buttonWidthFullWidth : Float
-buttonWidthFullWidth =
-    130
-
-
-buttonMarginFullWidth : Float
-buttonMarginFullWidth =
-    8
 
 
 subscriptions :

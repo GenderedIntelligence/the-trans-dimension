@@ -1,4 +1,4 @@
-module Theme.Paginator exposing (Filter(..), Msg(..), scrollPagination, viewPagination)
+module Theme.Paginator exposing (Filter(..), Msg(..), ScrollDirection(..), scrollPagination, viewPagination)
 
 import Browser.Dom exposing (Error, Viewport, getViewportOf, setViewportOf)
 import Copy.Keys exposing (Key(..))
@@ -30,6 +30,11 @@ type Msg
     | ScrollRight
     | ScrollLeft
     | NoOp
+
+
+type ScrollDirection
+    = Right
+    | Left
 
 
 viewPagination :
@@ -122,10 +127,29 @@ addDays days now =
         |> Time.millisToPosix
 
 
-scrollPagination : Float -> Task Error ()
-scrollPagination scrollXFloat =
+scrollPagination : ScrollDirection -> Float -> Task Error ()
+scrollPagination direction viewportWidth =
+    let
+        scrollXAmount =
+            if viewportWidth < Theme.Global.maxMobile then
+                buttonWidthMobile + (buttonMarginMobile * 2)
+
+            else if viewportWidth < Theme.Global.maxTabletPortrait then
+                buttonWidthTablet + (buttonMarginTablet * 2)
+
+            else
+                buttonWidthFullWidth + (buttonMarginFullWidth * 2)
+
+        scrollXValue =
+            case direction of
+                Right ->
+                    scrollXAmount
+
+                Left ->
+                    -scrollXAmount
+    in
     getViewportOf "scrollable"
-        |> Task.andThen (\info -> scrollX scrollXFloat info.viewport.x)
+        |> Task.andThen (\info -> scrollX scrollXValue info.viewport.x)
 
 
 scrollX : Float -> Float -> Task Error ()
