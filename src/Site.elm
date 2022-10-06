@@ -1,5 +1,6 @@
 module Site exposing (config)
 
+import Constants exposing (canonicalUrl)
 import DataSource
 import Head
 import MimeType
@@ -18,7 +19,7 @@ type alias Data =
 config : SiteConfig Data
 config =
     { data = data
-    , canonicalUrl = "https://transdimension.netlify.app/"
+    , canonicalUrl = canonicalUrl
     , manifest = manifest
     , head = head
     }
