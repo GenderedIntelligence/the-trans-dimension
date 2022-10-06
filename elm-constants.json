@@ -1,0 +1,7 @@
+{
+    "path": "./src",
+    "moduleName": "Constants",
+    "values": [
+        "EMAIL_INFO_TRANS_DIM"
+    ]
+  }
