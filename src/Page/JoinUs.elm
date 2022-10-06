@@ -1,6 +1,7 @@
 module Page.JoinUs exposing (Data, Model, Msg, blankForm, initialFormState, page, view)
 
 import Browser.Navigation
+import Constants exposing (joinUsFunctionUrl)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, lineHeight, margin, margin2, marginRight, marginTop, maxWidth, minHeight, minus, padding2, pct, pseudoElement, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
@@ -161,7 +162,7 @@ validateForm formData =
 emailPostRequest : Json.Encode.Value -> Cmd Msg
 emailPostRequest bodyValue =
     Http.post
-        { url = "https://fervent-colden-5f0cd2.netlify.app/.netlify/functions/transDim"
+        { url = joinUsFunctionUrl
         , body = Http.jsonBody bodyValue
         , expect = Http.expectWhatever ReceiveEmailResponse
         }
