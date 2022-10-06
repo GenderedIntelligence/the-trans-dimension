@@ -1,2 +1,0 @@
--- This file is over written whenever the app is built or run as server
--- so it is in gitignore and should never be commited into the repo.

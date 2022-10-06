@@ -2,6 +2,8 @@
     "path": "./src",
     "moduleName": "Constants",
     "values": [
-        "EMAIL_INFO_TRANS_DIM"
+        "CANONICAL_URL",
+        "PLACECAL_API",
+        "JOIN_US_FUNCTION_URL"
     ]
   }
