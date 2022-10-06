@@ -25,6 +25,8 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 - make sure you are using the correct node version with `nvm use`
 - install with `npm install`
 
+Make sure you copy `.env.example` over into `.env` and edit as appropriate! This must be done before any of the following will work as it generates `src/Constants.elm` which is used in a number of places in the code.
+
 ## Build
 
 - `npm start` to start a dev server on http://localhost:3000
