@@ -140,9 +140,7 @@ exports.handler = async function (event, context) {
                "Access-Control-Allow-Origin": transDimConfig.allow_domain,
                // /* Required for cookies, authorization headers with HTTPS */
                "Access-Control-Allow-Credentials": true,
-               "Access-Control-Allow-Headers":
-                  "Origin, X-Requested-With, Content-Type, Accept",
-
+               "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
                "Content-Type": "text/plain"
             }
          };
@@ -156,8 +154,7 @@ exports.handler = async function (event, context) {
                "Access-Control-Allow-Origin": transDimConfig.allow_domain,
                // /* Required for cookies, authorization headers with HTTPS */
                "Access-Control-Allow-Credentials": true,
-               "Access-Control-Allow-Headers":
-                  "Origin, X-Requested-With, Content-Type, Accept",
+               "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
                "Content-Type": "text/plain"
             },
             body: err.response
