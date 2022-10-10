@@ -72,7 +72,7 @@ exports.handler = async function (event, context) {
          priority: "normal",
          from: {
             name: enquirerName,
-            address: process.env.EMAIL_FROM // the EnquiryWitch email to send from
+            address: process.env.EMAIL_FROM // the Trans Dimension email to send from
          },
          replyTo: {
             name: enquirerName, // 'reply to' name details
