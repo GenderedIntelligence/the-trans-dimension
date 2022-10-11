@@ -1,6 +1,7 @@
-module Site exposing (config)
+module Site exposing (config, fullPathFromString, pathFromString)
 
 import Constants exposing (canonicalUrl)
+import Copy.Text exposing (chompTrailingUrlSlash)
 import DataSource
 import Head
 import MimeType
@@ -33,7 +34,7 @@ data =
 head : Data -> List Head.Tag
 head static =
     [ Head.sitemapLink "/sitemap.xml"
-    , Head.appleTouchIcon (Just 180) (pathFromString "/favicons/apple-touch-icon.png")
+    , Head.appleTouchIcon (Just 180) (fullPathFromString "/favicons/apple-touch-icon.png")
     , Head.metaName "msapplication-TileColor" (Head.raw "#ff7aa7")
     , Head.metaName "theme-color" (Head.raw "#FF7AA7")
     ]
@@ -50,12 +51,12 @@ manifest static =
         , description = "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place."
         , startUrl = Route.Index |> Route.toPath
         , icons =
-            [ { src = pathFromString "/favicons/android-chrome-192x192.png"
+            [ { src = fullPathFromString "/favicons/android-chrome-192x192.png"
               , sizes = [ ( 192, 192 ) ]
               , mimeType = Just MimeType.Png
               , purposes = []
               }
-            , { src = pathFromString "/favicons/android-chrome-512x512.png"
+            , { src = fullPathFromString "/favicons/android-chrome-512x512.png"
               , sizes = [ ( 512, 512 ) ]
               , mimeType = Just MimeType.Png
               , purposes = []
@@ -69,6 +70,11 @@ manifest static =
 pathFromString : String -> Pages.Url.Url
 pathFromString srcString =
     Pages.Url.fromPath <| Path.fromString srcString
+
+
+fullPathFromString : String -> Pages.Url.Url
+fullPathFromString srcString =
+    Pages.Url.external (String.join "" [ chompTrailingUrlSlash canonicalUrl, srcString ])
 
 
 icons : List ( Int, String ) -> List Head.Tag

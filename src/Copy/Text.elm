@@ -1,4 +1,4 @@
-module Copy.Text exposing (isValidUrl, t, urlToDisplay)
+module Copy.Text exposing (chompTrailingUrlSlash, isValidUrl, t, urlToDisplay)
 
 import Copy.Keys exposing (Key(..))
 import Url
