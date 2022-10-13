@@ -7,5 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run:
-          curl -X POST -d '{}'
-          https://api.netlify.com/build_hooks/62a3066ab986f708460f4428
+          curl -X POST "https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/1aaca29c-199a-4a3b-b9e9-06c497746397"
