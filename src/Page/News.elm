@@ -129,7 +129,16 @@ viewNewsArticle newsItem =
     article [ css [ newsItemArticleStyle ] ]
         [ newsArticleImage newsItem.maybeImage
         , div [ css [ newsItemInfoStyle ] ]
-            [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
+            [ h3 [ css [ newsItemTitleStyle ] ]
+                [ a
+                    [ css [ linkStyle ]
+                    , href
+                        (TransRoutes.toAbsoluteUrl
+                            (NewsItem (TransRoutes.stringToSlug newsItem.title))
+                        )
+                    ]
+                    [ text newsItem.title ]
+                ]
             , p [ css [ newsItemMetaStyle ] ]
                 [ if List.length newsItem.partnerIds > 0 then
                     span [ css [ newsItemAuthorStyle ] ]
