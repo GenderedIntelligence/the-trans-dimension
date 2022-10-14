@@ -31,6 +31,7 @@ type alias Model =
     , visibleEvents : List Data.PlaceCal.Events.Event
     , nowTime : Time.Posix
     , viewportWidth : Float
+    , urlFragment : Maybe String
     }
 
 
@@ -52,6 +53,7 @@ init maybeUrl sharedModel static =
       , visibleEvents = static.data.events
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
+      , urlFragment = Maybe.andThen .fragment maybeUrl
       }
     , Cmd.batch
         [ Task.perform GetTime Time.now
