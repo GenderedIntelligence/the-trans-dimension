@@ -3,7 +3,7 @@ module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (isValidUrl, t)
-import Css exposing (Style, after, auto, backgroundColor, batch, borderBox, borderRadius, boxSizing, calc, center, color, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, minus, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
+import Css exposing (Style, after, auto, batch, borderBox, borderRadius, boxSizing, calc, center, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, minus, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -15,7 +15,7 @@ import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
-import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlue, pinkButtonOnLightBackgroundStyle, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlueBackgroundStyle, linkStyle, pinkButtonOnLightBackgroundStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -188,9 +188,8 @@ newsArticleImage maybeImageUrl =
 newsItemStyle : Style
 newsItemStyle =
     batch
-        [ margin4 (rem 2) (rem 0) (rem 3) (rem 0)
-        , backgroundColor white
-        , color darkBlue
+        [ darkBlueBackgroundStyle
+        , margin4 (rem 2) (rem 0) (rem 3) (rem 0)
         , borderRadius (rem 0.2)
         , padding4 (rem 1.25) (rem 1.25) (rem 3) (rem 1.25)
         , position relative
