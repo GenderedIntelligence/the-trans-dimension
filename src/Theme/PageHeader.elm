@@ -268,8 +268,8 @@ navigationLinkStyle =
         , borderBottomWidth (rem 0.2)
         , borderBottomStyle solid
         , borderBottomColor pink
-        , transition [ Theme.borderTransition ]
         , hover [ color white ]
+        , transition [ Css.Transitions.border 300, Css.Transitions.color 300 ]
         , withMediaTabletPortraitUp [ hover [ borderBottomColor darkBlue ] ]
         ]
 
@@ -286,7 +286,6 @@ navigationCurrentStyle =
             , borderBottomWidth (rem 0.2)
             , borderBottomStyle solid
             ]
-        , transition [ Theme.borderTransition ]
         ]
 
 
@@ -297,13 +296,13 @@ navigationLinkCurrentCategoryStyle =
         , color darkBlue
         , textDecoration none
         , display block
+        , hover [ color white ]
+        , transition [ Css.Transitions.border 300, Css.Transitions.color 300 ]
         , withMediaTabletPortraitUp
             [ borderBottomColor darkBlue
             , borderBottomWidth (rem 0.2)
             , borderBottomStyle solid
             ]
-        , hover [ color white ]
-        , transition [ Theme.colorTransition, Theme.borderTransition ]
         ]
 
 
