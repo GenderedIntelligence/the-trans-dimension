@@ -240,16 +240,16 @@ viewInfo localModel { partner, events } =
         , hr [ css [ hrStyle ] ] []
         , section []
             [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
+            , if List.length events > 0 then
+                if List.length events > 20 then
+                    Page.Events.viewEvents localModel
+
+                else
+                    Page.Events.viewEventsList events
+
+              else
+                p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
             ]
-        , if List.length events > 0 then
-            if List.length events > 20 then
-                Page.Events.viewEvents localModel
-
-            else
-                Page.Events.viewEventsList events
-
-          else
-            p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
         , case partner.maybeGeo of
             Just geo ->
                 div [ css [ mapContainerStyle ] ]
