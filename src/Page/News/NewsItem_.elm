@@ -1,5 +1,6 @@
 module Page.News.NewsItem_ exposing (..)
 
+import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (isValidUrl, t)
 import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontStyle, fontWeight, height, italic, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
@@ -127,28 +128,53 @@ viewArticle newsItem =
                 text ""
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
-        , articleImage newsItem.maybeImage
+        , articleImage newsItem.maybeImage newsItem.body
         , div [ css [ articleContentStyle ] ] [ text newsItem.body ]
         ]
 
 
-articleImage : Maybe String -> Html Msg
-articleImage maybeImageUrl =
-    let
-        imageSource =
-            case maybeImageUrl of
-                Just imageUrl ->
-                    if isValidUrl imageUrl then
-                        imageUrl
-
-                    else
-                        "/images/news/article_1.jpg"
-
-                Nothing ->
-                    "/images/news/article_1.jpg"
-    in
+articleImage : Maybe String -> String -> Html Msg
+articleImage maybeImage articleBody =
     figure [ css [ articleFigureStyle ] ]
-        [ img [ src imageSource, css [ articleFigureImageStyle ], alt "" ] []
+        [ img [ src (articleImageSource maybeImage articleBody), css [ articleFigureImageStyle ], alt "" ] []
+        ]
+
+
+articleImageSource : Maybe String -> String -> String
+articleImageSource maybeImage articleBody =
+    let
+        defaultImageUrl =
+            Maybe.withDefault
+                "/images/news/article_1.jpg"
+                (Array.get
+                    (modBy
+                        (Array.length defaultNewsImages)
+                        (String.length articleBody)
+                    )
+                    defaultNewsImages
+                )
+    in
+    case maybeImage of
+        Just imageUrl ->
+            if isValidUrl imageUrl then
+                imageUrl
+
+            else
+                defaultImageUrl
+
+        Nothing ->
+            defaultImageUrl
+
+
+defaultNewsImages : Array String
+defaultNewsImages =
+    Array.fromList
+        [ "/images/news/article_1.jpg"
+        , "/images/news/article_2.jpg"
+        , "/images/news/article_3.jpg"
+        , "/images/news/article_4.jpg"
+        , "/images/news/article_5.jpg"
+        , "/images/news/article_6.jpg"
         ]
 
 

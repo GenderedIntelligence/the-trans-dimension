@@ -1,6 +1,5 @@
 module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 
-import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (isValidUrl, t)
 import Css exposing (Style, after, auto, backgroundColor, batch, borderBox, borderRadius, boxSizing, calc, center, color, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, minus, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
@@ -13,6 +12,7 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h3, img, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
+import Page.News.NewsItem_
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlue, pinkButtonOnLightBackgroundStyle, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
@@ -106,18 +106,6 @@ viewNewsList news =
         ]
 
 
-defaultNewsImages : Array String
-defaultNewsImages =
-    Array.fromList
-        [ "/images/news/article_1.jpg"
-        , "/images/news/article_2.jpg"
-        , "/images/news/article_3.jpg"
-        , "/images/news/article_4.jpg"
-        , "/images/news/article_5.jpg"
-        , "/images/news/article_6.jpg"
-        ]
-
-
 viewNewsItem : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsItem newsItem =
     li [ css [ newsItemStyle ] ]
@@ -127,7 +115,7 @@ viewNewsItem newsItem =
 viewNewsArticle : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsArticle newsItem =
     article [ css [ newsItemArticleStyle ] ]
-        [ newsArticleImage newsItem.maybeImage
+        [ newsArticleImage newsItem.maybeImage newsItem.body
         , div [ css [ newsItemInfoStyle ] ]
             [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
             , p [ css [ newsItemMetaStyle ] ]
@@ -161,22 +149,14 @@ summaryFromArticleBody articleBody =
         |> String.join " "
 
 
-newsArticleImage : Maybe String -> Html msg
-newsArticleImage maybeImageUrl =
-    let
-        imageSource =
-            case maybeImageUrl of
-                Just imageUrl ->
-                    if isValidUrl imageUrl then
-                        imageUrl
-
-                    else
-                        "/images/news/article_1.jpg"
-
-                Nothing ->
-                    "/images/news/article_1.jpg"
-    in
-    img [ src imageSource, css [ newsImageStyle ], alt "" ] []
+newsArticleImage : Maybe String -> String -> Html msg
+newsArticleImage maybeImage articleBody =
+    img
+        [ src (Page.News.NewsItem_.articleImageSource maybeImage articleBody)
+        , css [ newsImageStyle ]
+        , alt ""
+        ]
+        []
 
 
 
