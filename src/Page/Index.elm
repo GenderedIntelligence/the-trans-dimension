@@ -142,7 +142,7 @@ viewFeatured fromTime eventList =
 
 viewLatestNews : Maybe Data.PlaceCal.Articles.Article -> String -> String -> Html msg
 viewLatestNews maybeNewsItem title buttonText =
-    section [ css [ sectionStyle, whiteBackgroundStyle, newsSectionStyle ] ]
+    section [ css [ sectionStyle, darkBlueBackgroundStyle, newsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
         , case maybeNewsItem of
             Just news ->
