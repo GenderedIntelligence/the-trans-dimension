@@ -8,3 +8,6 @@ functions/render/elm-pages-cli.js
 
 .env
 src/Constants.elm
+
+# Local Netlify folder
+.netlify
