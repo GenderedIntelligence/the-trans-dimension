@@ -28,10 +28,16 @@ import View exposing (View)
 
 
 type alias Model =
-    { filterBy : Paginator.Filter
-    , visibleEvents : List Data.PlaceCal.Events.Event
-    , nowTime : Time.Posix
-    , viewportWidth : Float
+    ViewModel
+        { viewportWidth : Float
+        }
+
+
+type alias ViewModel extends =
+    { extends
+        | filterBy : Paginator.Filter
+        , visibleEvents : List Data.PlaceCal.Events.Event
+        , nowTime : Time.Posix
     }
 
 
@@ -210,11 +216,13 @@ view maybeUrl sharedModel localModel static =
     }
 
 
-viewEvents : Model -> Html Msg
-viewEvents localModel =
+viewEvents :
+    ViewModel any
+    -> Html Msg
+viewEvents viewModel =
     section [ css [ eventsContainerStyle ] ]
-        [ Paginator.viewPagination localModel
-        , viewFilteredEventsList localModel.filterBy localModel.visibleEvents
+        [ Paginator.viewPagination viewModel
+        , viewFilteredEventsList viewModel.filterBy viewModel.visibleEvents
         ]
 
 

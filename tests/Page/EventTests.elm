@@ -4,7 +4,9 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Data.TestFixtures exposing (sharedModelInit)
 import Expect
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
+import Html.Attributes
 import Page.Events.Event_ exposing (view)
 import Path
 import Test exposing (Test, describe, test)
@@ -94,5 +96,17 @@ suite =
         , test "Contains link back to events page" <|
             \_ ->
                 viewBodyHtml viewParamsWithEvent
+                    |> Query.find
+                        [ Selector.tag "a"
+                        , Selector.attribute (Html.Attributes.href (TransRoutes.toAbsoluteUrl Events))
+                        ]
                     |> Query.contains [ Html.text (t BackToEventsLinkText) ]
+        , test "Contains link back to events section of partner page" <|
+            \_ ->
+                viewBodyHtml viewParamsWithEvent
+                    |> Query.find
+                        [ Selector.tag "a"
+                        , Selector.attribute (Html.Attributes.href (TransRoutes.toAbsoluteUrl (Partner viewParamsWithEvent.data.partner.id) ++ "#events"))
+                        ]
+                    |> Query.contains [ Html.text (t (BackToPartnerEventsLinkText viewParamsWithEvent.data.partner.name)) ]
         ]

@@ -96,6 +96,7 @@ eventsModel =
     , visibleEvents = Fixtures.events
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920
+    , urlFragment = Nothing
     }
 
 

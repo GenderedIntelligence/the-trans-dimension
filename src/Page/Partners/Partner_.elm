@@ -11,7 +11,7 @@ import DataSource exposing (DataSource)
 import Head
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
-import Html.Styled.Attributes exposing (alt, css, href, src, target)
+import Html.Styled.Attributes exposing (alt, css, href, id, src, target)
 import Page exposing (PageWithState, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
@@ -31,6 +31,7 @@ type alias Model =
     , visibleEvents : List Data.PlaceCal.Events.Event
     , nowTime : Time.Posix
     , viewportWidth : Float
+    , urlFragment : Maybe String
     }
 
 
@@ -48,15 +49,35 @@ init :
     -> StaticPayload Data RouteParams
     -> ( Model, Cmd Msg )
 init maybeUrl sharedModel static =
+    let
+        urlFragment : Maybe String
+        urlFragment =
+            Maybe.andThen .fragment maybeUrl
+
+        tasks : List (Cmd Msg)
+        tasks =
+            [ Task.perform GetTime Time.now
+            , Task.perform GotViewport Browser.Dom.getViewport
+            ]
+    in
     ( { filterBy = Paginator.None
       , visibleEvents = static.data.events
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
+      , urlFragment = urlFragment
       }
     , Cmd.batch
-        [ Task.perform GetTime Time.now
-        , Task.perform GotViewport Browser.Dom.getViewport
-        ]
+        (case urlFragment of
+            Just fragment ->
+                tasks
+                    ++ [ Browser.Dom.getElement fragment
+                            |> Task.andThen (\element -> Browser.Dom.setViewport 0 element.element.y)
+                            |> Task.attempt (\_ -> NoOp)
+                       ]
+
+            Nothing ->
+                tasks
+        )
     )
 
 
@@ -238,18 +259,18 @@ viewInfo localModel { partner, events } =
                 ]
             ]
         , hr [ css [ hrStyle ] ] []
-        , section []
+        , section [ id "events" ]
             [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
+            , if List.length events > 0 then
+                if List.length events > 20 then
+                    Page.Events.viewEvents localModel
+
+                else
+                    Page.Events.viewEventsList events
+
+              else
+                p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
             ]
-        , if List.length events > 0 then
-            if List.length events > 20 then
-                Page.Events.viewEvents localModel
-
-            else
-                Page.Events.viewEventsList events
-
-          else
-            p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
         , case partner.maybeGeo of
             Just geo ->
                 div [ css [ mapContainerStyle ] ]
