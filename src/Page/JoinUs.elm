@@ -366,7 +366,7 @@ update pageUrl maybeNavigationKey sharedModel static msg ({ userInput } as model
                 Ok _ ->
                     ( { userInput = blankForm, formState = Sent }, Cmd.none )
 
-                Err httpError ->
+                Err _ ->
                     ( { model | formState = SendingError }, Cmd.none )
 
 
