@@ -356,13 +356,6 @@ logoListItemStyle =
         ]
 
 
-logoImageStyle : Style
-logoImageStyle =
-    batch
-        [ margin2 (rem 0) auto
-        ]
-
-
 logoGIStyle : Style
 logoGIStyle =
     batch
