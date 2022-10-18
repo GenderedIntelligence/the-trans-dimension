@@ -65,8 +65,8 @@ viewPageHeaderNavigation showMobileMenu listItems currentPath =
     nav []
         [ ul
             [ css
-                ([ navigationListStyle ]
-                    ++ (if showMobileMenu then
+                (navigationListStyle
+                    :: (if showMobileMenu then
                             []
 
                         else
