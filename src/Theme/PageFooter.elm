@@ -6,7 +6,7 @@ import Css exposing (Style, active, after, alignItems, alignSelf, auto, backgrou
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
-import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
+import Html.Styled.Attributes exposing (action, alt, attribute, css, href, method, name, placeholder, src, target, type_, value)
 import List exposing (append, concat)
 import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, smallInlineTitleStyle, textInputStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.Logo
@@ -149,7 +149,12 @@ viewPageFooterCredit creditTitle creditList =
             [ css [ infoParagraphStyle ] ]
             (concat [ List.intersperse (text ", ") (List.map viewPageFooterCreditItem creditList), [ span [] [ text "." ] ] ])
         , p [ css [ infoParagraphStyle ] ] [ text (t FooterCopyright) ]
-        , img [ src "/images/logos/footer_placecal.svg", css [ poweredByPlaceCalStyle ] ] []
+        , img
+            [ src "/images/logos/footer_placecal.svg"
+            , alt (t FooterPlaceCal)
+            , css [ poweredByPlaceCalStyle ]
+            ]
+            []
         ]
 
 

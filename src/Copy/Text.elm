@@ -128,6 +128,9 @@ t key =
         FooterCopyright ->
             "© 2022 Gendered Intelligence. All rights reserved."
 
+        FooterPlaceCal ->
+            "Powered by PlaceCal"
+
         --- Index Page
         IndexTitle ->
             "Home"

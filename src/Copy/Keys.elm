@@ -42,6 +42,7 @@ type Key
     | FooterCredit3Name
     | FooterCredit3Link
     | FooterCopyright
+    | FooterPlaceCal
       --- Index Page
     | IndexTitle
     | IndexMetaDescription
