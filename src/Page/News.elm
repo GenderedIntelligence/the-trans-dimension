@@ -146,7 +146,7 @@ viewNewsArticle newsItem =
                         (NewsItem (TransRoutes.stringToSlug newsItem.title))
                     )
                 ]
-                [ text (t (NewsItemReadMore newsItem.title)) ]
+                [ text (t NewsItemReadMore) ]
             ]
         ]
 

@@ -113,7 +113,7 @@ type Key
     | NewsItemTitle String
     | NewsItemMetaDescription String String
     | NewsItemReturnButton
-    | NewsItemReadMore String
+    | NewsItemReadMore
       --- Privacy
     | PrivacyTitle
     | PrivacyMetaDescription

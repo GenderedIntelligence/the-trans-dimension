@@ -314,7 +314,7 @@ t key =
         NewsEmptyText ->
             "There is no recent news"
 
-        NewsItemReadMore title ->
+        NewsItemReadMore ->
             "Read the rest"
 
         NewsDescription ->
