@@ -14,9 +14,6 @@ t key =
         SiteTitle ->
             "The Trans Dimension"
 
-        SiteStrapline ->
-            "Space and spaces for us"
-
         TransDimensionDescription ->
             -- Note this is also in content/about/main.md
             -- If they should remain in sync, we should remove from there

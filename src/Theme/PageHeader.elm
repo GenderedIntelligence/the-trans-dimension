@@ -35,14 +35,14 @@ viewPageHeader currentPath viewOptions =
             [ viewPageHeaderNavigation viewOptions.showMobileMenu headerNavigationItems currentPath.path
             ]
         , div [ css [ titleBarStyle ] ]
-            [ viewPageHeaderTitle (t SiteTitle) (t SiteStrapline)
+            [ viewPageHeaderTitle
             , viewPageHeaderMenuButton (t HeaderMobileMenuButton)
             ]
         ]
 
 
-viewPageHeaderTitle : String -> String -> Html Msg
-viewPageHeaderTitle pageTitle strapLine =
+viewPageHeaderTitle : Html Msg
+viewPageHeaderTitle =
     div [ css [ titleStyle ] ]
         [ h1 [] [ Theme.Logo.view ]
         ]
