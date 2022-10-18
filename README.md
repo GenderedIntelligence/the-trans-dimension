@@ -51,7 +51,7 @@ We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm
 
 - `elm.json` for elm packages used for site
 - `elm-tooling.json` for elm packages used for code
-- `.env` is used to generates `src/Constants.elm` for elm-pages
+- `.env` is used to generate `src/Constants.elm` for elm-pages
 - `.nvmrc` contains project node version
 - `package.json` for node scripts and packages
 - `package-lock.json` for current versions of node packages
