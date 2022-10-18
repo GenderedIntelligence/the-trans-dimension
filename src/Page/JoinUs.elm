@@ -36,7 +36,6 @@ type FormRequired
 
 type FormError
     = FieldRequired
-    | WrongFormat
 
 
 type alias FormInput =
