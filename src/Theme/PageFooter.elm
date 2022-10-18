@@ -149,12 +149,14 @@ viewPageFooterCredit creditTitle creditList =
             [ css [ infoParagraphStyle ] ]
             (concat [ List.intersperse (text ", ") (List.map viewPageFooterCreditItem creditList), [ span [] [ text "." ] ] ])
         , p [ css [ infoParagraphStyle ] ] [ text (t FooterCopyright) ]
-        , img
-            [ src "/images/logos/footer_placecal.svg"
-            , alt (t FooterPlaceCal)
-            , css [ poweredByPlaceCalStyle ]
+        , a [ href "https://placecal.org" ]
+            [ img
+                [ src "/images/logos/footer_placecal.svg"
+                , alt (t FooterPlaceCal)
+                , css [ poweredByPlaceCalStyle ]
+                ]
+                []
             ]
-            []
         ]
 
 
