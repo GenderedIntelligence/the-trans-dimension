@@ -124,8 +124,6 @@ suite =
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithPartner
                     |> Query.contains [ Html.text "Partner description" ]
-
-        -- Below: can't figure out how to get it to do multiline text so leaving it for now.
         , test "Contains address if provided" <|
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithPartner

@@ -20,8 +20,6 @@ type alias Event =
     , endDatetime : Time.Posix
     , maybePublisherUrl : Maybe String
     , location : Maybe EventLocation
-
-    -- , realm : Realm
     , partner : EventPartner
     , maybeGeo : Maybe Geo
     }
@@ -63,8 +61,6 @@ emptyEvent =
     , endDatetime = Time.millisToPosix 0
     , maybePublisherUrl = Nothing
     , location = Nothing
-
-    -- , realm = Offline
     , maybeGeo = Nothing
     , partner =
         { name = Nothing

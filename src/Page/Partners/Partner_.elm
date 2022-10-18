@@ -383,7 +383,6 @@ contactSectionStyle =
 
 contactHeadingStyle : Style
 contactHeadingStyle =
-    -- Temp style so I can see it
     batch [ color Theme.Global.pink ]
 
 

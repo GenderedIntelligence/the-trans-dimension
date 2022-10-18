@@ -80,8 +80,6 @@ suite =
                         , Html.text "Mon 05 Jan"
                         , Html.text "Tue 06 Jan"
                         , Html.text "Wed 07 Jan"
-
-                        -- , Html.text (t EventsFilterLabelAll)
                         ]
         , test "Contains a list of upcoming events" <|
             \_ ->

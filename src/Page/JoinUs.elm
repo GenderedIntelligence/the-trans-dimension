@@ -430,8 +430,6 @@ view maybeUrl sharedModel localModel static =
             , smallText = Just [ t JoinUsDescription ]
             , innerContent = Just (viewForm localModel)
             , outerContent = Nothing
-
-            -- , outerContent = Just (viewFormStateForTesting localModel.formState)
             }
         ]
     }

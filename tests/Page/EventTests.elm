@@ -27,8 +27,6 @@ viewParamsWithEvent =
         , maybePublisherUrl = Nothing
         , location = Nothing
         , maybeGeo = Nothing
-
-        --, realm = Online
         , partner =
             { id = "1"
             , name = Just "Partner one"
