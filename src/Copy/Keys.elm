@@ -14,7 +14,7 @@ type Key
     | HeaderMobileMenuButton
     | HeaderAskButton
     | HeaderAskLink
-      -- Beta Banner
+      --- Beta Banner
     | BetaBannerText
     | BetaBannerCloseButtonText
       --- Site Footer

@@ -153,14 +153,14 @@ t key =
         IndexNewsButtonText ->
             "View all news"
 
-        -- About Page (NOTE: also comes from md)
+        --- About Page (NOTE: also comes from md)
         AboutTitle ->
             "About"
 
         AboutMetaDescription ->
             t TransDimensionDescription
 
-        -- Events Page
+        --- Events Page
         EventsTitle ->
             "Events"
 
