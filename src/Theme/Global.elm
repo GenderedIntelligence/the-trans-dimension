@@ -1,13 +1,13 @@
-module Theme.Global exposing (backgroundColorTransition, black, blue, blueBackgroundStyle, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, generateId, globalStyles, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, mapImage, mapImageMulti, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (backgroundColorTransition, blue, borderTransition, buttonFloatingWrapperStyle, colorTransition, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, globalStyles, hrStyle, introTextLargeStyle, introTextSmallStyle, linkStyle, mapImage, mapImageMulti, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textInputErrorStyle, textInputStyle, viewBackButton, viewCheckbox, white, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 import Color
-import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus, none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, width, wrap, zero)
+import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, int, italic, justifyContent, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxContent, maxWidth, minus, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, px, relative, rem, repeat, right, row, sansSerif, solid, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, width, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Transitions exposing (Transition, linear, transition)
-import Html.Styled exposing (Html, a, div, img, input, label, li, p, span, text, ul)
-import Html.Styled.Attributes exposing (attribute, css, for, href, id, placeholder, src, tabindex, type_, value)
-import Html.Styled.Events exposing (onCheck, onClick, onInput)
+import Html.Styled exposing (Html, a, div, img, input, label, p, text)
+import Html.Styled.Attributes exposing (css, for, href, id, src, type_)
+import Html.Styled.Events exposing (onCheck)
 
 
 
@@ -62,14 +62,6 @@ white =
 
 -- Accent colours
 -- Text and background colours
-
-
-black : Color
-black =
-    hex "000000"
-
-
-
 -- Breakpoints
 
 
@@ -116,16 +108,6 @@ maxSmallDesktop =
 withMediaMediumDesktopUp : List Style -> Style
 withMediaMediumDesktopUp =
     withMedia [ only screen [ Media.minWidth (px maxSmallDesktop) ] ]
-
-
-maxMediumDesktop : Float
-maxMediumDesktop =
-    2200
-
-
-withMediaLargeDesktopUp : List Style -> Style
-withMediaLargeDesktopUp =
-    withMedia [ only screen [ Media.minWidth (px maxMediumDesktop) ] ]
 
 
 
@@ -254,11 +236,6 @@ backButtonStyle =
 pinkBackgroundStyle : Style
 pinkBackgroundStyle =
     backgroundColor pink
-
-
-blueBackgroundStyle : Style
-blueBackgroundStyle =
-    backgroundColor blue
 
 
 darkBlueBackgroundStyle : Style
@@ -450,59 +427,6 @@ normalFirstParagraphStyle =
 -- Form field components
 
 
-viewSelect : String -> List { label : String, value : String } -> String -> (String -> msg) -> Bool -> msg -> Html msg
-viewSelect fieldName optionList fieldValue update toggleValue toggleUpdate =
-    label []
-        [ span [ css [ searchLabelStyle ] ] [ text fieldName ]
-        , div [ css [ fakeSelectStyle ], tabindex 0, id "select", onClick toggleUpdate ]
-            [ div [ css [ selectStyle ] ]
-                (if fieldValue == "" then
-                    [ text "Show all" ]
-
-                 else
-                    List.map (\option -> text option.label) (List.filter (\str -> str.value == fieldValue) optionList)
-                )
-            , if toggleValue == True then
-                ul
-                    [ css [ selectOptionListStyle ], attribute "role" "listbox", tabindex 0 ]
-                    (List.map
-                        (\selectOption ->
-                            li
-                                [ css [ selectOptionStyle ]
-                                , attribute "aria-selected"
-                                    (if selectOption.value == fieldValue then
-                                        "true"
-
-                                     else
-                                        "false"
-                                    )
-                                , onClick (update selectOption.value)
-                                , attribute "role" "option"
-                                ]
-                                [ text selectOption.label ]
-                        )
-                        optionList
-                    )
-
-              else
-                text ""
-            ]
-        ]
-
-
-viewSearchInput : String -> String -> (String -> msg) -> Html msg
-viewSearchInput labelText inputValue update =
-    label [ css [ searchStyle ] ]
-        [ span [ css [ searchLabelStyle ] ] [ text labelText ]
-        , input [ css [ searchInputStyle ], type_ "search", value inputValue, onInput update, placeholder "Search" ] []
-        , if inputValue == "" then
-            text ""
-
-          else
-            img [ src "/images/icons/crossclose.svg", css [ searchInputCancelStyle ], onClick (update "") ] []
-        ]
-
-
 viewCheckbox : String -> String -> Bool -> (Bool -> msg) -> List (Html msg)
 viewCheckbox boxId labelText checkedValue update =
     [ label
@@ -603,116 +527,6 @@ checkboxStyle =
         ]
 
 
-searchStyle : Style
-searchStyle =
-    batch
-        [ position relative
-        , margin2 (rem 1) auto
-        , display block
-        , maxWidth fitContent
-        ]
-
-
-searchLabelStyle : Style
-searchLabelStyle =
-    batch
-        [ color white
-        , fontWeight (int 600)
-        , marginRight (rem 1)
-        , fontSize (rem 1.2)
-        , textTransform uppercase
-        , letterSpacing (px 1.9)
-        ]
-
-
-searchInputStyle : Style
-searchInputStyle =
-    batch
-        [ backgroundColor darkPurple
-        , borderColor pink
-        , borderWidth (px 2)
-        , borderStyle solid
-        , borderRadius (rem 0.3)
-        , padding4 (rem 0.5) (rem 2.5) (rem 0.5) (rem 1)
-        , fontSize (rem 1.2)
-        , color white
-        , fontWeight (int 600)
-        , outline none
-        , pseudoElement "placeholder" [ color pink, opacity (int 1), fontWeight (int 600) ]
-        , pseudoClass "placeholder-shown"
-            [ borderColor darkPurple
-            ]
-        , pseudoElement "-webkit-search-cancel-button" [ display none ]
-        , focus [ borderColor white ]
-        ]
-
-
-searchInputCancelStyle : Style
-searchInputCancelStyle =
-    batch
-        [ position absolute
-        , display block
-        , right (rem 0.5)
-        , top (rem 0.825)
-        , bottom (rem 0.825)
-        , hover [ cursor pointer ]
-        ]
-
-
-fakeSelectStyle : Style
-fakeSelectStyle =
-    batch
-        [ position relative
-        , display inlineBlock
-        ]
-
-
-selectStyle : Style
-selectStyle =
-    batch
-        [ property "appearance" "none"
-        , backgroundColor darkBlue
-        , borderColor pink
-        , fontSize (rem 1.2)
-        , fontWeight (int 600)
-        , borderWidth (px 2)
-        , borderStyle solid
-        , borderRadius (rem 0.3)
-        , padding2 (rem 0.5) (rem 1)
-        , color pink
-        , outline none
-        , width (px 200)
-        , pseudoElement "-ms-expand" [ display none ]
-        ]
-
-
-selectOptionListStyle : Style
-selectOptionListStyle =
-    batch
-        [ maxWidth fitContent
-        , backgroundColor pink
-        , borderRadius (rem 0.3)
-        , borderColor pink
-        , borderStyle solid
-        , borderWidth (px 2)
-        , padding2 (rem 1) (rem 0)
-        , listStyleType none
-        , position absolute
-        ]
-
-
-selectOptionStyle : Style
-selectOptionStyle =
-    batch
-        [ fontSize (rem 1.2)
-        , fontWeight (int 500)
-        , color darkBlue
-        , borderRadius (rem 0.3)
-        , padding2 (rem 0.5) (rem 1)
-        , hover [ backgroundColor white ]
-        ]
-
-
 
 -- Global
 
@@ -773,48 +587,6 @@ containerPage pageTitle content =
         , css [ margin2 zero auto, width (pct 100), overflow hidden ]
         ]
         content
-
-
-containerContent : List (Html msg) -> Html msg
-containerContent children =
-    div [ css [ margin2 zero auto, Css.maxWidth (px 800), width (pct 100) ] ] children
-
-
-gridStyle : Style
-gridStyle =
-    batch
-        [ displayFlex
-        , flexWrap wrap
-        , alignItems start
-        ]
-
-
-{-| A flex row item width for a single column layout
-oneColumn : Css.CalculatedLength (not exposed by <https://github.com/rtfeldman/elm-css/pull/519>)
--}
-oneColumn =
-    calc (pct 100) minus (rem 2)
-
-
-{-| A flex row item width for a double column layout
-twoColumn : Css.CalculatedLength
--}
-twoColumn =
-    calc (pct 50) minus (rem 2)
-
-
-{-| A flex row item width for a triple column layout
-threeColumn : Css.CalculatedLength
--}
-threeColumn =
-    calc (pct 33.33) minus (rem 2)
-
-
-{-| A div with known vertical margin
--}
-verticalSpacing : Float -> Html msg
-verticalSpacing num =
-    div [ css [ margin2 (rem num) zero ] ] []
 
 
 

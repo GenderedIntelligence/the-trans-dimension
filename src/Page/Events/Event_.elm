@@ -12,7 +12,6 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h4, hr, p, section, text, time)
 import Html.Styled.Attributes exposing (css, href, target)
 import Page exposing (Page, StaticPayload)
-import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Theme.Global exposing (linkStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
