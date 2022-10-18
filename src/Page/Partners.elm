@@ -2,7 +2,7 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inlineBlock, int, italic, justifyContent, letterSpacing, margin2, marginBottom, marginRight, minus, none, padding, padding2, pct, px, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, backgroundColor, batch, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inlineBlock, int, italic, justifyContent, letterSpacing, margin2, marginBottom, marginLeft, marginRight, minus, none, padding, padding2, pct, px, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
 import Css.Transitions exposing (transition)
 import Data.PlaceCal.Partners
@@ -143,7 +143,7 @@ viewAreaTag :
     -> Html msg
 viewAreaTag serviceAreas maybeAddress =
     if List.length serviceAreas > 0 then
-        ul []
+        ul [ css [ areaTagStyle ] ]
             (List.map
                 (\area ->
                     li []
@@ -198,6 +198,7 @@ partnerAreaTagSpan =
         [ backgroundColor darkPurple
         , color pink
         , display inlineBlock
+        , marginLeft (rem 0.5)
         , padding2 (rem 0.25) (rem 0.5)
         , borderRadius (rem 0.3)
         , fontWeight (int 600)
@@ -299,6 +300,13 @@ partnerDescriptionStyle =
         [ fontSize (rem 0.8777)
         , marginRight (rem 1)
         , withMediaTabletPortraitUp [ fontSize (rem 1.2) ]
+        ]
+
+
+areaTagStyle : Style
+areaTagStyle =
+    batch
+        [ displayFlex
         ]
 
 
