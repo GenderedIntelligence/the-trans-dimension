@@ -11,6 +11,7 @@ type Key
     | GenderedIntelligenceHomeUrl
     | GoogleMapSearchUrl String
     | SeeOnGoogleMapText
+    | MapImageAltText String
       --- Header
     | HeaderMobileMenuButton
     | HeaderAskButton
@@ -79,6 +80,7 @@ type Key
     | PartnersIntroSummary
     | PartnersIntroDescription
     | PartnersListEmpty
+    | PartnersMapAltText
       --- Partner Page
     | PartnerTitle String
     | PartnerMetaDescription String String

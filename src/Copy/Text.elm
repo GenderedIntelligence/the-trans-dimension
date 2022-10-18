@@ -37,6 +37,9 @@ t key =
         SeeOnGoogleMapText ->
             "See on Google map"
 
+        MapImageAltText locationName ->
+            "A map showing the location of " ++ locationName
+
         PageMetaTitle pageTitle ->
             String.join " | " [ pageTitle, t SiteTitle ]
 
@@ -228,6 +231,9 @@ t key =
 
         PartnersListEmpty ->
             "There are currently no Trans Dimension partners"
+
+        PartnersMapAltText ->
+            "A map showing the locations of all partners with listed addresses"
 
         --- Partner Page
         PartnerTitle partnerName ->

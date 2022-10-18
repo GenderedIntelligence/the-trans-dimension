@@ -114,7 +114,11 @@ viewEventInfo event =
         , case event.maybeGeo of
             Just geo ->
                 div [ css [ mapContainerStyle ] ]
-                    [ p [] [ Theme.Global.mapImage { latitude = geo.latitude, longitude = geo.longitude } ]
+                    [ p []
+                        [ Theme.Global.mapImage
+                            (t (MapImageAltText event.name))
+                            { latitude = geo.latitude, longitude = geo.longitude }
+                        ]
                     ]
 
             Nothing ->

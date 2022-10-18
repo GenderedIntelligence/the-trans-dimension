@@ -119,6 +119,7 @@ viewMap : List Data.PlaceCal.Partners.Partner -> Html msg
 viewMap partnerList =
     div [ css [ featurePlaceholderStyle ] ]
         [ Theme.mapImageMulti
+            (t PartnersMapAltText)
             (List.filter (\partner -> partner.maybeGeo /= Nothing) partnerList
                 |> List.map
                     (\partner ->
