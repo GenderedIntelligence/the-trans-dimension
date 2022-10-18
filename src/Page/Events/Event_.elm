@@ -15,8 +15,9 @@ import Page exposing (Page, StaticPayload)
 import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Shared
-import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (darkBlue, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
+import Theme.TransMarkdown
 import View exposing (View)
 
 
@@ -142,8 +143,7 @@ viewInfoSection event =
                     text ""
             ]
         , div [ css [ eventDescriptionStyle ] ]
-            --  (Theme.TransMarkdown.markdownToHtml event.description)
-            [ p [] [ text event.description ] ]
+            (Theme.TransMarkdown.markdownToHtml event.description)
         ]
 
 
@@ -291,10 +291,13 @@ eventPartnerStyle =
 eventDescriptionStyle : Style
 eventDescriptionStyle =
     batch
-        [ marginTop (rem 1)
-        , marginBottom (rem 2)
-        , withMediaTabletLandscapeUp [ marginTop (rem 3) ]
-        , withMediaTabletPortraitUp [ marginTop (rem 2) ]
+        [ normalFirstParagraphStyle
+        , withMediaTabletLandscapeUp
+            [ margin2 (rem 2) auto
+            , maxWidth (px 636)
+            ]
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 2) (rem 2) ]
         ]
 
 
