@@ -58,8 +58,7 @@ transHtmlRenderer =
     , paragraph = Html.p [ css [ paragraphStyle ] ]
     , hardLineBreak = Html.br [] []
     , strikethrough =
-        -- todo add lineThrough style
-        \children -> Html.p [] children
+        \children -> Html.s [] children
     , blockQuote = Html.blockquote []
     , strong =
         \children -> Html.strong [] children
