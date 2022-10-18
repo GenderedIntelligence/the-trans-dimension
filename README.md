@@ -39,9 +39,9 @@ We recommend integrating `elm-format@0.8.3` into your code editor, but if you do
 
 ## Testing
 
-We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/)
+We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/). It is required to run either `npm start` (quickest) or `npm build` at least once in the project before tests will work.
 
--  run tests with `npm test`
+- run tests with `npm test`
 
 ## Code & configs
 
