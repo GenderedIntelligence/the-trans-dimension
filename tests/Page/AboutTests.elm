@@ -1,12 +1,12 @@
 module Page.AboutTests exposing (..)
 
-import Data.TestFixtures exposing (sharedModelInit)
 import Html
 import Page.About exposing (view)
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 
 

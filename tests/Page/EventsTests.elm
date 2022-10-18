@@ -2,7 +2,6 @@ module Page.EventsTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures as Fixtures exposing (sharedModelInit)
 import Expect
 import Html
 import Page.Events exposing (view)
@@ -10,13 +9,14 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 import Theme.Paginator as Paginator
 import Time
 
 
 viewParamsWithEvents =
-    { data = Fixtures.events
+    { data = TestFixtures.events
     , path = Path.fromString "events"
     , routeParams = {}
     , sharedData = ()
@@ -25,7 +25,7 @@ viewParamsWithEvents =
 
 eventsModel =
     { filterBy = Paginator.None
-    , visibleEvents = Fixtures.events
+    , visibleEvents = TestFixtures.events
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920
     }

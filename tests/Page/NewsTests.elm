@@ -2,7 +2,6 @@ module Page.NewsTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures as Fixtures
 import Expect
 import Html
 import Page.News exposing (view)
@@ -10,11 +9,12 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 
 
 viewParamsWithNews =
-    { data = Fixtures.news
+    { data = TestFixtures.news
     , path = Path.fromString "news"
     , routeParams = {}
     , sharedData = ()
@@ -31,7 +31,7 @@ viewParamsWithoutNews =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing Fixtures.sharedModelInit viewParams).body
+        (view Nothing sharedModelInit viewParams).body
 
 
 suite : Test

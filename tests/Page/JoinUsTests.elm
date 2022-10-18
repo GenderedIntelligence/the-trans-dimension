@@ -2,7 +2,6 @@ module Page.JoinUsTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures exposing (sharedModelInit)
 import Expect
 import Html
 import Page.JoinUs exposing (blankForm, initialFormState, view)
@@ -10,6 +9,7 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 
 

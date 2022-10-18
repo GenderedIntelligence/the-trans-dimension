@@ -1,4 +1,4 @@
-module Data.TestFixtures exposing (events, news, partners, sharedModelInit)
+module TestFixtures exposing (events, news, partners, sharedModelInit)
 
 import Time
 
