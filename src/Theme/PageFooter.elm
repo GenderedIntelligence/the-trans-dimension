@@ -8,7 +8,7 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
 import List exposing (append, concat)
-import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, smallInlineTitleStyle, textInputStyle, transparent, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, smallInlineTitleStyle, textInputStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.Logo
 
 
@@ -74,7 +74,7 @@ viewPageFooterLogos =
             [ li [ css [ logoListItemStyle ] ]
                 [ a [ href (t GeeksForSocialChangeHomeUrl), target "_blank", css [ Theme.Logo.logoParentStyle ] ] [ Theme.Logo.viewGFSC ] ]
             , li [ css [ logoListItemStyle ] ]
-                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ] ] [ text <| t GenderedIntelligenceLogoTxt ] ]
+                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ] ] [] ]
             ]
         ]
 
@@ -374,7 +374,6 @@ logoGIStyle =
         , focus [ backgroundImage (url "/images/logos/GI_white.png") ]
         , active [ backgroundImage (url "/images/logos/GI_white.png") ]
         , alignSelf center
-        , color transparent
         ]
 
 
