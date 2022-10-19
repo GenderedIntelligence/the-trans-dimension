@@ -6,11 +6,11 @@ import Css exposing (Style, absolute, after, auto, backgroundImage, backgroundPo
 import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled as Html exposing (Html, a, div, h1, h2, h3, img, p, section, text)
-import Html.Styled.Attributes exposing (alt, css, href, src)
+import Html.Styled as Html exposing (Html, a, div, h1, h2, h3, img, p, section, span, text)
+import Html.Styled.Attributes exposing (alt, attribute, css, href, src)
 import List exposing (append)
 import Pages.Url
-import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, srOnly, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
 type alias Msg =
@@ -117,8 +117,10 @@ viewHeader pageInfo =
         [ h1 []
             -- Hack to get llinkable absolute positioned header
             -- Probably needs a refactor with simplified styles
-            [ a
-                [ href (TransRoutes.toAbsoluteUrl Home)
+            [ span [ css [ srOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
+            , a
+                [ attribute "aria-hidden" "true"
+                , href (TransRoutes.toAbsoluteUrl Home)
                 , css [ headerLogoAStyle, zIndex (int 99) ]
                 ]
                 [ img
