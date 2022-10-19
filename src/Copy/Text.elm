@@ -31,6 +31,9 @@ t key =
         GenderedIntelligenceHomeUrl ->
             "https://genderedintelligence.co.uk/"
 
+        GenderedIntelligenceLogoTxt ->
+            "Gendered Intelligence"
+
         GoogleMapSearchUrl address ->
             "https://www.google.com/maps/search/?api=1&query=" ++ Url.percentEncode address
 
