@@ -1,4 +1,4 @@
-module Theme.Global exposing (backgroundColorTransition, black, blue, blueBackgroundStyle, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, generateId, globalStyles, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, mapImage, mapImageMulti, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (backgroundColorTransition, black, blue, blueBackgroundStyle, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerContent, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, generateId, globalStyles, gridStyle, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, mapImage, mapImageMulti, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, oneColumn, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, smallFloatingTitleStyle, smallInlineTitleStyle, srOnly, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, threeColumn, twoColumn, verticalSpacing, viewBackButton, viewCheckbox, viewSearchInput, viewSelect, white, whiteButtonStyle, withMediaLargeDesktopUp, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 import Color
 import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, flexWrap, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, listStyleType, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginRight, marginTop, maxContent, maxWidth, minus, none, opacity, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, pseudoClass, pseudoElement, px, relative, rem, repeat, right, row, sansSerif, solid, start, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, width, wrap, zero)
@@ -420,6 +420,18 @@ linkStyle =
         , textDecoration none
         , hover [ color pink, borderBottomColor white ]
         , transition [ borderTransition, colorTransition ]
+        ]
+
+
+srOnly : Style
+srOnly =
+    batch
+        [ position absolute
+        , left (px -10000)
+        , top auto
+        , width (px 1)
+        , height (px 1)
+        , overflow hidden
         ]
 
 
