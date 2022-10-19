@@ -11,7 +11,7 @@ import Head
 import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h1, h2, img, p, section, text)
-import Html.Styled.Attributes exposing (alt, css, href, src)
+import Html.Styled.Attributes exposing (alt, attribute, css, href, src)
 import Page exposing (Page, StaticPayload)
 import Page.Events
 import Page.News
@@ -112,7 +112,7 @@ view maybeUrl sharedModel static =
 viewIntro : String -> String -> String -> Html msg
 viewIntro introTitle introMsg eventButtonText =
     section [ css [ sectionStyle, pinkBackgroundStyle, introSectionStyle ] ]
-        [ h1 [ css [ logoStyle ] ] [ img [ src "/images/logos/tdd_logo_with_strapline.svg", alt (t SiteTitle), css [ logoImageStyle ] ] [] ]
+        [ h1 [ attribute "aria-label" (t SiteTitle ++ ", " ++ t SiteStrapline), css [ logoStyle ] ] [ img [ src "/images/logos/tdd_logo_with_strapline.svg", alt (t SiteTitle), css [ logoImageStyle ] ] [] ]
         , h2 [ css [ sectionSubtitleStyle ] ] [ text introTitle ]
         , p [ css [ sectionTextStyle ] ] [ text introMsg ]
         , p [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]

@@ -6,7 +6,7 @@ import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch,
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
 import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span, text, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled.Attributes exposing (attribute, css, href)
 import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Path exposing (Path)
@@ -44,7 +44,7 @@ viewPageHeader currentPath viewOptions =
 viewPageHeaderTitle : String -> String -> Html Msg
 viewPageHeaderTitle pageTitle strapLine =
     div [ css [ titleStyle ] ]
-        [ h1 [] [ Theme.Logo.view ]
+        [ h1 [ attribute "aria-label" (t SiteTitle ++ ", " ++ t SiteStrapline) ] [ Theme.Logo.view ]
         ]
 
 
