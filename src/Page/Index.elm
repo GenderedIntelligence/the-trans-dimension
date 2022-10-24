@@ -113,7 +113,7 @@ viewIntro : String -> String -> String -> Html msg
 viewIntro introTitle introMsg eventButtonText =
     section [ css [ sectionStyle, pinkBackgroundStyle, introSectionStyle ] ]
         [ h1 [ css [ logoStyle ] ]
-            [ span [ css [ srOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
+            [ span [ css [ screenReaderOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
             , img [ attribute "aria-hidden" "true", src "/images/logos/tdd_logo_with_strapline.svg", alt (t SiteTitle), css [ logoImageStyle ] ] []
             ]
         , h2 [ css [ sectionSubtitleStyle ] ] [ text introTitle ]
