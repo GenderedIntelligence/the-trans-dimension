@@ -10,7 +10,7 @@ import Html.Styled as Html exposing (Html, a, div, h1, h2, h3, img, p, section, 
 import Html.Styled.Attributes exposing (alt, attribute, css, href, src)
 import List exposing (append)
 import Pages.Url
-import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, srOnly, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, screenReaderOnly, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 
 type alias Msg =
