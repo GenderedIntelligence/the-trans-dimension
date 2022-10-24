@@ -423,7 +423,7 @@ linkStyle =
         ]
 
 
-srOnly : Style
+screenReaderOnly : Style
 srOnly =
     batch
         [ position absolute
