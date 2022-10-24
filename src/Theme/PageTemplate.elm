@@ -117,7 +117,7 @@ viewHeader pageInfo =
         [ h1 []
             -- Hack to get llinkable absolute positioned header
             -- Probably needs a refactor with simplified styles
-            [ span [ css [ srOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
+            [ span [ css [ screenReaderOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
             , a
                 [ attribute "aria-hidden" "true"
                 , href (TransRoutes.toAbsoluteUrl Home)
