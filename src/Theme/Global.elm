@@ -424,7 +424,7 @@ linkStyle =
 
 
 screenReaderOnly : Style
-srOnly =
+screenReaderOnly =
     batch
         [ position absolute
         , left (px -10000)
