@@ -11,7 +11,7 @@ import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Path exposing (Path)
 import Route exposing (Route)
-import Theme.Global as Theme exposing (blue, darkBlue, pink, srOnly, white, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (blue, darkBlue, pink, screenReaderOnly, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
 
