@@ -45,7 +45,7 @@ viewPageHeaderTitle : String -> String -> Html Msg
 viewPageHeaderTitle pageTitle strapLine =
     div [ css [ titleStyle ] ]
         [ h1 []
-            [ span [ css [ srOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
+            [ span [ css [ screenReaderOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
             , span [ attribute "aria-hidden" "true" ] [ Theme.Logo.view ]
             ]
         ]
