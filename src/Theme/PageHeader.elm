@@ -6,12 +6,12 @@ import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch,
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
 import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span, text, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled.Attributes exposing (attribute, css, href)
 import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Path exposing (Path)
 import Route exposing (Route)
-import Theme.Global as Theme exposing (blue, darkBlue, pink, white, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (blue, darkBlue, pink, screenReaderOnly, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
 
@@ -44,7 +44,10 @@ viewPageHeader currentPath viewOptions =
 viewPageHeaderTitle : String -> String -> Html Msg
 viewPageHeaderTitle pageTitle strapLine =
     div [ css [ titleStyle ] ]
-        [ h1 [] [ Theme.Logo.view ]
+        [ h1 []
+            [ span [ css [ screenReaderOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
+            , span [ attribute "aria-hidden" "true" ] [ Theme.Logo.view ]
+            ]
         ]
 
 
