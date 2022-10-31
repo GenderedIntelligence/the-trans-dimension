@@ -2,7 +2,6 @@ module Page.NewsItemTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures exposing (sharedModelInit)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
 import Html.Attributes
@@ -11,6 +10,7 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 import Time
 

@@ -1,14 +1,13 @@
-module Data.TestFixtures exposing (events, news, partners, sharedModelInit)
+module TestFixtures exposing (events, news, partners, sharedModelInit)
 
+import Data.PlaceCal.Articles exposing (Article)
+import Data.PlaceCal.Events exposing (Event)
+import Data.PlaceCal.Partners exposing (Partner)
+import Shared
 import Time
 
 
-
-{- These are temporarily part of our src while we build wireframes.
-   Once API is functional, we will move this module into `../tests` for use there
--}
-
-
+sharedModelInit : Shared.Model
 sharedModelInit =
     { showMobileMenu = False
     , showBetaBanner = True
@@ -16,6 +15,7 @@ sharedModelInit =
     }
 
 
+partners : List Partner
 partners =
     [ { id = "1"
       , name = "Partner one"
@@ -88,6 +88,7 @@ partners =
     ]
 
 
+events : List Event
 events =
     [ { id = "1"
       , name = "Event 1 name"
@@ -118,6 +119,7 @@ events =
     ]
 
 
+news : List Article
 news =
     [ { title = "Some news"
       , body = "Integer et nibh porta, pellentesque lacus sit amet, condimentum ligula. Praesent eget lobortis felis, id hendrerit nisl. Vivamus porttitor purus vulputate arcu consequat, vitae condimentum metus molestie. Sed ac consequat eros, vel venenatis metus. Duis laoreet id velit sit amet semper. Nunc placerat risus mi, vitae lacinia lectus rutrum sed. Sed turpis ligula, interdum eu tempor vel, accumsan in arcu. Donec hendrerit molestie sapien, sed suscipit augue. Curabitur eleifend felis magna, nec egestas eros auctor ac. Mauris hendrerit venenatis vestibulum. Aliquam erat volutpat. Aenean commodo gravida est ac dapibus. Vivamus eu lacus sit amet quam sodales consequat. Nullam auctor lacus ac imperdiet fermentum. Pellentesque vel interdum nisi. Aenean malesuada ut nunc eu euismod."

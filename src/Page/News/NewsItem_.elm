@@ -3,7 +3,7 @@ module Page.News.NewsItem_ exposing (..)
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (isValidUrl, t)
-import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontStyle, fontWeight, height, italic, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
+import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontWeight, height, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
 import Css.Global exposing (descendants, typeSelector)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
@@ -11,7 +11,7 @@ import DataSource exposing (DataSource)
 import Head
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, article, div, figcaption, figure, img, p, span, text, time)
+import Html.Styled exposing (Html, article, div, figure, img, p, span, text, time)
 import Html.Styled.Attributes exposing (alt, css, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)

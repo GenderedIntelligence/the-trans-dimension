@@ -2,7 +2,6 @@ module Page.EventTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures exposing (sharedModelInit)
 import Expect
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
@@ -12,6 +11,7 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 import Time
 
@@ -27,8 +27,6 @@ viewParamsWithEvent =
         , maybePublisherUrl = Nothing
         , location = Nothing
         , maybeGeo = Nothing
-
-        --, realm = Online
         , partner =
             { id = "1"
             , name = Just "Partner one"

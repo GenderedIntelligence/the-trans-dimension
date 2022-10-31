@@ -2,7 +2,7 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, after, alignItems, alignSelf, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, inherit, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, outline, padding, padding2, padding4, pct, property, pseudoElement, px, rem, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, uppercase, url, width, wrap)
+import Css exposing (Style, active, after, alignItems, alignSelf, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, inherit, int, justifyContent, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, padding, padding2, padding4, pct, property, pseudoElement, px, rem, row, spaceBetween, stretch, textAlign, textDecoration, url, width, wrap)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
@@ -368,13 +368,6 @@ logoListItemStyle =
         , nthLastChild "1"
             [ after [ display none ] ]
         , withMediaTabletPortraitUp [ flexDirection row, alignItems center ]
-        ]
-
-
-logoImageStyle : Style
-logoImageStyle =
-    batch
-        [ margin2 (rem 0) auto
         ]
 
 

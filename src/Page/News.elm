@@ -1,7 +1,7 @@
 module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (isValidUrl, t)
+import Copy.Text exposing (t)
 import Css exposing (Style, after, auto, batch, borderBox, borderRadius, boxSizing, calc, center, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, minus, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
@@ -146,7 +146,7 @@ viewNewsArticle newsItem =
                         (NewsItem (TransRoutes.stringToSlug newsItem.title))
                     )
                 ]
-                [ text (t (NewsItemReadMore newsItem.title)) ]
+                [ text (t NewsItemReadMore) ]
             ]
         ]
 

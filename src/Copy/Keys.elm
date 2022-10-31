@@ -17,7 +17,7 @@ type Key
     | HeaderMobileMenuButton
     | HeaderAskButton
     | HeaderAskLink
-      -- Beta Banner
+      --- Beta Banner
     | BetaBannerText
     | BetaBannerCloseButtonText
       --- Site Footer
@@ -117,7 +117,7 @@ type Key
     | NewsItemTitle String
     | NewsItemMetaDescription String String
     | NewsItemReturnButton
-    | NewsItemReadMore String
+    | NewsItemReadMore
       --- Privacy
     | PrivacyTitle
     | PrivacyMetaDescription

@@ -2,7 +2,6 @@ module Page.PartnerTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures as Fixtures
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
 import Html.Attributes
@@ -11,6 +10,7 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 import Theme.Paginator as Paginator
 import Time
@@ -93,7 +93,7 @@ viewParamsWithoutEvents =
 
 eventsModel =
     { filterBy = Paginator.None
-    , visibleEvents = Fixtures.events
+    , visibleEvents = TestFixtures.events
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920
     , urlFragment = Nothing
@@ -102,7 +102,7 @@ eventsModel =
 
 viewBodyHtml localModel viewParams =
     queryFromStyledList
-        (view Nothing Fixtures.sharedModelInit localModel viewParams).body
+        (view Nothing sharedModelInit localModel viewParams).body
 
 
 suite : Test
@@ -124,8 +124,6 @@ suite =
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithPartner
                     |> Query.contains [ Html.text "Partner description" ]
-
-        -- Below: can't figure out how to get it to do multiline text so leaving it for now.
         , test "Contains address if provided" <|
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithPartner
