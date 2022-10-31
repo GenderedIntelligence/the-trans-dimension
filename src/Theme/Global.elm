@@ -6,7 +6,7 @@ import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Transitions exposing (Transition, linear, transition)
 import Html.Styled exposing (Html, a, div, img, input, label, li, p, span, text, ul)
-import Html.Styled.Attributes exposing (attribute, css, for, href, id, placeholder, src, tabindex, type_, value)
+import Html.Styled.Attributes exposing (alt, attribute, css, for, href, id, placeholder, src, tabindex, type_, value)
 import Html.Styled.Events exposing (onCheck, onClick, onInput)
 
 
@@ -842,14 +842,24 @@ generateId input =
 -- Map
 
 
-mapImageMulti : List { latitude : String, longitude : String } -> Html msg
-mapImageMulti markerList =
-    img [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/" ++ String.join "," (List.map (\marker -> "pin-l+ffffff(" ++ marker.longitude ++ "," ++ marker.latitude ++ ")") markerList) ++ "/auto/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g"), css [ mapStyle ] ] []
+mapImageMulti : String -> List { latitude : String, longitude : String } -> Html msg
+mapImageMulti altText markerList =
+    img
+        [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/" ++ String.join "," (List.map (\marker -> "pin-l+ffffff(" ++ marker.longitude ++ "," ++ marker.latitude ++ ")") markerList) ++ "/auto/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g")
+        , alt altText
+        , css [ mapStyle ]
+        ]
+        []
 
 
-mapImage : { latitude : String, longitude : String } -> Html msg
-mapImage geo =
-    img [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(" ++ geo.longitude ++ "," ++ geo.latitude ++ ")/" ++ geo.longitude ++ "," ++ geo.latitude ++ ",15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g"), css [ mapStyle ] ] []
+mapImage : String -> { latitude : String, longitude : String } -> Html msg
+mapImage altText geo =
+    img
+        [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(" ++ geo.longitude ++ "," ++ geo.latitude ++ ")/" ++ geo.longitude ++ "," ++ geo.latitude ++ ",15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g")
+        , alt altText
+        , css [ mapStyle ]
+        ]
+        []
 
 
 mapStyle : Style
