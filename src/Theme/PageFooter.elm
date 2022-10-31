@@ -6,7 +6,7 @@ import Css exposing (Style, active, after, alignItems, alignSelf, auto, backgrou
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
-import Html.Styled.Attributes exposing (action, alt, attribute, css, href, method, name, placeholder, src, target, type_, value)
+import Html.Styled.Attributes exposing (action, alt, attribute, css, for, href, id, method, name, placeholder, src, target, type_, value)
 import List exposing (append, concat)
 import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, smallInlineTitleStyle, textInputStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.Logo
@@ -81,7 +81,7 @@ viewPageFooterLogos =
             [ li [ css [ logoListItemStyle ] ]
                 [ a [ href (t GeeksForSocialChangeHomeUrl), target "_blank", css [ Theme.Logo.logoParentStyle ] ] [ Theme.Logo.viewGFSC ] ]
             , li [ css [ logoListItemStyle ] ]
-                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ] ] [] ]
+                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ], attribute "aria-label" (t GenderedIntelligenceLogoTxt) ] [] ]
             ]
         ]
 
@@ -99,13 +99,14 @@ viewPageFooterSignup =
         , method "post"
         , target "_blank"
         ]
-        [ span [ css [ subheadStyle ] ] [ text (t FooterSignupText) ]
+        [ label [ for "signup", css [ subheadStyle ] ] [ text (t FooterSignupText) ]
         , div [ css [ innerFormStyle ] ]
             [ input
                 [ placeholder (t FooterSignupEmailPlaceholder)
                 , type_ "email"
                 , name "fields[email]"
                 , css [ formInputStyle ]
+                , id "signup"
                 ]
                 []
             , input [ type_ "hidden", name "ml-submit", value "1" ] []

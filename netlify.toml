@@ -1,8 +1,0 @@
-[build]
-  publish = "dist/"
-  command = "export ELM_HOME=\"$NETLIFY_BUILD_BASE/cache/elm\" && npm install && npm run build && npm run test"
-
-[[redirects]]
-  from = "/*"
-  to = "/error404"
-  status = 404
