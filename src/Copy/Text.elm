@@ -14,6 +14,9 @@ t key =
         SiteTitle ->
             "The Trans Dimension"
 
+        SiteStrapline ->
+            "Space and spaces for us"
+
         TransDimensionDescription ->
             -- Note this is also in content/about/main.md
             -- If they should remain in sync, we should remove from there
@@ -28,11 +31,17 @@ t key =
         GenderedIntelligenceHomeUrl ->
             "https://genderedintelligence.co.uk/"
 
+        GenderedIntelligenceLogoTxt ->
+            "Gendered Intelligence"
+
         GoogleMapSearchUrl address ->
             "https://www.google.com/maps/search/?api=1&query=" ++ Url.percentEncode address
 
         SeeOnGoogleMapText ->
             "See on Google map"
+
+        MapImageAltText locationName ->
+            "A map showing the location of " ++ locationName
 
         PageMetaTitle pageTitle ->
             String.join " | " [ pageTitle, t SiteTitle ]
@@ -124,6 +133,9 @@ t key =
 
         FooterCopyright ->
             "© 2022 Gendered Intelligence. All rights reserved."
+
+        FooterPlaceCal ->
+            "Powered by PlaceCal"
 
         --- Index Page
         IndexTitle ->
@@ -222,6 +234,9 @@ t key =
 
         PartnersListEmpty ->
             "There are currently no Trans Dimension partners"
+
+        PartnersMapAltText ->
+            "A map showing the locations of all partners with listed addresses"
 
         --- Partner Page
         PartnerTitle partnerName ->

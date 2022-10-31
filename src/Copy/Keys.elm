@@ -3,13 +3,16 @@ module Copy.Keys exposing (Key(..))
 
 type Key
     = SiteTitle
+    | SiteStrapline
     | TransDimensionDescription
     | SiteLogoSrc
     | PageMetaTitle String
     | GeeksForSocialChangeHomeUrl
     | GenderedIntelligenceHomeUrl
+    | GenderedIntelligenceLogoTxt
     | GoogleMapSearchUrl String
     | SeeOnGoogleMapText
+    | MapImageAltText String
       --- Header
     | HeaderMobileMenuButton
     | HeaderAskButton
@@ -41,6 +44,7 @@ type Key
     | FooterCredit3Name
     | FooterCredit3Link
     | FooterCopyright
+    | FooterPlaceCal
       --- Index Page
     | IndexTitle
     | IndexMetaDescription
@@ -77,6 +81,7 @@ type Key
     | PartnersIntroSummary
     | PartnersIntroDescription
     | PartnersListEmpty
+    | PartnersMapAltText
       --- Partner Page
     | PartnerTitle String
     | PartnerMetaDescription String String

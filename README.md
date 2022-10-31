@@ -6,12 +6,8 @@ Front-end for [The Trans Dimension](http://transdimension.uk/), an online commun
 
 Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodhub.co.uk/build-fund-2021). Read more about the project [here](https://gfsc.studio/2021/12/14/enter-trans-dimension.html).
 
--  Staging url: https://staging--transdimension.netlify.app/
--  Temp production URL (during alpha dev): https://transdimension.netlify.app/
+-  Staging url: https://transdimension.pages.dev
 -  Production URL (holding page currently): http://transdimension.uk/
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/651caf38-e14c-44de-adc3-c772f47bab38/deploy-status)](https://app.netlify.com/sites/transdimension/deploys)
-
 
 # Development
 
@@ -39,9 +35,9 @@ We recommend integrating `elm-format@0.8.3` into your code editor, but if you do
 
 ## Testing
 
-We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/)
+We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/). It is required to run either `npm start` (quickest) or `npm build` at least once in the project before tests will work.
 
--  run tests with `npm test`
+- run tests with `npm test`
 
 ## Code & configs
 
@@ -55,13 +51,13 @@ We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm
 
 - `elm.json` for elm packages used for site
 - `elm-tooling.json` for elm packages used for code
+- `.env` is used to generate `src/Constants.elm` for elm-pages
+- `.nvmrc` contains project node version
 - `package.json` for node scripts and packages
 - `package-lock.json` for current versions of node packages
-- `.nvmrc` contains project node version
-- `.netlify.toml` for deploy config
-- `tests/*` contains test files
 - `public/*` contains static files to be copied direct to build
 - `src/*` contains app source files
+- `tests/*` contains test files
 
 ### Content & Pages
 
@@ -76,11 +72,11 @@ We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm
 
 ## Deployment
 
-Deploys to Netlify
+Deploys to Cloudflare Pages
 
 -  code is tested and linted automatically before deploy
 -  when a pull request is created, a preview site is deployed
--  when a pull request is merged into `main`, the prodtion site is deployed
+-  when a pull request is merged into `main`, the production site is deployed
 
 ## Development workflow
 

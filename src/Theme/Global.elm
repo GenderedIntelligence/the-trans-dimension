@@ -1,13 +1,13 @@
-module Theme.Global exposing (backgroundColorTransition, blue, borderTransition, buttonFloatingWrapperStyle, colorTransition, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, globalStyles, hrStyle, introTextLargeStyle, introTextSmallStyle, linkStyle, mapImage, mapImageMulti, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textInputErrorStyle, textInputStyle, viewBackButton, viewCheckbox, white, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+module Theme.Global exposing (backgroundColorTransition, blue, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, generateId, globalStyles, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, mapImage, mapImageMulti, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, screenReaderOnly, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, viewBackButton, viewCheckbox, white, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 import Color
 import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, int, italic, justifyContent, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxContent, maxWidth, minus, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, px, relative, rem, repeat, right, row, sansSerif, solid, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, width, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Transitions exposing (Transition, linear, transition)
-import Html.Styled exposing (Html, a, div, img, input, label, p, text)
-import Html.Styled.Attributes exposing (css, for, href, id, src, type_)
-import Html.Styled.Events exposing (onCheck)
+import Html.Styled exposing (Html, a, div, img, input, label, li, p, span, text, ul)
+import Html.Styled.Attributes exposing (alt, attribute, css, for, href, id, placeholder, src, tabindex, type_, value)
+import Html.Styled.Events exposing (onCheck, onClick, onInput)
 
 
 
@@ -400,6 +400,18 @@ linkStyle =
         ]
 
 
+screenReaderOnly : Style
+screenReaderOnly =
+    batch
+        [ position absolute
+        , left (px -10000)
+        , top auto
+        , width (px 1)
+        , height (px 1)
+        , overflow hidden
+        ]
+
+
 
 --- For overriding the markdown style when we don't want it...
 
@@ -602,14 +614,24 @@ generateId input =
 -- Map
 
 
-mapImageMulti : List { latitude : String, longitude : String } -> Html msg
-mapImageMulti markerList =
-    img [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/" ++ String.join "," (List.map (\marker -> "pin-l+ffffff(" ++ marker.longitude ++ "," ++ marker.latitude ++ ")") markerList) ++ "/auto/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g"), css [ mapStyle ] ] []
+mapImageMulti : String -> List { latitude : String, longitude : String } -> Html msg
+mapImageMulti altText markerList =
+    img
+        [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/" ++ String.join "," (List.map (\marker -> "pin-l+ffffff(" ++ marker.longitude ++ "," ++ marker.latitude ++ ")") markerList) ++ "/auto/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g")
+        , alt altText
+        , css [ mapStyle ]
+        ]
+        []
 
 
-mapImage : { latitude : String, longitude : String } -> Html msg
-mapImage geo =
-    img [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(" ++ geo.longitude ++ "," ++ geo.latitude ++ ")/" ++ geo.longitude ++ "," ++ geo.latitude ++ ",15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g"), css [ mapStyle ] ] []
+mapImage : String -> { latitude : String, longitude : String } -> Html msg
+mapImage altText geo =
+    img
+        [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(" ++ geo.longitude ++ "," ++ geo.latitude ++ ")/" ++ geo.longitude ++ "," ++ geo.latitude ++ ",15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g")
+        , alt altText
+        , css [ mapStyle ]
+        ]
+        []
 
 
 mapStyle : Style

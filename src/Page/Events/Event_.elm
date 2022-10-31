@@ -14,8 +14,9 @@ import Html.Styled.Attributes exposing (css, href, target)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
-import Theme.Global exposing (linkStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (darkBlue, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
+import Theme.TransMarkdown
 import View exposing (View)
 
 
@@ -112,7 +113,11 @@ viewEventInfo event =
         , case event.maybeGeo of
             Just geo ->
                 div [ css [ mapContainerStyle ] ]
-                    [ p [] [ Theme.Global.mapImage { latitude = geo.latitude, longitude = geo.longitude } ]
+                    [ p []
+                        [ Theme.Global.mapImage
+                            (t (MapImageAltText event.name))
+                            { latitude = geo.latitude, longitude = geo.longitude }
+                        ]
                     ]
 
             Nothing ->
@@ -141,8 +146,7 @@ viewInfoSection event =
                     text ""
             ]
         , div [ css [ eventDescriptionStyle ] ]
-            --  (Theme.TransMarkdown.markdownToHtml event.description)
-            [ p [] [ text event.description ] ]
+            (Theme.TransMarkdown.markdownToHtml event.description)
         ]
 
 
@@ -290,10 +294,13 @@ eventPartnerStyle =
 eventDescriptionStyle : Style
 eventDescriptionStyle =
     batch
-        [ marginTop (rem 1)
-        , marginBottom (rem 2)
-        , withMediaTabletLandscapeUp [ marginTop (rem 3) ]
-        , withMediaTabletPortraitUp [ marginTop (rem 2) ]
+        [ normalFirstParagraphStyle
+        , withMediaTabletLandscapeUp
+            [ margin2 (rem 2) auto
+            , maxWidth (px 636)
+            ]
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 2) (rem 2) ]
         ]
 
 

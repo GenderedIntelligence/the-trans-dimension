@@ -16,6 +16,7 @@ import OptimizedDecoder
 import Time
 
 
+defaultPosix : Time.Posix
 defaultPosix =
     Time.millisToPosix 0
 
@@ -32,6 +33,9 @@ isoDateStringDecoder =
         |> OptimizedDecoder.andThen
             (\isoString ->
                 OptimizedDecoder.succeed <|
+                    -- It would be better if this returned the timezone as well
+                    -- and we tracked the timezone around the app instead of
+                    -- assuming UTC due to this.
                     case Iso8601.toTime isoString of
                         Err _ ->
                             defaultPosix
@@ -39,6 +43,12 @@ isoDateStringDecoder =
                         Ok posix ->
                             posix
             )
+
+
+convertedIsoDateZone : Time.Zone
+convertedIsoDateZone =
+    -- Iso8601.toTime normalizes times from timestamps to UTC, so we follow suit
+    Time.utc
 
 
 
@@ -88,8 +98,7 @@ humanDateFromPosix timestamp =
             , DateFormat.text " "
             , DateFormat.yearNumber
             ]
-            -- Note hardcoded to UTC zone
-            Time.utc
+            convertedIsoDateZone
             timestamp
 
 
@@ -106,8 +115,7 @@ humanDayDateMonthFromPosix timestamp =
             , DateFormat.text " "
             , DateFormat.monthNameAbbreviated
             ]
-            -- Note hardcoded to UTC zone
-            Time.utc
+            convertedIsoDateZone
             timestamp
 
 
@@ -120,8 +128,7 @@ humanDayFromPosix timestamp =
         DateFormat.format
             -- Do we want the ordinal number here? This is plain.
             [ DateFormat.dayOfMonthFixed ]
-            -- Note hardcoded to UTC zone
-            Time.utc
+            convertedIsoDateZone
             timestamp
 
 
@@ -133,8 +140,7 @@ humanShortMonthFromPosix timestamp =
     else
         DateFormat.format
             [ DateFormat.monthNameAbbreviated ]
-            -- Note hardcoded to UTC zone
-            Time.utc
+            convertedIsoDateZone
             timestamp
 
 
@@ -150,6 +156,5 @@ humanTimeFromPosix timestamp =
             , DateFormat.minuteFixed
             , DateFormat.amPmLowercase
             ]
-            -- Note hardcoded to UTC zone
-            Time.utc
+            convertedIsoDateZone
             timestamp
