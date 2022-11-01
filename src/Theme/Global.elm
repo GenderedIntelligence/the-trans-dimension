@@ -528,9 +528,7 @@ viewCheckbox boxId labelText checkedValue update =
         , for boxId
         ]
         [ text labelText
-          , div [ css [ checkboxBorderStyle ] ]  [
-            input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
-            ]
+          , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
         ]
     ]
 
@@ -586,45 +584,30 @@ checkboxLabelCheckedStyle : Style
 checkboxLabelCheckedStyle =
     batch
         [ checkboxLabelStyle
+        , color white
         ]
-
-checkboxBorderStyle : Style
-checkboxBorderStyle =
-    batch [ display inlineBlock
-        , margin (em 0.5)
-        , padding (em 0.5)
-
-        , borderColor pink
-        , borderWidth (px 2)
-        , borderStyle solid
-        , borderRadius (rem 0.3)
-        , focus [ borderColor white ]
-    ]
 
 checkboxStyle : Style
 checkboxStyle =
     batch
         [ 
-        property "-webkit-appearance" "none"
+          display inlineBlock
+        , property "-webkit-appearance" "none"
         , property "appearance" "none"
 
         , width (em 1.25)
         , height (em 1.25)
-        , margin (em 0)
-        , padding (em 0)
-        --, margin (em 0.5)
-        --, padding (em 0.5)
-        --, backgroundColor darkBlue
-        --, borderColor pink
-        --, borderWidth (px 2)
-        --, borderStyle solid
-        --, cursor pointer
+        , margin (em 0.75)
+        , padding (em 0.75)
+        , backgroundColor darkBlue
+        , borderColor pink
+        , borderWidth (px 2)
+        , borderStyle solid
+        , cursor pointer
         , Css.checked 
-            [
-            backgroundColor white
-            , property "clip-path" "polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%)"
+            [ backgroundColor pink
+            , borderRadius (em 1)
             ]
-
         ]
 
 
