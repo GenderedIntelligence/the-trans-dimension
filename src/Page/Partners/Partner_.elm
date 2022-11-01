@@ -266,7 +266,7 @@ viewInfo localModel { partner, events } =
                     Page.Events.viewEvents localModel
 
                 else
-                    Page.Events.viewEventsList events
+                    Page.Events.viewEventsList (Data.PlaceCal.Events.afterDate events localModel.nowTime)
 
               else
                 p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
