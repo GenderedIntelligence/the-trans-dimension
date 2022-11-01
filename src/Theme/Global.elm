@@ -527,8 +527,11 @@ viewCheckbox boxId labelText checkedValue update =
             ]
         , for boxId
         ]
-        [ text labelText ]
-    , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
+        [ text labelText
+          , div [ css [ checkboxBorderStyle ] ]  [
+            input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
+            ]
+        ]
     ]
 
 
@@ -575,17 +578,7 @@ checkboxLabelStyle =
         , cursor pointer
         , maxWidth fitContent
         , withMediaTabletPortraitUp [ maxWidth (pct 100) ]
-        , after
-            [ property "content" "\"\""
-            , textInputStyle
-            , padding (rem 0)
-            , width (em 2)
-            , height (em 2)
-            , backgroundColor transparent
-            , property "appearance" "none"
-            , margin (rem 0.5)
-            , display block
-            ]
+        , focus [ color white ]
         ]
 
 
@@ -593,25 +586,45 @@ checkboxLabelCheckedStyle : Style
 checkboxLabelCheckedStyle =
     batch
         [ checkboxLabelStyle
-        , before
-            [ display block
-            , property "content" "\"\""
-            , width (em 1.25)
-            , height (em 1.25)
-            , margin (em 1)
-            , position absolute
-            , top (px 0)
-            , right (px 0)
-            , backgroundColor pink
-            , borderRadius (em 1)
-            ]
         ]
 
+checkboxBorderStyle : Style
+checkboxBorderStyle =
+    batch [ display inlineBlock
+        , margin (em 0.5)
+        , padding (em 0.5)
+
+        , borderColor pink
+        , borderWidth (px 2)
+        , borderStyle solid
+        , borderRadius (rem 0.3)
+        , focus [ borderColor white ]
+    ]
 
 checkboxStyle : Style
 checkboxStyle =
     batch
-        [ display none
+        [ 
+        property "-webkit-appearance" "none"
+        , property "appearance" "none"
+
+        , width (em 1.25)
+        , height (em 1.25)
+        , margin (em 0)
+        , padding (em 0)
+        --, margin (em 0.5)
+        --, padding (em 0.5)
+        --, backgroundColor darkBlue
+        --, borderColor pink
+        --, borderWidth (px 2)
+        --, borderStyle solid
+        --, cursor pointer
+        , Css.checked 
+            [
+            backgroundColor white
+            , property "clip-path" "polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%)"
+            ]
+
         ]
 
 
