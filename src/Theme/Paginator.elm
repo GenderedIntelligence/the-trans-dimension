@@ -1,4 +1,4 @@
-module Theme.Paginator exposing (Filter(..), Msg(..), ScrollDirection(..), scrollPagination, viewPagination)
+module Theme.Paginator exposing (Filter(..), Msg(..), ScrollDirection(..), scrollPagination, viewPagination, viewMiniPaginator)
 
 import Browser.Dom exposing (Error, Viewport, getViewportOf, setViewportOf)
 import Copy.Keys exposing (Key(..))
@@ -109,6 +109,48 @@ viewPagination localModel =
             ]
         ]
 
+
+viewMiniPaginator : 
+    { localModel
+        | filterBy : Filter
+        , nowTime : Time.Posix
+    }
+    -> Html Msg
+viewMiniPaginator localModel =
+    div [ css [ paginationWrapper ] ]
+        [ div [ css [ paginationContainer ] ]
+            [ ul [ css [ allEventsButtonListStyle ] ]
+                [ li [ css [ allEventsButtonListItemStyle ] ]
+                    [ button
+                        [ css
+                            (if localModel.filterBy == Past then
+                                [ important (width (px 200)), paginationButtonListItemButtonActiveStyle ]
+
+                             else
+                                [ important (width (px 200)), paginationButtonListItemButtonStyle ]
+                            )
+                        , Html.Styled.Events.onClick ClickedAllPastEvents
+                        ]
+                        [ text (t EventsFilterLabelAllPast) ]
+                    ]
+                , li [ css [ allEventsButtonListItemStyle ] ]
+                    [ button
+                        [ css
+                            (if localModel.filterBy == Future then
+                                [ important (width (px 200)), paginationButtonListItemButtonActiveStyle ]
+
+                             else
+                                [ important (width (px 200)), paginationButtonListItemButtonStyle ]
+                            )
+                        , Html.Styled.Events.onClick ClickedAllFutureEvents
+                        ]
+                        [ text (t EventsFilterLabelAllFuture) ]
+                    ]
+                ]
+            ]
+          ]
+        
+    
 
 todayTomorrowNext5DaysPosix : Time.Posix -> List ( String, Time.Posix )
 todayTomorrowNext5DaysPosix now =

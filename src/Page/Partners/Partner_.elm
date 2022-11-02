@@ -59,8 +59,15 @@ init maybeUrl sharedModel static =
             [ Task.perform GetTime Time.now
             , Task.perform GotViewport Browser.Dom.getViewport
             ]
+
+        setupFilter : List Data.PlaceCal.Events.Event -> Paginator.Filter
+        setupFilter events =
+            if List.length events < 20 then
+                Paginator.Future
+            else
+                Paginator.None
     in
-    ( { filterBy = Paginator.None
+    ( { filterBy = setupFilter static.data.events -- Paginator.None
       , visibleEvents = static.data.events
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
@@ -259,18 +266,7 @@ viewInfo localModel { partner, events } =
                 ]
             ]
         , hr [ css [ hrStyle ] ] []
-        , section [ id "events" ]
-            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
-            , if List.length events > 0 then
-                if List.length events > 20 then
-                    Page.Events.viewEvents localModel
-
-                else
-                    Page.Events.viewEventsList (Data.PlaceCal.Events.afterDate events localModel.nowTime)
-
-              else
-                p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
-            ]
+        , viewPartnerEvents localModel { partner = partner, events = events }
         , case partner.maybeGeo of
             Just geo ->
                 div [ css [ mapContainerStyle ] ]
@@ -285,6 +281,21 @@ viewInfo localModel { partner, events } =
                 div [ css [ mapContainerStyle ] ] [ text "" ]
         ]
 
+viewPartnerEvents : Model -> Data -> Html Msg
+viewPartnerEvents localModel { partner, events } =
+    section [ id "events" ]
+      [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
+      , if List.length events > 0 then
+        if List.length events > 20 then
+          Page.Events.viewEvents localModel
+
+        else
+          Page.Events.viewEventsWithMiniPaginator localModel -- (Data.PlaceCal.Events.afterDate events localModel.nowTime)
+
+      else
+        p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
+        ]
+    
 
 viewContactDetails : Maybe String -> Data.PlaceCal.Partners.Contact -> Html msg
 viewContactDetails maybeUrl contactDetails =
