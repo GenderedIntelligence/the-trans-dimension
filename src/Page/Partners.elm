@@ -116,9 +116,8 @@ viewPartner partner =
 viewMap : List Data.PlaceCal.Partners.Partner -> Html msg
 viewMap partnerList =
     let
-        allowOnlyPartnersWithLocation =
-            \partner ->
-                List.isEmpty partner.areasServed && (partner.maybeGeo /= Nothing)
+        partnersIsVenueWithLocation partner =
+            List.isEmpty partner.areasServed && (partner.maybeGeo /= Nothing)
 
         partnerToGeo =
             \partner ->
