@@ -115,23 +115,29 @@ viewPartner partner =
 
 viewMap : List Data.PlaceCal.Partners.Partner -> Html msg
 viewMap partnerList =
+    let
+        allowOnlyPartnersWithLocation =
+            \partner ->
+                List.isEmpty partner.areasServed && (partner.maybeGeo /= Nothing)
+
+        partnerToGeo =
+            \partner ->
+                case partner.maybeGeo of
+                    Just geo ->
+                        { latitude = geo.latitude
+                        , longitude = geo.longitude
+                        }
+
+                    Nothing ->
+                        { latitude = "0"
+                        , longitude = "0"
+                        }
+    in
     div [ css [ featurePlaceholderStyle ] ]
         [ Theme.mapImageMulti
             (t PartnersMapAltText)
-            (List.filter (\partner -> List.isEmpty partner.areasServed && (partner.maybeGeo /= Nothing)) partnerList
-                |> List.map
-                    (\partner ->
-                        case partner.maybeGeo of
-                            Just geo ->
-                                { latitude = geo.latitude
-                                , longitude = geo.longitude
-                                }
-
-                            Nothing ->
-                                { latitude = "0"
-                                , longitude = "0"
-                                }
-                    )
+            (List.filter allowOnlyPartnersWithLocation partnerList
+                |> List.map partnerToGeo
             )
         ]
 
