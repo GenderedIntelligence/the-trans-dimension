@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEvents, viewEventsList, viewEventsWithMiniPaginator)
+module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEvents, viewEventsList)
 
 import Browser.Dom
 import Browser.Navigation
@@ -222,13 +222,6 @@ viewEvents :
 viewEvents viewModel =
     section [ css [ eventsContainerStyle ] ]
         [ Paginator.viewPagination viewModel
-        , viewFilteredEventsList viewModel.filterBy viewModel.visibleEvents
-        ]
-
-viewEventsWithMiniPaginator : ViewModel any -> Html Msg
-viewEventsWithMiniPaginator viewModel =
-    section [ css [ eventsContainerStyle ] ]
-        [ Paginator.viewMiniPaginator viewModel
         , viewFilteredEventsList viewModel.filterBy viewModel.visibleEvents
         ]
 

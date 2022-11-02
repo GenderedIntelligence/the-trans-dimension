@@ -59,15 +59,8 @@ init maybeUrl sharedModel static =
             [ Task.perform GetTime Time.now
             , Task.perform GotViewport Browser.Dom.getViewport
             ]
-
-        setupFilter : List Data.PlaceCal.Events.Event -> Paginator.Filter
-        setupFilter events =
-            if List.length events < 20 then
-                Paginator.Future
-            else
-                Paginator.None
     in
-    ( { filterBy = setupFilter static.data.events -- Paginator.None
+    ( { filterBy = Paginator.None
       , visibleEvents = static.data.events
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
@@ -281,21 +274,52 @@ viewInfo localModel { partner, events } =
                 div [ css [ mapContainerStyle ] ] [ text "" ]
         ]
 
+
 viewPartnerEvents : Model -> Data -> Html Msg
 viewPartnerEvents localModel { partner, events } =
+    let
+        eventAreaTitle =
+            h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
+    in
     section [ id "events" ]
-      [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
-      , if List.length events > 0 then
-        if List.length events > 20 then
-          Page.Events.viewEvents localModel
+        (if List.length events > 0 then
+            if List.length events > 20 then
+                [ eventAreaTitle
+                , Page.Events.viewEvents localModel
+                ]
 
-        else
-          Page.Events.viewEventsWithMiniPaginator localModel -- (Data.PlaceCal.Events.afterDate events localModel.nowTime)
+            else
+                let
+                    futureEvents =
+                        Data.PlaceCal.Events.afterDate events localModel.nowTime
 
-      else
-        p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
-        ]
-    
+                    pastEvents =
+                        Data.PlaceCal.Events.onOrBeforeDate events localModel.nowTime
+                in
+                [ if List.length futureEvents > 0 then
+                    div []
+                        [ eventAreaTitle
+                        , Page.Events.viewEventsList futureEvents
+                        ]
+
+                  else
+                    div [] []
+                , if List.length pastEvents > 0 then
+                    div []
+                        [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerPreviousEventsText partner.name)) ]
+                        , Page.Events.viewEventsList pastEvents
+                        ]
+
+                  else
+                    div [] []
+                ]
+
+         else
+            [ eventAreaTitle
+            , p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
+            ]
+        )
+
 
 viewContactDetails : Maybe String -> Data.PlaceCal.Partners.Contact -> Html msg
 viewContactDetails maybeUrl contactDetails =
