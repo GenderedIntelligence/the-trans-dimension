@@ -118,7 +118,7 @@ viewMap partnerList =
     div [ css [ featurePlaceholderStyle ] ]
         [ Theme.mapImageMulti
             (t PartnersMapAltText)
-            (List.filter (\partner -> partner.maybeGeo /= Nothing) partnerList
+            (List.filter (\partner -> List.isEmpty partner.areasServed && (partner.maybeGeo /= Nothing)) partnerList
                 |> List.map
                     (\partner ->
                         case partner.maybeGeo of
