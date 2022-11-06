@@ -264,6 +264,9 @@ t key =
         PartnerUpcomingEventsText partnerName ->
             "Upcoming events by " ++ partnerName
 
+        PartnerPreviousEventsText partnerName ->
+            "Previous events by " ++ partnerName
+
         PartnerEventsEmptyText partnerName ->
             partnerName ++ " does not have any upcoming events. Check back for updates!"
 

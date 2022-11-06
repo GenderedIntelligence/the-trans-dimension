@@ -259,18 +259,7 @@ viewInfo localModel { partner, events } =
                 ]
             ]
         , hr [ css [ hrStyle ] ] []
-        , section [ id "events" ]
-            [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
-            , if List.length events > 0 then
-                if List.length events > 20 then
-                    Page.Events.viewEvents localModel
-
-                else
-                    Page.Events.viewEventsList events
-
-              else
-                p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
-            ]
+        , viewPartnerEvents localModel { partner = partner, events = events }
         , case partner.maybeGeo of
             Just geo ->
                 div [ css [ mapContainerStyle ] ]
@@ -284,6 +273,52 @@ viewInfo localModel { partner, events } =
             Nothing ->
                 div [ css [ mapContainerStyle ] ] [ text "" ]
         ]
+
+
+viewPartnerEvents : Model -> Data -> Html Msg
+viewPartnerEvents localModel { partner, events } =
+    let
+        eventAreaTitle =
+            h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerUpcomingEventsText partner.name)) ]
+    in
+    section [ id "events" ]
+        (if List.length events > 0 then
+            if List.length events > 20 then
+                [ eventAreaTitle
+                , Page.Events.viewEvents localModel
+                ]
+
+            else
+                let
+                    futureEvents =
+                        Data.PlaceCal.Events.afterDate events localModel.nowTime
+
+                    pastEvents =
+                        Data.PlaceCal.Events.onOrBeforeDate events localModel.nowTime
+                in
+                [ if List.length futureEvents > 0 then
+                    div []
+                        [ eventAreaTitle
+                        , Page.Events.viewEventsList futureEvents
+                        ]
+
+                  else
+                    div [] []
+                , if List.length pastEvents > 0 then
+                    div []
+                        [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerPreviousEventsText partner.name)) ]
+                        , Page.Events.viewEventsList pastEvents
+                        ]
+
+                  else
+                    div [] []
+                ]
+
+         else
+            [ eventAreaTitle
+            , p [ css [ introTextLargeStyle, color pink, important (maxWidth (px 636)) ] ] [ text (t (PartnerEventsEmptyText partner.name)) ]
+            ]
+        )
 
 
 viewContactDetails : Maybe String -> Data.PlaceCal.Partners.Contact -> Html msg

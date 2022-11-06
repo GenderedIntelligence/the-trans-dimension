@@ -90,6 +90,7 @@ type Key
     | PartnerAddressEmptyText
     | PartnerDescriptionText String String
     | PartnerUpcomingEventsText String
+    | PartnerPreviousEventsText String
     | PartnerEventsEmptyText String
     | BackToPartnersLinkText
       --- Join Us Page
