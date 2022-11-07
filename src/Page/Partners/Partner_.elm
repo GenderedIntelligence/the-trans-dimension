@@ -245,7 +245,9 @@ view maybeUrl sharedModel localModel static =
 viewInfo : Model -> Data -> Html Msg
 viewInfo localModel { partner, events } =
     section [ css [ margin2 (rem 0) (rem 0.35) ] ]
-        [ partnerLogo partner.maybeLogo partner.name
+        [ text ""
+
+        --[ partnerLogo partner.maybeLogo partner.name
         , div [ css [ descriptionStyle ] ] (Theme.TransMarkdown.markdownToHtml (t (PartnerDescriptionText partner.description partner.name)))
         , hr [ css [ hrStyle ] ] []
         , section [ css [ contactWrapperStyle ] ]
