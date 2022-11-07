@@ -1,6 +1,6 @@
-# on:
-#   schedule:
-#     - cron: "0 00,12 * * *"
+on:
+  schedule:
+    - cron: "0 08,11,14,17,20 * * *"
 
 jobs:
   build:
