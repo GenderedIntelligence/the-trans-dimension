@@ -1,5 +1,6 @@
 module Theme.PageHeader exposing (viewPageHeader)
 
+import Constants exposing (enableBetaBanner)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, bottom, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginLeft, marginRight, none, padding, padding2, padding4, paddingBottom, paddingLeft, pct, pointer, position, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, width, wrap, zIndex, zero)
@@ -53,14 +54,18 @@ viewPageHeaderTitle =
 
 viewBetaBanner : Html Msg
 viewBetaBanner =
-    div [ css [ bannerStyle ] ]
-        [ p [ css [ bannerTextStyle ] ] [ text (t BetaBannerText) ]
-        , button
-            [ onClick HideBetaBanner
-            , css [ betaCloseButtonStyle ]
+    if enableBetaBanner == "1" then
+        div [ css [ bannerStyle ] ]
+            [ p [ css [ bannerTextStyle ] ] [ text (t BetaBannerText) ]
+            , button
+                [ onClick HideBetaBanner
+                , css [ betaCloseButtonStyle ]
+                ]
+                [ text (t BetaBannerCloseButtonText) ]
             ]
-            [ text (t BetaBannerCloseButtonText) ]
-        ]
+
+    else
+        text ""
 
 
 viewPageHeaderNavigation : Bool -> List TransRoutes.Route -> Path -> Html Msg
