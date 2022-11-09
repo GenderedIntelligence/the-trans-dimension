@@ -1,9 +1,8 @@
 module Theme.PageHeader exposing (viewPageHeader)
 
-import Constants exposing (enableBetaBanner)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, bottom, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginLeft, marginRight, none, padding, padding2, padding4, paddingBottom, paddingLeft, pct, pointer, position, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, width, wrap, zIndex, zero)
+import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginLeft, marginRight, none, padding, padding2, padding4, paddingBottom, paddingLeft, pointer, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
 import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span, text, ul)
@@ -12,7 +11,7 @@ import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Path exposing (Path)
 import Route exposing (Route)
-import Theme.Global as Theme exposing (blue, darkBlue, pink, screenReaderOnly, white, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (darkBlue, pink, screenReaderOnly, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
 
@@ -23,16 +22,11 @@ headerNavigationItems =
 
 viewPageHeader :
     { path : Path, route : Maybe Route }
-    -> { showMobileMenu : Bool, showBetaBanner : Bool }
+    -> { showMobileMenu : Bool }
     -> Html Msg
 viewPageHeader currentPath viewOptions =
     header [ css [ headerStyle ] ]
-        [ if viewOptions.showBetaBanner then
-            viewBetaBanner
-
-          else
-            text ""
-        , div [ css [ barStyle ] ]
+        [ div [ css [ barStyle ] ]
             [ viewPageHeaderNavigation viewOptions.showMobileMenu headerNavigationItems currentPath.path
             ]
         , div [ css [ titleBarStyle ] ]
@@ -50,22 +44,6 @@ viewPageHeaderTitle =
             , span [ attribute "aria-hidden" "true" ] [ Theme.Logo.view ]
             ]
         ]
-
-
-viewBetaBanner : Html Msg
-viewBetaBanner =
-    if enableBetaBanner == "1" then
-        div [ css [ bannerStyle ] ]
-            [ p [ css [ bannerTextStyle ] ] [ text (t BetaBannerText) ]
-            , button
-                [ onClick HideBetaBanner
-                , css [ betaCloseButtonStyle ]
-                ]
-                [ text (t BetaBannerCloseButtonText) ]
-            ]
-
-    else
-        text ""
 
 
 viewPageHeaderNavigation : Bool -> List TransRoutes.Route -> Path -> Html Msg
@@ -336,45 +314,4 @@ askButtonStyle =
             [ padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
             , borderRadius (rem 0.3)
             ]
-        ]
-
-
-bannerStyle : Style
-bannerStyle =
-    batch
-        [ backgroundColor blue
-        , borderBottomColor darkBlue
-        , borderBottomStyle solid
-        , borderBottomWidth (rem 2)
-        , bottom zero
-        , displayFlex
-        , justifyContent spaceBetween
-        , padding (rem 1.5)
-        , position Css.fixed
-        , width (pct 100)
-        , zIndex (int 999)
-        ]
-
-
-bannerTextStyle : Style
-bannerTextStyle =
-    batch
-        [ color darkBlue
-        , fontStyle Css.italic
-        , fontSize (rem 1.5)
-        , fontWeight (int 700)
-        ]
-
-
-betaCloseButtonStyle : Style
-betaCloseButtonStyle =
-    batch
-        [ backgroundColor white
-        , border zero
-        , color darkBlue
-        , cursor pointer
-        , hover [ color pink ]
-        , margin2 (rem 0) (rem 2.5)
-        , padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
-        , borderRadius (rem 0.3)
         ]
