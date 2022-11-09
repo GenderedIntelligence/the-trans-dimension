@@ -1,7 +1,7 @@
 module Theme.Global exposing (backgroundColorTransition, blue, borderTransition, buttonFloatingWrapperStyle, checkboxStyle, colorTransition, containerPage, contentContainerStyle, contentWrapperStyle, darkBlue, darkBlueBackgroundStyle, darkBlueButtonStyle, darkBlueRgbColor, darkPurple, generateId, globalStyles, hrStyle, introTextLargeStyle, introTextSmallStyle, lightPink, linkStyle, mapImage, mapImageMulti, maxMobile, maxTabletPortrait, normalFirstParagraphStyle, pink, pinkBackgroundStyle, pinkButtonOnDarkBackgroundStyle, pinkButtonOnLightBackgroundStyle, pinkRgbColor, purple, screenReaderOnly, smallFloatingTitleStyle, smallInlineTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, textBoxStyle, textInputErrorStyle, textInputStyle, viewBackButton, viewCheckbox, white, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 import Color
-import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, int, italic, justifyContent, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxContent, maxWidth, minus, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, px, relative, rem, repeat, right, row, sansSerif, solid, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, width, zero)
+import Css exposing (Color, Style, absolute, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundRepeat, backgroundSize, batch, before, block, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderColor, borderRadius, borderStyle, borderWidth, bottom, boxSizing, calc, center, color, cursor, display, displayFlex, em, firstChild, fitContent, flexDirection, focus, fontFamilies, fontSize, fontStyle, fontWeight, height, hex, hidden, hover, inlineBlock, int, italic, justifyContent, left, letterSpacing, lineHeight, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginTop, maxContent, maxWidth, minus, none, outline, overflow, padding, padding2, padding4, paddingBottom, paddingLeft, paddingRight, pct, pointer, position, property, px, relative, rem, repeat, right, row, sansSerif, solid, textAlign, textDecoration, textTransform, top, transparent, uppercase, url, width, zero)
 import Css.Global exposing (adjacentSiblings, descendants, global, typeSelector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Transitions exposing (Transition, linear, transition)
@@ -452,7 +452,7 @@ viewCheckbox boxId labelText checkedValue update =
         , for boxId
         ]
         [ text labelText
-          , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
+        , input [ css [ checkboxStyle ], type_ "checkbox", id boxId, Html.Styled.Attributes.checked checkedValue, onCheck update ] []
         ]
     ]
 
@@ -511,14 +511,13 @@ checkboxLabelCheckedStyle =
         , color white
         ]
 
+
 checkboxStyle : Style
 checkboxStyle =
     batch
-        [ 
-          display inlineBlock
+        [ display inlineBlock
         , property "-webkit-appearance" "none"
         , property "appearance" "none"
-
         , width (em 1.25)
         , height (em 1.25)
         , margin (em 0.75)
@@ -528,7 +527,7 @@ checkboxStyle =
         , borderWidth (px 2)
         , borderStyle solid
         , cursor pointer
-        , Css.checked 
+        , Css.checked
             [ backgroundColor pink
             , borderRadius (em 1)
             ]
