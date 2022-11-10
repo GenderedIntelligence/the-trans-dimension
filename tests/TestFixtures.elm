@@ -10,7 +10,6 @@ import Time
 sharedModelInit : Shared.Model
 sharedModelInit =
     { showMobileMenu = False
-    , showBetaBanner = True
     , nowTime = Time.millisToPosix 0
     }
 

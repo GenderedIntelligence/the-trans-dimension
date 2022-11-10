@@ -51,7 +51,6 @@ type alias Msg =
 
 type alias Model =
     { showMobileMenu : Bool
-    , showBetaBanner : Bool
     , nowTime : Time.Posix
     }
 
@@ -72,7 +71,6 @@ init :
     -> ( Model, Cmd Msg )
 init navigationKey flags maybePagePath =
     ( { showMobileMenu = False
-      , showBetaBanner = True
       , nowTime = Time.millisToPosix 0
       }
     , Task.perform GetTime Time.now
@@ -91,9 +89,6 @@ update msg model =
         -- Header
         ToggleMenu ->
             ( { model | showMobileMenu = not model.showMobileMenu }, Cmd.none )
-
-        HideBetaBanner ->
-            ( { model | showBetaBanner = False }, Cmd.none )
 
         -- Shared
         SharedMsg _ ->
@@ -134,9 +129,7 @@ view sharedData page model toMsg pageView =
                 , View.plausibleTracker
                 , Theme.Global.globalStyles
                 , viewPageHeader page
-                    { showMobileMenu = model.showMobileMenu
-                    , showBetaBanner = model.showBetaBanner
-                    }
+                    { showMobileMenu = model.showMobileMenu }
                     |> Html.Styled.map toMsg
                 , Html.Styled.main_ [] pageView.body
                 , viewPageFooter
