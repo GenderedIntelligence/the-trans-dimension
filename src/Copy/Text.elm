@@ -1,5 +1,6 @@
 module Copy.Text exposing (isValidUrl, t, urlToDisplay)
 
+import Constants exposing (canonicalUrl)
 import Copy.Keys exposing (Key(..))
 import Url
 
@@ -23,7 +24,7 @@ t key =
             "The Trans Dimension is an online community hub connecting trans communities in London. We collate news, events and services by and for trans people."
 
         SiteLogoSrc ->
-            "/images/logos/tdd_logo_with_strapline_on_darkBlue.png"
+            canonicalUrl ++ "images/logos/tdd_logo_with_strapline_on_darkBlue.png"
 
         GeeksForSocialChangeHomeUrl ->
             "https://gfsc.studio/"
