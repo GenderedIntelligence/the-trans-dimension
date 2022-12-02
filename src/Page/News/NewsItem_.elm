@@ -18,6 +18,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Theme.Global exposing (viewBackButton, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
+import Theme.TransMarkdown exposing (markdownToHtml)
 import View exposing (View)
 
 
@@ -129,7 +130,7 @@ viewArticle newsItem =
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
         , articleImage newsItem.maybeImage newsItem.body
-        , div [ css [ articleContentStyle ] ] [ text newsItem.body ]
+        , div [ css [ articleContentStyle ] ] (markdownToHtml newsItem.body)
         ]
 
 
