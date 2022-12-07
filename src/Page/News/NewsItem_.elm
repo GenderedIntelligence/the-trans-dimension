@@ -18,7 +18,7 @@ import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Theme.Global exposing (viewBackButton, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
-import Theme.TransMarkdown exposing (markdownToHtml)
+import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
 
 
