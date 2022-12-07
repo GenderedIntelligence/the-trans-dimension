@@ -130,7 +130,7 @@ viewArticle newsItem =
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
         , articleImage newsItem.maybeImage newsItem.body
-        , div [ css [ articleContentStyle ] ] (markdownToHtml newsItem.body)
+        , div [ css [ articleContentStyle ] ] (TransMarkdown.markdownToHtml newsItem.body)
         ]
 
 
