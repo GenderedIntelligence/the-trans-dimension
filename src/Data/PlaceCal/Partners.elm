@@ -38,8 +38,11 @@ type alias Contact =
 
 
 type alias Geo =
-    { latitude : String
-    , longitude : String
+    -- Bug: We expect if there is a postcode in the address, these exist.
+    -- But, in practice, sometimes they don't see:
+    -- https://github.com/geeksforsocialchange/PlaceCal/issues/1639
+    { latitude : Maybe String
+    , longitude : Maybe String
     }
 
 
@@ -134,8 +137,12 @@ decodePartner =
 geoDecoder : OptimizedDecoder.Decoder Geo
 geoDecoder =
     OptimizedDecoder.succeed Geo
-        |> OptimizedDecoder.Pipeline.required "latitude" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "longitude" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "latitude"
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
+        |> OptimizedDecoder.Pipeline.optional "longitude"
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
 
 
 contactDecoder : OptimizedDecoder.Decoder Contact
