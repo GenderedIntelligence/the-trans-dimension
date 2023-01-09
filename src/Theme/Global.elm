@@ -632,7 +632,7 @@ mapImage :
     -> { latitude : Maybe String, longitude : Maybe String }
     -> Html msg
 mapImage altText geo =
-    if geo.latitude == Nothing || geo.longitude == Nothing then
+    if not (markerHasLatAndLong geo) then
         text ""
 
     else
