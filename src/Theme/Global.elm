@@ -609,24 +609,70 @@ generateId input =
 -- Map
 
 
-mapImageMulti : String -> List { latitude : String, longitude : String } -> Html msg
+mapImageMulti :
+    String
+    -> List { latitude : Maybe String, longitude : Maybe String }
+    -> Html msg
 mapImageMulti altText markerList =
     img
-        [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/" ++ String.join "," (List.map (\marker -> "pin-l+ffffff(" ++ marker.longitude ++ "," ++ marker.latitude ++ ")") markerList) ++ "/auto/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g")
+        [ src
+            ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/"
+                ++ String.join ","
+                    (List.map (\marker -> "pin-l+ffffff(" ++ marker.longitude ++ "," ++ marker.latitude ++ ")") (removeNullCoords markerList))
+                ++ "/auto/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g"
+            )
         , alt altText
         , css [ mapStyle ]
         ]
         []
 
 
-mapImage : String -> { latitude : String, longitude : String } -> Html msg
+mapImage :
+    String
+    -> { latitude : Maybe String, longitude : Maybe String }
+    -> Html msg
 mapImage altText geo =
+    if not (markerHasLatAndLong geo) then
+        text ""
+
+    else
+        mapImageHtml
+            ( altText
+            , maybeLatLongToLatLongWithDefault0 geo
+            )
+
+
+mapImageHtml : ( String, { latitude : String, longitude : String } ) -> Html msg
+mapImageHtml ( altText, geo ) =
     img
         [ src ("https://api.mapbox.com/styles/v1/studiosquid/cl082tq5a001o14mgaatx9fze/static/pin-l+ffffff(" ++ geo.longitude ++ "," ++ geo.latitude ++ ")/" ++ geo.longitude ++ "," ++ geo.latitude ++ ",15,0/1140x400@2x?access_token=pk.eyJ1Ijoic3R1ZGlvc3F1aWQiLCJhIjoiY2o5bzZmNzhvMWI2dTJ3bnQ1aHFnd3loYSJ9.NC3T07dEr_Aw7wo1O8aF-g")
         , alt altText
         , css [ mapStyle ]
         ]
         []
+
+
+removeNullCoords :
+    List { latitude : Maybe String, longitude : Maybe String }
+    -> List { latitude : String, longitude : String }
+removeNullCoords markerList =
+    List.filter (\marker -> markerHasLatAndLong marker) markerList
+        |> List.map maybeLatLongToLatLongWithDefault0
+
+
+markerHasLatAndLong : { latitude : Maybe String, longitude : Maybe String } -> Bool
+markerHasLatAndLong markerData =
+    not (markerData.latitude == Nothing || markerData.longitude == Nothing)
+
+
+maybeLatLongToLatLongWithDefault0 :
+    { latitude : Maybe String, longitude : Maybe String }
+    -> { latitude : String, longitude : String }
+maybeLatLongToLatLongWithDefault0 { latitude, longitude } =
+    -- Return 0, 0 as coords if there is no data
+    { latitude = Maybe.withDefault "0" latitude
+    , longitude = Maybe.withDefault "0" longitude
+    }
 
 
 mapStyle : Style
