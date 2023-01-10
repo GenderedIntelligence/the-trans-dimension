@@ -122,13 +122,11 @@ viewMap partnerList =
         partnerToGeo partner =
             case partner.maybeGeo of
                 Just geo ->
-                    { latitude = geo.latitude
-                    , longitude = geo.longitude
-                    }
+                    geo
 
                 Nothing ->
-                    { latitude = "0"
-                    , longitude = "0"
+                    { latitude = Nothing
+                    , longitude = Nothing
                     }
     in
     div [ css [ featurePlaceholderStyle ] ]
