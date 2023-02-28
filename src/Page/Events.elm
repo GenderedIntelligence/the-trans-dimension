@@ -25,6 +25,7 @@ import Theme.PageTemplate as PageTemplate
 import Theme.Paginator as Paginator exposing (Msg(..))
 import Time
 import View exposing (View)
+import Theme.Paginator exposing (Filter(..))
 
 
 type alias Model =
@@ -244,6 +245,9 @@ viewFilteredEventsList filter filteredEvents =
                     (case filter of
                         Paginator.Day _ ->
                             t EventsEmptyText
+
+                        Paginator.Past ->
+                            t PreviousEventsEmptyTextAll
 
                         _ ->
                             t EventsEmptyTextAll
