@@ -186,7 +186,7 @@ t key =
             "There are no upcoming events on this date. Check back for updates!"
 
         PreviousEventsEmptyTextAll ->
-            "There were no past events."
+            "There have been no events in the recent past."
 
         EventsFilterLabelToday ->
             "Today"
