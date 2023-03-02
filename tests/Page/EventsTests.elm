@@ -38,6 +38,13 @@ eventsModelNoEvents =
     , viewportWidth = 1920
     }
 
+eventsModelNoPreviousEvents =
+    { filterBy = Paginator.Past
+    , visibleEvents = []
+    , nowTime = Time.millisToPosix 0
+    , viewportWidth = 1920
+    }
+
 
 viewParamsWithoutEvents =
     { data = []
@@ -92,4 +99,8 @@ suite =
             \_ ->
                 viewBodyHtml eventsModelNoEvents viewParamsWithoutEvents
                     |> Query.contains [ Html.text (t EventsEmptyTextAll) ]
+        , test "Contains previous events empty text if there are no previous events" <|
+            \_ ->
+                viewBodyHtml eventsModelNoPreviousEvents viewParamsWithoutEvents
+                    |> Query.contains [ Html.text (t PreviousEventsEmptyTextAll) ]
         ]

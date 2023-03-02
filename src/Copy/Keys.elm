@@ -62,6 +62,7 @@ type Key
     | EventsSubHeading
     | EventsEmptyTextAll
     | EventsEmptyText
+    | PreviousEventsEmptyTextAll
     | EventsFilterLabelToday
     | EventsFilterLabelTomorrow
     | EventsFilterLabelAllPast
