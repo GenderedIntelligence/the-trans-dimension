@@ -94,7 +94,7 @@ viewPageFooterSignup =
         [ css
             [ formStyle
             ]
-        , action "https://static.mailerlite.com/webforms/submit/g2r6z4"
+        , action "https://news.gfsc.studio/subscription/form"
         , attribute "data-code" "g2r6z4"
         , method "post"
         , target "_blank"
@@ -104,13 +104,12 @@ viewPageFooterSignup =
             [ input
                 [ placeholder (t FooterSignupEmailPlaceholder)
                 , type_ "email"
-                , name "fields[email]"
+                , name "email"
                 , css [ formInputStyle ]
                 , id "signup"
                 ]
                 []
-            , input [ type_ "hidden", name "ml-submit", value "1" ] []
-            , input [ type_ "hidden", name "anticsrf", value "true" ] []
+            , input [ type_ "hidden", id "6735a", name "l", value "6735a059-52dd-4843-b76c-4d2b210462d3" ] []
             , button
                 [ type_ "submit"
                 , css [ pinkButtonOnDarkBackgroundStyle, signupButtonStyle ]
