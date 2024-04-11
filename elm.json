@@ -22,7 +22,7 @@
             "hecrj/elm-slug": "1.0.2",
             "rtfeldman/elm-css": "17.0.5",
             "rtfeldman/elm-iso8601-date-strings": "1.1.4",
-            "ryannhg/date-format": "2.3.0"
+            "ryan-haskell/date-format": "1.0.0"
         },
         "indirect": {
             "MartinSStewart/elm-serialize": "1.2.6",
