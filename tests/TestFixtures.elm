@@ -27,8 +27,8 @@ partners =
                 , addressRegion = "London"
                 , postalCode = "SE1 1RB"
                 }
-      , contactDetails =
-            { email = "partner1@example.com", telephone = "020 7946 0100" }
+      , maybeContactDetails =
+            Just { email = "partner1@example.com", telephone = "020 7946 0100" }
       , areasServed = []
       , maybeGeo = Nothing
       , maybeLogo = Nothing
@@ -44,8 +44,8 @@ partners =
                 , addressRegion = "London"
                 , postalCode = "WC1N 3XX"
                 }
-      , contactDetails =
-            { email = "partner2@example.com", telephone = "020 7946 0200" }
+      , maybeContactDetails =
+            Just { email = "partner2@example.com", telephone = "020 7946 0200" }
       , areasServed =
             [ { name = "Central London", abbreviatedName = Just "Central Ldn" }
             ]
@@ -58,8 +58,8 @@ partners =
       , description = "Partner three intro"
       , maybeUrl = Nothing
       , maybeAddress = Nothing
-      , contactDetails =
-            { email = "partner3@example.com", telephone = "0121 496 0300" }
+      , maybeContactDetails =
+            Just { email = "partner3@example.com", telephone = "020 7946 0300" }
       , areasServed =
             [ { name = "Birmingham", abbreviatedName = Nothing }
             , { name = "London", abbreviatedName = Nothing }
@@ -78,8 +78,7 @@ partners =
                 , addressRegion = "London"
                 , postalCode = "N2 2AA"
                 }
-      , contactDetails =
-            { email = "partner4@example.com", telephone = "020 7946 0400" }
+      , maybeContactDetails = Nothing
       , areasServed = []
       , maybeGeo = Nothing
       , maybeLogo = Nothing

@@ -10,7 +10,7 @@ import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, text)
+import Html.Styled exposing (Html, a, address, div, h3, hr, img, p, section, span, text)
 import Html.Styled.Attributes exposing (alt, css, href, id, src, target)
 import Page exposing (PageWithState, StaticPayload)
 import Page.Events
@@ -253,7 +253,7 @@ viewInfo localModel { partner, events } =
         , section [ css [ contactWrapperStyle ] ]
             [ div [ css [ contactSectionStyle ] ]
                 [ h3 [ css [ contactHeadingStyle, Theme.Global.smallInlineTitleStyle ] ] [ text (t PartnerContactsHeading) ]
-                , viewContactDetails partner.maybeUrl partner.contactDetails
+                , viewContactDetails partner.maybeUrl partner.maybeContactDetails
                 ]
             , div [ css [ contactSectionStyle ] ]
                 [ h3 [ css [ contactHeadingStyle, Theme.Global.smallInlineTitleStyle ] ] [ text (t PartnerAddressHeading) ]
@@ -323,34 +323,45 @@ viewPartnerEvents localModel { partner, events } =
         )
 
 
-viewContactDetails : Maybe String -> Data.PlaceCal.Partners.Contact -> Html msg
-viewContactDetails maybeUrl contactDetails =
-    address []
-        [ if String.length contactDetails.telephone > 0 then
-            p [ css [ contactItemStyle ] ] [ text contactDetails.telephone ]
+viewContactDetails : Maybe String -> Maybe Data.PlaceCal.Partners.Contact -> Html msg
+viewContactDetails maybeUrl maybeContactDetails =
+    if maybeUrl == Nothing && maybeContactDetails == Nothing then
+        p [ css [ contactItemStyle ] ] [ text (t PartnerContactsEmptyText) ]
 
-          else
-            text ""
-        , if String.length contactDetails.email > 0 then
-            p
-                [ css [ contactItemStyle ] ]
-                [ a
-                    [ href ("mailto:" ++ contactDetails.email)
-                    , css [ linkStyle ]
-                    ]
-                    [ text contactDetails.email
-                    ]
-                ]
+    else
+        address []
+            [ case maybeContactDetails of
+                Just contactDetails ->
+                    span []
+                        [ if String.length contactDetails.telephone > 0 then
+                            p [ css [ contactItemStyle ] ] [ text contactDetails.telephone ]
 
-          else
-            text ""
-        , case maybeUrl of
-            Just url ->
-                p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text (Copy.Text.urlToDisplay url) ] ]
+                          else
+                            text ""
+                        , if String.length contactDetails.email > 0 then
+                            p
+                                [ css [ contactItemStyle ] ]
+                                [ a
+                                    [ href ("mailto:" ++ contactDetails.email)
+                                    , css [ linkStyle ]
+                                    ]
+                                    [ text contactDetails.email
+                                    ]
+                                ]
 
-            Nothing ->
-                text ""
-        ]
+                          else
+                            text ""
+                        ]
+
+                Nothing ->
+                    text ""
+            , case maybeUrl of
+                Just url ->
+                    p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ linkStyle ] ] [ text (Copy.Text.urlToDisplay url) ] ]
+
+                Nothing ->
+                    text ""
+            ]
 
 
 viewAddress : Maybe Data.PlaceCal.Partners.Address -> Html msg

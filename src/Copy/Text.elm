@@ -245,6 +245,9 @@ t key =
         PartnerContactsHeading ->
             "Get in touch"
 
+        PartnerContactsEmptyText ->
+            "No contact details provided"
+
         PartnerAddressHeading ->
             "Address"
 

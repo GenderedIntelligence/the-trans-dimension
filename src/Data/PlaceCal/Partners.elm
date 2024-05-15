@@ -16,7 +16,7 @@ type alias Partner =
     , summary : String
     , description : String
     , maybeUrl : Maybe String
-    , contactDetails : Contact
+    , maybeContactDetails : Maybe Contact
     , maybeAddress : Maybe Address
     , areasServed : List ServiceArea
     , maybeGeo : Maybe Geo
@@ -59,7 +59,7 @@ emptyPartner =
     , summary = ""
     , description = ""
     , maybeUrl = Nothing
-    , contactDetails = { email = "", telephone = "" }
+    , maybeContactDetails = Nothing
     , maybeAddress = Nothing
     , areasServed = []
     , maybeGeo = Nothing
@@ -127,7 +127,7 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.optional "summary" OptimizedDecoder.string ""
         |> OptimizedDecoder.Pipeline.required "description" OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.optional "url" (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
-        |> OptimizedDecoder.Pipeline.required "contact" contactDecoder
+        |> OptimizedDecoder.Pipeline.optional "contact" (OptimizedDecoder.map Just contactDecoder) Nothing
         |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just addressDecoder) Nothing
         |> OptimizedDecoder.Pipeline.required "areasServed" (OptimizedDecoder.list serviceAreaDecoder)
         |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
@@ -189,7 +189,7 @@ eventPartnerFromId partnerList partnerId =
         |> List.map
             (\partner ->
                 { name = Just partner.name
-                , maybeContactDetails = Just partner.contactDetails
+                , maybeContactDetails = partner.maybeContactDetails
                 , id = partner.id
                 , maybeUrl = partner.maybeUrl
                 }
