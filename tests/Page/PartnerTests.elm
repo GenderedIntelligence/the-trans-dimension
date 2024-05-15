@@ -24,10 +24,11 @@ viewParamsWithPartner =
             , description = "Partner description"
             , summary = "Partner summary"
             , maybeUrl = Just "https://www.example.com"
-            , contactDetails =
-                { email = "partner@example.com"
-                , telephone = "0161 496 0000"
-                }
+            , maybeContactDetails =
+                Just
+                    { email = "partner@example.com"
+                    , telephone = "0161 496 0000"
+                    }
             , maybeAddress =
                 Just
                     { streetAddress = "1 The Street"
@@ -69,10 +70,23 @@ viewParamsWithPartner =
     }
 
 
-viewParamsWithoutMaybes =
+viewParamsWithoutUrlOrAddress =
     let
         setData oldData =
             { oldData | maybeUrl = Nothing, maybeAddress = Nothing }
+    in
+    { viewParamsWithPartner
+        | data =
+            { partner = setData viewParamsWithPartner.data.partner
+            , events = viewParamsWithPartner.data.events
+            }
+    }
+
+
+viewParamsWithoutContactDetailsOrUrl =
+    let
+        setData oldData =
+            { oldData | maybeUrl = Nothing, maybeContactDetails = Nothing }
     in
     { viewParamsWithPartner
         | data =
@@ -137,9 +151,14 @@ suite =
                         ]
         , test "Contains address empty text if not provided" <|
             \_ ->
-                viewBodyHtml eventsModel viewParamsWithoutMaybes
+                viewBodyHtml eventsModel viewParamsWithoutUrlOrAddress
                     |> Query.contains
                         [ Html.text (t PartnerAddressEmptyText) ]
+        , test "Contains contact empty text if no details or url" <|
+            \_ ->
+                viewBodyHtml eventsModel viewParamsWithoutContactDetailsOrUrl
+                    |> Query.contains
+                        [ Html.text (t PartnerContactsEmptyText) ]
         , test "Contact details contain url if provided" <|
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithPartner
@@ -153,22 +172,6 @@ suite =
                                     [ Selector.text "www.example.com"
                                     ]
                                 , Selector.attribute (Html.Attributes.href "https://www.example.com")
-                                ]
-                            ]
-                        ]
-        , test "Can have contact details without url" <|
-            \_ ->
-                viewBodyHtml eventsModel viewParamsWithoutMaybes
-                    |> Query.has
-                        [ Selector.tag "address"
-                        , Selector.containing
-                            [ Selector.tag "p"
-                            , Selector.containing
-                                [ Selector.tag "a"
-                                , Selector.containing
-                                    [ Selector.text "partner@example.com"
-                                    ]
-                                , Selector.attribute (Html.Attributes.href "mailto:partner@example.com")
                                 ]
                             ]
                         ]
