@@ -148,8 +148,8 @@ geoDecoder =
 contactDecoder : OptimizedDecoder.Decoder Contact
 contactDecoder =
     OptimizedDecoder.succeed Contact
-        |> OptimizedDecoder.Pipeline.required "email" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "telephone" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "email" OptimizedDecoder.string ""
+        |> OptimizedDecoder.Pipeline.optional "telephone" OptimizedDecoder.string ""
 
 
 addressDecoder : OptimizedDecoder.Decoder Address
