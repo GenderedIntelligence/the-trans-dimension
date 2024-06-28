@@ -26,7 +26,7 @@ Make sure you copy `.env.example` over into `.env` and edit as appropriate! This
 ## Build
 
 - `npm start` to start a dev server on http://localhost:3000
-- `npm build` generate a production build in `dist/`
+- `npm run build` generate a production build in `dist/`
 
 ## Formatting
 
