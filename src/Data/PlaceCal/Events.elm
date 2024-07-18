@@ -131,7 +131,7 @@ allEventsQuery : Json.Encode.Value
 allEventsQuery =
     Json.Encode.object
         [ ( "query"
-            -- Note hardcoded to load events from 2022-09-01
+            -- Note hardcoded to load events from 2024-03 to 2025-06
           , Json.Encode.string """
             query { eventsByFilter(tagId: 3, fromDate: "2024-03-01 00:00", toDate: "2025-06-01 00:00") {
               id
