@@ -133,7 +133,7 @@ allEventsQuery =
         [ ( "query"
             -- Note hardcoded to load events from 2022-09-01
           , Json.Encode.string """
-            query { eventsByFilter(tagId: 3, fromDate: "2024-01-01 00:00", toDate: "2025-06-15 00:00") {
+            query { eventsByFilter(tagId: 3, fromDate: "2024-03-01 00:00", toDate: "2025-06-01 00:00") {
               id
               name
               summary
