@@ -1,4 +1,4 @@
-module Page.Privacy exposing (Data, Model, Msg, page, view)
+module Route.Privacy exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

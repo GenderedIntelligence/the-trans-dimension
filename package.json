@@ -1,5 +1,6 @@
 {
   "name": "the-trans-dimension",
+  "type": "module",
   "scripts": {
     "postinstall": "elm-tooling install",
     "start": "elm-constants && elm-pages dev --port 3030",

@@ -1,4 +1,4 @@
-module Page.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEvents, viewEventsList)
+module Route.Events exposing (Data, Model, Msg, addPartnerNamesToEvents, page, view, viewEvents, viewEventsList)
 
 import Browser.Dom
 import Browser.Navigation
@@ -22,10 +22,9 @@ import Shared
 import Task
 import Theme.Global exposing (borderTransition, colorTransition, introTextLargeStyle, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
-import Theme.Paginator as Paginator exposing (Msg(..))
+import Theme.Paginator as Paginator exposing (Filter(..), Msg(..))
 import Time
 import View exposing (View)
-import Theme.Paginator exposing (Filter(..))
 
 
 type alias Model =

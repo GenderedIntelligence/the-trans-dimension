@@ -1,4 +1,4 @@
-module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
+module Route.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (isValidUrl, t)

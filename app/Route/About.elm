@@ -1,4 +1,4 @@
-module Page.About exposing (Data, Model, Msg, page, view)
+module Route.About exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

@@ -1,4 +1,4 @@
-module Page.JoinUs exposing (Data, Model, Msg, blankForm, initialFormState, page, view)
+module Route.JoinUs exposing (Data, Model, Msg, blankForm, initialFormState, page, view)
 
 import Browser.Navigation
 import Constants exposing (joinUsFunctionUrl)

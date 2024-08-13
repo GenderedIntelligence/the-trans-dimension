@@ -1,5 +1,5 @@
 {
-    "path": "./src",
+    "path": "./app",
     "moduleName": "Constants",
     "values": [
         "CANONICAL_URL",

@@ -1,4 +1,4 @@
-module Page.News.NewsItem_ exposing (..)
+module Route.News.NewsItem_ exposing (..)
 
 import Array exposing (Array)
 import Copy.Keys exposing (Key(..))

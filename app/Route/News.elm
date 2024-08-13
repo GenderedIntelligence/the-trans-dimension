@@ -1,4 +1,4 @@
-module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
+module Route.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

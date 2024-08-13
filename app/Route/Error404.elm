@@ -1,4 +1,4 @@
-module Page.Error404 exposing (Data, Model, Msg, page)
+module Route.Error404 exposing (Data, Model, Msg, page)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

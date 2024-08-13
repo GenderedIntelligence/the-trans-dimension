@@ -1,4 +1,4 @@
-module Page.Partners.Partner_ exposing (Data, Model, Msg, page, view)
+module Route.Partners.Partner_ exposing (Data, Model, Msg, page, view)
 
 import Browser.Dom
 import Browser.Navigation
