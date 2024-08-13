@@ -8,10 +8,13 @@
     "test": "elm-constants && elm-test-rs"
   },
   "devDependencies": {
+    "elm-codegen": "^0.5.3",
     "elm-constants": "^1.0.0",
-    "elm-optimize-level-2": "0.2.3",
-    "elm-pages": "2.1.10",
-    "elm-review": "^2.5.5",
-    "elm-tooling": "^1.4.0"
+    "elm-optimize-level-2": "^0.3.5",
+    "elm-pages": "^3.0.14",
+    "elm-review": "^2.12.0",
+    "elm-tooling": "^1.15.1",
+    "lamdera": "^0.19.1-1.2.1-1",
+    "vite": "^5.3.3"
   }
 }
