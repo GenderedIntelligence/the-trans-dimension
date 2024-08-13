@@ -84,6 +84,7 @@ type Key
     | PartnerTitle String
     | PartnerMetaDescription String String
     | PartnerContactsHeading
+    | PartnerContactsEmptyText
     | PartnerAddressHeading
     | PartnerAddressEmptyText
     | PartnerDescriptionText String String
