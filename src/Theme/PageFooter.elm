@@ -2,11 +2,11 @@ module Theme.PageFooter exposing (viewPageFooter)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, active, after, alignItems, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, borderColor, borderRadius, borderStyle, borderWidth, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, int, justifyContent, letterSpacing, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, outline, padding, padding2, padding4, pct, property, px, rem, row, solid, spaceAround, spaceBetween, stretch, textAlign, textDecoration, textTransform, uppercase, url, width, wrap)
+import Css exposing (Style, active, after, alignItems, alignSelf, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, inherit, int, justifyContent, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, padding, padding2, padding4, pct, property, pseudoElement, px, rem, row, spaceBetween, stretch, textAlign, textDecoration, url, width, wrap)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
-import Html.Styled.Attributes exposing (action, attribute, css, href, method, name, placeholder, src, target, type_, value)
+import Html.Styled.Attributes exposing (action, alt, attribute, css, for, href, id, method, name, placeholder, src, target, type_, value)
 import List exposing (append, concat)
 import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, smallInlineTitleStyle, textInputStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.Logo
@@ -46,7 +46,14 @@ viewPageFooter =
 
 viewPageFooterLogo : Html msg
 viewPageFooterLogo =
-    div [ css [ footerLogoStyle ] ] [ img [ src "/images/logos/TDD_Logo_Footer.svg", css [ footerLogoImageStyle ] ] [] ]
+    div [ css [ footerLogoStyle ] ]
+        [ img
+            [ src "/images/logos/TDD_Logo_Footer.svg"
+            , alt (t SiteTitle)
+            , css [ footerLogoImageStyle ]
+            ]
+            []
+        ]
 
 
 viewPageFooterNavigation : Html msg
@@ -74,7 +81,7 @@ viewPageFooterLogos =
             [ li [ css [ logoListItemStyle ] ]
                 [ a [ href (t GeeksForSocialChangeHomeUrl), target "_blank", css [ Theme.Logo.logoParentStyle ] ] [ Theme.Logo.viewGFSC ] ]
             , li [ css [ logoListItemStyle ] ]
-                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ] ] [] ]
+                [ a [ href (t GenderedIntelligenceHomeUrl), target "_blank", css [ logoGIStyle ], attribute "aria-label" (t GenderedIntelligenceLogoTxt) ] [] ]
             ]
         ]
 
@@ -87,25 +94,25 @@ viewPageFooterSignup =
         [ css
             [ formStyle
             ]
-        , action "https://static.mailerlite.com/webforms/submit/g2r6z4"
+        , action "https://news.gfsc.studio/subscription/form"
         , attribute "data-code" "g2r6z4"
         , method "post"
         , target "_blank"
         ]
-        [ span [ css [ subheadStyle ] ] [ text (t FooterSignupText) ]
+        [ label [ for "signup", css [ subheadStyle ] ] [ text (t FooterSignupText) ]
         , div [ css [ innerFormStyle ] ]
             [ input
-                [ placeholder "Your email address"
+                [ placeholder (t FooterSignupEmailPlaceholder)
                 , type_ "email"
-                , name "fields[email]"
+                , name "email"
                 , css [ formInputStyle ]
+                , id "signup"
                 ]
                 []
-            , input [ type_ "hidden", name "ml-submit", value "1" ] []
-            , input [ type_ "hidden", name "anticsrf", value "true" ] []
+            , input [ type_ "hidden", id "6735a", name "l", value "6735a059-52dd-4843-b76c-4d2b210462d3" ] []
             , button
                 [ type_ "submit"
-                , css [ pinkButtonOnDarkBackgroundStyle, padding (rem 0.25), flexShrink (int 0) ]
+                , css [ pinkButtonOnDarkBackgroundStyle, signupButtonStyle ]
                 ]
                 [ text (t FooterSignupButton) ]
             ]
@@ -149,7 +156,14 @@ viewPageFooterCredit creditTitle creditList =
             [ css [ infoParagraphStyle ] ]
             (concat [ List.intersperse (text ", ") (List.map viewPageFooterCreditItem creditList), [ span [] [ text "." ] ] ])
         , p [ css [ infoParagraphStyle ] ] [ text (t FooterCopyright) ]
-        , img [ src "/images/logos/footer_placecal.svg", css [ poweredByPlaceCalStyle ] ] []
+        , a [ href "https://placecal.org" ]
+            [ img
+                [ src "/images/logos/footer_placecal.svg"
+                , alt (t FooterPlaceCal)
+                , css [ poweredByPlaceCalStyle ]
+                ]
+                []
+            ]
         ]
 
 
@@ -356,13 +370,6 @@ logoListItemStyle =
         ]
 
 
-logoImageStyle : Style
-logoImageStyle =
-    batch
-        [ margin2 (rem 0) auto
-        ]
-
-
 logoGIStyle : Style
 logoGIStyle =
     batch
@@ -373,6 +380,7 @@ logoGIStyle =
         , hover [ backgroundImage (url "/images/logos/GI_pink_rollover.png") ]
         , focus [ backgroundImage (url "/images/logos/GI_white.png") ]
         , active [ backgroundImage (url "/images/logos/GI_white.png") ]
+        , alignSelf center
         ]
 
 
@@ -406,7 +414,13 @@ formStyle =
 innerFormStyle : Style
 innerFormStyle =
     batch
-        [ withMediaTabletPortraitUp [ displayFlex, justifyContent center, alignItems center, margin2 (rem 1.5) (rem 0) ] ]
+        [ withMediaTabletPortraitUp
+            [ displayFlex
+            , justifyContent center
+            , alignItems center
+            , margin2 (rem 1.5) (rem 0)
+            ]
+        ]
 
 
 formInputStyle : Style
@@ -418,7 +432,22 @@ formInputStyle =
         , textAlign center
         , width (pct 100)
         , fontSize (rem 1.2)
+        , pseudoElement "placeholder" [ color white ]
         , withMediaTabletPortraitUp [ margin4 (rem 0) (rem 1) (rem 0) (rem 0) ]
+        ]
+
+
+signupButtonStyle : Style
+signupButtonStyle =
+    batch
+        [ padding2 (rem 0.25) (rem 1.25)
+        , maxWidth none
+        , width (pct 100)
+        , withMediaTabletPortraitUp
+            [ flexShrink (int 0)
+            , maxWidth inherit
+            , width auto
+            ]
         ]
 
 

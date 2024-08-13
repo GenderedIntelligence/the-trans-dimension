@@ -2,42 +2,47 @@ module Theme.PageHeader exposing (viewPageHeader)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginRight, none, padding, padding2, paddingBottom, paddingLeft, pointer, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
+import Css exposing (Style, alignItems, alignSelf, auto, backgroundColor, batch, block, border, borderBottomColor, borderBottomStyle, borderBottomWidth, borderBox, borderRadius, boxSizing, center, color, column, columnReverse, cursor, display, displayFlex, flexDirection, flexGrow, flexWrap, fontSize, fontWeight, hover, int, justifyContent, lighter, margin, margin2, marginLeft, marginRight, none, padding, padding2, padding4, paddingBottom, paddingLeft, pointer, rem, row, solid, spaceBetween, textAlign, textDecoration, transparent, unset, wrap, zero)
 import Css.Transitions exposing (transition)
 import Helpers.TransRoutes as TransRoutes exposing (..)
-import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, span, text, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span, text, ul)
+import Html.Styled.Attributes exposing (attribute, css, href)
 import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
 import Path exposing (Path)
 import Route exposing (Route)
-import Theme.Global as Theme exposing (black, pink, white, withMediaTabletPortraitUp)
+import Theme.Global as Theme exposing (darkBlue, pink, screenReaderOnly, white, withMediaTabletPortraitUp)
 import Theme.Logo
 
 
 headerNavigationItems : List TransRoutes.Route
 headerNavigationItems =
-    [ Home, Partners, Events, News, About ]
+    [ Home, Events, Partners, News, About, Donate ]
 
 
-viewPageHeader : { path : Path, route : Maybe Route } -> Bool -> Html Msg
-viewPageHeader currentPath showMobileMenu =
+viewPageHeader :
+    { path : Path, route : Maybe Route }
+    -> { showMobileMenu : Bool }
+    -> Html Msg
+viewPageHeader currentPath viewOptions =
     header [ css [ headerStyle ] ]
         [ div [ css [ barStyle ] ]
-            [ viewPageHeaderNavigation showMobileMenu headerNavigationItems currentPath.path
-            , viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
+            [ viewPageHeaderNavigation viewOptions.showMobileMenu headerNavigationItems currentPath.path
             ]
         , div [ css [ titleBarStyle ] ]
-            [ viewPageHeaderTitle (t SiteTitle) (t SiteStrapline)
+            [ viewPageHeaderTitle
             , viewPageHeaderMenuButton (t HeaderMobileMenuButton)
             ]
         ]
 
 
-viewPageHeaderTitle : String -> String -> Html Msg
-viewPageHeaderTitle pageTitle strapLine =
+viewPageHeaderTitle : Html Msg
+viewPageHeaderTitle =
     div [ css [ titleStyle ] ]
-        [ h1 [] [ Theme.Logo.view ]
+        [ h1 []
+            [ span [ css [ screenReaderOnly ] ] [ text (t SiteTitle ++ ", " ++ t SiteStrapline) ]
+            , span [ attribute "aria-hidden" "true" ] [ Theme.Logo.view ]
+            ]
         ]
 
 
@@ -46,8 +51,8 @@ viewPageHeaderNavigation showMobileMenu listItems currentPath =
     nav []
         [ ul
             [ css
-                ([ navigationListStyle ]
-                    ++ (if showMobileMenu then
+                (navigationListStyle
+                    :: (if showMobileMenu then
                             []
 
                         else
@@ -65,6 +70,9 @@ viewPageHeaderNavigation showMobileMenu listItems currentPath =
 
                     else if String.contains (TransRoutes.toAbsoluteUrl item) (Path.toAbsolute currentPath) then
                         viewHeaderNavigationItemCurrentCategory item
+
+                    else if TransRoutes.toAbsoluteUrl item == "/donate" then
+                        viewPageHeaderAsk (t HeaderAskButton) (t HeaderAskLink)
 
                     else
                         viewHeaderNavigationItem item
@@ -103,8 +111,15 @@ viewHeaderNavigationItemCurrentCategory route =
 
 viewPageHeaderAsk : String -> String -> Html Msg
 viewPageHeaderAsk copyText linkTo =
-    div [ css [ askStyle ] ]
-        [ a [ href linkTo, css [ Theme.whiteButtonStyle ] ] [ text copyText ]
+    li [ css [ navigationListItemStyle, askStyle ] ]
+        [ a
+            [ href linkTo
+            , css
+                [ navigationLinkStyle
+                , askButtonStyle
+                ]
+            ]
+            [ text copyText ]
         ]
 
 
@@ -152,10 +167,7 @@ barStyle : Style
 barStyle =
     batch
         [ withMediaTabletPortraitUp
-            [ displayFlex
-            , justifyContent spaceBetween
-            , padding (rem 0.5)
-            , backgroundColor pink
+            [ backgroundColor pink
             , alignItems center
             ]
         ]
@@ -225,7 +237,10 @@ navigationListItemStyle =
         , boxSizing borderBox
         , margin2 (rem 0.1) (rem 0)
         , fontSize (rem 1.2)
-        , withMediaTabletPortraitUp [ padding2 (rem 1) (rem 0.75) ]
+        , withMediaTabletPortraitUp
+            [ padding2 (rem 1) (rem 0.75)
+            , alignSelf center
+            ]
         ]
 
 
@@ -233,15 +248,15 @@ navigationLinkStyle : Style
 navigationLinkStyle =
     batch
         [ fontWeight (int 600)
-        , color black
+        , color darkBlue
         , textDecoration none
         , display block
         , borderBottomWidth (rem 0.2)
         , borderBottomStyle solid
         , borderBottomColor pink
-        , transition [ Theme.borderTransition ]
         , hover [ color white ]
-        , withMediaTabletPortraitUp [ hover [ borderBottomColor black ] ]
+        , transition [ Css.Transitions.border 300, Css.Transitions.color 300 ]
+        , withMediaTabletPortraitUp [ hover [ borderBottomColor darkBlue ] ]
         ]
 
 
@@ -249,11 +264,14 @@ navigationCurrentStyle : Style
 navigationCurrentStyle =
     batch
         [ fontWeight (int 600)
-        , color black
+        , color darkBlue
         , textDecoration none
         , display block
-        , withMediaTabletPortraitUp [ borderBottomColor black, borderBottomWidth (rem 0.2), borderBottomStyle solid ]
-        , transition [ Theme.borderTransition ]
+        , withMediaTabletPortraitUp
+            [ borderBottomColor darkBlue
+            , borderBottomWidth (rem 0.2)
+            , borderBottomStyle solid
+            ]
         ]
 
 
@@ -261,18 +279,39 @@ navigationLinkCurrentCategoryStyle : Style
 navigationLinkCurrentCategoryStyle =
     batch
         [ fontWeight (int 600)
-        , color black
+        , color darkBlue
         , textDecoration none
         , display block
-        , withMediaTabletPortraitUp [ borderBottomColor black, borderBottomWidth (rem 0.2), borderBottomStyle solid ]
         , hover [ color white ]
-        , transition [ Theme.colorTransition, Theme.borderTransition ]
+        , transition [ Css.Transitions.border 300, Css.Transitions.color 300 ]
+        , withMediaTabletPortraitUp
+            [ borderBottomColor darkBlue
+            , borderBottomWidth (rem 0.2)
+            , borderBottomStyle solid
+            ]
         ]
 
 
 askStyle : Style
 askStyle =
     batch
-        [ display none
-        , withMediaTabletPortraitUp [ display unset ]
+        [ padding (rem 0)
+        , withMediaTabletPortraitUp
+            [ marginLeft auto
+            , display unset
+            ]
+        ]
+
+
+askButtonStyle : Style
+askButtonStyle =
+    batch
+        [ backgroundColor white
+        , borderBottomStyle none
+        , padding (rem 1)
+        , hover [ color pink ]
+        , withMediaTabletPortraitUp
+            [ padding4 (rem 0.375) (rem 1.25) (rem 0.5) (rem 1.25)
+            , borderRadius (rem 0.3)
+            ]
         ]

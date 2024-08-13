@@ -13,12 +13,13 @@ import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h1, h2, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
-import Page.Events exposing (addPartnerNamesToEvents, viewEventsList)
+import Page.Events
 import Page.News
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import Theme.Global as Theme exposing (..)
+import Time
 import View exposing (View)
 
 
@@ -55,7 +56,7 @@ data =
                         )
                         newsData.allArticles
                     )
-            , featuredEvents = List.take 4 (addPartnerNamesToEvents eventData.allEvents partnerData)
+            , allEvents = Page.Events.addPartnerNamesToEvents eventData.allEvents partnerData
             }
         )
         Data.PlaceCal.Events.eventsData
@@ -87,7 +88,7 @@ head static =
 
 type alias Data =
     { latestNews : Maybe Data.PlaceCal.Articles.Article
-    , featuredEvents : List Data.PlaceCal.Events.Event
+    , allEvents : List Data.PlaceCal.Events.Event
     }
 
 
@@ -101,7 +102,7 @@ view maybeUrl sharedModel static =
     , body =
         [ div [ css [ pageWrapperStyle ] ]
             [ viewIntro (t IndexIntroTitle) (t IndexIntroMessage) (t IndexIntroButtonText)
-            , viewFeatured static.data.featuredEvents (t IndexFeaturedHeader) (t IndexFeaturedButtonText)
+            , viewFeatured sharedModel.nowTime static.data.allEvents
             , viewLatestNews static.data.latestNews (t IndexNewsHeader) (t IndexNewsButtonText)
             ]
         ]
@@ -111,7 +112,14 @@ view maybeUrl sharedModel static =
 viewIntro : String -> String -> String -> Html msg
 viewIntro introTitle introMsg eventButtonText =
     section [ css [ sectionStyle, pinkBackgroundStyle, introSectionStyle ] ]
-        [ h1 [ css [ logoStyle ] ] [ img [ src "/images/logos/tdd_logo_with_strapline.svg", alt (t SiteTitle), css [ logoImageStyle ] ] [] ]
+        [ h1 [ css [ logoStyle ] ]
+            [ img
+                [ src "/images/logos/tdd_logo_with_strapline.svg"
+                , alt (t SiteTitle ++ ", " ++ t SiteStrapline)
+                , css [ logoImageStyle ]
+                ]
+                []
+            ]
         , h2 [ css [ sectionSubtitleStyle ] ] [ text introTitle ]
         , p [ css [ sectionTextStyle ] ] [ text introMsg ]
         , p [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
@@ -124,24 +132,24 @@ viewIntro introTitle introMsg eventButtonText =
         ]
 
 
-viewFeatured : List Data.PlaceCal.Events.Event -> String -> String -> Html msg
-viewFeatured eventList title buttonText =
+viewFeatured : Time.Posix -> List Data.PlaceCal.Events.Event -> Html msg
+viewFeatured fromTime eventList =
     section [ css [ sectionStyle, darkBlueBackgroundStyle, eventsSectionStyle ] ]
-        [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
-        , viewEventsList Nothing eventList
+        [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text (t IndexFeaturedHeader) ]
+        , Page.Events.viewEventsList (Data.PlaceCal.Events.next4Events eventList fromTime)
         , p [ css [ buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ href (TransRoutes.toAbsoluteUrl Events)
                 , css [ pinkButtonOnDarkBackgroundStyle ]
                 ]
-                [ text buttonText ]
+                [ text (t IndexFeaturedButtonText) ]
             ]
         ]
 
 
 viewLatestNews : Maybe Data.PlaceCal.Articles.Article -> String -> String -> Html msg
 viewLatestNews maybeNewsItem title buttonText =
-    section [ css [ sectionStyle, whiteBackgroundStyle, newsSectionStyle ] ]
+    section [ css [ sectionStyle, darkBlueBackgroundStyle, newsSectionStyle ] ]
         [ h2 [ css [ Theme.smallFloatingTitleStyle ] ] [ text title ]
         , case maybeNewsItem of
             Just news ->

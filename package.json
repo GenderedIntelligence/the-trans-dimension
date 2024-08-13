@@ -2,12 +2,13 @@
   "name": "the-trans-dimension",
   "scripts": {
     "postinstall": "elm-tooling install",
-    "start": "elm-pages dev --port 3000",
-    "build": "elm-pages build",
-    "format": "elm-format src",
-    "test": "elm-test-rs"
+    "start": "elm-constants && elm-pages dev --port 3030",
+    "build": "elm-constants && elm-pages build",
+    "format": "elm-format src tests",
+    "test": "elm-constants && elm-test-rs"
   },
   "devDependencies": {
+    "elm-constants": "^1.0.0",
     "elm-optimize-level-2": "0.2.3",
     "elm-pages": "2.1.10",
     "elm-review": "^2.5.5",

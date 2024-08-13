@@ -2,12 +2,11 @@ module Theme.PageTemplate exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, after, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, bottom, boxSizing, calc, center, color, cursor, display, fontSize, fontStyle, fontWeight, height, inline, int, italic, left, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, maxWidth, minus, noRepeat, none, outline, paddingBottom, paddingTop, pct, pointer, position, property, px, relative, rem, textAlign, top, url, vw, width, zIndex)
+import Css exposing (Style, absolute, after, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, bottom, boxSizing, calc, center, color, display, fontSize, fontStyle, fontWeight, height, inlineBlock, int, italic, left, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, maxWidth, minus, noRepeat, none, outline, paddingBottom, paddingTop, pct, position, property, px, relative, rem, textAlign, top, url, vw, width, zIndex)
 import Head
 import Head.Seo as Seo
-import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled as Html exposing (Html, a, div, h1, h2, h3, img, p, section, text)
-import Html.Styled.Attributes exposing (alt, css, href, src)
+import Html.Styled as Html exposing (Html, div, h1, h2, h3, img, p, section, text)
+import Html.Styled.Attributes exposing (alt, css, src)
 import List exposing (append)
 import Pages.Url
 import Theme.Global exposing (contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, textBoxInvisibleStyle, textBoxPinkStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
@@ -113,21 +112,14 @@ view pageInfo =
 
 viewHeader : PageUsingTemplate msg -> Html msg
 viewHeader pageInfo =
-    section [ css [ headerSectionStyle ] ]
-        [ h1 []
-            -- Hack to get llinkable absolute positioned header
-            -- Probably needs a refactor with simplified styles
-            [ a
-                [ href (TransRoutes.toAbsoluteUrl Home)
-                , css [ headerLogoAStyle, zIndex (int 99) ]
+    section []
+        [ h1 [ css [ headerLogoStyle ] ]
+            [ img
+                [ src "/images/logos/tdd_logo_with_strapline.svg"
+                , alt (t SiteTitle ++ ", " ++ t SiteStrapline)
+                , css [ headerLogoImageStyle ]
                 ]
-                [ img
-                    [ src "/images/logos/tdd_logo_with_strapline.svg"
-                    , alt (t SiteTitle)
-                    , css [ headerLogoImageStyle ]
-                    ]
-                    []
-                ]
+                []
             ]
         , h2
             [ css
@@ -193,21 +185,14 @@ viewIntroBlue bigText smallText =
         )
 
 
-headerSectionStyle : Style
-headerSectionStyle =
-    batch
-        [ position relative ]
-
-
-headerLogoAStyle : Style
-headerLogoAStyle =
+headerLogoStyle : Style
+headerLogoStyle =
     batch
         [ display none
         , withMediaTabletPortraitUp
-            [ width (pct 100)
-            , cursor pointer
-            , display block
+            [ display block
             , position absolute
+            , width (pct 100)
             , textAlign center
             , top (px 50)
             ]
@@ -218,7 +203,7 @@ headerLogoImageStyle : Style
 headerLogoImageStyle =
     batch
         [ width (px 268)
-        , display inline
+        , display inlineBlock
         , withMediaTabletLandscapeUp [ width (px 305) ]
         ]
 

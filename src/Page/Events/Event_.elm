@@ -1,22 +1,22 @@
 module Page.Events.Event_ exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (t)
-import Css exposing (Style, auto, backgroundColor, batch, borderRadius, calc, center, color, displayFlex, em, flexStart, fontSize, fontStyle, fontWeight, height, int, justifyContent, letterSpacing, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, minus, normal, padding, pct, property, px, rem, textAlign, textTransform, uppercase, width)
+import Copy.Text exposing (isValidUrl, t)
+import Css exposing (Style, auto, batch, calc, center, color, displayFlex, em, fontSize, fontStyle, fontWeight, int, justifyContent, letterSpacing, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginTop, maxWidth, minus, normal, pct, px, rem, textAlign, textTransform, uppercase, width)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, a, div, h4, hr, img, p, section, text, time)
-import Html.Styled.Attributes exposing (css, href, src, target)
+import Html.Styled exposing (Html, a, div, h4, hr, p, section, text, time)
+import Html.Styled.Attributes exposing (css, href, target)
 import Page exposing (Page, StaticPayload)
-import Page.Events
 import Pages.PageUrl exposing (PageUrl)
 import Shared
-import Theme.Global exposing (darkBlue, linkStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (darkBlue, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
+import Theme.TransMarkdown
 import View exposing (View)
 
 
@@ -113,11 +113,16 @@ viewEventInfo event =
         , case event.maybeGeo of
             Just geo ->
                 div [ css [ mapContainerStyle ] ]
-                    [ p [] [ Theme.Global.mapImage { latitude = geo.latitude, longitude = geo.longitude } ]
+                    [ p []
+                        [ Theme.Global.mapImage
+                            (t (MapImageAltText event.name))
+                            { latitude = geo.latitude, longitude = geo.longitude }
+                        ]
                     ]
 
             Nothing ->
                 div [ css [ mapContainerStyle ] ] [ text "" ]
+        , publisherUrlSection event
         ]
 
 
@@ -141,8 +146,7 @@ viewInfoSection event =
                     text ""
             ]
         , div [ css [ eventDescriptionStyle ] ]
-            --  (Theme.TransMarkdown.markdownToHtml event.description)
-            [ p [] [ text event.description ] ]
+            (Theme.TransMarkdown.markdownToHtml event.description)
         ]
 
 
@@ -170,7 +174,14 @@ viewAddressSection event =
                     text ""
             , case event.partner.maybeUrl of
                 Just url ->
-                    p [ css [ contactItemStyle ] ] [ a [ href url, target "_blank", css [ Theme.Global.linkStyle ] ] [ text url ] ]
+                    if isValidUrl url then
+                        p [ css [ contactItemStyle ] ]
+                            [ a [ href url, target "_blank", css [ Theme.Global.linkStyle ] ]
+                                [ text (Copy.Text.urlToDisplay url) ]
+                            ]
+
+                    else
+                        text ""
 
                 Nothing ->
                     text ""
@@ -204,9 +215,30 @@ viewAddressSection event =
 viewButtons : Data.PlaceCal.Events.Event -> Html msg
 viewButtons event =
     section [ css [ buttonsStyle ] ]
-        [ Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl (Partner event.partner.id)) "Partner's events"
-        , Theme.Global.viewBackButton (TransRoutes.toAbsoluteUrl Events) (t BackToEventsLinkText)
+        [ Theme.Global.viewBackButton
+            (TransRoutes.toAbsoluteUrl (Partner event.partner.id) ++ "#events")
+            (t (BackToPartnerEventsLinkText event.partner.name))
+        , Theme.Global.viewBackButton
+            (TransRoutes.toAbsoluteUrl Events)
+            (t BackToEventsLinkText)
         ]
+
+
+publisherUrlSection : Data.PlaceCal.Events.Event -> Html msg
+publisherUrlSection event =
+    case event.maybePublisherUrl of
+        Just publisherUrl ->
+            if isValidUrl publisherUrl then
+                div [ css [ publisherSectionStyle ] ]
+                    [ hr [ css [ Theme.Global.hrStyle, marginTop (rem 2.5) ] ] []
+                    , a [ href publisherUrl, css [ Theme.Global.linkStyle ] ] [ text (t (EventVisitPublisherUrlText event.partner.name)) ]
+                    ]
+
+            else
+                text ""
+
+        Nothing ->
+            text ""
 
 
 dateAndTimeStyle : Style
@@ -262,10 +294,13 @@ eventPartnerStyle =
 eventDescriptionStyle : Style
 eventDescriptionStyle =
     batch
-        [ marginTop (rem 1)
-        , marginBottom (rem 2)
-        , withMediaTabletLandscapeUp [ marginTop (rem 3) ]
-        , withMediaTabletPortraitUp [ marginTop (rem 2) ]
+        [ normalFirstParagraphStyle
+        , withMediaTabletLandscapeUp
+            [ margin2 (rem 2) auto
+            , maxWidth (px 636)
+            ]
+        , withMediaTabletPortraitUp
+            [ margin2 (rem 2) (rem 2) ]
         ]
 
 
@@ -320,4 +355,12 @@ mapContainerStyle =
             [ margin4 (rem 3) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) (calc (rem -1.5) minus (px 1)) ]
         , withMediaTabletPortraitUp
             [ margin4 (rem 3) (calc (rem -2) minus (px 1)) (px -1) (calc (rem -2) minus (px 1)) ]
+        ]
+
+
+publisherSectionStyle : Style
+publisherSectionStyle =
+    batch
+        [ textAlign center
+        , marginBottom (rem 2)
         ]

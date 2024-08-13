@@ -2,7 +2,6 @@ module Page.EventsTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures as Fixtures
 import Expect
 import Html
 import Page.Events exposing (view)
@@ -10,12 +9,14 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
+import Theme.Paginator as Paginator
 import Time
 
 
 viewParamsWithEvents =
-    { data = Fixtures.events
+    { data = TestFixtures.events
     , path = Path.fromString "events"
     , routeParams = {}
     , sharedData = ()
@@ -23,15 +24,22 @@ viewParamsWithEvents =
 
 
 eventsModel =
-    { filterByDay = Nothing
-    , visibleEvents = Fixtures.events
+    { filterBy = Paginator.None
+    , visibleEvents = TestFixtures.events
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920
     }
 
 
 eventsModelNoEvents =
-    { filterByDay = Nothing
+    { filterBy = Paginator.None
+    , visibleEvents = []
+    , nowTime = Time.millisToPosix 0
+    , viewportWidth = 1920
+    }
+
+eventsModelNoPreviousEvents =
+    { filterBy = Paginator.Past
     , visibleEvents = []
     , nowTime = Time.millisToPosix 0
     , viewportWidth = 1920
@@ -48,7 +56,7 @@ viewParamsWithoutEvents =
 
 viewBodyHtml localModel viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } localModel viewParams).body
+        (view Nothing sharedModelInit localModel viewParams).body
 
 
 suite : Test
@@ -65,7 +73,7 @@ suite =
                     |> Query.findAll [ Selector.tag "ul" ]
                     |> Query.first
                     |> Query.children [ Selector.tag "li" ]
-                    |> Query.count (Expect.equal 8)
+                    |> Query.count (Expect.equal 7)
         , test "Has pagination by day/week with expected labels" <|
             \_ ->
                 viewBodyHtml eventsModel viewParamsWithEvents
@@ -79,7 +87,6 @@ suite =
                         , Html.text "Mon 05 Jan"
                         , Html.text "Tue 06 Jan"
                         , Html.text "Wed 07 Jan"
-                        , Html.text (t EventsFilterLabelAll)
                         ]
         , test "Contains a list of upcoming events" <|
             \_ ->
@@ -92,4 +99,8 @@ suite =
             \_ ->
                 viewBodyHtml eventsModelNoEvents viewParamsWithoutEvents
                     |> Query.contains [ Html.text (t EventsEmptyTextAll) ]
+        , test "Contains previous events empty text if there are no previous events" <|
+            \_ ->
+                viewBodyHtml eventsModelNoPreviousEvents viewParamsWithoutEvents
+                    |> Query.contains [ Html.text (t PreviousEventsEmptyTextAll) ]
         ]

@@ -9,6 +9,7 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 
 
@@ -24,7 +25,7 @@ viewBodyHtml viewParams =
     queryFromStyledList
         (view
             Nothing
-            { showMobileMenu = False }
+            sharedModelInit
             { userInput = blankForm
             , formState = initialFormState
             }

@@ -1,4 +1,4 @@
-module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId)
+module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), afterDate, emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId, next4Events, onOrBeforeDate)
 
 import Api
 import DataSource
@@ -18,9 +18,8 @@ type alias Event =
     , description : String
     , startDatetime : Time.Posix
     , endDatetime : Time.Posix
+    , maybePublisherUrl : Maybe String
     , location : Maybe EventLocation
-
-    -- , realm : Realm
     , partner : EventPartner
     , maybeGeo : Maybe Geo
     }
@@ -47,8 +46,11 @@ type alias EventLocation =
 
 
 type alias Geo =
-    { latitude : String
-    , longitude : String
+    -- Bug: We expect if there is a postcode in the address, these exist.
+    -- But, in practice, sometimes they don't see:
+    -- https://github.com/geeksforsocialchange/PlaceCal/issues/1639
+    { latitude : Maybe String
+    , longitude : Maybe String
     }
 
 
@@ -60,9 +62,8 @@ emptyEvent =
     , description = ""
     , startDatetime = Time.millisToPosix 0
     , endDatetime = Time.millisToPosix 0
+    , maybePublisherUrl = Nothing
     , location = Nothing
-
-    -- , realm = Offline
     , maybeGeo = Nothing
     , partner =
         { name = Nothing
@@ -91,6 +92,29 @@ eventsFromDate eventsList fromDate =
         eventsList
 
 
+onOrBeforeDate : List Event -> Time.Posix -> List Event
+onOrBeforeDate eventsList fromDate =
+    List.filter
+        (\event ->
+            TransDate.isOnOrBeforeDate event.startDatetime fromDate
+        )
+        eventsList
+
+
+afterDate : List Event -> Time.Posix -> List Event
+afterDate eventsList fromDate =
+    List.filter
+        (\event ->
+            TransDate.isAfterDate event.startDatetime fromDate
+        )
+        eventsList
+
+
+next4Events : List Event -> Time.Posix -> List Event
+next4Events allEvents fromTime =
+    List.take 4 (eventsFromDate allEvents fromTime)
+
+
 
 ----------------------------
 -- DataSource query & decode
@@ -107,15 +131,16 @@ allEventsQuery : Json.Encode.Value
 allEventsQuery =
     Json.Encode.object
         [ ( "query"
-            -- Note hardcoded to load events from 2022-04-01
+            -- Note hardcoded to load events from 2022-09-01
           , Json.Encode.string """
-            query { eventsByFilter(tagId: 3, fromDate: "2022-04-01 00:00") {
+            query { eventsByFilter(tagId: 3, fromDate: "2024-01-01 00:00", toDate: "2025-06-15 00:00") {
               id
               name
               summary
               description
               startDate
               endDate
+              publisherUrl
               address { streetAddress, postalCode, geo { latitude, longitude } }
               organizer { id }
             } }
@@ -156,6 +181,9 @@ decode =
             TransDate.isoDateStringDecoder
         |> OptimizedDecoder.Pipeline.required "endDate"
             TransDate.isoDateStringDecoder
+        |> OptimizedDecoder.Pipeline.optional "publisherUrl"
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
         |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just eventAddressDecoder) Nothing
         |> OptimizedDecoder.Pipeline.requiredAt [ "organizer", "id" ]
             partnerIdDecoder
@@ -178,8 +206,12 @@ partnerIdDecoder =
 geoDecoder : OptimizedDecoder.Decoder Geo
 geoDecoder =
     OptimizedDecoder.succeed Geo
-        |> OptimizedDecoder.Pipeline.required "latitude" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "longitude" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "latitude"
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
+        |> OptimizedDecoder.Pipeline.optional "longitude"
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
 
 
 type alias AllEventsResponse =

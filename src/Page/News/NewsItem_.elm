@@ -1,8 +1,9 @@
 module Page.News.NewsItem_ exposing (..)
 
+import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (t)
-import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontStyle, fontWeight, height, italic, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
+import Copy.Text exposing (isValidUrl, t)
+import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontWeight, height, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
 import Css.Global exposing (descendants, typeSelector)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
@@ -10,13 +11,14 @@ import DataSource exposing (DataSource)
 import Head
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
-import Html.Styled exposing (Html, article, div, figcaption, figure, img, p, span, text, time)
-import Html.Styled.Attributes exposing (css, src)
+import Html.Styled exposing (Html, article, div, figure, img, p, span, text, time)
+import Html.Styled.Attributes exposing (alt, css, src)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Theme.Global exposing (viewBackButton, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
+import Theme.TransMarkdown as TransMarkdown
 import View exposing (View)
 
 
@@ -119,16 +121,61 @@ viewArticle : Data.PlaceCal.Articles.Article -> Html Msg
 viewArticle newsItem =
     article [ css [ articleStyle ] ]
         [ p [ css [ articleMetaStyle ] ]
-            [ span [ css [ newsItemAuthorStyle ] ]
-                [ text (String.join ", " newsItem.partnerIds) ]
+            [ if List.length newsItem.partnerIds > 0 then
+                span [ css [ newsItemAuthorStyle ] ]
+                    [ text (String.join ", " newsItem.partnerIds) ]
+
+              else
+                text ""
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
-        , figure [ css [ articleFigureStyle ] ]
-            [ img [ src "/images/news/article_6.jpg", css [ articleFigureImageStyle ] ] []
+        , articleImage newsItem.maybeImage newsItem.body
+        , div [ css [ articleContentStyle ] ] (TransMarkdown.markdownToHtml newsItem.body)
+        ]
 
-            -- [fFf] , figcaption [ css [ articleFigureCaptionStyle ] ] [ text "Optional image credit, note and or details." ]
-            ]
-        , div [ css [ articleContentStyle ] ] [ text newsItem.body ]
+
+articleImage : Maybe String -> String -> Html Msg
+articleImage maybeImage articleBody =
+    figure [ css [ articleFigureStyle ] ]
+        [ img [ src (articleImageSource maybeImage articleBody), css [ articleFigureImageStyle ], alt "" ] []
+        ]
+
+
+articleImageSource : Maybe String -> String -> String
+articleImageSource maybeImage articleBody =
+    let
+        defaultImageUrl =
+            Maybe.withDefault
+                "/images/news/article_1.jpg"
+                (Array.get
+                    (modBy
+                        (Array.length defaultNewsImages)
+                        (String.length articleBody)
+                    )
+                    defaultNewsImages
+                )
+    in
+    case maybeImage of
+        Just imageUrl ->
+            if isValidUrl imageUrl then
+                imageUrl
+
+            else
+                defaultImageUrl
+
+        Nothing ->
+            defaultImageUrl
+
+
+defaultNewsImages : Array String
+defaultNewsImages =
+    Array.fromList
+        [ "/images/news/article_1.jpg"
+        , "/images/news/article_2.jpg"
+        , "/images/news/article_3.jpg"
+        , "/images/news/article_4.jpg"
+        , "/images/news/article_5.jpg"
+        , "/images/news/article_6.jpg"
         ]
 
 

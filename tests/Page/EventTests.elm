@@ -3,12 +3,15 @@ module Page.EventTests exposing (..)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Expect
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
+import Html.Attributes
 import Page.Events.Event_ exposing (view)
 import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 import Time
 
@@ -21,10 +24,9 @@ viewParamsWithEvent =
         , summary = "Event summary"
         , startDatetime = Time.millisToPosix 1645448400000
         , endDatetime = Time.millisToPosix 1645455600000
+        , maybePublisherUrl = Nothing
         , location = Nothing
         , maybeGeo = Nothing
-
-        --, realm = Online
         , partner =
             { id = "1"
             , name = Just "Partner one"
@@ -40,7 +42,7 @@ viewParamsWithEvent =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing sharedModelInit viewParams).body
 
 
 suite : Test
@@ -92,5 +94,17 @@ suite =
         , test "Contains link back to events page" <|
             \_ ->
                 viewBodyHtml viewParamsWithEvent
+                    |> Query.find
+                        [ Selector.tag "a"
+                        , Selector.attribute (Html.Attributes.href (TransRoutes.toAbsoluteUrl Events))
+                        ]
                     |> Query.contains [ Html.text (t BackToEventsLinkText) ]
+        , test "Contains link back to events section of partner page" <|
+            \_ ->
+                viewBodyHtml viewParamsWithEvent
+                    |> Query.find
+                        [ Selector.tag "a"
+                        , Selector.attribute (Html.Attributes.href (TransRoutes.toAbsoluteUrl (Partner viewParamsWithEvent.data.partner.id) ++ "#events"))
+                        ]
+                    |> Query.contains [ Html.text (t (BackToPartnerEventsLinkText viewParamsWithEvent.data.partner.name)) ]
         ]

@@ -14,6 +14,7 @@ type Route
     | JoinUs
     | NewsItem String
     | News
+    | Donate
     | Partner String
     | Partners
     | Privacy
@@ -43,6 +44,9 @@ toPageTitle route =
 
         News ->
             t NewsTitle
+
+        Donate ->
+            t HeaderAskButton
 
         Partner name ->
             t (PartnerTitle name)
@@ -80,6 +84,9 @@ toPath route =
 
         News ->
             Path.fromString "news"
+
+        Donate ->
+            Path.fromString "donate"
 
         Partner slug ->
             Path.join [ "partners", slug ]

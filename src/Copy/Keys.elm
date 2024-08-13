@@ -9,6 +9,10 @@ type Key
     | PageMetaTitle String
     | GeeksForSocialChangeHomeUrl
     | GenderedIntelligenceHomeUrl
+    | GenderedIntelligenceLogoTxt
+    | GoogleMapSearchUrl String
+    | SeeOnGoogleMapText
+    | MapImageAltText String
       --- Header
     | HeaderMobileMenuButton
     | HeaderAskButton
@@ -19,6 +23,7 @@ type Key
     | FooterTwitterLink
     | FooterFacebookLink
     | FooterSignupText
+    | FooterSignupEmailPlaceholder
     | FooterSignupButton
     | FooterByLine
     | FooterInfoTitle
@@ -36,6 +41,7 @@ type Key
     | FooterCredit3Name
     | FooterCredit3Link
     | FooterCopyright
+    | FooterPlaceCal
       --- Index Page
     | IndexTitle
     | IndexMetaDescription
@@ -56,26 +62,34 @@ type Key
     | EventsSubHeading
     | EventsEmptyTextAll
     | EventsEmptyText
+    | PreviousEventsEmptyTextAll
     | EventsFilterLabelToday
     | EventsFilterLabelTomorrow
-    | EventsFilterLabelAll
+    | EventsFilterLabelAllPast
+    | EventsFilterLabelAllFuture
       --- Event Page
     | EventTitle String
     | EventMetaDescription String String
+    | BackToPartnerEventsLinkText (Maybe String)
     | BackToEventsLinkText
+    | EventVisitPublisherUrlText (Maybe String)
       --- Partners Page
     | PartnersTitle
     | PartnersMetaDescription
     | PartnersIntroSummary
     | PartnersIntroDescription
     | PartnersListEmpty
+    | PartnersMapAltText
       --- Partner Page
     | PartnerTitle String
     | PartnerMetaDescription String String
     | PartnerContactsHeading
+    | PartnerContactsEmptyText
     | PartnerAddressHeading
     | PartnerAddressEmptyText
+    | PartnerDescriptionText String String
     | PartnerUpcomingEventsText String
+    | PartnerPreviousEventsText String
     | PartnerEventsEmptyText String
     | BackToPartnersLinkText
       --- Join Us Page
@@ -103,7 +117,7 @@ type Key
     | NewsItemTitle String
     | NewsItemMetaDescription String String
     | NewsItemReturnButton
-    | NewsItemReadMore String
+    | NewsItemReadMore
       --- Privacy
     | PrivacyTitle
     | PrivacyMetaDescription

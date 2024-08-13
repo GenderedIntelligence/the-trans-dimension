@@ -10,6 +10,7 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 import Time
 
@@ -20,6 +21,7 @@ viewParamsWithNewsItem =
         , body = "The news item body. Some more lines about news."
         , publishedDatetime = Time.millisToPosix 5140800000
         , partnerIds = [ "Article Author" ]
+        , maybeImage = Nothing
         }
     , path = Path.fromString "news/news-item-title"
     , routeParams = { newsItem = "news-item-title" }
@@ -29,7 +31,7 @@ viewParamsWithNewsItem =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing sharedModelInit viewParams).body
 
 
 suite : Test

@@ -16,10 +16,11 @@ type alias Partner =
     , summary : String
     , description : String
     , maybeUrl : Maybe String
-    , contactDetails : Contact
+    , maybeContactDetails : Maybe Contact
     , maybeAddress : Maybe Address
     , areasServed : List ServiceArea
     , maybeGeo : Maybe Geo
+    , maybeLogo : Maybe String
     }
 
 
@@ -37,8 +38,11 @@ type alias Contact =
 
 
 type alias Geo =
-    { latitude : String
-    , longitude : String
+    -- Bug: We expect if there is a postcode in the address, these exist.
+    -- But, in practice, sometimes they don't see:
+    -- https://github.com/geeksforsocialchange/PlaceCal/issues/1639
+    { latitude : Maybe String
+    , longitude : Maybe String
     }
 
 
@@ -55,10 +59,11 @@ emptyPartner =
     , summary = ""
     , description = ""
     , maybeUrl = Nothing
-    , contactDetails = { email = "", telephone = "" }
+    , maybeContactDetails = Nothing
     , maybeAddress = Nothing
     , areasServed = []
     , maybeGeo = Nothing
+    , maybeLogo = Nothing
     }
 
 
@@ -88,10 +93,11 @@ allPartnersQuery =
                   name
                   description
                   summary
-                  contact { email, telephone }      
+                  contact { email, telephone }
                   url
                   address { streetAddress, postalCode, addressRegion, geo { latitude, longitude } }
                   areasServed { name abbreviatedName }
+                  logo
                 } }
           """
           )
@@ -121,24 +127,29 @@ decodePartner =
         |> OptimizedDecoder.Pipeline.optional "summary" OptimizedDecoder.string ""
         |> OptimizedDecoder.Pipeline.required "description" OptimizedDecoder.string
         |> OptimizedDecoder.Pipeline.optional "url" (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
-        |> OptimizedDecoder.Pipeline.required "contact" contactDecoder
+        |> OptimizedDecoder.Pipeline.optional "contact" (OptimizedDecoder.map Just contactDecoder) Nothing
         |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just addressDecoder) Nothing
         |> OptimizedDecoder.Pipeline.required "areasServed" (OptimizedDecoder.list serviceAreaDecoder)
         |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
+        |> OptimizedDecoder.Pipeline.optional "logo" (OptimizedDecoder.nullable OptimizedDecoder.string) Nothing
 
 
 geoDecoder : OptimizedDecoder.Decoder Geo
 geoDecoder =
     OptimizedDecoder.succeed Geo
-        |> OptimizedDecoder.Pipeline.required "latitude" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "longitude" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "latitude"
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
+        |> OptimizedDecoder.Pipeline.optional "longitude"
+            (OptimizedDecoder.nullable OptimizedDecoder.string)
+            Nothing
 
 
 contactDecoder : OptimizedDecoder.Decoder Contact
 contactDecoder =
     OptimizedDecoder.succeed Contact
-        |> OptimizedDecoder.Pipeline.required "email" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "telephone" OptimizedDecoder.string
+        |> OptimizedDecoder.Pipeline.optional "email" OptimizedDecoder.string ""
+        |> OptimizedDecoder.Pipeline.optional "telephone" OptimizedDecoder.string ""
 
 
 addressDecoder : OptimizedDecoder.Decoder Address
@@ -178,7 +189,7 @@ eventPartnerFromId partnerList partnerId =
         |> List.map
             (\partner ->
                 { name = Just partner.name
-                , maybeContactDetails = Just partner.contactDetails
+                , maybeContactDetails = partner.maybeContactDetails
                 , id = partner.id
                 , maybeUrl = partner.maybeUrl
                 }

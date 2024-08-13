@@ -1,6 +1,8 @@
-module Copy.Text exposing (t)
+module Copy.Text exposing (isValidUrl, t, urlToDisplay)
 
+import Constants exposing (canonicalUrl)
 import Copy.Keys exposing (Key(..))
+import Url
 
 
 
@@ -22,13 +24,25 @@ t key =
             "The Trans Dimension is an online community hub connecting trans communities in London. We collate news, events and services by and for trans people."
 
         SiteLogoSrc ->
-            "/images/logos/tdd_logo_with_strapline_on_darkBlue.png"
+            canonicalUrl ++ "images/logos/tdd_logo_with_strapline_on_darkBlue.png"
 
         GeeksForSocialChangeHomeUrl ->
             "https://gfsc.studio/"
 
         GenderedIntelligenceHomeUrl ->
             "https://genderedintelligence.co.uk/"
+
+        GenderedIntelligenceLogoTxt ->
+            "Gendered Intelligence"
+
+        GoogleMapSearchUrl address ->
+            "https://www.google.com/maps/search/?api=1&query=" ++ Url.percentEncode address
+
+        SeeOnGoogleMapText ->
+            "See on Google map"
+
+        MapImageAltText locationName ->
+            "A map showing the location of " ++ locationName
 
         PageMetaTitle pageTitle ->
             String.join " | " [ pageTitle, t SiteTitle ]
@@ -59,6 +73,9 @@ t key =
 
         FooterSignupText ->
             "Register for updates"
+
+        FooterSignupEmailPlaceholder ->
+            "Your email address"
 
         FooterSignupButton ->
             "Sign up"
@@ -111,6 +128,9 @@ t key =
         FooterCopyright ->
             "© 2022 Gendered Intelligence. All rights reserved."
 
+        FooterPlaceCal ->
+            "Powered by PlaceCal"
+
         --- Index Page
         IndexTitle ->
             "Home"
@@ -125,10 +145,10 @@ t key =
             t TransDimensionDescription
 
         IndexIntroButtonText ->
-            "See what's on near you"
+            "See what's on"
 
         IndexFeaturedHeader ->
-            "Featured Events"
+            "Upcoming Events"
 
         IndexFeaturedButtonText ->
             "View all events"
@@ -139,14 +159,14 @@ t key =
         IndexNewsButtonText ->
             "View all news"
 
-        -- About Page (NOTE: also comes from md)
+        --- About Page (NOTE: also comes from md)
         AboutTitle ->
             "About"
 
         AboutMetaDescription ->
             t TransDimensionDescription
 
-        -- Events Page
+        --- Events Page
         EventsTitle ->
             "Events"
 
@@ -154,7 +174,7 @@ t key =
             "Events and activities by and for trans communities across the UK."
 
         EventsSummary ->
-            "Upcoming events & activities"
+            "Upcoming events & activities for you."
 
         EventsSubHeading ->
             "Upcoming events"
@@ -165,14 +185,20 @@ t key =
         EventsEmptyText ->
             "There are no upcoming events on this date. Check back for updates!"
 
+        PreviousEventsEmptyTextAll ->
+            "There have been no events in the recent past."
+
         EventsFilterLabelToday ->
             "Today"
 
         EventsFilterLabelTomorrow ->
             "Tomorrow"
 
-        EventsFilterLabelAll ->
-            "All Events"
+        EventsFilterLabelAllPast ->
+            "Past events"
+
+        EventsFilterLabelAllFuture ->
+            "Future events"
 
         --- Event Page
         EventTitle eventName ->
@@ -181,8 +207,14 @@ t key =
         EventMetaDescription eventName eventSummary ->
             eventName ++ " - " ++ eventSummary
 
+        BackToPartnerEventsLinkText partnerName ->
+            "All events by " ++ Maybe.withDefault "this partner" partnerName
+
         BackToEventsLinkText ->
-            "Go to all events"
+            "All events"
+
+        EventVisitPublisherUrlText maybePartnerName ->
+            "Visit " ++ Maybe.withDefault "Publisher" maybePartnerName ++ "'s site"
 
         --- Partners Page
         PartnersTitle ->
@@ -200,6 +232,9 @@ t key =
         PartnersListEmpty ->
             "There are currently no Trans Dimension partners"
 
+        PartnersMapAltText ->
+            "A map showing the locations of all partners with listed addresses"
+
         --- Partner Page
         PartnerTitle partnerName ->
             "PlaceCal Partner - " ++ partnerName
@@ -210,14 +245,27 @@ t key =
         PartnerContactsHeading ->
             "Get in touch"
 
+        PartnerContactsEmptyText ->
+            "No contact details provided"
+
         PartnerAddressHeading ->
             "Address"
 
         PartnerAddressEmptyText ->
             "No address provided"
 
+        PartnerDescriptionText partnerDescription partnerName ->
+            if String.isEmpty partnerDescription then
+                "Please ask " ++ partnerName ++ " for more information"
+
+            else
+                partnerDescription
+
         PartnerUpcomingEventsText partnerName ->
             "Upcoming events by " ++ partnerName
+
+        PartnerPreviousEventsText partnerName ->
+            "Previous events by " ++ partnerName
 
         PartnerEventsEmptyText partnerName ->
             partnerName ++ " does not have any upcoming events. Check back for updates!"
@@ -281,11 +329,11 @@ t key =
         NewsEmptyText ->
             "There is no recent news"
 
-        NewsItemReadMore title ->
+        NewsItemReadMore ->
             "Read the rest"
 
         NewsDescription ->
-            "Updates & articles from The Trans Dimension partners"
+            "Updates & articles from our partners."
 
         --- News Single Article Page
         NewsItemTitle title ->
@@ -313,3 +361,37 @@ t key =
 
         ErrorButtonText ->
             "Back to home"
+
+
+urlRecombiner : Maybe Url.Url -> String
+urlRecombiner urlRecord =
+    case urlRecord of
+        Just url ->
+            url.host ++ url.path ++ Maybe.withDefault "" url.query ++ Maybe.withDefault "" url.fragment
+
+        Nothing ->
+            ""
+
+
+chompTrailingUrlSlash : String -> String
+chompTrailingUrlSlash urlString =
+    if String.endsWith "/" urlString then
+        String.dropRight 1 urlString
+
+    else
+        urlString
+
+
+urlToDisplay : String -> String
+urlToDisplay url =
+    Url.fromString url |> urlRecombiner |> chompTrailingUrlSlash
+
+
+isValidUrl : String -> Bool
+isValidUrl urlString =
+    case Url.fromString urlString of
+        Just url ->
+            url.protocol == Url.Https
+
+        Nothing ->
+            False

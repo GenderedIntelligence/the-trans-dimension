@@ -6,7 +6,7 @@ Front-end for [The Trans Dimension](http://transdimension.uk/), an online commun
 
 Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodhub.co.uk/build-fund-2021). Read more about the project [here](https://gfsc.studio/2021/12/14/enter-trans-dimension.html).
 
--  Development URL: https://transdimension.netlify.app/
+-  Staging url: https://transdimension.pages.dev
 -  Production URL (holding page currently): http://transdimension.uk/
 
 # Development
@@ -21,6 +21,8 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 - make sure you are using the correct node version with `nvm use`
 - install with `npm install`
 
+Make sure you copy `.env.example` over into `.env` and edit as appropriate! This must be done before any of the following will work as it generates `src/Constants.elm` which is used in a number of places in the code.
+
 ## Build
 
 - `npm start` to start a dev server on http://localhost:3000
@@ -29,13 +31,13 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 ## Formatting
 
 We recommend integrating `elm-format@0.8.3` into your code editor, but if you don't...
-- Please run `npm format` to format `.elm` files in `src` before committing code.
+- Please run `npm run format` to format `.elm` files in `src` before committing code.
 
 ## Testing
 
-We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/)
+We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm tests](https://package.elm-lang.org/packages/elm-explorations/test/latest/). It is required to run either `npm start` (quickest) or `npm build` at least once in the project before tests will work.
 
--  run tests with `npm test`
+- run tests with `npm test`
 
 ## Code & configs
 
@@ -49,13 +51,13 @@ We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm t
 
 - `elm.json` for elm packages used for site
 - `elm-tooling.json` for elm packages used for code
+- `.env` is used to generate `src/Constants.elm` for elm-pages
+- `.nvmrc` contains project node version
 - `package.json` for node scripts and packages
 - `package-lock.json` for current versions of node packages
-- `.nvmrc` contains project node version
-- `.netlify.toml` for deploy config
-- `tests/*` contains test files
 - `public/*` contains static files to be copied direct to build
 - `src/*` contains app source files
+- `tests/*` contains test files
 
 ### Content & Pages
 
@@ -70,11 +72,11 @@ We're using elm-test-rs(https://github.com/mpizenberg/elm-test-rs) to run [elm t
 
 ## Deployment
 
-Deploys to Netlify
+Deploys to Cloudflare Pages
 
 -  code is tested and linted automatically before deploy
 -  when a pull request is created, a preview site is deployed
--  when a pull request is merged into `main`, the prodtion site is deployed
+-  when a pull request is merged into `main`, the production site is deployed
 
 ## Development workflow
 
@@ -96,3 +98,21 @@ Deploys to Netlify
 -  check the acceptance criteria have been met (with tests if appropriate)
 -  add comments & questions
 -  once approved, leave for the author to squash and merge
+
+## License
+
+Source code is released under the [Hippocratic License](https://firstdonoharm.dev/version/3/0/license/).
+
+Graphic design by [Studio Squid](https://studiosquid.co.uk/) and © Gendered Intelligence 2022.
+
+Illustrations © [Harry Woodgate](https://www.harrywoodgate.com/) 2022.
+
+## Contributing
+
+We welcome new contributors but strongly recommend you have a chat with us in [Geeks for Social Change's Discord server](http://discord.gfsc.studio) and say hi before you do. We will be happy to onboard you properly before you get stuck in.
+
+## Donations
+
+If you'd like to support development, please consider sending us a one-off or regular donation on Ko-fi.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M43THUM)

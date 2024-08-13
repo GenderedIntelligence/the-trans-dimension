@@ -10,9 +10,11 @@ import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
+import Task
 import Theme.Global
 import Theme.PageFooter exposing (viewPageFooter)
 import Theme.PageHeader exposing (viewPageHeader)
+import Time
 import View exposing (View)
 
 
@@ -49,6 +51,7 @@ type alias Msg =
 
 type alias Model =
     { showMobileMenu : Bool
+    , nowTime : Time.Posix
     }
 
 
@@ -68,8 +71,9 @@ init :
     -> ( Model, Cmd Msg )
 init navigationKey flags maybePagePath =
     ( { showMobileMenu = False
+      , nowTime = Time.millisToPosix 0
       }
-    , Cmd.none
+    , Task.perform GetTime Time.now
     )
 
 
@@ -78,6 +82,9 @@ update msg model =
     case msg of
         OnPageChange _ ->
             ( { model | showMobileMenu = False }, Cmd.none )
+
+        GetTime newTime ->
+            ( { model | nowTime = newTime }, Cmd.none )
 
         -- Header
         ToggleMenu ->
@@ -119,8 +126,11 @@ view sharedData page model toMsg pageView =
         Html.Styled.toUnstyled
             (Theme.Global.containerPage pageView.title
                 [ View.fontPreload
+                , View.plausibleTracker
                 , Theme.Global.globalStyles
-                , viewPageHeader page model.showMobileMenu |> Html.Styled.map toMsg
+                , viewPageHeader page
+                    { showMobileMenu = model.showMobileMenu }
+                    |> Html.Styled.map toMsg
                 , Html.Styled.main_ [] pageView.body
                 , viewPageFooter
                 ]

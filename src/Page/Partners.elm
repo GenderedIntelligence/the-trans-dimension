@@ -2,19 +2,17 @@ module Page.Partners exposing (Data, Model, Msg, page, view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, backgroundColor, batch, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inlineBlock, int, italic, justifyContent, letterSpacing, margin2, marginBottom, marginRight, minus, none, padding, padding2, pct, px, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, uppercase, width, wrap)
+import Css exposing (Style, alignItems, backgroundColor, batch, bold, borderBottomColor, borderBottomStyle, borderBottomWidth, borderRadius, calc, center, color, display, displayFlex, flexEnd, flexWrap, fontSize, fontStyle, fontWeight, hover, inlineBlock, int, italic, justifyContent, letterSpacing, margin2, marginBottom, marginLeft, marginRight, minus, none, padding, padding2, pct, px, rem, solid, spaceBetween, textAlign, textDecoration, textTransform, uppercase, width, wrap)
 import Css.Global exposing (descendants, typeSelector)
 import Css.Transitions exposing (transition)
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
 import Head
-import Head.Seo as Seo
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h3, h4, li, p, section, span, styled, text, ul)
 import Html.Styled.Attributes exposing (css, href)
 import Page exposing (Page, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
-import Pages.Url
 import Shared
 import Theme.Global as Theme exposing (darkPurple, pink, purple, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
@@ -117,22 +115,25 @@ viewPartner partner =
 
 viewMap : List Data.PlaceCal.Partners.Partner -> Html msg
 viewMap partnerList =
+    let
+        allowOnlyPartnersWithLocation partner =
+            List.isEmpty partner.areasServed && (partner.maybeGeo /= Nothing)
+
+        partnerToGeo partner =
+            case partner.maybeGeo of
+                Just geo ->
+                    geo
+
+                Nothing ->
+                    { latitude = Nothing
+                    , longitude = Nothing
+                    }
+    in
     div [ css [ featurePlaceholderStyle ] ]
         [ Theme.mapImageMulti
-            (List.filter (\partner -> partner.maybeGeo /= Nothing) partnerList
-                |> List.map
-                    (\partner ->
-                        case partner.maybeGeo of
-                            Just geo ->
-                                { latitude = geo.latitude
-                                , longitude = geo.longitude
-                                }
-
-                            Nothing ->
-                                { latitude = "0"
-                                , longitude = "0"
-                                }
-                    )
+            (t PartnersMapAltText)
+            (List.filter allowOnlyPartnersWithLocation partnerList
+                |> List.map partnerToGeo
             )
         ]
 
@@ -143,7 +144,7 @@ viewAreaTag :
     -> Html msg
 viewAreaTag serviceAreas maybeAddress =
     if List.length serviceAreas > 0 then
-        ul []
+        ul [ css [ areaTagStyle ] ]
             (List.map
                 (\area ->
                     li []
@@ -198,6 +199,7 @@ partnerAreaTagSpan =
         [ backgroundColor darkPurple
         , color pink
         , display inlineBlock
+        , marginLeft (rem 0.5)
         , padding2 (rem 0.25) (rem 0.5)
         , borderRadius (rem 0.3)
         , fontWeight (int 600)
@@ -299,6 +301,13 @@ partnerDescriptionStyle =
         [ fontSize (rem 0.8777)
         , marginRight (rem 1)
         , withMediaTabletPortraitUp [ fontSize (rem 1.2) ]
+        ]
+
+
+areaTagStyle : Style
+areaTagStyle =
+    batch
+        [ displayFlex
         ]
 
 

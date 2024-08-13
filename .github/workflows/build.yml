@@ -1,0 +1,10 @@
+on:
+  schedule:
+    - cron: "0 08,11,14,17,20 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run:
+          curl -X POST "https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/1aaca29c-199a-4a3b-b9e9-06c497746397"

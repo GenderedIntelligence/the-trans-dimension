@@ -1,9 +1,8 @@
 module Page.News exposing (Data, Model, Msg, page, view, viewNewsArticle)
 
-import Array exposing (Array)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, after, auto, backgroundColor, batch, borderBox, borderRadius, boxSizing, calc, center, color, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, minus, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
+import Css exposing (Style, after, auto, batch, borderBox, borderRadius, boxSizing, calc, center, displayFlex, em, flexGrow, fontSize, fontStyle, fontWeight, height, int, italic, left, lineHeight, margin, margin2, margin4, marginBottom, marginTop, maxWidth, minus, padding, padding4, paddingLeft, pct, position, property, px, relative, rem, textAlign, width)
 import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
 import DataSource exposing (DataSource)
@@ -11,11 +10,12 @@ import Head
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h3, img, li, p, section, span, text, time, ul)
-import Html.Styled.Attributes exposing (css, href, src)
+import Html.Styled.Attributes exposing (alt, css, href, src)
 import Page exposing (Page, StaticPayload)
+import Page.News.NewsItem_
 import Pages.PageUrl exposing (PageUrl)
 import Shared
-import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlue, pinkButtonOnLightBackgroundStyle, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlueBackgroundStyle, linkStyle, pinkButtonOnLightBackgroundStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -106,18 +106,6 @@ viewNewsList news =
         ]
 
 
-defaultNewsImages : Array String
-defaultNewsImages =
-    Array.fromList
-        [ "/images/news/article_1.jpg"
-        , "/images/news/article_2.jpg"
-        , "/images/news/article_3.jpg"
-        , "/images/news/article_4.jpg"
-        , "/images/news/article_5.jpg"
-        , "/images/news/article_6.jpg"
-        ]
-
-
 viewNewsItem : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsItem newsItem =
     li [ css [ newsItemStyle ] ]
@@ -127,24 +115,25 @@ viewNewsItem newsItem =
 viewNewsArticle : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsArticle newsItem =
     article [ css [ newsItemArticleStyle ] ]
-        [ img
-            [ src
-                (case Array.get 0 defaultNewsImages of
-                    Just string ->
-                        string
-
-                    Nothing ->
-                        ""
-                )
-            , css [ newsImageStyle ]
-            ]
-            []
+        [ newsArticleImage newsItem.maybeImage newsItem.body
         , div [ css [ newsItemInfoStyle ] ]
-            [ h3 [ css [ newsItemTitleStyle ] ] [ text newsItem.title ]
-            , p [ css [ newsItemMetaStyle ] ]
-                [ span [ css [ newsItemAuthorStyle ] ]
-                    [ text (String.join ", " newsItem.partnerIds)
+            [ h3 [ css [ newsItemTitleStyle ] ]
+                [ a
+                    [ css [ linkStyle ]
+                    , href
+                        (TransRoutes.toAbsoluteUrl
+                            (NewsItem (TransRoutes.stringToSlug newsItem.title))
+                        )
                     ]
+                    [ text newsItem.title ]
+                ]
+            , p [ css [ newsItemMetaStyle ] ]
+                [ if List.length newsItem.partnerIds > 0 then
+                    span [ css [ newsItemAuthorStyle ] ]
+                        [ text (String.join ", " newsItem.partnerIds) ]
+
+                  else
+                    text ""
                 , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
                 ]
             , p [ css [ newsItemSummaryStyle ] ] [ text (summaryFromArticleBody newsItem.body), text "..." ]
@@ -157,7 +146,7 @@ viewNewsArticle newsItem =
                         (NewsItem (TransRoutes.stringToSlug newsItem.title))
                     )
                 ]
-                [ text (t (NewsItemReadMore newsItem.title)) ]
+                [ text (t NewsItemReadMore) ]
             ]
         ]
 
@@ -169,6 +158,16 @@ summaryFromArticleBody articleBody =
         |> String.join " "
 
 
+newsArticleImage : Maybe String -> String -> Html msg
+newsArticleImage maybeImage articleBody =
+    img
+        [ src (Page.News.NewsItem_.articleImageSource maybeImage articleBody)
+        , css [ newsImageStyle ]
+        , alt ""
+        ]
+        []
+
+
 
 ---------
 -- Styles
@@ -178,9 +177,8 @@ summaryFromArticleBody articleBody =
 newsItemStyle : Style
 newsItemStyle =
     batch
-        [ margin4 (rem 2) (rem 0) (rem 3) (rem 0)
-        , backgroundColor white
-        , color darkBlue
+        [ darkBlueBackgroundStyle
+        , margin4 (rem 2) (rem 0) (rem 3) (rem 0)
         , borderRadius (rem 0.2)
         , padding4 (rem 1.25) (rem 1.25) (rem 3) (rem 1.25)
         , position relative

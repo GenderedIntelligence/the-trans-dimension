@@ -2,7 +2,6 @@ module Page.IndexTests exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.TestFixtures as Fixtures
 import Expect
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html
@@ -12,13 +11,14 @@ import Path
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
+import TestFixtures exposing (sharedModelInit)
 import TestUtils exposing (queryFromStyledList)
 
 
 viewParamsForHome =
-    { data = 
-        { latestNews = List.head Fixtures.news
-        , featuredEvents = List.take 4 Fixtures.events
+    { data =
+        { latestNews = List.head TestFixtures.news
+        , allEvents = TestFixtures.events
         }
     , path = Path.fromString "/"
     , routeParams = {}
@@ -28,7 +28,7 @@ viewParamsForHome =
 
 viewBodyHtml viewParams =
     queryFromStyledList
-        (view Nothing { showMobileMenu = False } viewParams).body
+        (view Nothing sharedModelInit viewParams).body
 
 
 suite : Test

@@ -1,24 +1,24 @@
 module Page.JoinUs exposing (Data, Model, Msg, blankForm, initialFormState, page, view)
 
 import Browser.Navigation
+import Constants exposing (joinUsFunctionUrl)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, lineHeight, margin, margin2, marginRight, marginTop, maxWidth, minHeight, minus, padding2, pct, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
-import Data.TestFixtures exposing (news)
+import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, lineHeight, margin, margin2, marginRight, marginTop, maxWidth, minus, padding2, pct, pseudoElement, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
 import DataSource exposing (DataSource)
 import Head
-import Html.Styled exposing (Html, button, div, form, h1, input, label, p, span, text, textarea)
+import Html.Styled exposing (Html, button, div, form, input, label, p, span, text, textarea)
 import Html.Styled.Attributes exposing (css, placeholder, type_, value)
-import Html.Styled.Events exposing (onClick, onInput, onSubmit)
+import Html.Styled.Events exposing (onInput, onSubmit)
 import Http
 import Json.Encode
-import List exposing (isEmpty)
+import List
 import Page exposing (PageWithState, StaticPayload)
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Shared
 import Task
-import Theme.Global exposing (pink, pinkButtonOnDarkBackgroundStyle, textInputErrorStyle, textInputStyle, viewCheckbox, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (pink, pinkButtonOnDarkBackgroundStyle, textInputErrorStyle, textInputStyle, viewCheckbox, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -36,7 +36,6 @@ type FormRequired
 
 type FormError
     = FieldRequired
-    | WrongFormat
 
 
 type alias FormInput =
@@ -161,7 +160,7 @@ validateForm formData =
 emailPostRequest : Json.Encode.Value -> Cmd Msg
 emailPostRequest bodyValue =
     Http.post
-        { url = "https://fervent-colden-5f0cd2.netlify.app/.netlify/functions/transDim"
+        { url = joinUsFunctionUrl
         , body = Http.jsonBody bodyValue
         , expect = Http.expectWhatever ReceiveEmailResponse
         }
@@ -367,7 +366,7 @@ update pageUrl maybeNavigationKey sharedModel static msg ({ userInput } as model
                 Ok _ ->
                     ( { userInput = blankForm, formState = Sent }, Cmd.none )
 
-                Err httpError ->
+                Err _ ->
                     ( { model | formState = SendingError }, Cmd.none )
 
 
@@ -431,8 +430,6 @@ view maybeUrl sharedModel localModel static =
             , smallText = Just [ t JoinUsDescription ]
             , innerContent = Just (viewForm localModel)
             , outerContent = Nothing
-
-            -- , outerContent = Just (viewFormStateForTesting localModel.formState)
             }
         ]
     }
@@ -608,11 +605,12 @@ textAreaStyle : Style
 textAreaStyle =
     batch
         [ textInputStyle
+        , boxSizing borderBox
+        , height (px 140)
         , margin2 (rem 0.5) (rem 0)
         , padding2 (rem 1) (rem 1.5)
+        , pseudoElement "placeholder" [ color white ]
         , width (pct 100)
-        , height (px 140)
-        , boxSizing borderBox
         , withMediaTabletPortraitUp [ height (px 100) ]
         ]
 
