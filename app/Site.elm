@@ -1,37 +1,27 @@
 module Site exposing (config)
 
+import BackendTask exposing (BackendTask)
 import Constants exposing (canonicalUrl)
-import DataSource
+import FatalError exposing (FatalError)
 import Head
 import MimeType
 import Pages.Manifest as Manifest
 import Pages.Url
-import Path
 import Route
 import SiteConfig exposing (SiteConfig)
 import Theme.Global
+import UrlPath
 
 
-type alias Data =
-    ()
-
-
-config : SiteConfig Data
+config : SiteConfig
 config =
-    { data = data
-    , canonicalUrl = canonicalUrl
-    , manifest = manifest
+    { canonicalUrl = canonicalUrl
     , head = head
     }
 
 
-data : DataSource.DataSource Data
-data =
-    DataSource.succeed ()
-
-
-head : Data -> List Head.Tag
-head static =
+head : BackendTask FatalError (List Head.Tag)
+head =
     [ Head.sitemapLink "/sitemap.xml"
     , Head.appleTouchIcon (Just 180) (pathFromString "/favicons/apple-touch-icon.png")
     , Head.metaName "msapplication-TileColor" (Head.raw "#ff7aa7")
@@ -41,10 +31,11 @@ head static =
             [ ( 32, "favicon-32x32.png" )
             , ( 16, "favicon-16x16.png" )
             ]
+        |> BackendTask.succeed
 
 
-manifest : Data -> Manifest.Config
-manifest static =
+manifest : Manifest.Config
+manifest =
     Manifest.init
         { name = "The Trans Dimension"
         , description = "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place."
@@ -66,9 +57,8 @@ manifest static =
         |> Manifest.withThemeColor Theme.Global.pinkRgbColor
 
 
-pathFromString : String -> Pages.Url.Url
 pathFromString srcString =
-    Pages.Url.fromPath <| Path.fromString srcString
+    Pages.Url.fromPath <| UrlPath.fromString srcString
 
 
 icons : List ( Int, String ) -> List Head.Tag

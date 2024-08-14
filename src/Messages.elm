@@ -1,16 +1,15 @@
 module Messages exposing (Msg(..), SharedMsg(..))
 
-import Path exposing (Path)
 import Time
+import UrlPath exposing (UrlPath)
 
 
 type Msg
     = OnPageChange
-        { path : Path
+        { path : UrlPath
         , query : Maybe String
         , fragment : Maybe String
         }
-    | GetTime Time.Posix
       -- Header
     | ToggleMenu
       -- Shared
