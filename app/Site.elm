@@ -39,7 +39,7 @@ manifest =
     Manifest.init
         { name = "The Trans Dimension"
         , description = "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place."
-        , startUrl = Route.IndexA |> Route.toPath
+        , startUrl = Route.Index |> Route.toPath
         , icons =
             [ { src = pathFromString "/favicons/android-chrome-192x192.png"
               , sizes = [ ( 192, 192 ) ]

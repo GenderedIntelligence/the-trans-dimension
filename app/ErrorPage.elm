@@ -7,17 +7,16 @@ import View exposing (View)
 
 
 type Msg
-    = Increment
+    = NoOp
 
 
 type alias Model =
-    { count : Int
-    }
+    {}
 
 
 init : ErrorPage -> ( Model, Effect Msg )
 init errorPage =
-    ( { count = 0 }
+    ( {}
     , Effect.none
     )
 
@@ -25,8 +24,8 @@ init errorPage =
 update : ErrorPage -> Msg -> Model -> ( Model, Effect Msg )
 update errorPage msg model =
     case msg of
-        Increment ->
-            ( { model | count = model.count + 1 }, Effect.none )
+        NoOp ->
+            ( model, Effect.none )
 
 
 head : ErrorPage -> List Head.Tag
