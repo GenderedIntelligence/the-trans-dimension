@@ -1,20 +1,22 @@
 module Shared exposing (Data, Model, Msg, template)
 
+import BackendTask exposing (BackendTask)
+import BackendTask.Time
 import Browser.Navigation
-import DataSource
+import Effect exposing (Effect)
+import FatalError exposing (FatalError)
 import Html
 import Html.Styled
 import Messages exposing (Msg(..))
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
-import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
-import Task
 import Theme.Global
 import Theme.PageFooter exposing (viewPageFooter)
 import Theme.PageHeader exposing (viewPageHeader)
 import Time
+import UrlPath exposing (UrlPath)
 import View exposing (View)
 
 
@@ -36,7 +38,7 @@ template =
 
 
 type alias Data =
-    ()
+    { time : Time.Posix }
 
 
 
@@ -51,58 +53,54 @@ type alias Msg =
 
 type alias Model =
     { showMobileMenu : Bool
-    , nowTime : Time.Posix
     }
 
 
 init :
-    Maybe Browser.Navigation.Key
-    -> Pages.Flags.Flags
+    Pages.Flags.Flags
     ->
         Maybe
             { path :
-                { path : Path
+                { path : UrlPath
                 , query : Maybe String
                 , fragment : Maybe String
                 }
             , metadata : route
             , pageUrl : Maybe PageUrl
             }
-    -> ( Model, Cmd Msg )
-init navigationKey flags maybePagePath =
+    -> ( Model, Effect Msg )
+init flags maybePagePath =
     ( { showMobileMenu = False
-      , nowTime = Time.millisToPosix 0
       }
-    , Task.perform GetTime Time.now
+    , Effect.none
     )
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         OnPageChange _ ->
-            ( { model | showMobileMenu = False }, Cmd.none )
-
-        GetTime newTime ->
-            ( { model | nowTime = newTime }, Cmd.none )
+            ( { model | showMobileMenu = False }, Effect.none )
 
         -- Header
         ToggleMenu ->
-            ( { model | showMobileMenu = not model.showMobileMenu }, Cmd.none )
+            ( { model | showMobileMenu = not model.showMobileMenu }, Effect.none )
 
         -- Shared
         SharedMsg _ ->
-            ( model, Cmd.none )
+            ( model, Effect.none )
 
 
-subscriptions : Path -> Model -> Sub Msg
+subscriptions : UrlPath -> Model -> Sub Msg
 subscriptions _ _ =
     Sub.none
 
 
-data : DataSource.DataSource Data
+data : BackendTask FatalError Data
 data =
-    DataSource.succeed ()
+    -- Consider using Pages.builtAt or Server.Request.requestTime
+    BackendTask.map Data
+        BackendTask.Time.now
 
 
 
@@ -114,16 +112,16 @@ data =
 view :
     Data
     ->
-        { path : Path
+        { path : UrlPath
         , route : Maybe Route
         }
     -> Model
     -> (Msg -> msg)
     -> View msg
-    -> { body : Html.Html msg, title : String }
+    -> { body : List (Html.Html msg), title : String }
 view sharedData page model toMsg pageView =
     { body =
-        Html.Styled.toUnstyled
+        [ Html.Styled.toUnstyled
             (Theme.Global.containerPage pageView.title
                 [ View.fontPreload
                 , View.plausibleTracker
@@ -135,5 +133,6 @@ view sharedData page model toMsg pageView =
                 , viewPageFooter
                 ]
             )
+        ]
     , title = pageView.title
     }

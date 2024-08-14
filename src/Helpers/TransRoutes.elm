@@ -2,8 +2,8 @@ module Helpers.TransRoutes exposing (Route(..), stringToSlug, toAbsoluteUrl, toP
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Path
 import Slug
+import UrlPath
 
 
 type Route
@@ -61,49 +61,49 @@ toPageTitle route =
             t ErrorTitle
 
 
-toPath : Route -> Path.Path
+toPath : Route -> UrlPath.UrlPath
 toPath route =
     case route of
         Home ->
-            Path.fromString "/"
+            UrlPath.fromString "/"
 
         About ->
-            Path.fromString "about"
+            UrlPath.fromString "about"
 
         Events ->
-            Path.fromString "events"
+            UrlPath.fromString "events"
 
         Event slug ->
-            Path.join [ "events", slug ]
+            UrlPath.join [ "events", slug ]
 
         JoinUs ->
-            Path.fromString "join-us"
+            UrlPath.fromString "join-us"
 
         NewsItem slug ->
-            Path.join [ "news", slug ]
+            UrlPath.join [ "news", slug ]
 
         News ->
-            Path.fromString "news"
+            UrlPath.fromString "news"
 
         Donate ->
-            Path.fromString "donate"
+            UrlPath.fromString "donate"
 
         Partner slug ->
-            Path.join [ "partners", slug ]
+            UrlPath.join [ "partners", slug ]
 
         Partners ->
-            Path.fromString "partners"
+            UrlPath.fromString "partners"
 
         Privacy ->
-            Path.fromString "privacy"
+            UrlPath.fromString "privacy"
 
         Error ->
-            Path.fromString "404"
+            UrlPath.fromString "404"
 
 
 toAbsoluteUrl : Route -> String
 toAbsoluteUrl route =
-    Path.toAbsolute (toPath route)
+    UrlPath.toAbsolute (toPath route)
 
 
 stringToSlug : String -> String

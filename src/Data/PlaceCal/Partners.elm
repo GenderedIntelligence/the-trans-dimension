@@ -1,6 +1,6 @@
 module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, eventPartnerFromId, partnerNameFromId, partnerNamesFromIds, partnersData)
 
-import Api
+import Constants
 import Data.PlaceCal.Events exposing (EventPartner)
 import DataSource
 import DataSource.Http
@@ -106,7 +106,7 @@ allPartnersQuery =
 
 allPartnersPlaceCalRequest : DataSource.Http.RequestDetails
 allPartnersPlaceCalRequest =
-    { url = Api.placeCalApiUrl
+    { url = Constants.placeCalApiUrl
     , method = "POST"
     , headers = []
     , body = DataSource.Http.jsonBody allPartnersQuery

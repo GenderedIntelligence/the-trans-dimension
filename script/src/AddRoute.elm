@@ -15,8 +15,8 @@ import Gen.Effect as Effect
 import Gen.FatalError
 import Gen.Form as Form
 import Gen.Form.FieldView as FieldView
-import Gen.Html as Html
 import Gen.Html.Attributes as Attr
+import Gen.Html.Styled as Html
 import Gen.Json.Encode
 import Gen.List
 import Gen.Maybe

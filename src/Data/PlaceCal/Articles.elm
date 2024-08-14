@@ -1,6 +1,7 @@
 module Data.PlaceCal.Articles exposing (Article, articlesData, emptyArticle)
 
 import Api
+import Constants
 import DataSource
 import DataSource.Http
 import Helpers.TransDate as TransDate
@@ -62,7 +63,7 @@ allArticlesQuery =
 
 allArticlesPlaceCalRequest : DataSource.Http.RequestDetails
 allArticlesPlaceCalRequest =
-    { url = Api.placeCalApiUrl
+    { url = Constants.placeCalApiUrl
     , method = "POST"
     , headers = []
     , body = DataSource.Http.jsonBody allArticlesQuery

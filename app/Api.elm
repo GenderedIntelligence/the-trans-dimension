@@ -1,20 +1,15 @@
-module Api exposing (placeCalApiUrl, routes)
+module Api exposing (routes)
 
-import ApiRoute
-import Constants exposing (placecalApi)
-import DataSource exposing (DataSource)
+import ApiRoute exposing (ApiRoute)
+import BackendTask exposing (BackendTask)
+import FatalError exposing (FatalError)
 import Html exposing (Html)
 import Route exposing (Route)
 
 
-placeCalApiUrl : String
-placeCalApiUrl =
-    placecalApi
-
-
 routes :
-    DataSource (List Route)
-    -> (Html Never -> String)
-    -> List (ApiRoute.ApiRoute ApiRoute.Response)
+    BackendTask FatalError (List Route)
+    -> (Maybe { indent : Int, newLines : Bool } -> Html Never -> String)
+    -> List (ApiRoute ApiRoute.Response)
 routes getStaticRoutes htmlToString =
     []

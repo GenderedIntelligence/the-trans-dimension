@@ -1,6 +1,6 @@
 module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), afterDate, emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId, next4Events, onOrBeforeDate)
 
-import Api
+import Constants
 import DataSource
 import DataSource.Http
 import Helpers.TransDate as TransDate
@@ -151,7 +151,7 @@ allEventsQuery =
 
 allEventsPlaceCalRequest : DataSource.Http.RequestDetails
 allEventsPlaceCalRequest =
-    { url = Api.placeCalApiUrl
+    { url = Constants.placeCalApiUrl
     , method = "POST"
     , headers = []
     , body = DataSource.Http.jsonBody allEventsQuery

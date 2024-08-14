@@ -9,10 +9,10 @@ import Html.Styled exposing (Html, a, button, div, h1, header, li, nav, p, span,
 import Html.Styled.Attributes exposing (attribute, css, href)
 import Html.Styled.Events exposing (onClick)
 import Messages exposing (Msg(..))
-import Path exposing (Path)
 import Route exposing (Route)
 import Theme.Global as Theme exposing (darkBlue, pink, screenReaderOnly, white, withMediaTabletPortraitUp)
 import Theme.Logo
+import UrlPath exposing (UrlPath)
 
 
 headerNavigationItems : List TransRoutes.Route
@@ -21,7 +21,7 @@ headerNavigationItems =
 
 
 viewPageHeader :
-    { path : Path, route : Maybe Route }
+    { path : UrlPath, route : Maybe Route }
     -> { showMobileMenu : Bool }
     -> Html Msg
 viewPageHeader currentPath viewOptions =
@@ -46,7 +46,7 @@ viewPageHeaderTitle =
         ]
 
 
-viewPageHeaderNavigation : Bool -> List TransRoutes.Route -> Path -> Html Msg
+viewPageHeaderNavigation : Bool -> List TransRoutes.Route -> UrlPath -> Html Msg
 viewPageHeaderNavigation showMobileMenu listItems currentPath =
     nav []
         [ ul
@@ -65,10 +65,10 @@ viewPageHeaderNavigation showMobileMenu listItems currentPath =
                     if TransRoutes.toAbsoluteUrl item == "/" then
                         viewHeaderNavigationItem item
 
-                    else if TransRoutes.toAbsoluteUrl item == Path.toAbsolute currentPath then
+                    else if TransRoutes.toAbsoluteUrl item == UrlPath.toAbsolute currentPath then
                         viewHeaderNavigationItemCurrent item
 
-                    else if String.contains (TransRoutes.toAbsoluteUrl item) (Path.toAbsolute currentPath) then
+                    else if String.contains (TransRoutes.toAbsoluteUrl item) (UrlPath.toAbsolute currentPath) then
                         viewHeaderNavigationItemCurrentCategory item
 
                     else if TransRoutes.toAbsoluteUrl item == "/donate" then

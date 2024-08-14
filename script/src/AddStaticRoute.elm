@@ -9,7 +9,7 @@ import Elm.Annotation as Type
 import Elm.Case
 import Gen.BackendTask
 import Gen.Effect as Effect
-import Gen.Html as Html
+import Gen.Html.Styled as Html
 import Gen.Platform.Sub
 import Gen.View
 import Pages.Script as Script exposing (Script)
