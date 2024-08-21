@@ -8,20 +8,19 @@ module Route.About exposing (Model, Msg, RouteParams, route, Data, ActionData)
 
 import BackendTask
 import BackendTask.File
-import Css exposing (Style, absolute, after, alignItems, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bottom, calc, center, column, display, displayFlex, flexDirection, flexShrink, height, important, int, justifyContent, left, margin, margin2, margin4, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noRepeat, nthChild, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, right, spaceAround, top, url, vw, width, zIndex)
-import Css.Global exposing (descendants, typeSelector)
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import FatalError
 import Head
-import Html.Styled exposing (a, div, h3, h4, img, p, section, text)
-import Html.Styled.Attributes exposing (alt, css, href, src)
+import Html.Styled
 import Json.Decode as Decode
+import Markdown.Block
 import PagesMsg
 import RouteBuilder
 import Shared
 import Theme.AboutPage
-import Theme.Global exposing (buttonFloatingWrapperStyle, contentContainerStyle, contentWrapperStyle, introTextLargeStyle, normalFirstParagraphStyle, smallFloatingTitleStyle, textBoxPinkStyle, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate
-import Theme.TransMarkdown as TransMarkdown
+import Theme.TransMarkdown
 import View
 
 
@@ -46,10 +45,10 @@ route =
 
 
 type alias Data =
-    { main : Theme.PageTemplate.SectionWithTextHeader Msg
-    , accessibility : Theme.PageTemplate.SectionWithTextHeader Msg
+    { main : Theme.PageTemplate.SectionWithTextHeader
+    , accessibility : Theme.PageTemplate.SectionWithTextHeader
     , makers : List Maker
-    , placecal : Theme.PageTemplate.SectionWithImageHeader Msg
+    , placecal : Theme.PageTemplate.SectionWithImageHeader
     }
 
 
@@ -57,7 +56,7 @@ type alias Maker =
     { name : String
     , url : String
     , logo : String
-    , body : List (Html.Styled.Html Msg)
+    , body : List Markdown.Block.Block
     }
 
 
@@ -78,17 +77,17 @@ data =
         (BackendTask.File.bodyWithFrontmatter
             (\markdownString ->
                 Decode.map3
-                    (\title subtitle renderedMarkdown ->
+                    (\title subtitle markdownBlocks ->
                         { title = title
                         , subtitle = subtitle
-                        , body = renderedMarkdown
+                        , body = markdownBlocks
                         }
                     )
                     (Decode.field "title" Decode.string)
                     (Decode.field "subtitle" Decode.string)
                     (markdownString
-                        |> TransMarkdown.markdownToView
-                        |> TransMarkdown.fromResult
+                        |> Theme.TransMarkdown.markdownToBlocks
+                        |> Theme.TransMarkdown.fromResult
                     )
             )
             "content/about/main.md"
@@ -96,17 +95,17 @@ data =
         (BackendTask.File.bodyWithFrontmatter
             (\markdownString ->
                 Decode.map3
-                    (\title subtitle renderedMarkdown ->
+                    (\title subtitle markdownBlocks ->
                         { title = title
                         , subtitle = subtitle
-                        , body = renderedMarkdown
+                        , body = markdownBlocks
                         }
                     )
                     (Decode.field "title" Decode.string)
                     (Decode.field "subtitle" Decode.string)
                     (markdownString
-                        |> TransMarkdown.markdownToView
-                        |> TransMarkdown.fromResult
+                        |> Theme.TransMarkdown.markdownToBlocks
+                        |> Theme.TransMarkdown.fromResult
                     )
             )
             "content/about/accessibility.md"
@@ -118,19 +117,19 @@ data =
             (BackendTask.File.bodyWithFrontmatter
                 (\markdownString ->
                     Decode.map4
-                        (\name logo url renderedMarkdown ->
+                        (\name logo url markdownBlocks ->
                             { name = name
                             , logo = logo
                             , url = url
-                            , body = renderedMarkdown
+                            , body = markdownBlocks
                             }
                         )
                         (Decode.field "name" Decode.string)
                         (Decode.field "logo" Decode.string)
                         (Decode.field "url" Decode.string)
                         (markdownString
-                            |> TransMarkdown.markdownToView
-                            |> TransMarkdown.fromResult
+                            |> Theme.TransMarkdown.markdownToBlocks
+                            |> Theme.TransMarkdown.fromResult
                         )
                 )
                 "content/about/makers/gfsc.md"
@@ -138,19 +137,19 @@ data =
             (BackendTask.File.bodyWithFrontmatter
                 (\markdownString ->
                     Decode.map4
-                        (\name logo url renderedMarkdown ->
+                        (\name logo url markdownBlocks ->
                             { name = name
                             , logo = logo
                             , url = url
-                            , body = renderedMarkdown
+                            , body = markdownBlocks
                             }
                         )
                         (Decode.field "name" Decode.string)
                         (Decode.field "logo" Decode.string)
                         (Decode.field "url" Decode.string)
                         (markdownString
-                            |> TransMarkdown.markdownToView
-                            |> TransMarkdown.fromResult
+                            |> Theme.TransMarkdown.markdownToBlocks
+                            |> Theme.TransMarkdown.fromResult
                         )
                 )
                 "content/about/makers/gi.md"
@@ -159,19 +158,19 @@ data =
         (BackendTask.File.bodyWithFrontmatter
             (\markdownString ->
                 Decode.map4
-                    (\title subtitleimg subtitleimgalt renderedMarkdown ->
+                    (\title subtitleimg subtitleimgalt markdownBlocks ->
                         { title = title
                         , subtitleimg = subtitleimg
                         , subtitleimgalt = subtitleimgalt
-                        , body = renderedMarkdown
+                        , body = markdownBlocks
                         }
                     )
                     (Decode.field "title" Decode.string)
                     (Decode.field "subtitleimg" Decode.string)
                     (Decode.field "subtitleimgalt" Decode.string)
                     (markdownString
-                        |> TransMarkdown.markdownToView
-                        |> TransMarkdown.fromResult
+                        |> Theme.TransMarkdown.markdownToBlocks
+                        |> Theme.TransMarkdown.fromResult
                     )
             )
             "content/about/placecal.md"
@@ -181,7 +180,11 @@ data =
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
 head app =
-    []
+    Theme.PageTemplate.pageMetaTags
+        { title = AboutTitle
+        , description = AboutMetaDescription
+        , imageSrc = Nothing
+        }
 
 
 view :
@@ -189,7 +192,7 @@ view :
     -> Shared.Model
     -> View.View (PagesMsg.PagesMsg Msg)
 view app shared =
-    { title = "About"
+    { title = t (PageMetaTitle (t AboutTitle))
     , body =
         [ Theme.PageTemplate.view
             { headerType = Just "about"
