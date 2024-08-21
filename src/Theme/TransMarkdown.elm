@@ -1,13 +1,24 @@
-module Theme.TransMarkdown exposing (markdownToHtml, markdownToView)
+module Theme.TransMarkdown exposing (fromResult, markdownToHtml, markdownToView)
 
 import Css exposing (Style, absolute, batch, before, center, color, decimal, em, firstChild, fontSize, fontWeight, int, left, lineHeight, listStyle, listStyleType, marginBlockEnd, marginBlockStart, none, paddingLeft, position, property, relative, rem, textAlign, top)
 import Html.Styled as Html
 import Html.Styled.Attributes as Attr exposing (css)
+import Json.Decode
 import Markdown.Block as Block
 import Markdown.Html
 import Markdown.Parser
 import Markdown.Renderer
 import Theme.Global exposing (linkStyle, pink, withMediaSmallDesktopUp, withMediaTabletLandscapeUp)
+
+
+fromResult : Result String value -> Json.Decode.Decoder value
+fromResult result =
+    case result of
+        Ok okValue ->
+            Json.Decode.succeed okValue
+
+        Err error ->
+            Json.Decode.fail error
 
 
 markdownToHtml : String -> List (Html.Html msg)
