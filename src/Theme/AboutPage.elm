@@ -9,20 +9,22 @@ import Head.Seo as Seo
 import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import List exposing (append)
+import Markdown.Block
 import Pages.Url
 import Theme.Global exposing (buttonFloatingWrapperStyle, contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, normalFirstParagraphStyle, smallFloatingTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, white, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate
+import Theme.TransMarkdown
 
 
-viewIntro : List (Html msg) -> Html msg
+viewIntro : List Markdown.Block.Block -> Html msg
 viewIntro introBody =
-    section [ css [ introTextStyle ] ] introBody
+    section [ css [ introTextStyle ] ] (Theme.TransMarkdown.markdownBlocksToHtml introBody)
 
 
 viewSections :
-    { accessibilityData : Theme.PageTemplate.SectionWithTextHeader msg
-    , makersData : List { name : String, url : String, logo : String, body : List (Html msg) }
-    , aboutPlaceCalData : Theme.PageTemplate.SectionWithImageHeader msg
+    { accessibilityData : Theme.PageTemplate.SectionWithTextHeader
+    , makersData : List { name : String, url : String, logo : String, body : List Markdown.Block.Block }
+    , aboutPlaceCalData : Theme.PageTemplate.SectionWithImageHeader
     }
     -> Html msg
 viewSections { accessibilityData, makersData, aboutPlaceCalData } =
@@ -33,16 +35,16 @@ viewSections { accessibilityData, makersData, aboutPlaceCalData } =
         ]
 
 
-viewAccessibility : Theme.PageTemplate.SectionWithTextHeader msg -> Html msg
+viewAccessibility : Theme.PageTemplate.SectionWithTextHeader -> Html msg
 viewAccessibility { title, subtitle, body } =
     section [ css [ contentWrapperStyle, accessibilityStyle ] ]
         [ h3 [ css [ smallFloatingTitleStyle, withMediaMobileOnly [ top (rem -4.5) ] ] ] [ text title ]
         , div [ css [ textBoxPinkStyle, accessibilityCharactersStyle ] ] [ p [ css [ introTextLargeStyle ] ] [ text subtitle ] ]
-        , div [ css [ contentContainerStyle, aboutAccessibilityTextStyle ] ] body
+        , div [ css [ contentContainerStyle, aboutAccessibilityTextStyle ] ] (Theme.TransMarkdown.markdownBlocksToHtml body)
         ]
 
 
-viewMakers : List { name : String, url : String, logo : String, body : List (Html msg) } -> Html msg
+viewMakers : List { name : String, url : String, logo : String, body : List Markdown.Block.Block } -> Html msg
 viewMakers makersList =
     section [ css [ makersStyle ] ]
         (List.concat
@@ -52,28 +54,28 @@ viewMakers makersList =
         )
 
 
-viewMaker : { name : String, url : String, logo : String, body : List (Html msg) } -> Html msg
+viewMaker : { name : String, url : String, logo : String, body : List Markdown.Block.Block } -> Html msg
 viewMaker { name, url, logo, body } =
     div [ css [ makerStyle, textBoxPinkStyle ] ]
         [ h4 [ css [ makerHeaderStyle ] ] [ img [ src logo, alt name, css [ makerLogoStyle ] ] [] ]
-        , div [ css [ normalFirstParagraphStyle ] ] body
+        , div [ css [ normalFirstParagraphStyle ] ] (Theme.TransMarkdown.markdownBlocksToHtml body)
         , p [ css [ buttonFloatingWrapperStyle ] ] [ a [ href url, css [ whiteButtonStyle ] ] [ text "Find out more" ] ]
         ]
 
 
-viewAboutPlaceCal : Theme.PageTemplate.SectionWithImageHeader msg -> Html msg
-viewAboutPlaceCal sectionWithImageHeader =
+viewAboutPlaceCal : Theme.PageTemplate.SectionWithImageHeader -> Html msg
+viewAboutPlaceCal { title, subtitleimg, subtitleimgalt, body } =
     section [ css [ contentWrapperStyle, placeCalStyle ] ]
-        [ h3 [ css [ smallFloatingTitleStyle ] ] [ text sectionWithImageHeader.title ]
+        [ h3 [ css [ smallFloatingTitleStyle ] ] [ text title ]
         , div [ css [ textBoxPinkStyle ] ]
             [ img
-                [ src sectionWithImageHeader.subtitleimg
-                , alt sectionWithImageHeader.subtitleimgalt
+                [ src subtitleimg
+                , alt subtitleimgalt
                 , css [ placeCalLogoStyle ]
                 ]
                 []
             ]
-        , div [ css [ Theme.PageTemplate.columnsStyle, contentContainerStyle, normalFirstParagraphStyle ] ] sectionWithImageHeader.body
+        , div [ css [ Theme.PageTemplate.columnsStyle, contentContainerStyle, normalFirstParagraphStyle ] ] (Theme.TransMarkdown.markdownBlocksToHtml body)
         ]
 
 

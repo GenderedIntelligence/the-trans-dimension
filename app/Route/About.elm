@@ -15,6 +15,7 @@ import Head
 import Html.Styled exposing (a, div, h3, h4, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Json.Decode as Decode
+import Markdown.Block
 import PagesMsg
 import RouteBuilder
 import Shared
@@ -46,10 +47,10 @@ route =
 
 
 type alias Data =
-    { main : Theme.PageTemplate.SectionWithTextHeader Msg
-    , accessibility : Theme.PageTemplate.SectionWithTextHeader Msg
+    { main : Theme.PageTemplate.SectionWithTextHeader
+    , accessibility : Theme.PageTemplate.SectionWithTextHeader
     , makers : List Maker
-    , placecal : Theme.PageTemplate.SectionWithImageHeader Msg
+    , placecal : Theme.PageTemplate.SectionWithImageHeader
     }
 
 
@@ -57,7 +58,7 @@ type alias Maker =
     { name : String
     , url : String
     , logo : String
-    , body : List (Html.Styled.Html Msg)
+    , body : List Markdown.Block.Block
     }
 
 
@@ -78,16 +79,16 @@ data =
         (BackendTask.File.bodyWithFrontmatter
             (\markdownString ->
                 Decode.map3
-                    (\title subtitle renderedMarkdown ->
+                    (\title subtitle markdownBlocks ->
                         { title = title
                         , subtitle = subtitle
-                        , body = renderedMarkdown
+                        , body = markdownBlocks
                         }
                     )
                     (Decode.field "title" Decode.string)
                     (Decode.field "subtitle" Decode.string)
                     (markdownString
-                        |> TransMarkdown.markdownToView
+                        |> TransMarkdown.markdownToBlocks
                         |> TransMarkdown.fromResult
                     )
             )
@@ -96,16 +97,16 @@ data =
         (BackendTask.File.bodyWithFrontmatter
             (\markdownString ->
                 Decode.map3
-                    (\title subtitle renderedMarkdown ->
+                    (\title subtitle markdownBlocks ->
                         { title = title
                         , subtitle = subtitle
-                        , body = renderedMarkdown
+                        , body = markdownBlocks
                         }
                     )
                     (Decode.field "title" Decode.string)
                     (Decode.field "subtitle" Decode.string)
                     (markdownString
-                        |> TransMarkdown.markdownToView
+                        |> TransMarkdown.markdownToBlocks
                         |> TransMarkdown.fromResult
                     )
             )
@@ -118,18 +119,18 @@ data =
             (BackendTask.File.bodyWithFrontmatter
                 (\markdownString ->
                     Decode.map4
-                        (\name logo url renderedMarkdown ->
+                        (\name logo url markdownBlocks ->
                             { name = name
                             , logo = logo
                             , url = url
-                            , body = renderedMarkdown
+                            , body = markdownBlocks
                             }
                         )
                         (Decode.field "name" Decode.string)
                         (Decode.field "logo" Decode.string)
                         (Decode.field "url" Decode.string)
                         (markdownString
-                            |> TransMarkdown.markdownToView
+                            |> TransMarkdown.markdownToBlocks
                             |> TransMarkdown.fromResult
                         )
                 )
@@ -138,18 +139,18 @@ data =
             (BackendTask.File.bodyWithFrontmatter
                 (\markdownString ->
                     Decode.map4
-                        (\name logo url renderedMarkdown ->
+                        (\name logo url markdownBlocks ->
                             { name = name
                             , logo = logo
                             , url = url
-                            , body = renderedMarkdown
+                            , body = markdownBlocks
                             }
                         )
                         (Decode.field "name" Decode.string)
                         (Decode.field "logo" Decode.string)
                         (Decode.field "url" Decode.string)
                         (markdownString
-                            |> TransMarkdown.markdownToView
+                            |> TransMarkdown.markdownToBlocks
                             |> TransMarkdown.fromResult
                         )
                 )
@@ -159,18 +160,18 @@ data =
         (BackendTask.File.bodyWithFrontmatter
             (\markdownString ->
                 Decode.map4
-                    (\title subtitleimg subtitleimgalt renderedMarkdown ->
+                    (\title subtitleimg subtitleimgalt markdownBlocks ->
                         { title = title
                         , subtitleimg = subtitleimg
                         , subtitleimgalt = subtitleimgalt
-                        , body = renderedMarkdown
+                        , body = markdownBlocks
                         }
                     )
                     (Decode.field "title" Decode.string)
                     (Decode.field "subtitleimg" Decode.string)
                     (Decode.field "subtitleimgalt" Decode.string)
                     (markdownString
-                        |> TransMarkdown.markdownToView
+                        |> TransMarkdown.markdownToBlocks
                         |> TransMarkdown.fromResult
                     )
             )

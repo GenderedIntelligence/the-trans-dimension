@@ -9,6 +9,7 @@ import Head.Seo as Seo
 import Html.Styled as Html exposing (Html, div, h1, h2, h3, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, src)
 import List exposing (append)
+import Markdown.Block
 import Pages.Url
 import Theme.Global exposing (buttonFloatingWrapperStyle, contentContainerStyle, contentWrapperStyle, introTextLargeStyle, introTextSmallStyle, normalFirstParagraphStyle, smallFloatingTitleStyle, textBoxInvisibleStyle, textBoxPinkStyle, white, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
@@ -23,18 +24,18 @@ type alias PageUsingTemplate msg =
     }
 
 
-type alias SectionWithTextHeader msg =
+type alias SectionWithTextHeader =
     { title : String
     , subtitle : String
-    , body : List (Html.Html msg)
+    , body : List Markdown.Block.Block
     }
 
 
-type alias SectionWithImageHeader msg =
+type alias SectionWithImageHeader =
     { title : String
     , subtitleimgalt : String
     , subtitleimg : String
-    , body : List (Html.Html msg)
+    , body : List Markdown.Block.Block
     }
 
 
