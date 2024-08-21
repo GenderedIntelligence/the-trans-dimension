@@ -1,4 +1,4 @@
-module AddStaticRoute exposing (run)
+module AddStaticStatelessRoute exposing (run)
 
 import BackendTask
 import Cli.Option as Option
@@ -8,9 +8,7 @@ import Elm
 import Elm.Annotation as Type
 import Elm.Case
 import Gen.BackendTask
-import Gen.Effect as Effect
 import Gen.Html.Styled as Html
-import Gen.Platform.Sub
 import Gen.View
 import Pages.Script as Script exposing (Script)
 import Scaffold.Route exposing (Type(..))
@@ -55,9 +53,9 @@ createFile { moduleName } =
             )
         , head = \app -> Elm.list []
         }
-        |> Scaffold.Route.buildWithLocalState
+        |> Scaffold.Route.buildNoState
             { view =
-                \{ shared, model, app } ->
+                \{ shared, app } ->
                     Gen.View.make_.view
                         { title = moduleName |> String.join "." |> Elm.string
                         , body =
@@ -65,23 +63,4 @@ createFile { moduleName } =
                                 [ Html.h2 [] [ Html.text "New Page" ]
                                 ]
                         }
-            , update =
-                \{ shared, app, msg, model } ->
-                    Elm.Case.custom msg
-                        (Type.named [] "Msg")
-                        [ Elm.Case.branch0 "NoOp"
-                            (Elm.tuple model
-                                Effect.none
-                            )
-                        ]
-            , init =
-                \{ shared, app } ->
-                    Elm.tuple (Elm.record []) Effect.none
-            , subscriptions =
-                \{ routeParams, path, shared, model } ->
-                    Gen.Platform.Sub.none
-            , model =
-                Alias (Type.record [])
-            , msg =
-                Custom [ Elm.variant "NoOp" ]
             }
