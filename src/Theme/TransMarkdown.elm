@@ -1,10 +1,10 @@
-module Theme.TransMarkdown exposing (fromResult, markdownToHtml, markdownToView)
+module Theme.TransMarkdown exposing (fromResult, markdownBlocksToHtml, markdownToBlocks, markdownToHtml, markdownToView)
 
 import Css exposing (Style, absolute, batch, before, center, color, decimal, em, firstChild, fontSize, fontWeight, int, left, lineHeight, listStyle, listStyleType, marginBlockEnd, marginBlockStart, none, paddingLeft, position, property, relative, rem, textAlign, top)
 import Html.Styled as Html
 import Html.Styled.Attributes as Attr exposing (css)
 import Json.Decode
-import Markdown.Block as Block
+import Markdown.Block
 import Markdown.Html
 import Markdown.Parser
 import Markdown.Renderer
@@ -31,11 +31,33 @@ markdownToHtml markdown =
             []
 
 
-markdownToView : String -> Result String (List (Html.Html msg))
-markdownToView markdownString =
+markdownBlocksToHtml : List Markdown.Block.Block -> List (Html.Html msg)
+markdownBlocksToHtml markdownBlocks =
+    case markdownBlocksToView markdownBlocks of
+        Ok html ->
+            html
+
+        Err _ ->
+            []
+
+
+markdownToBlocks : String -> Result String (List Markdown.Block.Block)
+markdownToBlocks markdownString =
     markdownString
         |> Markdown.Parser.parse
         |> Result.mapError (\_ -> "Markdown error.")
+
+
+markdownBlocksToView : List Markdown.Block.Block -> Result String (List (Html.Html msg))
+markdownBlocksToView markdownBlocks =
+    Markdown.Renderer.render
+        transHtmlRenderer
+        markdownBlocks
+
+
+markdownToView : String -> Result String (List (Html.Html msg))
+markdownToView markdownString =
+    markdownToBlocks markdownString
         |> Result.andThen
             (\blocks ->
                 Markdown.Renderer.render
@@ -49,22 +71,22 @@ transHtmlRenderer =
     { heading =
         \{ level, children } ->
             case level of
-                Block.H1 ->
+                Markdown.Block.H1 ->
                     Html.h1 [ css [ headerStyle ] ] children
 
-                Block.H2 ->
+                Markdown.Block.H2 ->
                     Html.h2 [ css [ headerStyle, h2Style ] ] children
 
-                Block.H3 ->
+                Markdown.Block.H3 ->
                     Html.h3 [ css [ headerStyle ] ] children
 
-                Block.H4 ->
+                Markdown.Block.H4 ->
                     Html.h4 [ css [ headerStyle ] ] children
 
-                Block.H5 ->
+                Markdown.Block.H5 ->
                     Html.h5 [ css [ headerStyle ] ] children
 
-                Block.H6 ->
+                Markdown.Block.H6 ->
                     Html.h6 [ css [ headerStyle ] ] children
     , paragraph = Html.p [ css [ paragraphStyle ] ]
     , hardLineBreak = Html.br [] []
@@ -116,14 +138,14 @@ transHtmlRenderer =
                     |> List.map
                         (\item ->
                             case item of
-                                Block.ListItem task children ->
+                                Markdown.Block.ListItem task children ->
                                     let
                                         checkbox =
                                             case task of
-                                                Block.NoTask ->
+                                                Markdown.Block.NoTask ->
                                                     Html.text ""
 
-                                                Block.IncompleteTask ->
+                                                Markdown.Block.IncompleteTask ->
                                                     Html.input
                                                         [ Attr.disabled True
                                                         , Attr.checked False
@@ -131,7 +153,7 @@ transHtmlRenderer =
                                                         ]
                                                         []
 
-                                                Block.CompletedTask ->
+                                                Markdown.Block.CompletedTask ->
                                                     Html.input
                                                         [ Attr.disabled True
                                                         , Attr.checked True
@@ -180,13 +202,13 @@ transHtmlRenderer =
                         |> Maybe.map
                             (\alignment ->
                                 case alignment of
-                                    Block.AlignLeft ->
+                                    Markdown.Block.AlignLeft ->
                                         "left"
 
-                                    Block.AlignCenter ->
+                                    Markdown.Block.AlignCenter ->
                                         "center"
 
-                                    Block.AlignRight ->
+                                    Markdown.Block.AlignRight ->
                                         "right"
                             )
                         |> Maybe.map Attr.align
@@ -202,13 +224,13 @@ transHtmlRenderer =
                         |> Maybe.map
                             (\alignment ->
                                 case alignment of
-                                    Block.AlignLeft ->
+                                    Markdown.Block.AlignLeft ->
                                         "left"
 
-                                    Block.AlignCenter ->
+                                    Markdown.Block.AlignCenter ->
                                         "center"
 
-                                    Block.AlignRight ->
+                                    Markdown.Block.AlignRight ->
                                         "right"
                             )
                         |> Maybe.map Attr.align

@@ -3,15 +3,13 @@ module Theme.TextHeavyPage exposing (view)
 import Css exposing (Style, auto, batch, margin2, marginBottom, marginTop, maxWidth, padding2, px, rem)
 import Html.Styled exposing (Html, section)
 import Html.Styled.Attributes exposing (css)
+import Markdown.Block
 import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate as PageTemplate
+import Theme.TransMarkdown
 
 
-type alias Msg =
-    Never
-
-
-view : String -> String -> List (Html Msg) -> Html Msg
+view : String -> String -> List Markdown.Block.Block -> Html msg
 view title subtitle body =
     PageTemplate.view
         { title = title
@@ -21,7 +19,7 @@ view title subtitle body =
             , text = subtitle
             }
         , smallText = Nothing
-        , innerContent = Just (section [ css [ bodyStyle ] ] body)
+        , innerContent = Just (section [ css [ bodyStyle ] ] (Theme.TransMarkdown.markdownBlocksToHtml body))
         , outerContent = Nothing
         }
 
