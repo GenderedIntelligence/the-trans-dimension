@@ -60,10 +60,10 @@ data =
     BackendTask.File.bodyWithFrontmatter
         (\markdownString ->
             Decode.map3
-                (\title subtitle renderedMarkdown ->
+                (\title subtitle markdownBlocks ->
                     { title = title
                     , subtitle = subtitle
-                    , body = renderedMarkdown
+                    , body = markdownBlocks
                     }
                 )
                 (Decode.field "title" Decode.string)
