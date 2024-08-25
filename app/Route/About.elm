@@ -209,6 +209,5 @@ view app shared =
                         }
                     )
             }
-            |> Html.Styled.map PagesMsg.fromMsg
         ]
     }
