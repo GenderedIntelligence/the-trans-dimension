@@ -8,6 +8,7 @@
     "elm-version": "0.19.1",
     "dependencies": {
         "direct": {
+            "NoRedInk/elm-json-decode-pipeline": "1.0.1",
             "avh4/elm-color": "1.0.0",
             "bburdette/toop": "1.2.0",
             "danyx23/elm-mimetype": "4.0.1",

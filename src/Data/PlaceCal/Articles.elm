@@ -1,14 +1,14 @@
 module Data.PlaceCal.Articles exposing (Article, articlesData, emptyArticle)
 
 import Api
+import BackendTask
+import BackendTask.Http
 import Constants
-import DataSource
-import DataSource.Http
+import FatalError
 import Helpers.TransDate as TransDate
+import Json.Decode
+import Json.Decode.Pipeline
 import Json.Encode
-import OptimizedDecoder
-import OptimizedDecoder.Pipeline
-import Pages.Secrets
 import Time
 
 
@@ -33,14 +33,17 @@ emptyArticle =
 
 
 ----------------------------
--- DataSource query & decode
+-- BackendTask query & decode
 ----------------------------
 
 
-articlesData : DataSource.DataSource AllArticlesResponse
+articlesData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllArticlesResponse
 articlesData =
-    DataSource.Http.request (Pages.Secrets.succeed allArticlesPlaceCalRequest)
-        articlesDecoder
+    BackendTask.Http.post Constants.placecalApi
+        (BackendTask.Http.jsonBody allArticlesQuery)
+        (BackendTask.Http.expectJson
+            articlesDecoder
+        )
 
 
 allArticlesQuery : Json.Encode.Value
@@ -61,42 +64,33 @@ allArticlesQuery =
         ]
 
 
-allArticlesPlaceCalRequest : DataSource.Http.RequestDetails
-allArticlesPlaceCalRequest =
-    { url = Constants.placeCalApiUrl
-    , method = "POST"
-    , headers = []
-    , body = DataSource.Http.jsonBody allArticlesQuery
-    }
-
-
-articlesDecoder : OptimizedDecoder.Decoder AllArticlesResponse
+articlesDecoder : Json.Decode.Decoder AllArticlesResponse
 articlesDecoder =
-    OptimizedDecoder.succeed AllArticlesResponse
-        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "articleConnection", "edges" ] (OptimizedDecoder.list decode)
+    Json.Decode.succeed AllArticlesResponse
+        |> Json.Decode.Pipeline.requiredAt [ "data", "articleConnection", "edges" ] (Json.Decode.list decode)
 
 
-decode : OptimizedDecoder.Decoder Article
+decode : Json.Decode.Decoder Article
 decode =
-    OptimizedDecoder.succeed Article
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "headline" ]
-            OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "articleBody" ]
-            OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "datePublished" ]
+    Json.Decode.succeed Article
+        |> Json.Decode.Pipeline.requiredAt [ "node", "headline" ]
+            Json.Decode.string
+        |> Json.Decode.Pipeline.requiredAt [ "node", "articleBody" ]
+            Json.Decode.string
+        |> Json.Decode.Pipeline.requiredAt [ "node", "datePublished" ]
             TransDate.isoDateStringDecoder
-        |> OptimizedDecoder.Pipeline.requiredAt [ "node", "providers" ]
-            (OptimizedDecoder.list partnerIdDecoder)
-        |> OptimizedDecoder.Pipeline.optionalAt [ "node", "image" ]
-            (OptimizedDecoder.nullable OptimizedDecoder.string)
+        |> Json.Decode.Pipeline.requiredAt [ "node", "providers" ]
+            (Json.Decode.list partnerIdDecoder)
+        |> Json.Decode.Pipeline.optionalAt [ "node", "image" ]
+            (Json.Decode.nullable Json.Decode.string)
             Nothing
 
 
-partnerIdDecoder : OptimizedDecoder.Decoder String
+partnerIdDecoder : Json.Decode.Decoder String
 partnerIdDecoder =
-    OptimizedDecoder.succeed ProviderId
-        |> OptimizedDecoder.Pipeline.required "id" OptimizedDecoder.string
-        |> OptimizedDecoder.map (\providerItem -> providerItem.id)
+    Json.Decode.succeed ProviderId
+        |> Json.Decode.Pipeline.required "id" Json.Decode.string
+        |> Json.Decode.map (\providerItem -> providerItem.id)
 
 
 type alias ProviderId =

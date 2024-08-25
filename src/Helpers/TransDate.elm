@@ -12,7 +12,7 @@ module Helpers.TransDate exposing
 
 import DateFormat
 import Iso8601
-import OptimizedDecoder
+import Json.Decode
 import Time
 
 
@@ -27,12 +27,12 @@ defaultPosix =
 -----------------
 
 
-isoDateStringDecoder : OptimizedDecoder.Decoder Time.Posix
+isoDateStringDecoder : Json.Decode.Decoder Time.Posix
 isoDateStringDecoder =
-    OptimizedDecoder.string
-        |> OptimizedDecoder.andThen
+    Json.Decode.string
+        |> Json.Decode.andThen
             (\isoString ->
-                OptimizedDecoder.succeed <|
+                Json.Decode.succeed <|
                     -- It would be better if this returned the timezone as well
                     -- and we tracked the timezone around the app instead of
                     -- assuming UTC due to this.

@@ -1,11 +1,9 @@
-module Theme.AboutPage exposing (..)
+module Theme.AboutPage exposing (viewIntro, viewSections)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, absolute, after, alignItems, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bottom, calc, center, column, display, displayFlex, flexDirection, flexShrink, height, important, int, justifyContent, left, margin, margin2, margin4, marginBottom, marginTop, minus, noRepeat, nthChild, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, right, spaceAround, top, url, vw, width, zIndex)
 import Css.Global exposing (descendants, typeSelector)
-import Head
-import Head.Seo as Seo
 import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import List exposing (append)
