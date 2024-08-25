@@ -97,6 +97,5 @@ view app shared =
             app.data.title
             app.data.subtitle
             app.data.body
-            |> Html.Styled.map PagesMsg.fromMsg
         ]
     }

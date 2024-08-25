@@ -1,4 +1,4 @@
-module Route.News exposing (Model, Msg, RouteParams, route, Data, ActionData)
+module Route.Partners exposing (Model, Msg, RouteParams, route, Data, ActionData)
 
 {-|
 
@@ -9,7 +9,6 @@ module Route.News exposing (Model, Msg, RouteParams, route, Data, ActionData)
 import BackendTask
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.PlaceCal.Articles
 import Data.PlaceCal.Partners
 import FatalError
 import Head
@@ -17,8 +16,8 @@ import Html.Styled
 import PagesMsg
 import RouteBuilder
 import Shared
-import Theme.NewsPage
 import Theme.PageTemplate
+import Theme.PartnersPage
 import View
 
 
@@ -43,7 +42,7 @@ route =
 
 
 type alias Data =
-    List Data.PlaceCal.Articles.Article
+    List Data.PlaceCal.Partners.Partner
 
 
 type alias ActionData =
@@ -52,24 +51,15 @@ type alias ActionData =
 
 data : BackendTask.BackendTask FatalError.FatalError Data
 data =
-    BackendTask.map2
-        (\articleData partnerData ->
-            List.map
-                (\article ->
-                    { article | partnerIds = Data.PlaceCal.Partners.partnerNamesFromIds partnerData article.partnerIds }
-                )
-                articleData.allArticles
-        )
-        Data.PlaceCal.Articles.articlesData
-        (BackendTask.map (\partnersData -> partnersData.allPartners) Data.PlaceCal.Partners.partnersData)
+    BackendTask.map (\sharedData -> sharedData.allPartners) Data.PlaceCal.Partners.partnersData
         |> BackendTask.allowFatal
 
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
 head app =
     Theme.PageTemplate.pageMetaTags
-        { title = NewsTitle
-        , description = NewsDescription
+        { title = PartnersTitle
+        , description = PartnersMetaDescription
         , imageSrc = Nothing
         }
 
@@ -79,15 +69,15 @@ view :
     -> Shared.Model
     -> View.View (PagesMsg.PagesMsg Msg)
 view app shared =
-    { title = t (PageMetaTitle (t NewsTitle))
+    { title = t (PageMetaTitle (t PartnersTitle))
     , body =
         [ Theme.PageTemplate.view
             { headerType = Just "pink"
-            , title = t NewsTitle
-            , bigText = { text = t NewsDescription, node = "h3" }
-            , smallText = Nothing
-            , innerContent = Nothing
-            , outerContent = Just (Theme.NewsPage.viewNewsList app.data)
+            , title = t PartnersTitle
+            , bigText = { text = t PartnersIntroSummary, node = "p" }
+            , smallText = Just [ t PartnersIntroDescription ]
+            , innerContent = Just (Theme.PartnersPage.viewPartners app.data)
+            , outerContent = Nothing
             }
         ]
     }
