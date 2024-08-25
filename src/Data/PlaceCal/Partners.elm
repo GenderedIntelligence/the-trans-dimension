@@ -1,13 +1,13 @@
 module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, eventPartnerFromId, partnerNameFromId, partnerNamesFromIds, partnersData)
 
+import BackendTask
+import BackendTask.Http
 import Constants
 import Data.PlaceCal.Events exposing (EventPartner)
-import DataSource
-import DataSource.Http
+import FatalError
+import Json.Decode
+import Json.Decode.Pipeline
 import Json.Encode
-import OptimizedDecoder
-import OptimizedDecoder.Pipeline
-import Pages.Secrets
 
 
 type alias Partner =
@@ -77,10 +77,13 @@ type alias AllPartnersResponse =
     { allPartners : List Partner }
 
 
-partnersData : DataSource.DataSource AllPartnersResponse
+partnersData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllPartnersResponse
 partnersData =
-    DataSource.Http.request (Pages.Secrets.succeed allPartnersPlaceCalRequest)
-        partnersDecoder
+    BackendTask.Http.post Constants.placecalApi
+        (BackendTask.Http.jsonBody allPartnersQuery)
+        (BackendTask.Http.expectJson
+            partnersDecoder
+        )
 
 
 allPartnersQuery : Json.Encode.Value
@@ -104,68 +107,59 @@ allPartnersQuery =
         ]
 
 
-allPartnersPlaceCalRequest : DataSource.Http.RequestDetails
-allPartnersPlaceCalRequest =
-    { url = Constants.placeCalApiUrl
-    , method = "POST"
-    , headers = []
-    , body = DataSource.Http.jsonBody allPartnersQuery
-    }
-
-
-partnersDecoder : OptimizedDecoder.Decoder AllPartnersResponse
+partnersDecoder : Json.Decode.Decoder AllPartnersResponse
 partnersDecoder =
-    OptimizedDecoder.succeed AllPartnersResponse
-        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "partnersByTag" ] (OptimizedDecoder.list decodePartner)
+    Json.Decode.succeed AllPartnersResponse
+        |> Json.Decode.Pipeline.requiredAt [ "data", "partnersByTag" ] (Json.Decode.list decodePartner)
 
 
-decodePartner : OptimizedDecoder.Decoder Partner
+decodePartner : Json.Decode.Decoder Partner
 decodePartner =
-    OptimizedDecoder.succeed Partner
-        |> OptimizedDecoder.Pipeline.required "id" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "name" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optional "summary" OptimizedDecoder.string ""
-        |> OptimizedDecoder.Pipeline.required "description" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optional "url" (OptimizedDecoder.map Just OptimizedDecoder.string) Nothing
-        |> OptimizedDecoder.Pipeline.optional "contact" (OptimizedDecoder.map Just contactDecoder) Nothing
-        |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just addressDecoder) Nothing
-        |> OptimizedDecoder.Pipeline.required "areasServed" (OptimizedDecoder.list serviceAreaDecoder)
-        |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
-        |> OptimizedDecoder.Pipeline.optional "logo" (OptimizedDecoder.nullable OptimizedDecoder.string) Nothing
+    Json.Decode.succeed Partner
+        |> Json.Decode.Pipeline.required "id" Json.Decode.string
+        |> Json.Decode.Pipeline.required "name" Json.Decode.string
+        |> Json.Decode.Pipeline.optional "summary" Json.Decode.string ""
+        |> Json.Decode.Pipeline.required "description" Json.Decode.string
+        |> Json.Decode.Pipeline.optional "url" (Json.Decode.map Just Json.Decode.string) Nothing
+        |> Json.Decode.Pipeline.optional "contact" (Json.Decode.map Just contactDecoder) Nothing
+        |> Json.Decode.Pipeline.optional "address" (Json.Decode.map Just addressDecoder) Nothing
+        |> Json.Decode.Pipeline.required "areasServed" (Json.Decode.list serviceAreaDecoder)
+        |> Json.Decode.Pipeline.optionalAt [ "address", "geo" ] (Json.Decode.map Just geoDecoder) Nothing
+        |> Json.Decode.Pipeline.optional "logo" (Json.Decode.nullable Json.Decode.string) Nothing
 
 
-geoDecoder : OptimizedDecoder.Decoder Geo
+geoDecoder : Json.Decode.Decoder Geo
 geoDecoder =
-    OptimizedDecoder.succeed Geo
-        |> OptimizedDecoder.Pipeline.optional "latitude"
-            (OptimizedDecoder.nullable OptimizedDecoder.string)
+    Json.Decode.succeed Geo
+        |> Json.Decode.Pipeline.optional "latitude"
+            (Json.Decode.nullable Json.Decode.string)
             Nothing
-        |> OptimizedDecoder.Pipeline.optional "longitude"
-            (OptimizedDecoder.nullable OptimizedDecoder.string)
+        |> Json.Decode.Pipeline.optional "longitude"
+            (Json.Decode.nullable Json.Decode.string)
             Nothing
 
 
-contactDecoder : OptimizedDecoder.Decoder Contact
+contactDecoder : Json.Decode.Decoder Contact
 contactDecoder =
-    OptimizedDecoder.succeed Contact
-        |> OptimizedDecoder.Pipeline.optional "email" OptimizedDecoder.string ""
-        |> OptimizedDecoder.Pipeline.optional "telephone" OptimizedDecoder.string ""
+    Json.Decode.succeed Contact
+        |> Json.Decode.Pipeline.optional "email" Json.Decode.string ""
+        |> Json.Decode.Pipeline.optional "telephone" Json.Decode.string ""
 
 
-addressDecoder : OptimizedDecoder.Decoder Address
+addressDecoder : Json.Decode.Decoder Address
 addressDecoder =
-    OptimizedDecoder.succeed Address
-        |> OptimizedDecoder.Pipeline.required "streetAddress" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "addressRegion" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "postalCode" OptimizedDecoder.string
+    Json.Decode.succeed Address
+        |> Json.Decode.Pipeline.required "streetAddress" Json.Decode.string
+        |> Json.Decode.Pipeline.required "addressRegion" Json.Decode.string
+        |> Json.Decode.Pipeline.required "postalCode" Json.Decode.string
 
 
-serviceAreaDecoder : OptimizedDecoder.Decoder ServiceArea
+serviceAreaDecoder : Json.Decode.Decoder ServiceArea
 serviceAreaDecoder =
-    OptimizedDecoder.succeed ServiceArea
-        |> OptimizedDecoder.Pipeline.required "name" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optional "abbreviatedName"
-            (OptimizedDecoder.map Just OptimizedDecoder.string)
+    Json.Decode.succeed ServiceArea
+        |> Json.Decode.Pipeline.required "name" Json.Decode.string
+        |> Json.Decode.Pipeline.optional "abbreviatedName"
+            (Json.Decode.map Just Json.Decode.string)
             Nothing
 
 

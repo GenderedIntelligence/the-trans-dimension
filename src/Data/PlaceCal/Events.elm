@@ -1,13 +1,13 @@
 module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), afterDate, emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId, next4Events, onOrBeforeDate)
 
+import BackendTask
+import BackendTask.Http
 import Constants
-import DataSource
-import DataSource.Http
+import FatalError
 import Helpers.TransDate as TransDate
+import Json.Decode
+import Json.Decode.Pipeline
 import Json.Encode
-import OptimizedDecoder
-import OptimizedDecoder.Pipeline
-import Pages.Secrets
 import Time
 
 
@@ -121,10 +121,13 @@ next4Events allEvents fromTime =
 ----------------------------
 
 
-eventsData : DataSource.DataSource AllEventsResponse
+eventsData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllEventsResponse
 eventsData =
-    DataSource.Http.request (Pages.Secrets.succeed allEventsPlaceCalRequest)
-        eventsDecoder
+    BackendTask.Http.post Constants.placecalApi
+        (BackendTask.Http.jsonBody allEventsQuery)
+        (BackendTask.Http.expectJson
+            eventsDecoder
+        )
 
 
 allEventsQuery : Json.Encode.Value
@@ -149,68 +152,59 @@ allEventsQuery =
         ]
 
 
-allEventsPlaceCalRequest : DataSource.Http.RequestDetails
-allEventsPlaceCalRequest =
-    { url = Constants.placeCalApiUrl
-    , method = "POST"
-    , headers = []
-    , body = DataSource.Http.jsonBody allEventsQuery
-    }
-
-
-eventsDecoder : OptimizedDecoder.Decoder AllEventsResponse
+eventsDecoder : Json.Decode.Decoder AllEventsResponse
 eventsDecoder =
-    OptimizedDecoder.succeed AllEventsResponse
-        |> OptimizedDecoder.Pipeline.requiredAt [ "data", "eventsByFilter" ] (OptimizedDecoder.list decode)
+    Json.Decode.succeed AllEventsResponse
+        |> Json.Decode.Pipeline.requiredAt [ "data", "eventsByFilter" ] (Json.Decode.list decode)
 
 
-decode : OptimizedDecoder.Decoder Event
+decode : Json.Decode.Decoder Event
 decode =
-    OptimizedDecoder.succeed Event
-        |> OptimizedDecoder.Pipeline.required "id"
-            OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "name"
-            OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.optional "summary"
-            OptimizedDecoder.string
+    Json.Decode.succeed Event
+        |> Json.Decode.Pipeline.required "id"
+            Json.Decode.string
+        |> Json.Decode.Pipeline.required "name"
+            Json.Decode.string
+        |> Json.Decode.Pipeline.optional "summary"
+            Json.Decode.string
             ""
-        |> OptimizedDecoder.Pipeline.optional "description"
-            OptimizedDecoder.string
+        |> Json.Decode.Pipeline.optional "description"
+            Json.Decode.string
             ""
-        |> OptimizedDecoder.Pipeline.required "startDate"
+        |> Json.Decode.Pipeline.required "startDate"
             TransDate.isoDateStringDecoder
-        |> OptimizedDecoder.Pipeline.required "endDate"
+        |> Json.Decode.Pipeline.required "endDate"
             TransDate.isoDateStringDecoder
-        |> OptimizedDecoder.Pipeline.optional "publisherUrl"
-            (OptimizedDecoder.nullable OptimizedDecoder.string)
+        |> Json.Decode.Pipeline.optional "publisherUrl"
+            (Json.Decode.nullable Json.Decode.string)
             Nothing
-        |> OptimizedDecoder.Pipeline.optional "address" (OptimizedDecoder.map Just eventAddressDecoder) Nothing
-        |> OptimizedDecoder.Pipeline.requiredAt [ "organizer", "id" ]
+        |> Json.Decode.Pipeline.optional "address" (Json.Decode.map Just eventAddressDecoder) Nothing
+        |> Json.Decode.Pipeline.requiredAt [ "organizer", "id" ]
             partnerIdDecoder
-        |> OptimizedDecoder.Pipeline.optionalAt [ "address", "geo" ] (OptimizedDecoder.map Just geoDecoder) Nothing
+        |> Json.Decode.Pipeline.optionalAt [ "address", "geo" ] (Json.Decode.map Just geoDecoder) Nothing
 
 
-eventAddressDecoder : OptimizedDecoder.Decoder EventLocation
+eventAddressDecoder : Json.Decode.Decoder EventLocation
 eventAddressDecoder =
-    OptimizedDecoder.succeed EventLocation
-        |> OptimizedDecoder.Pipeline.required "streetAddress" OptimizedDecoder.string
-        |> OptimizedDecoder.Pipeline.required "postalCode" OptimizedDecoder.string
+    Json.Decode.succeed EventLocation
+        |> Json.Decode.Pipeline.required "streetAddress" Json.Decode.string
+        |> Json.Decode.Pipeline.required "postalCode" Json.Decode.string
 
 
-partnerIdDecoder : OptimizedDecoder.Decoder EventPartner
+partnerIdDecoder : Json.Decode.Decoder EventPartner
 partnerIdDecoder =
-    OptimizedDecoder.string
-        |> OptimizedDecoder.map (\partnerId -> { name = Nothing, id = partnerId, maybeContactDetails = Nothing, maybeUrl = Nothing })
+    Json.Decode.string
+        |> Json.Decode.map (\partnerId -> { name = Nothing, id = partnerId, maybeContactDetails = Nothing, maybeUrl = Nothing })
 
 
-geoDecoder : OptimizedDecoder.Decoder Geo
+geoDecoder : Json.Decode.Decoder Geo
 geoDecoder =
-    OptimizedDecoder.succeed Geo
-        |> OptimizedDecoder.Pipeline.optional "latitude"
-            (OptimizedDecoder.nullable OptimizedDecoder.string)
+    Json.Decode.succeed Geo
+        |> Json.Decode.Pipeline.optional "latitude"
+            (Json.Decode.nullable Json.Decode.string)
             Nothing
-        |> OptimizedDecoder.Pipeline.optional "longitude"
-            (OptimizedDecoder.nullable OptimizedDecoder.string)
+        |> Json.Decode.Pipeline.optional "longitude"
+            (Json.Decode.nullable Json.Decode.string)
             Nothing
 
 
