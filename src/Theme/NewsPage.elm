@@ -11,6 +11,7 @@ import Html.Styled.Attributes exposing (alt, css, href, src)
 import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlueBackgroundStyle, linkStyle, pinkButtonOnLightBackgroundStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.NewsItemPage
 import Theme.PageTemplate as PageTemplate
 import View exposing (View)
 
@@ -81,7 +82,7 @@ summaryFromArticleBody articleBody =
 newsArticleImage : Maybe String -> String -> Html msg
 newsArticleImage maybeImage articleBody =
     img
-        [ src "/images/news/article_1.jpg"
+        [ src (Theme.NewsItemPage.articleImageSource maybeImage articleBody)
         , css [ newsImageStyle ]
         , alt ""
         ]
