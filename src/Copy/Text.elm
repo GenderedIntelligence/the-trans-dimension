@@ -93,7 +93,7 @@ t key =
             "Registered as a Company Limited by Guarantee in England and Wales No. 06617608."
 
         FooterInfoOffice ->
-            "Registered office at VAI, 200 Pentonville Road, London N1 9JP."
+            "Registered office at VAI, 200a Pentonville Road, London N1 9JP."
 
         FooterCreditTitle ->
             "Credits"
