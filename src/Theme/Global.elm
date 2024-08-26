@@ -46,7 +46,7 @@ purple =
 
 darkPurple : Color
 darkPurple =
-    hex "683a65"
+    hex "432955"
 
 
 blue : Color
