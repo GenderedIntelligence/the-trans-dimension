@@ -428,9 +428,9 @@ makerHeaderStyle =
 makerLogoStyle : Style
 makerLogoStyle =
     batch
-        [ width (px 200)
+        [ height (px 50)
         , margin4 (rem 2) auto (rem 3) auto
-        , withMediaSmallDesktopUp [ width (px 250) ]
+        , withMediaSmallDesktopUp [ height (px 55) ]
         , withMediaTabletLandscapeUp [ margin4 (rem 1) auto (rem 3) auto ]
         , withMediaTabletPortraitUp [ margin (rem 0) ]
         ]
