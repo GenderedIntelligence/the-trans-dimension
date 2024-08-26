@@ -114,7 +114,7 @@ t key =
             "Squid"
 
         FooterCredit2Link ->
-            "https://studiosquid.co.uk/studio/"
+            "https://studiosquid.co.uk/"
 
         FooterCredit3Text ->
             "website by"
