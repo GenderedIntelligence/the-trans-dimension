@@ -4,16 +4,18 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, active, after, alignItems, alignSelf, auto, backgroundColor, backgroundImage, backgroundSize, batch, block, borderBox, boxSizing, center, color, column, display, displayFlex, flexDirection, flexEnd, flexShrink, flexWrap, focus, fontSize, fontWeight, height, hover, inherit, int, justifyContent, lineHeight, margin, margin2, margin4, marginBottom, marginRight, marginTop, maxWidth, none, nthLastChild, padding, padding2, padding4, pct, property, pseudoElement, px, rem, row, spaceBetween, stretch, textAlign, textDecoration, url, width, wrap)
 import Css.Transitions exposing (transition)
+import Helpers.TransDate exposing (humanYearFromPosix)
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, button, div, footer, form, img, input, label, li, nav, p, span, text, ul)
 import Html.Styled.Attributes exposing (action, alt, attribute, css, for, href, id, method, name, placeholder, src, target, type_, value)
 import List exposing (append, concat)
 import Theme.Global exposing (colorTransition, darkBlue, darkPurple, pink, pinkButtonOnDarkBackgroundStyle, smallInlineTitleStyle, textInputStyle, white, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.Logo
+import Time
 
 
-viewPageFooter : Html msg
-viewPageFooter =
+viewPageFooter : Time.Posix -> Html msg
+viewPageFooter time =
     footer [ css [ footerStyle ] ]
         [ div [ css [ footerTopSectionStyle ] ]
             [ viewPageFooterLogo
@@ -26,7 +28,7 @@ viewPageFooter =
             ]
         , div [ css [ footerBottomSectionStyle ] ]
             [ viewPageFooterInfo (t FooterInfoTitle) [ t FooterInfoCharity, t FooterInfoCompany, t FooterInfoOffice ]
-            , viewPageFooterCredit (t FooterCreditTitle)
+            , viewPageFooterCredit time (t FooterCreditTitle)
                 [ { name = t FooterCredit1Name
                   , link = t FooterCredit1Link
                   , text = t FooterCredit1Text
@@ -147,15 +149,15 @@ viewPageFooterSocial =
         ]
 
 
-viewPageFooterCredit : String -> List { name : String, link : String, text : String } -> Html msg
-viewPageFooterCredit creditTitle creditList =
+viewPageFooterCredit : Time.Posix -> String -> List { name : String, link : String, text : String } -> Html msg
+viewPageFooterCredit time creditTitle creditList =
     div [ css [ pinkBlockStyle ] ]
         [ p [ css [ infoParagraphStyle, fontWeight (int 700), marginTop (rem 0) ] ]
             [ text creditTitle ]
         , p
             [ css [ infoParagraphStyle ] ]
             (concat [ List.intersperse (text ", ") (List.map viewPageFooterCreditItem creditList), [ span [] [ text "." ] ] ])
-        , p [ css [ infoParagraphStyle ] ] [ text (t FooterCopyright) ]
+        , p [ css [ infoParagraphStyle ] ] [ text (t (FooterCopyright (humanYearFromPosix time))) ]
         , a [ href "https://placecal.org" ]
             [ img
                 [ src "/images/logos/footer_placecal.svg"
