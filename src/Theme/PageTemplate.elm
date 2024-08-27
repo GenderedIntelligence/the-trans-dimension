@@ -2,7 +2,7 @@ module Theme.PageTemplate exposing (..)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, absolute, after, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, bottom, boxSizing, calc, center, color, display, fontSize, fontStyle, fontWeight, height, important, inlineBlock, int, italic, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, paddingBottom, paddingTop, pct, position, property, px, relative, rem, textAlign, top, url, vw, width, zIndex)
+import Css exposing (Style, absolute, after, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, borderBox, bottom, boxSizing, calc, center, color, display, fontSize, fontStyle, fontWeight, height, important, inlineBlock, int, italic, left, margin, margin2, margin4, marginBlockEnd, marginBlockStart, marginBottom, marginLeft, marginRight, marginTop, maxWidth, minus, noRepeat, none, outline, paddingBottom, paddingTop, pct, position, property, px, relative, rem, textAlign, top, url, vw, width, zIndex)
 import Head
 import Head.Seo as Seo
 import Html.Styled as Html exposing (Html, div, h1, h2, h3, img, p, section, text)
@@ -138,9 +138,8 @@ viewHeader pageInfo =
                 [ pageHeadingStyle
                 , case stringToHeaderType pageInfo.headerType of
                     AboutHeader ->
-                        pageHeadingGenericStyle
+                        pageHeadingAboutStyle
 
-                    -- TODO about pageHeadingStyle
                     _ ->
                         pageHeadingGenericStyle
                 ]
@@ -309,6 +308,62 @@ pageHeadingGenericStyle =
                 [ backgroundImage (url "/images/illustrations/768px/generic_header.png")
                 , height (px 432)
                 , top (px -75)
+                ]
+            ]
+        , withMediaTabletLandscapeUp
+            [ paddingTop (px 275) ]
+        , withMediaTabletPortraitUp
+            [ paddingTop (px 250) ]
+        ]
+
+
+pageHeadingAboutStyle : Style
+pageHeadingAboutStyle =
+    batch
+        [ before
+            [ height (px 240)
+            , backgroundImage (url "/images/illustrations/320px/about_1_header.png")
+            , top (px -130)
+            , withMediaMediumDesktopUp
+                [ backgroundImage (url "/images/illustrations/1920px/about_1_header.png")
+                , height (px 1150)
+                , top (px -130)
+                ]
+            , withMediaSmallDesktopUp
+                [ backgroundImage (url "/images/illustrations/1366px/about_1_header.png")
+                , height (px 486)
+                ]
+            , withMediaTabletLandscapeUp
+                [ backgroundImage (url "/images/illustrations/1024px/about_1_header.png")
+                , height (px 499)
+                , top (px -100)
+                ]
+            , withMediaTabletPortraitUp
+                [ backgroundImage (url "/images/illustrations/768px/about_1_header.png")
+                , height (px 432)
+                , top (px -75)
+                ]
+            ]
+        , after
+            [ withMediaSmallDesktopUp
+                [ width (px 231)
+                , height (px 434)
+                , backgroundSize (px 231)
+                , bottom (px -250)
+                , left (px -100)
+                ]
+            , withMediaTabletLandscapeUp
+                [ property "content" "\"\""
+                , display block
+                , width (px 162)
+                , height (px 305)
+                , backgroundSize (px 162)
+                , backgroundPosition center
+                , position absolute
+                , zIndex (int 2)
+                , backgroundRepeat noRepeat
+                , backgroundImage (url "/images/characters/girl_with_afro.png")
+                , bottom (px -90)
                 ]
             ]
         , withMediaTabletLandscapeUp
