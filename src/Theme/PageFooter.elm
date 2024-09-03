@@ -373,13 +373,13 @@ logoListItemStyle =
 logoGIStyle : Style
 logoGIStyle =
     batch
-        [ width (px 185)
+        [ width (px 138.184)
         , height (px 48)
-        , backgroundImage (url "/images/logos/GI_pink.png")
-        , backgroundSize (px 185)
-        , hover [ backgroundImage (url "/images/logos/GI_pink_rollover.png") ]
-        , focus [ backgroundImage (url "/images/logos/GI_white.png") ]
-        , active [ backgroundImage (url "/images/logos/GI_white.png") ]
+        , backgroundImage (url "/images/logos/GI_pink.svg")
+        , backgroundSize (px 138.184)
+        , hover [ backgroundImage (url "/images/logos/GI_pink_rollover.svg") ]
+        , focus [ backgroundImage (url "/images/logos/GI_white.svg") ]
+        , active [ backgroundImage (url "/images/logos/GI_white.svg") ]
         , alignSelf center
         ]
 

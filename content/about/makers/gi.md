@@ -1,6 +1,6 @@
 ---
 name: "Gendered Intelligence"
-logo: "/images/logos/GI_white.png"
+logo: "/images/logos/GI_white.svg"
 url: "https://genderedintelligence.co.uk"
 ---
 
