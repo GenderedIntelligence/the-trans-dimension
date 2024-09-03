@@ -125,8 +125,8 @@ t key =
         FooterCredit3Link ->
             t GeeksForSocialChangeHomeUrl
 
-        FooterCopyright ->
-            "© 2022 Gendered Intelligence. All rights reserved."
+        FooterCopyright year ->
+            "© " ++ year ++ " Gendered Intelligence. All rights reserved."
 
         FooterPlaceCal ->
             "Powered by PlaceCal"

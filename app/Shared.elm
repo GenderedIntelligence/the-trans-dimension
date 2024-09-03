@@ -130,7 +130,7 @@ view sharedData page model toMsg pageView =
                     { showMobileMenu = model.showMobileMenu }
                     |> Html.Styled.map toMsg
                 , Html.Styled.main_ [] pageView.body
-                , viewPageFooter
+                , viewPageFooter sharedData.time
                 ]
             )
         ]

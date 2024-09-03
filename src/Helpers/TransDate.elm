@@ -4,6 +4,7 @@ module Helpers.TransDate exposing
     , humanDayFromPosix
     , humanShortMonthFromPosix
     , humanTimeFromPosix
+    , humanYearFromPosix
     , isAfterDate
     , isOnOrBeforeDate
     , isSameDay
@@ -156,5 +157,16 @@ humanTimeFromPosix timestamp =
             , DateFormat.minuteFixed
             , DateFormat.amPmLowercase
             ]
+            convertedIsoDateZone
+            timestamp
+
+humanYearFromPosix : Time.Posix -> String
+humanYearFromPosix timestamp =
+    if timestamp == defaultPosix then
+        "Invalid year"
+
+    else
+        DateFormat.format
+            [ DateFormat.yearNumber ]
             convertedIsoDateZone
             timestamp

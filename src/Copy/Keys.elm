@@ -40,7 +40,7 @@ type Key
     | FooterCredit3Text
     | FooterCredit3Name
     | FooterCredit3Link
-    | FooterCopyright
+    | FooterCopyright String
     | FooterPlaceCal
       --- Index Page
     | IndexTitle
