@@ -2,12 +2,11 @@ module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, 
 
 import BackendTask
 import BackendTask.Http
-import Constants
+import Data.PlaceCal.Api
 import Data.PlaceCal.Events exposing (EventPartner)
 import FatalError
 import Json.Decode
 import Json.Decode.Pipeline
-import Json.Encode
 
 
 type alias Partner =
@@ -79,32 +78,26 @@ type alias AllPartnersResponse =
 
 partnersData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllPartnersResponse
 partnersData =
-    BackendTask.Http.post Constants.placecalApi
-        (BackendTask.Http.jsonBody allPartnersQuery)
-        (BackendTask.Http.expectJson
-            partnersDecoder
-        )
+    Data.PlaceCal.Api.getDataFromPlaceCal
+        allPartnersQueryString
+        partnersDecoder
 
 
-allPartnersQuery : Json.Encode.Value
-allPartnersQuery =
-    Json.Encode.object
-        [ ( "query"
-          , Json.Encode.string """
-                query { partnersByTag(tagId: 3) {
-                  id
-                  name
-                  description
-                  summary
-                  contact { email, telephone }
-                  url
-                  address { streetAddress, postalCode, addressRegion, geo { latitude, longitude } }
-                  areasServed { name abbreviatedName }
-                  logo
-                } }
-          """
-          )
-        ]
+allPartnersQueryString : String
+allPartnersQueryString =
+    """
+    query { partnersByTag(tagId: 3) {
+        id
+        name
+        description
+        summary
+        contact { email, telephone }
+        url
+        address { streetAddress, postalCode, addressRegion, geo { latitude, longitude } }
+        areasServed { name abbreviatedName }
+        logo
+    } }
+    """
 
 
 partnersDecoder : Json.Decode.Decoder AllPartnersResponse
@@ -119,7 +112,7 @@ decodePartner =
         |> Json.Decode.Pipeline.required "id" Json.Decode.string
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.optional "summary" Json.Decode.string ""
-        |> Json.Decode.Pipeline.required "description" Json.Decode.string
+        |> Json.Decode.Pipeline.optional "description" Json.Decode.string ""
         |> Json.Decode.Pipeline.optional "url" (Json.Decode.map Just Json.Decode.string) Nothing
         |> Json.Decode.Pipeline.optional "contact" (Json.Decode.map Just contactDecoder) Nothing
         |> Json.Decode.Pipeline.optional "address" (Json.Decode.map Just addressDecoder) Nothing
