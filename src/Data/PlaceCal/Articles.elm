@@ -1,6 +1,5 @@
 module Data.PlaceCal.Articles exposing (Article, articlesData, emptyArticle)
 
-import Api
 import BackendTask
 import BackendTask.Http
 import Constants
