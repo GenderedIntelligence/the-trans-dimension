@@ -43,7 +43,7 @@ route =
 
 
 type alias Data =
-    List Data.PlaceCal.Articles.Article
+    ()
 
 
 type alias ActionData =
@@ -52,17 +52,7 @@ type alias ActionData =
 
 data : BackendTask.BackendTask FatalError.FatalError Data
 data =
-    BackendTask.map2
-        (\articleData partnerData ->
-            List.map
-                (\article ->
-                    { article | partnerIds = Data.PlaceCal.Partners.partnerNamesFromIds partnerData article.partnerIds }
-                )
-                articleData.allArticles
-        )
-        Data.PlaceCal.Articles.articlesData
-        (BackendTask.map (\partnersData -> partnersData.allPartners) Data.PlaceCal.Partners.partnersData)
-        |> BackendTask.allowFatal
+    BackendTask.succeed ()
 
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
@@ -87,7 +77,11 @@ view app shared =
             , bigText = { text = t NewsDescription, node = "h3" }
             , smallText = Nothing
             , innerContent = Nothing
-            , outerContent = Just (Theme.NewsPage.viewNewsList app.data)
+            , outerContent =
+                Just
+                    (Theme.NewsPage.viewNewsList
+                        (Data.PlaceCal.Articles.replacePartnerIdWithName app.sharedData.articles app.sharedData.partners)
+                    )
             }
         ]
     }

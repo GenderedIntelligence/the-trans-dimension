@@ -1,10 +1,12 @@
-module Data.PlaceCal.Articles exposing (Article, articlesData, emptyArticle)
+module Data.PlaceCal.Articles exposing (Article, articleFromSlug, articlesData, emptyArticle, replacePartnerIdWithName)
 
 import BackendTask
 import BackendTask.Http
 import Constants
+import Data.PlaceCal.Partners
 import FatalError
-import Helpers.TransDate as TransDate
+import Helpers.TransDate
+import Helpers.TransRoutes
 import Json.Decode
 import Json.Decode.Pipeline
 import Json.Encode
@@ -77,7 +79,7 @@ decode =
         |> Json.Decode.Pipeline.requiredAt [ "node", "articleBody" ]
             Json.Decode.string
         |> Json.Decode.Pipeline.requiredAt [ "node", "datePublished" ]
-            TransDate.isoDateStringDecoder
+            Helpers.TransDate.isoDateStringDecoder
         |> Json.Decode.Pipeline.requiredAt [ "node", "providers" ]
             (Json.Decode.list partnerIdDecoder)
         |> Json.Decode.Pipeline.optionalAt [ "node", "image" ]
@@ -98,3 +100,21 @@ type alias ProviderId =
 
 type alias AllArticlesResponse =
     { allArticles : List Article }
+
+
+replacePartnerIdWithName : List Article -> List Data.PlaceCal.Partners.Partner -> List Article
+replacePartnerIdWithName articleData partnerData =
+    List.map
+        (\article ->
+            { article | partnerIds = Data.PlaceCal.Partners.partnerNamesFromIds partnerData article.partnerIds }
+        )
+        articleData
+
+
+articleFromSlug : String -> List Article -> List Data.PlaceCal.Partners.Partner -> Article
+articleFromSlug slug allArticles allPartners =
+    List.filter
+        (\article -> Helpers.TransRoutes.stringToSlug article.title == slug)
+        (replacePartnerIdWithName allArticles allPartners)
+        |> List.head
+        |> Maybe.withDefault emptyArticle

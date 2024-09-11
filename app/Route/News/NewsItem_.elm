@@ -44,7 +44,7 @@ route =
 
 
 type alias Data =
-    Data.PlaceCal.Articles.Article
+    ()
 
 
 type alias ActionData =
@@ -53,19 +53,7 @@ type alias ActionData =
 
 data : RouteParams -> BackendTask.BackendTask FatalError.FatalError Data
 data routeParams =
-    BackendTask.map2
-        (\articlesData partnersData ->
-            Maybe.withDefault Data.PlaceCal.Articles.emptyArticle
-                ((articlesData.allArticles
-                    |> List.filter (\newsItem -> Helpers.TransRoutes.stringToSlug newsItem.title == routeParams.newsItem)
-                 )
-                    |> List.head
-                )
-                |> partnerIdsToNames partnersData
-        )
-        Data.PlaceCal.Articles.articlesData
-        (BackendTask.map (\partnersData -> partnersData.allPartners) Data.PlaceCal.Partners.partnersData)
-        |> BackendTask.allowFatal
+    BackendTask.succeed ()
 
 
 partnerIdsToNames :
@@ -78,9 +66,14 @@ partnerIdsToNames partnersData newsItem =
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
 head app =
+    let
+        article =
+            Data.PlaceCal.Articles.articleFromSlug app.routeParams.newsItem app.sharedData.articles app.sharedData.partners
+    in
     Theme.PageTemplate.pageMetaTags
-        { title = NewsItemTitle app.data.title
-        , description = NewsItemMetaDescription app.data.title (String.join " & " app.data.partnerIds)
+        { title = NewsItemTitle article.title
+        , description =
+            NewsItemMetaDescription article.title (String.join " & " article.partnerIds)
         , imageSrc = Nothing
         }
 
@@ -90,14 +83,18 @@ view :
     -> Shared.Model
     -> View.View (PagesMsg.PagesMsg Msg)
 view app shared =
-    { title = t (NewsItemTitle app.data.title)
+    let
+        article =
+            Data.PlaceCal.Articles.articleFromSlug app.routeParams.newsItem app.sharedData.articles app.sharedData.partners
+    in
+    { title = t (NewsItemTitle article.title)
     , body =
         [ Theme.PageTemplate.view
             { headerType = Just "invisible"
             , title = t NewsTitle
-            , bigText = { text = app.data.title, node = "h3" }
+            , bigText = { text = article.title, node = "h3" }
             , smallText = Nothing
-            , innerContent = Just (Theme.NewsItemPage.viewArticle app.data)
+            , innerContent = Just (Theme.NewsItemPage.viewArticle article)
             , outerContent = Nothing
             }
         ]

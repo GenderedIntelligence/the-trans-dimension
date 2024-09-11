@@ -3,6 +3,8 @@ module Shared exposing (Data, Model, Msg, template)
 import BackendTask exposing (BackendTask)
 import BackendTask.Time
 import Browser.Navigation
+import Data.PlaceCal.Articles
+import Data.PlaceCal.Partners
 import Effect exposing (Effect)
 import FatalError exposing (FatalError)
 import Html
@@ -38,7 +40,10 @@ template =
 
 
 type alias Data =
-    { time : Time.Posix }
+    { articles : List Data.PlaceCal.Articles.Article
+    , partners : List Data.PlaceCal.Partners.Partner
+    , time : Time.Posix
+    }
 
 
 
@@ -98,9 +103,12 @@ subscriptions _ _ =
 
 data : BackendTask FatalError Data
 data =
-    -- Consider using Pages.builtAt or Server.Request.requestTime
-    BackendTask.map Data
+    BackendTask.map3 Data
+        (BackendTask.map (\articlesData -> articlesData.allArticles) Data.PlaceCal.Articles.articlesData)
+        (BackendTask.map (\partnersData -> partnersData.allPartners) Data.PlaceCal.Partners.partnersData)
+        -- Consider using Pages.builtAt or Server.Request.requestTime
         BackendTask.Time.now
+        |> BackendTask.allowFatal
 
 
 

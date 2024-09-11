@@ -119,7 +119,7 @@ decodePartner =
         |> Json.Decode.Pipeline.required "id" Json.Decode.string
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.optional "summary" Json.Decode.string ""
-        |> Json.Decode.Pipeline.required "description" Json.Decode.string
+        |> Json.Decode.Pipeline.optional "description" Json.Decode.string ""
         |> Json.Decode.Pipeline.optional "url" (Json.Decode.map Just Json.Decode.string) Nothing
         |> Json.Decode.Pipeline.optional "contact" (Json.Decode.map Just contactDecoder) Nothing
         |> Json.Decode.Pipeline.optional "address" (Json.Decode.map Just addressDecoder) Nothing

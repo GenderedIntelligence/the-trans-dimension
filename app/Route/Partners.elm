@@ -42,7 +42,7 @@ route =
 
 
 type alias Data =
-    List Data.PlaceCal.Partners.Partner
+    ()
 
 
 type alias ActionData =
@@ -51,8 +51,7 @@ type alias ActionData =
 
 data : BackendTask.BackendTask FatalError.FatalError Data
 data =
-    BackendTask.map (\sharedData -> sharedData.allPartners) Data.PlaceCal.Partners.partnersData
-        |> BackendTask.allowFatal
+    BackendTask.succeed ()
 
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
@@ -76,7 +75,7 @@ view app shared =
             , title = t PartnersTitle
             , bigText = { text = t PartnersIntroSummary, node = "p" }
             , smallText = Just [ t PartnersIntroDescription ]
-            , innerContent = Just (Theme.PartnersPage.viewPartners app.data)
+            , innerContent = Just (Theme.PartnersPage.viewPartners app.sharedData.partners)
             , outerContent = Nothing
             }
         ]
