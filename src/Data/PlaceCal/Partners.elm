@@ -1,4 +1,4 @@
-module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, eventPartnerFromId, partnerNameFromId, partnerNamesFromIds, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, eventPartnerFromId, partnerFromSlug, partnerNameFromId, partnerNamesFromIds, partnersData)
 
 import BackendTask
 import BackendTask.Http
@@ -161,6 +161,13 @@ serviceAreaDecoder =
         |> Json.Decode.Pipeline.optional "abbreviatedName"
             (Json.Decode.map Just Json.Decode.string)
             Nothing
+
+
+partnerFromSlug : List Partner -> String -> Partner
+partnerFromSlug partnerList id =
+    List.filter (\partner -> partner.id == id) partnerList
+        |> List.head
+        |> Maybe.withDefault emptyPartner
 
 
 partnerNameFromId : List Partner -> String -> Maybe String

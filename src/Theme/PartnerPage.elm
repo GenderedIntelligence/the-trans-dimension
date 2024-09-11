@@ -55,7 +55,7 @@ viewPartnerEvents localModel { partner, events } =
             if List.length events > 20 then
                 [ eventAreaTitle
 
-                -- TODO , Page.Events.viewEvents localModel
+                -- TODO [cCc]  , Page.Events.viewEvents localModel
                 ]
 
             else
@@ -70,7 +70,7 @@ viewPartnerEvents localModel { partner, events } =
                     div []
                         [ eventAreaTitle
 
-                        --TODO , Page.Events.viewEventsList futureEvents
+                        --TODO [cCc] , Page.Events.viewEventsList futureEvents
                         ]
 
                   else
@@ -79,7 +79,7 @@ viewPartnerEvents localModel { partner, events } =
                     div []
                         [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerPreviousEventsText partner.name)) ]
 
-                        -- TODO, Page.Events.viewEventsList pastEvents
+                        -- TODO [cCc] , Page.Events.viewEventsList pastEvents
                         ]
 
                   else
