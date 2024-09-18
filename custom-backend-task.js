@@ -24,7 +24,7 @@ async function fetchAndCachePlaceCalData(config, context) {
       "body": JSON.stringify({ "query": config.query.query })
     });
     if (response) {
-      const collectionJson = response.json();
+      const collectionJson = await response.json();
       fs.writeFileSync(cachePath, JSON.stringify(collectionJson));
       placeCalData = collectionJson;
     }
