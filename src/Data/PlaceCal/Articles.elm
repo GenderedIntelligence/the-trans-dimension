@@ -1,8 +1,8 @@
 module Data.PlaceCal.Articles exposing (Article, articleFromSlug, articlesData, emptyArticle, replacePartnerIdWithName)
 
 import BackendTask
-import BackendTask.Http
-import Constants
+import BackendTask.Custom
+import Data.PlaceCal.Api
 import Data.PlaceCal.Partners
 import FatalError
 import Helpers.TransDate
@@ -38,13 +38,11 @@ emptyArticle =
 ----------------------------
 
 
-articlesData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllArticlesResponse
+articlesData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Custom.Error } AllArticlesResponse
 articlesData =
-    BackendTask.Http.post Constants.placecalApi
-        (BackendTask.Http.jsonBody allArticlesQuery)
-        (BackendTask.Http.expectJson
-            articlesDecoder
-        )
+    Data.PlaceCal.Api.fetchAndCachePlaceCalData "articles"
+        allArticlesQuery
+        articlesDecoder
 
 
 allArticlesQuery : Json.Encode.Value

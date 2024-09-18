@@ -9,9 +9,9 @@ module Route.Partners.Partner_ exposing (Model, Msg, RouteParams, route, Data, A
 import BackendTask
 import BackendTask.Custom
 import Browser.Dom
-import Constants
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Data.PlaceCal.Api
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import Effect
@@ -235,13 +235,9 @@ pages =
             partnerData.allPartners
                 |> List.map (\partner -> { partner = partner.id })
         )
-        (BackendTask.Custom.run "fetchAndCachePlaceCalData"
-            (Json.Encode.object
-                [ ( "collection", Json.Encode.string "partners" )
-                , ( "url", Json.Encode.string Constants.placecalApi )
-                , ( "query", Data.PlaceCal.Partners.allPartnersQuery )
-                ]
-            )
+        (Data.PlaceCal.Api.fetchAndCachePlaceCalData
+            "partners"
+            Data.PlaceCal.Partners.allPartnersQuery
             Data.PlaceCal.Partners.partnersDecoder
         )
         |> BackendTask.allowFatal

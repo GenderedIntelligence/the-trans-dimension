@@ -1,8 +1,8 @@
-module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, eventPartnerFromId, partnerFromSlug, partnerNameFromId, partnerNamesFromIds, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, allPartnersQuery, emptyPartner, eventPartnerFromId, partnerFromSlug, partnerNameFromId, partnerNamesFromIds, partnersData, partnersDecoder)
 
 import BackendTask
-import BackendTask.Http
-import Constants
+import BackendTask.Custom
+import Data.PlaceCal.Api
 import Data.PlaceCal.Events exposing (EventPartner)
 import FatalError
 import Json.Decode
@@ -77,13 +77,11 @@ type alias AllPartnersResponse =
     { allPartners : List Partner }
 
 
-partnersData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllPartnersResponse
+partnersData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Custom.Error } AllPartnersResponse
 partnersData =
-    BackendTask.Http.post Constants.placecalApi
-        (BackendTask.Http.jsonBody allPartnersQuery)
-        (BackendTask.Http.expectJson
-            partnersDecoder
-        )
+    Data.PlaceCal.Api.fetchAndCachePlaceCalData "partners"
+        allPartnersQuery
+        partnersDecoder
 
 
 allPartnersQuery : Json.Encode.Value
