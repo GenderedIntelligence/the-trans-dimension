@@ -1,4 +1,4 @@
-module Route.Partners.Partner_ exposing (Model, Msg, RouteParams, route, Data, ActionData)
+module Route.Events exposing (Model, Msg, RouteParams, route, Data, ActionData)
 
 {-|
 
@@ -7,30 +7,34 @@ module Route.Partners.Partner_ exposing (Model, Msg, RouteParams, route, Data, A
 -}
 
 import BackendTask
-import BackendTask.Custom
 import Browser.Dom
+import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.PlaceCal.Api
+import Css exposing (Style, alignItems, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, important, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, minus, none, paddingBottom, pct, px, rem, row, rowReverse, solid, spaceBetween, textDecoration, textTransform, uppercase, width, wrap)
+import Css.Global exposing (descendants, typeSelector)
+import Css.Transitions exposing (transition)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import Effect
 import FatalError
 import Head
-import Helpers.TransRoutes exposing (Route(..))
+import Helpers.TransDate as TransDate
+import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled
-import Json.Encode
+import Html.Styled.Attributes exposing (css, href)
+import Pages.PageUrl exposing (PageUrl)
 import PagesMsg
 import RouteBuilder
 import Shared
 import Task
-import Theme.Global
+import Theme.EventsPage
+import Theme.Global exposing (borderTransition, colorTransition, introTextLargeStyle, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate
-import Theme.Paginator exposing (Msg(..))
-import Theme.PartnerPage
+import Theme.Paginator exposing (Filter(..), Msg(..))
 import Time
 import UrlPath
-import View
+import View exposing (View)
 
 
 type alias Model =
@@ -38,7 +42,6 @@ type alias Model =
     , visibleEvents : List Data.PlaceCal.Events.Event
     , nowTime : Time.Posix
     , viewportWidth : Float
-    , urlFragment : Maybe String
     }
 
 
@@ -47,22 +50,7 @@ type alias Msg =
 
 
 type alias RouteParams =
-    { partner : String }
-
-
-route : RouteBuilder.StatefulRoute RouteParams Data ActionData Model Msg
-route =
-    RouteBuilder.preRender
-        { data = data
-        , pages = pages
-        , head = head
-        }
-        |> RouteBuilder.buildWithLocalState
-            { view = view
-            , init = init
-            , update = update
-            , subscriptions = subscriptions
-            }
+    {}
 
 
 init :
@@ -70,38 +58,15 @@ init :
     -> Shared.Model
     -> ( Model, Effect.Effect Msg )
 init app shared =
-    let
-        urlFragment : Maybe String
-        urlFragment =
-            Maybe.andThen .fragment app.url
-
-        tasks : List (Effect.Effect Msg)
-        tasks =
-            [ Task.perform GetTime Time.now
-                |> Effect.fromCmd
-            , Task.perform GotViewport Browser.Dom.getViewport
-                |> Effect.fromCmd
-            ]
-    in
     ( { filterBy = Theme.Paginator.None
       , visibleEvents = app.sharedData.events
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
-      , urlFragment = urlFragment
       }
     , Effect.batch
-        (case urlFragment of
-            Just fragment ->
-                tasks
-                    ++ [ Browser.Dom.getElement fragment
-                            |> Task.andThen (\element -> Browser.Dom.setViewport 0 element.element.y)
-                            |> Task.attempt (\_ -> NoOp)
-                            |> Effect.fromCmd
-                       ]
-
-            Nothing ->
-                tasks
-        )
+        [ Task.perform GetTime Time.now |> Effect.fromCmd
+        , Task.perform GotViewport Browser.Dom.getViewport |> Effect.fromCmd
+        ]
     )
 
 
@@ -174,6 +139,18 @@ subscriptions _ _ _ _ =
     Sub.none
 
 
+route : RouteBuilder.StatefulRoute RouteParams Data ActionData Model Msg
+route =
+    RouteBuilder.single
+        { data = data, head = head }
+        |> RouteBuilder.buildWithLocalState
+            { init = init
+            , view = view
+            , update = update
+            , subscriptions = subscriptions
+            }
+
+
 type alias Data =
     ()
 
@@ -182,20 +159,33 @@ type alias ActionData =
     BackendTask.BackendTask FatalError.FatalError (List RouteParams)
 
 
-data : RouteParams -> BackendTask.BackendTask FatalError.FatalError Data
-data _ =
+data : BackendTask.BackendTask FatalError.FatalError Data
+data =
     BackendTask.succeed ()
 
 
+addPartnerNamesToEvents : List Data.PlaceCal.Events.Event -> List Data.PlaceCal.Partners.Partner -> List Data.PlaceCal.Events.Event
+addPartnerNamesToEvents events partners =
+    List.map
+        (\event ->
+            { event
+                | partner =
+                    setPartnerName event.partner (Data.PlaceCal.Partners.partnerNameFromId partners event.partner.id)
+            }
+        )
+        events
+
+
+setPartnerName : Data.PlaceCal.Events.EventPartner -> Maybe String -> Data.PlaceCal.Events.EventPartner
+setPartnerName oldEventPartner partnerName =
+    { oldEventPartner | name = partnerName }
+
+
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
-head app =
-    let
-        partner =
-            Data.PlaceCal.Partners.partnerFromSlug app.sharedData.partners app.routeParams.partner
-    in
+head static =
     Theme.PageTemplate.pageMetaTags
-        { title = PartnerTitle partner.name
-        , description = PartnerMetaDescription partner.name partner.summary
+        { title = EventsTitle
+        , description = EventsMetaDescription
         , imageSrc = Nothing
         }
 
@@ -204,41 +194,18 @@ view :
     RouteBuilder.App Data ActionData RouteParams
     -> Shared.Model
     -> Model
-    -> View.View (PagesMsg.PagesMsg Msg)
+    -> View (PagesMsg.PagesMsg Msg)
 view app shared model =
-    let
-        aPartner =
-            Data.PlaceCal.Partners.partnerFromSlug app.sharedData.partners app.routeParams.partner
-    in
-    { title = t (PageMetaTitle aPartner.name)
+    { title = t (PageMetaTitle (t EventsTitle))
     , body =
         [ Theme.PageTemplate.view
             { headerType = Just "pink"
-            , title = t PartnersTitle
-            , bigText = { text = aPartner.name, node = "h3" }
+            , title = t EventsTitle
+            , bigText = { text = t EventsSummary, node = "h3" }
             , smallText = Nothing
-            , innerContent =
-                Just
-                    (Theme.PartnerPage.viewInfo model
-                        { partner = aPartner, events = app.sharedData.events }
-                    )
-            , outerContent = Just (Theme.Global.viewBackButton (Helpers.TransRoutes.toAbsoluteUrl Partners) (t BackToPartnersLinkText))
+            , innerContent = Just (Theme.EventsPage.viewEvents model)
+            , outerContent = Nothing
             }
             |> Html.Styled.map PagesMsg.fromMsg
         ]
     }
-
-
-pages : BackendTask.BackendTask FatalError.FatalError (List RouteParams)
-pages =
-    BackendTask.map
-        (\partnerData ->
-            partnerData.allPartners
-                |> List.map (\partner -> { partner = partner.id })
-        )
-        (Data.PlaceCal.Api.fetchAndCachePlaceCalData
-            "partners"
-            Data.PlaceCal.Partners.allPartnersQuery
-            Data.PlaceCal.Partners.partnersDecoder
-        )
-        |> BackendTask.allowFatal
