@@ -1,4 +1,4 @@
-module Data.PlaceCal.Articles exposing (Article, articleFromSlug, articlesData, emptyArticle, replacePartnerIdWithName)
+module Data.PlaceCal.Articles exposing (Article, articleFromSlug, articlesData, replacePartnerIdWithName)
 
 import BackendTask
 import BackendTask.Custom

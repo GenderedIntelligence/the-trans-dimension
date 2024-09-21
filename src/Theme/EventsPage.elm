@@ -12,7 +12,6 @@ import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h4, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href)
-import Pages.PageUrl exposing (PageUrl)
 import RouteBuilder
 import Shared
 import Task
@@ -21,8 +20,6 @@ import Theme.PageTemplate
 import Theme.Paginator
 import Theme.PartnersPage
 import Time
-import UrlPath
-import View exposing (View)
 
 
 viewEvents model =

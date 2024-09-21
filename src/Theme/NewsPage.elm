@@ -8,12 +8,9 @@ import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h3, img, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (alt, css, href, src)
-import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlueBackgroundStyle, linkStyle, pinkButtonOnLightBackgroundStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.NewsItemPage
-import Theme.PageTemplate as PageTemplate
-import View exposing (View)
 
 
 viewNewsList : List Data.PlaceCal.Articles.Article -> Html msg

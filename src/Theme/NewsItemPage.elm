@@ -11,12 +11,9 @@ import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, article, div, figure, img, p, span, text, time)
 import Html.Styled.Attributes exposing (alt, css, src)
-import Pages.PageUrl exposing (PageUrl)
 import Shared
 import Theme.Global exposing (viewBackButton, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate as PageTemplate
 import Theme.TransMarkdown as TransMarkdown
-import View exposing (View)
 
 
 viewArticle : Data.PlaceCal.Articles.Article -> Html msg
