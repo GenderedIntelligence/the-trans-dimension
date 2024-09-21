@@ -12,7 +12,6 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import FatalError
 import Head
-import Html.Styled
 import Json.Decode as Decode
 import Markdown.Block
 import PagesMsg

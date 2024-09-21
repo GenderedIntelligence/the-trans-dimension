@@ -11,27 +11,19 @@ import Browser.Dom
 import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Css exposing (Style, alignItems, batch, block, borderBottomColor, borderBottomStyle, borderBottomWidth, calc, center, color, column, display, displayFlex, em, firstChild, flexDirection, flexGrow, flexWrap, fontSize, fontStyle, fontWeight, hover, important, int, italic, justifyContent, lastChild, letterSpacing, lineHeight, margin, margin2, marginBlockEnd, marginBlockStart, marginBottom, marginRight, marginTop, maxWidth, minus, none, paddingBottom, pct, px, rem, row, rowReverse, solid, spaceBetween, textDecoration, textTransform, uppercase, width, wrap)
-import Css.Global exposing (descendants, typeSelector)
-import Css.Transitions exposing (transition)
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import Effect
 import FatalError
 import Head
-import Helpers.TransDate as TransDate
-import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled
-import Html.Styled.Attributes exposing (css, href)
-import Pages.PageUrl exposing (PageUrl)
 import PagesMsg
 import RouteBuilder
 import Shared
 import Task
 import Theme.EventsPage
-import Theme.Global exposing (borderTransition, colorTransition, introTextLargeStyle, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate
-import Theme.Paginator exposing (Filter(..), Msg(..))
+import Theme.Paginator exposing (Msg(..))
 import Time
 import UrlPath
 import View exposing (View)
@@ -162,18 +154,6 @@ type alias ActionData =
 data : BackendTask.BackendTask FatalError.FatalError Data
 data =
     BackendTask.succeed ()
-
-
-addPartnerNamesToEvents : List Data.PlaceCal.Events.Event -> List Data.PlaceCal.Partners.Partner -> List Data.PlaceCal.Events.Event
-addPartnerNamesToEvents events partners =
-    List.map
-        (\event ->
-            { event
-                | partner =
-                    setPartnerName event.partner (Data.PlaceCal.Partners.partnerNameFromId partners event.partner.id)
-            }
-        )
-        events
 
 
 setPartnerName : Data.PlaceCal.Events.EventPartner -> Maybe String -> Data.PlaceCal.Events.EventPartner

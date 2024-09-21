@@ -10,10 +10,8 @@ import BackendTask
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Data.PlaceCal.Articles
-import Data.PlaceCal.Partners
 import FatalError
 import Head
-import Html.Styled
 import PagesMsg
 import RouteBuilder
 import Shared

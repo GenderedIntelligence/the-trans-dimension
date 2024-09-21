@@ -10,11 +10,9 @@ import BackendTask
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Data.PlaceCal.Articles
-import Data.PlaceCal.Partners
 import FatalError
 import Head
 import Helpers.TransRoutes
-import Html.Styled
 import PagesMsg
 import RouteBuilder
 import Shared
@@ -52,16 +50,8 @@ type alias ActionData =
 
 
 data : RouteParams -> BackendTask.BackendTask FatalError.FatalError Data
-data routeParams =
+data _ =
     BackendTask.succeed ()
-
-
-partnerIdsToNames :
-    List Data.PlaceCal.Partners.Partner
-    -> Data.PlaceCal.Articles.Article
-    -> Data.PlaceCal.Articles.Article
-partnerIdsToNames partnersData newsItem =
-    { newsItem | partnerIds = Data.PlaceCal.Partners.partnerNamesFromIds partnersData newsItem.partnerIds }
 
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
