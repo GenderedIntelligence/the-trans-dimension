@@ -9,7 +9,6 @@ import Data.PlaceCal.Partners
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, div, h3, h4, li, p, section, span, styled, text, ul)
 import Html.Styled.Attributes exposing (css, href)
-import Shared
 import Theme.Global as Theme exposing (darkPurple, pink, purple, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 
 

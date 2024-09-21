@@ -1,8 +1,8 @@
 module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), afterDate, emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId, next4Events, onOrBeforeDate)
 
 import BackendTask
-import BackendTask.Http
-import Constants
+import BackendTask.Custom
+import Data.PlaceCal.Api
 import FatalError
 import Helpers.TransDate as TransDate
 import Json.Decode
@@ -121,13 +121,11 @@ next4Events allEvents fromTime =
 ----------------------------
 
 
-eventsData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllEventsResponse
+eventsData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Custom.Error } AllEventsResponse
 eventsData =
-    BackendTask.Http.post Constants.placecalApi
-        (BackendTask.Http.jsonBody allEventsQuery)
-        (BackendTask.Http.expectJson
-            eventsDecoder
-        )
+    Data.PlaceCal.Api.fetchAndCachePlaceCalData "events"
+        allEventsQuery
+        eventsDecoder
 
 
 allEventsQuery : Json.Encode.Value
