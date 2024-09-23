@@ -1,4 +1,4 @@
-module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), afterDate, emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId, next4Events, onOrBeforeDate)
+module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), afterDate, allEventsQuery, emptyEvent, eventFromSlug, eventsData, eventsDecoder, eventsFromDate, eventsFromPartnerId, next4Events, onOrBeforeDate)
 
 import BackendTask
 import BackendTask.Custom
@@ -76,6 +76,13 @@ emptyEvent =
 
 type Realm
     = Online
+
+
+eventFromSlug : String -> List Event -> Event
+eventFromSlug eventId eventsList =
+    List.filter (\event -> event.id == eventId) eventsList
+        |> List.head
+        |> Maybe.withDefault emptyEvent
 
 
 eventsFromPartnerId : List Event -> String -> List Event
