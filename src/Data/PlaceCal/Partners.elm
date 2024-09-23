@@ -1,4 +1,4 @@
-module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, allPartnersQuery, eventPartnerFromId, partnerFromSlug, partnerNameFromId, partnerNamesFromIds, partnersData, partnersDecoder)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, addPartnerToEvents, allPartnersQuery, eventPartnerFromId, partnerFromSlug, partnerNameFromId, partnerNamesFromIds, partnersData, partnersDecoder)
 
 import BackendTask
 import BackendTask.Custom
@@ -195,3 +195,10 @@ eventPartnerFromId partnerList partnerId =
             )
         |> List.head
         |> Maybe.withDefault { name = Nothing, maybeContactDetails = Nothing, maybeUrl = Nothing, id = partnerId }
+
+
+addPartnerToEvents : List Data.PlaceCal.Events.Event -> List Partner -> List Data.PlaceCal.Events.Event
+addPartnerToEvents eventList partnerList =
+    List.map
+        (\event -> { event | partner = eventPartnerFromId partnerList event.partner.id })
+        eventList

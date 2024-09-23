@@ -96,8 +96,13 @@ view :
     -> View.View (PagesMsg.PagesMsg Msg)
 view app shared =
     let
+        event : Data.PlaceCal.Events.Event
         event =
             Data.PlaceCal.Events.eventFromSlug app.routeParams.event app.sharedData.events
+
+        eventWithPartner : Data.PlaceCal.Events.Event
+        eventWithPartner =
+            { event | partner = Data.PlaceCal.Partners.eventPartnerFromId app.sharedData.partners event.partner.id }
     in
     { title = t (PageMetaTitle event.name)
     , body =
@@ -106,7 +111,7 @@ view app shared =
             , title = t EventsTitle
             , bigText = { text = event.name, node = "h3" }
             , smallText = Nothing
-            , innerContent = Just (Theme.EventPage.viewEventInfo event)
+            , innerContent = Just (Theme.EventPage.viewEventInfo eventWithPartner)
             , outerContent = Just (Theme.EventPage.viewButtons event)
             }
         ]
