@@ -111,12 +111,16 @@ update :
     -> Model
     -> ( Model, Effect.Effect Msg )
 update app shared msg model =
+    let
+        aPartner =
+            Data.PlaceCal.Partners.partnerFromSlug app.sharedData.partners app.routeParams.partner
+    in
     case msg of
         ClickedDay posix ->
             ( { model
                 | filterBy = Theme.Paginator.Day posix
                 , visibleEvents =
-                    Data.PlaceCal.Events.eventsFromDate app.sharedData.events posix
+                    eventsFromPartnerId aPartner.id (Data.PlaceCal.Events.eventsFromDate app.sharedData.events posix)
               }
             , Effect.none
             )
@@ -124,7 +128,7 @@ update app shared msg model =
         ClickedAllPastEvents ->
             ( { model
                 | filterBy = Theme.Paginator.Past
-                , visibleEvents = List.reverse (Data.PlaceCal.Events.onOrBeforeDate app.sharedData.events model.nowTime)
+                , visibleEvents = eventsFromPartnerId aPartner.id (List.reverse (Data.PlaceCal.Events.onOrBeforeDate app.sharedData.events model.nowTime))
               }
             , Effect.none
             )
@@ -132,7 +136,7 @@ update app shared msg model =
         ClickedAllFutureEvents ->
             ( { model
                 | filterBy = Theme.Paginator.Future
-                , visibleEvents = Data.PlaceCal.Events.afterDate app.sharedData.events model.nowTime
+                , visibleEvents = eventsFromPartnerId aPartner.id (Data.PlaceCal.Events.afterDate app.sharedData.events model.nowTime)
               }
             , Effect.none
             )
@@ -142,7 +146,7 @@ update app shared msg model =
                 | filterBy = Theme.Paginator.Day newTime
                 , nowTime = newTime
                 , visibleEvents =
-                    Data.PlaceCal.Events.eventsFromDate app.sharedData.events newTime
+                    eventsFromPartnerId aPartner.id (Data.PlaceCal.Events.eventsFromDate app.sharedData.events newTime)
               }
             , Effect.none
             )
@@ -219,7 +223,9 @@ view app shared model =
             , innerContent =
                 Just
                     (Theme.PartnerPage.viewInfo model
-                        { partner = aPartner, events = app.sharedData.events }
+                        { partner = aPartner
+                        , events = eventsFromPartnerId aPartner.id app.sharedData.events
+                        }
                     )
             , outerContent = Just (Theme.Global.viewBackButton (Helpers.TransRoutes.toAbsoluteUrl Partners) (t BackToPartnersLinkText))
             }
@@ -241,3 +247,8 @@ pages =
             Data.PlaceCal.Partners.partnersDecoder
         )
         |> BackendTask.allowFatal
+
+
+eventsFromPartnerId : String -> List Data.PlaceCal.Events.Event -> List Data.PlaceCal.Events.Event
+eventsFromPartnerId partnerId eventList =
+    List.filter (\event -> partnerId == event.partner.id) eventList
