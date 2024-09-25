@@ -51,7 +51,7 @@ init :
     -> ( Model, Effect.Effect Msg )
 init app shared =
     ( { filterBy = Theme.Paginator.None
-      , visibleEvents = app.sharedData.events
+      , visibleEvents = eventsWithPartners app.sharedData.events app.sharedData.partners
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
       }
@@ -74,7 +74,7 @@ update app shared msg model =
             ( { model
                 | filterBy = Theme.Paginator.Day posix
                 , visibleEvents =
-                    Data.PlaceCal.Events.eventsFromDate app.sharedData.events posix
+                    eventsWithPartners (Data.PlaceCal.Events.eventsFromDate app.sharedData.events posix) app.sharedData.partners
               }
             , Effect.none
             )
@@ -82,7 +82,7 @@ update app shared msg model =
         ClickedAllPastEvents ->
             ( { model
                 | filterBy = Theme.Paginator.Past
-                , visibleEvents = List.reverse (Data.PlaceCal.Events.onOrBeforeDate app.sharedData.events model.nowTime)
+                , visibleEvents = eventsWithPartners (List.reverse (Data.PlaceCal.Events.onOrBeforeDate app.sharedData.events model.nowTime)) app.sharedData.partners
               }
             , Effect.none
             )
@@ -90,7 +90,7 @@ update app shared msg model =
         ClickedAllFutureEvents ->
             ( { model
                 | filterBy = Theme.Paginator.Future
-                , visibleEvents = Data.PlaceCal.Events.afterDate app.sharedData.events model.nowTime
+                , visibleEvents = eventsWithPartners (Data.PlaceCal.Events.afterDate app.sharedData.events model.nowTime) app.sharedData.partners
               }
             , Effect.none
             )
@@ -100,7 +100,7 @@ update app shared msg model =
                 | filterBy = Theme.Paginator.Day newTime
                 , nowTime = newTime
                 , visibleEvents =
-                    Data.PlaceCal.Events.eventsFromDate app.sharedData.events newTime
+                    eventsWithPartners (Data.PlaceCal.Events.eventsFromDate app.sharedData.events newTime) app.sharedData.partners
               }
             , Effect.none
             )
@@ -156,11 +156,6 @@ data =
     BackendTask.succeed ()
 
 
-setPartnerName : Data.PlaceCal.Events.EventPartner -> Maybe String -> Data.PlaceCal.Events.EventPartner
-setPartnerName oldEventPartner partnerName =
-    { oldEventPartner | name = partnerName }
-
-
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
 head static =
     Theme.PageTemplate.pageMetaTags
@@ -189,3 +184,8 @@ view app shared model =
             |> Html.Styled.map PagesMsg.fromMsg
         ]
     }
+
+
+eventsWithPartners : List Data.PlaceCal.Events.Event -> List Data.PlaceCal.Partners.Partner -> List Data.PlaceCal.Events.Event
+eventsWithPartners eventList partnerList =
+    Data.PlaceCal.Partners.addPartnerToEvents eventList partnerList
