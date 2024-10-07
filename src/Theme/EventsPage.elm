@@ -6,22 +6,22 @@ import Css exposing (Style, alignItems, batch, block, borderBottomColor, borderB
 import Css.Global exposing (descendants, typeSelector)
 import Css.Transitions exposing (transition)
 import Data.PlaceCal.Events
-import Data.PlaceCal.Partners
-import Effect
 import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h4, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (css, href)
-import RouteBuilder
-import Shared
-import Task
 import Theme.Global exposing (borderTransition, colorTransition, introTextLargeStyle, pink, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate
 import Theme.Paginator
-import Theme.PartnersPage
 import Time
 
 
+viewEvents :
+    { localModel
+        | filterBy : Theme.Paginator.Filter
+        , nowTime : Time.Posix
+        , visibleEvents : List Data.PlaceCal.Events.Event
+    }
+    -> Html Theme.Paginator.Msg
 viewEvents model =
     section [ css [ eventsContainerStyle ] ]
         [ Theme.Paginator.viewPagination model

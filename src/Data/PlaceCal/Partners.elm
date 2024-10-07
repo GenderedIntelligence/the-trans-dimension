@@ -1,9 +1,8 @@
-module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, addPartnerToEvents, allPartnersQuery, eventPartnerFromId, partnerFromSlug, partnerNameFromId, partnerNamesFromIds, partnersData, partnersDecoder)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, allPartnersQuery, partnerFromSlug, partnerNamesFromIds, partnersData, partnersDecoder)
 
 import BackendTask
 import BackendTask.Custom
 import Data.PlaceCal.Api
-import Data.PlaceCal.Events exposing (EventPartner)
 import FatalError
 import Json.Decode
 import Json.Decode.Pipeline
@@ -168,37 +167,8 @@ partnerFromSlug partnerList id =
         |> Maybe.withDefault emptyPartner
 
 
-partnerNameFromId : List Partner -> String -> Maybe String
-partnerNameFromId partnerList id =
-    List.filter (\partner -> partner.id == id) partnerList
-        |> List.map (\partner -> partner.name)
-        |> List.head
-
-
 partnerNamesFromIds : List Partner -> List String -> List String
 partnerNamesFromIds partnerList idList =
     -- If the partner isn't in our sites partners, it won't be in the list
     List.filter (\partner -> List.member partner.id idList) partnerList
         |> List.map (\partner -> partner.name)
-
-
-eventPartnerFromId : List Partner -> String -> EventPartner
-eventPartnerFromId partnerList partnerId =
-    List.filter (\partner -> partner.id == partnerId) partnerList
-        |> List.map
-            (\partner ->
-                { name = Just partner.name
-                , maybeContactDetails = partner.maybeContactDetails
-                , id = partner.id
-                , maybeUrl = partner.maybeUrl
-                }
-            )
-        |> List.head
-        |> Maybe.withDefault { name = Nothing, maybeContactDetails = Nothing, maybeUrl = Nothing, id = partnerId }
-
-
-addPartnerToEvents : List Data.PlaceCal.Events.Event -> List Partner -> List Data.PlaceCal.Events.Event
-addPartnerToEvents eventList partnerList =
-    List.map
-        (\event -> { event | partner = eventPartnerFromId partnerList event.partner.id })
-        eventList

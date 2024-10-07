@@ -7,14 +7,15 @@ module Route.Index exposing (Model, Msg, RouteParams, route, Data, ActionData)
 -}
 
 import BackendTask
-import Effect
+import Copy.Keys exposing (Key(..))
+import Copy.Text exposing (t)
 import FatalError
 import Head
-import Html.Styled
 import PagesMsg
 import RouteBuilder
 import Shared
-import UrlPath
+import Theme.IndexPage
+import Theme.PageTemplate
 import View
 
 
@@ -22,49 +23,20 @@ type alias Model =
     {}
 
 
-type Msg
-    = NoOp
+type alias Msg =
+    ()
 
 
 type alias RouteParams =
     {}
 
 
-route : RouteBuilder.StatefulRoute RouteParams Data ActionData Model Msg
+route : RouteBuilder.StatelessRoute RouteParams Data ActionData
 route =
     RouteBuilder.single
         { data = data, head = head }
-        |> RouteBuilder.buildWithLocalState
-            { view = view
-            , init = init
-            , update = update
-            , subscriptions = subscriptions
-            }
-
-
-init :
-    RouteBuilder.App Data ActionData RouteParams
-    -> Shared.Model
-    -> ( Model, Effect.Effect Msg )
-init app shared =
-    ( {}, Effect.none )
-
-
-update :
-    RouteBuilder.App Data ActionData RouteParams
-    -> Shared.Model
-    -> Msg
-    -> Model
-    -> ( Model, Effect.Effect Msg )
-update app shared msg model =
-    case msg of
-        NoOp ->
-            ( model, Effect.none )
-
-
-subscriptions : RouteParams -> UrlPath.UrlPath -> Shared.Model -> Model -> Sub Msg
-subscriptions routeParams path shared model =
-    Sub.none
+        |> RouteBuilder.buildNoState
+            { view = view }
 
 
 type alias Data =
@@ -82,15 +54,18 @@ data =
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
 head app =
-    []
+    Theme.PageTemplate.pageMetaTags
+        { title = SiteTitle
+        , description = IndexMetaDescription
+        , imageSrc = Nothing
+        }
 
 
 view :
     RouteBuilder.App Data ActionData RouteParams
     -> Shared.Model
-    -> Model
     -> View.View (PagesMsg.PagesMsg Msg)
-view app shared model =
-    { title = "Temporary index"
-    , body = [ Html.Styled.h2 [] [ Html.Styled.text "Temporary index" ] ]
+view app shared =
+    { title = t SiteTitle
+    , body = [ Theme.IndexPage.view app.sharedData ]
     }

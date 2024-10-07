@@ -8,8 +8,7 @@ import Helpers.TransDate
 import Helpers.TransRoutes
 import Html.Styled exposing (Html, a, div, h4, hr, p, section, text, time)
 import Html.Styled.Attributes exposing (css, href, target)
-import Theme.Global exposing (darkBlue, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.PageTemplate
+import Theme.Global exposing (linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, withMediaMediumDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.TransMarkdown
 
 

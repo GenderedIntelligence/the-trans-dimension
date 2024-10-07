@@ -13,7 +13,6 @@ import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Data.PlaceCal.Api
 import Data.PlaceCal.Events
-import Data.PlaceCal.Partners
 import Effect
 import FatalError
 import Head
@@ -25,7 +24,6 @@ import Task
 import Theme.EventPage
 import Theme.PageTemplate
 import Theme.TransMarkdown
-import Time
 import View
 
 
@@ -94,7 +92,7 @@ view :
     RouteBuilder.App Data ActionData RouteParams
     -> Shared.Model
     -> View.View (PagesMsg.PagesMsg Msg)
-view app shared =
+view app _ =
     let
         event : Data.PlaceCal.Events.Event
         event =
@@ -102,7 +100,7 @@ view app shared =
 
         eventWithPartner : Data.PlaceCal.Events.Event
         eventWithPartner =
-            { event | partner = Data.PlaceCal.Partners.eventPartnerFromId app.sharedData.partners event.partner.id }
+            { event | partner = Data.PlaceCal.Events.eventPartnerFromId app.sharedData.partners event.partner.id }
     in
     { title = t (PageMetaTitle event.name)
     , body =
