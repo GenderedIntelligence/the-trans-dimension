@@ -8,7 +8,6 @@ module Route.Events exposing (Model, Msg, RouteParams, route, Data, ActionData)
 
 import BackendTask
 import Browser.Dom
-import Browser.Navigation
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Data.PlaceCal.Events

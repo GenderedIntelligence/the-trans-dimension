@@ -7,23 +7,17 @@ module Route.Events.Event_ exposing (Model, Msg, RouteParams, route, Data, Actio
 -}
 
 import BackendTask
-import BackendTask.Custom
-import Browser.Dom
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Data.PlaceCal.Api
 import Data.PlaceCal.Events
-import Effect
 import FatalError
 import Head
-import Json.Encode
 import PagesMsg
 import RouteBuilder
 import Shared
-import Task
 import Theme.EventPage
 import Theme.PageTemplate
-import Theme.TransMarkdown
 import View
 
 

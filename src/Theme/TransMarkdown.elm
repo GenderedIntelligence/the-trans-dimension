@@ -2,7 +2,7 @@ module Theme.TransMarkdown exposing (fromResult, markdownBlocksToHtml, markdownT
 
 import Css exposing (Style, absolute, batch, before, center, color, decimal, em, firstChild, fontSize, fontWeight, int, left, lineHeight, listStyle, listStyleType, marginBlockEnd, marginBlockStart, none, paddingLeft, position, property, relative, rem, textAlign, top)
 import Html.Styled as Html
-import Html.Styled.Attributes as Attr exposing (css)
+import Html.Styled.Attributes as Attr exposing (class, css)
 import Json.Decode
 import Markdown.Block
 import Markdown.Html
@@ -185,7 +185,16 @@ transHtmlRenderer =
     , codeBlock =
         \{ body, language } ->
             Html.pre []
-                [ Html.code []
+                [ Html.code
+                    [ class
+                        (case language of
+                            Just languageName ->
+                                "language-" ++ languageName
+
+                            Nothing ->
+                                ""
+                        )
+                    ]
                     [ Html.text body
                     ]
                 ]

@@ -77,7 +77,7 @@ data =
 
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
-head app =
+head _ =
     Theme.PageTemplate.pageMetaTags
         { title = PrivacyTitle
         , description = PrivacyMetaDescription
@@ -89,7 +89,7 @@ view :
     RouteBuilder.App Data ActionData RouteParams
     -> Shared.Model
     -> View.View (PagesMsg.PagesMsg Msg)
-view app shared =
+view app _ =
     { title = t (PageMetaTitle (t PrivacyTitle))
     , body =
         [ Theme.TextHeavyPage.view

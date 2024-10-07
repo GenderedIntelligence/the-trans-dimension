@@ -53,7 +53,7 @@ data =
 
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
-head app =
+head _ =
     Theme.PageTemplate.pageMetaTags
         { title = SiteTitle
         , description = IndexMetaDescription
@@ -65,7 +65,7 @@ view :
     RouteBuilder.App Data ActionData RouteParams
     -> Shared.Model
     -> View.View (PagesMsg.PagesMsg Msg)
-view app shared =
+view app _ =
     { title = t SiteTitle
     , body = [ Theme.IndexPage.view app.sharedData ]
     }
