@@ -1,18 +1,12 @@
-module Theme.NewsItemPage exposing (articleImageSource, viewArticle)
+module Theme.NewsItemPage exposing (viewArticle)
 
-import Array
-import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (isValidUrl, t)
 import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontWeight, height, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
 import Css.Global exposing (descendants, typeSelector)
 import Data.PlaceCal.Articles
-import Data.PlaceCal.Partners
 import Helpers.TransDate as TransDate
-import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, article, div, figure, img, p, span, text, time)
 import Html.Styled.Attributes exposing (alt, css, src)
-import Shared
-import Theme.Global exposing (viewBackButton, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Global exposing (withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.TransMarkdown as TransMarkdown
 
 
@@ -28,60 +22,15 @@ viewArticle newsItem =
                 text ""
             , time [] [ text (TransDate.humanDateFromPosix newsItem.publishedDatetime) ]
             ]
-        , articleImage newsItem.maybeImage newsItem.body
+        , articleImage newsItem.imageSrc
         , div [ css [ articleContentStyle ] ] (TransMarkdown.markdownToHtml newsItem.body)
         ]
 
 
-articleImage : Maybe String -> String -> Html msg
-articleImage maybeImage articleBody =
+articleImage : String -> Html msg
+articleImage imageSrc =
     figure [ css [ articleFigureStyle ] ]
-        [ img [ src (articleImageSource maybeImage articleBody), css [ articleFigureImageStyle ], alt "" ] []
-        ]
-
-
-articleImageSource : Maybe String -> String -> String
-articleImageSource maybeImage articleBody =
-    let
-        defaultImageUrl =
-            Maybe.withDefault
-                "/images/news/article_1.jpg"
-                (Array.get
-                    (modBy
-                        (Array.length defaultNewsImages)
-                        (String.length articleBody)
-                    )
-                    defaultNewsImages
-                )
-    in
-    case maybeImage of
-        Just imageUrl ->
-            if isValidUrl imageUrl then
-                imageUrl
-
-            else
-                defaultImageUrl
-
-        Nothing ->
-            defaultImageUrl
-
-
-defaultNewsImages : Array.Array String
-defaultNewsImages =
-    Array.fromList
-        [ "/images/news/article_1.jpg"
-        , "/images/news/article_2.jpg"
-        , "/images/news/article_3.jpg"
-        , "/images/news/article_4.jpg"
-        , "/images/news/article_5.jpg"
-        , "/images/news/article_6.jpg"
-        ]
-
-
-viewPagination : Html msg
-viewPagination =
-    div []
-        [ viewBackButton (TransRoutes.toAbsoluteUrl News) (t NewsItemReturnButton)
+        [ img [ src imageSrc, css [ articleFigureImageStyle ], alt "" ] []
         ]
 
 
