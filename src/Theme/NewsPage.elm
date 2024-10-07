@@ -1,4 +1,4 @@
-module Theme.NewsPage exposing (viewNewsList)
+module Theme.NewsPage exposing (viewNewsArticle, viewNewsList)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -8,9 +8,7 @@ import Helpers.TransDate as TransDate
 import Helpers.TransRoutes as TransRoutes exposing (Route(..))
 import Html.Styled exposing (Html, a, article, div, h3, img, li, p, section, span, text, time, ul)
 import Html.Styled.Attributes exposing (alt, css, href, src)
-import Shared
 import Theme.Global exposing (buttonFloatingWrapperStyle, darkBlueBackgroundStyle, linkStyle, pinkButtonOnLightBackgroundStyle, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
-import Theme.NewsItemPage
 
 
 viewNewsList : List Data.PlaceCal.Articles.Article -> Html msg
@@ -33,7 +31,7 @@ viewNewsItem newsItem =
 viewNewsArticle : Data.PlaceCal.Articles.Article -> Html msg
 viewNewsArticle newsItem =
     article [ css [ newsItemArticleStyle ] ]
-        [ newsArticleImage newsItem.maybeImage newsItem.body
+        [ newsArticleImage newsItem.imageSrc
         , div [ css [ newsItemInfoStyle ] ]
             [ h3 [ css [ newsItemTitleStyle ] ]
                 [ a
@@ -76,10 +74,10 @@ summaryFromArticleBody articleBody =
         |> String.join " "
 
 
-newsArticleImage : Maybe String -> String -> Html msg
-newsArticleImage maybeImage articleBody =
+newsArticleImage : String -> Html msg
+newsArticleImage imageSrc =
     img
-        [ src (Theme.NewsItemPage.articleImageSource maybeImage articleBody)
+        [ src imageSrc
         , css [ newsImageStyle ]
         , alt ""
         ]
