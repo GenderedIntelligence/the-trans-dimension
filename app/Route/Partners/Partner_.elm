@@ -7,9 +7,11 @@ module Route.Partners.Partner_ exposing (Model, Msg, RouteParams, route, Data, A
 -}
 
 import BackendTask
+import BackendTask.Custom
 import Browser.Dom
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
+import Data.PlaceCal.Api
 import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import Effect
@@ -81,7 +83,7 @@ init app shared =
             ]
     in
     ( { filterBy = Theme.Paginator.None
-      , visibleEvents = app.data.events
+      , visibleEvents = app.sharedData.events
       , nowTime = Time.millisToPosix 0
       , viewportWidth = 320
       , urlFragment = urlFragment
@@ -109,12 +111,16 @@ update :
     -> Model
     -> ( Model, Effect.Effect Msg )
 update app shared msg model =
+    let
+        aPartner =
+            Data.PlaceCal.Partners.partnerFromSlug app.sharedData.partners app.routeParams.partner
+    in
     case msg of
         ClickedDay posix ->
             ( { model
                 | filterBy = Theme.Paginator.Day posix
                 , visibleEvents =
-                    Data.PlaceCal.Events.eventsFromDate app.data.events posix
+                    eventsFromPartnerId aPartner.id (Data.PlaceCal.Events.eventsFromDate app.sharedData.events posix)
               }
             , Effect.none
             )
@@ -122,7 +128,7 @@ update app shared msg model =
         ClickedAllPastEvents ->
             ( { model
                 | filterBy = Theme.Paginator.Past
-                , visibleEvents = List.reverse (Data.PlaceCal.Events.onOrBeforeDate app.data.events model.nowTime)
+                , visibleEvents = eventsFromPartnerId aPartner.id (List.reverse (Data.PlaceCal.Events.onOrBeforeDate app.sharedData.events model.nowTime))
               }
             , Effect.none
             )
@@ -130,7 +136,7 @@ update app shared msg model =
         ClickedAllFutureEvents ->
             ( { model
                 | filterBy = Theme.Paginator.Future
-                , visibleEvents = Data.PlaceCal.Events.afterDate app.data.events model.nowTime
+                , visibleEvents = eventsFromPartnerId aPartner.id (Data.PlaceCal.Events.afterDate app.sharedData.events model.nowTime)
               }
             , Effect.none
             )
@@ -140,7 +146,7 @@ update app shared msg model =
                 | filterBy = Theme.Paginator.Day newTime
                 , nowTime = newTime
                 , visibleEvents =
-                    Data.PlaceCal.Events.eventsFromDate app.data.events newTime
+                    eventsFromPartnerId aPartner.id (Data.PlaceCal.Events.eventsFromDate app.sharedData.events newTime)
               }
             , Effect.none
             )
@@ -167,14 +173,12 @@ update app shared msg model =
 
 
 subscriptions : RouteParams -> UrlPath.UrlPath -> Shared.Model -> Model -> Sub Msg
-subscriptions routeParams path shared model =
+subscriptions _ _ _ _ =
     Sub.none
 
 
 type alias Data =
-    { partner : Data.PlaceCal.Partners.Partner
-    , events : List Data.PlaceCal.Events.Event
-    }
+    ()
 
 
 type alias ActionData =
@@ -182,33 +186,19 @@ type alias ActionData =
 
 
 data : RouteParams -> BackendTask.BackendTask FatalError.FatalError Data
-data routeParams =
-    BackendTask.map2
-        (\partnerData eventData ->
-            -- There probably a better pattern than succeed with empty.
-            -- In theory all will succeed since routes mapped from same list.
-            { partner =
-                Maybe.withDefault Data.PlaceCal.Partners.emptyPartner
-                    ((partnerData.allPartners
-                        -- Filter for partner with matching id
-                        |> List.filter (\partner -> partner.id == routeParams.partner)
-                     )
-                        -- There should only be one, so take the head
-                        |> List.head
-                    )
-            , events = Data.PlaceCal.Events.eventsFromPartnerId eventData routeParams.partner
-            }
-        )
-        Data.PlaceCal.Partners.partnersData
-        (BackendTask.map (\eventsData -> eventsData.allEvents) Data.PlaceCal.Events.eventsData)
-        |> BackendTask.allowFatal
+data _ =
+    BackendTask.succeed ()
 
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
 head app =
+    let
+        partner =
+            Data.PlaceCal.Partners.partnerFromSlug app.sharedData.partners app.routeParams.partner
+    in
     Theme.PageTemplate.pageMetaTags
-        { title = PartnerTitle app.data.partner.name
-        , description = PartnerMetaDescription app.data.partner.name app.data.partner.summary
+        { title = PartnerTitle partner.name
+        , description = PartnerMetaDescription partner.name partner.summary
         , imageSrc = Nothing
         }
 
@@ -219,18 +209,27 @@ view :
     -> Model
     -> View.View (PagesMsg.PagesMsg Msg)
 view app shared model =
-    { title = t (PageMetaTitle app.data.partner.name)
+    let
+        aPartner =
+            Data.PlaceCal.Partners.partnerFromSlug app.sharedData.partners app.routeParams.partner
+    in
+    { title = t (PageMetaTitle aPartner.name)
     , body =
         [ Theme.PageTemplate.view
             { headerType = Just "pink"
             , title = t PartnersTitle
-            , bigText = { text = app.data.partner.name, node = "h3" }
+            , bigText = { text = aPartner.name, node = "h3" }
             , smallText = Nothing
             , innerContent =
                 Just
-                    (Theme.PartnerPage.viewInfo model app.data)
+                    (Theme.PartnerPage.viewInfo model
+                        { partner = aPartner
+                        , events = eventsFromPartnerId aPartner.id app.sharedData.events
+                        }
+                    )
             , outerContent = Just (Theme.Global.viewBackButton (Helpers.TransRoutes.toAbsoluteUrl Partners) (t BackToPartnersLinkText))
             }
+            |> Html.Styled.map PagesMsg.fromMsg
         ]
     }
 
@@ -242,5 +241,14 @@ pages =
             partnerData.allPartners
                 |> List.map (\partner -> { partner = partner.id })
         )
-        Data.PlaceCal.Partners.partnersData
+        (Data.PlaceCal.Api.fetchAndCachePlaceCalData
+            "partners"
+            Data.PlaceCal.Partners.allPartnersQuery
+            Data.PlaceCal.Partners.partnersDecoder
+        )
         |> BackendTask.allowFatal
+
+
+eventsFromPartnerId : String -> List Data.PlaceCal.Events.Event -> List Data.PlaceCal.Events.Event
+eventsFromPartnerId partnerId eventList =
+    List.filter (\event -> partnerId == event.partner.id) eventList

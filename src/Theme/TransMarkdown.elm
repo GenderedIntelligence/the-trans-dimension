@@ -1,4 +1,4 @@
-module Theme.TransMarkdown exposing (fromResult, markdownBlocksToHtml, markdownToBlocks, markdownToHtml, markdownToView)
+module Theme.TransMarkdown exposing (fromResult, markdownBlocksToHtml, markdownToBlocks, markdownToHtml)
 
 import Css exposing (Style, absolute, batch, before, center, color, decimal, em, firstChild, fontSize, fontWeight, int, left, lineHeight, listStyle, listStyleType, marginBlockEnd, marginBlockStart, none, paddingLeft, position, property, relative, rem, textAlign, top)
 import Html.Styled as Html

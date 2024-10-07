@@ -1,8 +1,9 @@
-module Data.PlaceCal.Events exposing (Event, EventPartner, Realm(..), afterDate, emptyEvent, eventsData, eventsFromDate, eventsFromPartnerId, next4Events, onOrBeforeDate)
+module Data.PlaceCal.Events exposing (Event, EventPartner, afterDate, allEventsQuery, eventFromSlug, eventPartnerFromId, eventsData, eventsDecoder, eventsFromDate, eventsWithPartners, next4Events, onOrBeforeDate)
 
 import BackendTask
-import BackendTask.Http
-import Constants
+import BackendTask.Custom
+import Data.PlaceCal.Api
+import Data.PlaceCal.Partners
 import FatalError
 import Helpers.TransDate as TransDate
 import Json.Decode
@@ -74,13 +75,16 @@ emptyEvent =
     }
 
 
-type Realm
-    = Online
+
+--type Realm
+--    = Online
 
 
-eventsFromPartnerId : List Event -> String -> List Event
-eventsFromPartnerId eventsList id =
-    List.filter (\event -> event.partner.id == id) eventsList
+eventFromSlug : String -> List Event -> Event
+eventFromSlug eventId eventsList =
+    List.filter (\event -> event.id == eventId) eventsList
+        |> List.head
+        |> Maybe.withDefault emptyEvent
 
 
 eventsFromDate : List Event -> Time.Posix -> List Event
@@ -115,19 +119,39 @@ next4Events allEvents fromTime =
     List.take 4 (eventsFromDate allEvents fromTime)
 
 
+eventPartnerFromId : List Data.PlaceCal.Partners.Partner -> String -> EventPartner
+eventPartnerFromId partnerList partnerId =
+    List.filter (\partner -> partner.id == partnerId) partnerList
+        |> List.map
+            (\partner ->
+                { name = Just partner.name
+                , maybeContactDetails = partner.maybeContactDetails
+                , id = partner.id
+                , maybeUrl = partner.maybeUrl
+                }
+            )
+        |> List.head
+        |> Maybe.withDefault { name = Nothing, maybeContactDetails = Nothing, maybeUrl = Nothing, id = partnerId }
+
+
+eventsWithPartners : List Event -> List Data.PlaceCal.Partners.Partner -> List Event
+eventsWithPartners eventList partnerList =
+    List.map
+        (\event -> { event | partner = eventPartnerFromId partnerList event.partner.id })
+        eventList
+
+
 
 ----------------------------
 -- DataSource query & decode
 ----------------------------
 
 
-eventsData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllEventsResponse
+eventsData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Custom.Error } AllEventsResponse
 eventsData =
-    BackendTask.Http.post Constants.placecalApi
-        (BackendTask.Http.jsonBody allEventsQuery)
-        (BackendTask.Http.expectJson
-            eventsDecoder
-        )
+    Data.PlaceCal.Api.fetchAndCachePlaceCalData "events"
+        allEventsQuery
+        eventsDecoder
 
 
 allEventsQuery : Json.Encode.Value

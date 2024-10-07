@@ -1,14 +1,10 @@
 module Theme.AboutPage exposing (viewIntro, viewSections)
 
-import Copy.Keys exposing (Key(..))
-import Copy.Text exposing (t)
 import Css exposing (Style, absolute, after, alignItems, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bottom, calc, center, column, display, displayFlex, flexDirection, flexShrink, height, important, int, justifyContent, left, margin, margin2, margin4, marginBottom, marginTop, minus, noRepeat, nthChild, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, right, spaceAround, top, url, vw, width, zIndex)
 import Css.Global exposing (descendants, typeSelector)
-import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, img, p, section, text)
+import Html.Styled exposing (Html, a, div, h3, h4, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
-import List exposing (append)
 import Markdown.Block
-import Pages.Url
 import Theme.Global exposing (buttonFloatingWrapperStyle, contentContainerStyle, contentWrapperStyle, introTextLargeStyle, normalFirstParagraphStyle, smallFloatingTitleStyle, textBoxPinkStyle, whiteButtonStyle, withMediaMediumDesktopUp, withMediaMobileOnly, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
 import Theme.PageTemplate
 import Theme.TransMarkdown
@@ -144,62 +140,6 @@ textStyle =
                 ]
             ]
         , Theme.PageTemplate.columnsStyle
-        ]
-
-
-pageHeadingStyle : Style
-pageHeadingStyle =
-    batch
-        [ before
-            [ height (px 240)
-            , backgroundImage (url "/images/illustrations/320px/about_1_header.png")
-            , top (px -130)
-            , withMediaMediumDesktopUp
-                [ backgroundImage (url "/images/illustrations/1920px/about_1_header.png")
-                , height (px 1150)
-                , top (px -130)
-                ]
-            , withMediaSmallDesktopUp
-                [ backgroundImage (url "/images/illustrations/1366px/about_1_header.png")
-                , height (px 486)
-                ]
-            , withMediaTabletLandscapeUp
-                [ backgroundImage (url "/images/illustrations/1024px/about_1_header.png")
-                , height (px 499)
-                , top (px -100)
-                ]
-            , withMediaTabletPortraitUp
-                [ backgroundImage (url "/images/illustrations/768px/about_1_header.png")
-                , height (px 432)
-                , top (px -75)
-                ]
-            ]
-        , after
-            [ withMediaSmallDesktopUp
-                [ width (px 231)
-                , height (px 434)
-                , backgroundSize (px 231)
-                , bottom (px -250)
-                , left (px -100)
-                ]
-            , withMediaTabletLandscapeUp
-                [ property "content" "\"\""
-                , display block
-                , width (px 162)
-                , height (px 305)
-                , backgroundSize (px 162)
-                , backgroundPosition center
-                , position absolute
-                , zIndex (int 2)
-                , backgroundRepeat noRepeat
-                , backgroundImage (url "/images/characters/girl_with_afro.png")
-                , bottom (px -90)
-                ]
-            ]
-        , withMediaTabletLandscapeUp
-            [ paddingTop (px 275) ]
-        , withMediaTabletPortraitUp
-            [ paddingTop (px 250) ]
         ]
 
 

@@ -1,11 +1,14 @@
-module Data.PlaceCal.Articles exposing (Article, articlesData, emptyArticle)
+module Data.PlaceCal.Articles exposing (Article, articleFromSlug, articlesData, replacePartnerIdWithName)
 
-import Api
+import Array
 import BackendTask
-import BackendTask.Http
-import Constants
+import BackendTask.Custom
+import Copy.Text exposing (isValidUrl)
+import Data.PlaceCal.Api
+import Data.PlaceCal.Partners
 import FatalError
-import Helpers.TransDate as TransDate
+import Helpers.TransDate
+import Helpers.TransRoutes
 import Json.Decode
 import Json.Decode.Pipeline
 import Json.Encode
@@ -17,7 +20,7 @@ type alias Article =
     , body : String
     , publishedDatetime : Time.Posix
     , partnerIds : List String
-    , maybeImage : Maybe String
+    , imageSrc : String
     }
 
 
@@ -27,7 +30,7 @@ emptyArticle =
     , body = ""
     , publishedDatetime = Time.millisToPosix 0
     , partnerIds = []
-    , maybeImage = Nothing
+    , imageSrc = "/images/news/article_1.jpg"
     }
 
 
@@ -37,13 +40,11 @@ emptyArticle =
 ----------------------------
 
 
-articlesData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllArticlesResponse
+articlesData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Custom.Error } AllArticlesResponse
 articlesData =
-    BackendTask.Http.post Constants.placecalApi
-        (BackendTask.Http.jsonBody allArticlesQuery)
-        (BackendTask.Http.expectJson
-            articlesDecoder
-        )
+    Data.PlaceCal.Api.fetchAndCachePlaceCalData "articles"
+        allArticlesQuery
+        articlesDecoder
 
 
 allArticlesQuery : Json.Encode.Value
@@ -72,18 +73,20 @@ articlesDecoder =
 
 decode : Json.Decode.Decoder Article
 decode =
-    Json.Decode.succeed Article
+    (Json.Decode.succeed Article
         |> Json.Decode.Pipeline.requiredAt [ "node", "headline" ]
             Json.Decode.string
         |> Json.Decode.Pipeline.requiredAt [ "node", "articleBody" ]
             Json.Decode.string
         |> Json.Decode.Pipeline.requiredAt [ "node", "datePublished" ]
-            TransDate.isoDateStringDecoder
+            Helpers.TransDate.isoDateStringDecoder
         |> Json.Decode.Pipeline.requiredAt [ "node", "providers" ]
             (Json.Decode.list partnerIdDecoder)
         |> Json.Decode.Pipeline.optionalAt [ "node", "image" ]
-            (Json.Decode.nullable Json.Decode.string)
-            Nothing
+            Json.Decode.string
+            ""
+    )
+        |> Json.Decode.andThen (\article -> addStockImage article)
 
 
 partnerIdDecoder : Json.Decode.Decoder String
@@ -99,3 +102,53 @@ type alias ProviderId =
 
 type alias AllArticlesResponse =
     { allArticles : List Article }
+
+
+replacePartnerIdWithName : List Article -> List Data.PlaceCal.Partners.Partner -> List Article
+replacePartnerIdWithName articleData partnerData =
+    List.map
+        (\article ->
+            { article | partnerIds = Data.PlaceCal.Partners.partnerNamesFromIds partnerData article.partnerIds }
+        )
+        articleData
+
+
+addStockImage article =
+    Json.Decode.succeed
+        { article
+            | imageSrc =
+                if isValidUrl article.imageSrc then
+                    article.imageSrc
+
+                else
+                    pickImageFromArticleLength (String.length article.body)
+        }
+
+
+pickImageFromArticleLength : Int -> String
+pickImageFromArticleLength articleLength =
+    Array.get
+        (modBy
+            (List.length stockImages)
+            articleLength
+        )
+        (Array.fromList stockImages)
+        |> Maybe.withDefault "/images/news/article_1.jpg"
+
+
+stockImages : List String
+stockImages =
+    List.map
+        (\id ->
+            "/images/news/article_" ++ String.fromInt id ++ ".jpg"
+        )
+        [ 1, 2, 3, 4, 5, 6 ]
+
+
+articleFromSlug : String -> List Article -> List Data.PlaceCal.Partners.Partner -> Article
+articleFromSlug slug allArticles allPartners =
+    List.filter
+        (\article -> Helpers.TransRoutes.stringToSlug article.title == slug)
+        (replacePartnerIdWithName allArticles allPartners)
+        |> List.head
+        |> Maybe.withDefault emptyArticle

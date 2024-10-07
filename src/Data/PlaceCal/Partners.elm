@@ -1,9 +1,8 @@
-module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, emptyPartner, eventPartnerFromId, partnerNameFromId, partnerNamesFromIds, partnersData)
+module Data.PlaceCal.Partners exposing (Address, Contact, Partner, ServiceArea, allPartnersQuery, partnerFromSlug, partnerNamesFromIds, partnersData, partnersDecoder)
 
 import BackendTask
-import BackendTask.Http
-import Constants
-import Data.PlaceCal.Events exposing (EventPartner)
+import BackendTask.Custom
+import Data.PlaceCal.Api
 import FatalError
 import Json.Decode
 import Json.Decode.Pipeline
@@ -77,13 +76,11 @@ type alias AllPartnersResponse =
     { allPartners : List Partner }
 
 
-partnersData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Http.Error } AllPartnersResponse
+partnersData : BackendTask.BackendTask { fatal : FatalError.FatalError, recoverable : BackendTask.Custom.Error } AllPartnersResponse
 partnersData =
-    BackendTask.Http.post Constants.placecalApi
-        (BackendTask.Http.jsonBody allPartnersQuery)
-        (BackendTask.Http.expectJson
-            partnersDecoder
-        )
+    Data.PlaceCal.Api.fetchAndCachePlaceCalData "partners"
+        allPartnersQuery
+        partnersDecoder
 
 
 allPartnersQuery : Json.Encode.Value
@@ -119,7 +116,7 @@ decodePartner =
         |> Json.Decode.Pipeline.required "id" Json.Decode.string
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.optional "summary" Json.Decode.string ""
-        |> Json.Decode.Pipeline.required "description" Json.Decode.string
+        |> Json.Decode.Pipeline.optional "description" Json.Decode.string ""
         |> Json.Decode.Pipeline.optional "url" (Json.Decode.map Just Json.Decode.string) Nothing
         |> Json.Decode.Pipeline.optional "contact" (Json.Decode.map Just contactDecoder) Nothing
         |> Json.Decode.Pipeline.optional "address" (Json.Decode.map Just addressDecoder) Nothing
@@ -163,11 +160,11 @@ serviceAreaDecoder =
             Nothing
 
 
-partnerNameFromId : List Partner -> String -> Maybe String
-partnerNameFromId partnerList id =
+partnerFromSlug : List Partner -> String -> Partner
+partnerFromSlug partnerList id =
     List.filter (\partner -> partner.id == id) partnerList
-        |> List.map (\partner -> partner.name)
         |> List.head
+        |> Maybe.withDefault emptyPartner
 
 
 partnerNamesFromIds : List Partner -> List String -> List String
@@ -175,18 +172,3 @@ partnerNamesFromIds partnerList idList =
     -- If the partner isn't in our sites partners, it won't be in the list
     List.filter (\partner -> List.member partner.id idList) partnerList
         |> List.map (\partner -> partner.name)
-
-
-eventPartnerFromId : List Partner -> String -> EventPartner
-eventPartnerFromId partnerList partnerId =
-    List.filter (\partner -> partner.id == partnerId) partnerList
-        |> List.map
-            (\partner ->
-                { name = Just partner.name
-                , maybeContactDetails = partner.maybeContactDetails
-                , id = partner.id
-                , maybeUrl = partner.maybeUrl
-                }
-            )
-        |> List.head
-        |> Maybe.withDefault { name = Nothing, maybeContactDetails = Nothing, maybeUrl = Nothing, id = partnerId }

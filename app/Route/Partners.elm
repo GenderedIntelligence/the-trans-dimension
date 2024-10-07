@@ -9,10 +9,8 @@ module Route.Partners exposing (Model, Msg, RouteParams, route, Data, ActionData
 import BackendTask
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
-import Data.PlaceCal.Partners
 import FatalError
 import Head
-import Html.Styled
 import PagesMsg
 import RouteBuilder
 import Shared
@@ -42,7 +40,7 @@ route =
 
 
 type alias Data =
-    List Data.PlaceCal.Partners.Partner
+    ()
 
 
 type alias ActionData =
@@ -51,8 +49,7 @@ type alias ActionData =
 
 data : BackendTask.BackendTask FatalError.FatalError Data
 data =
-    BackendTask.map (\sharedData -> sharedData.allPartners) Data.PlaceCal.Partners.partnersData
-        |> BackendTask.allowFatal
+    BackendTask.succeed ()
 
 
 head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
@@ -76,7 +73,7 @@ view app shared =
             , title = t PartnersTitle
             , bigText = { text = t PartnersIntroSummary, node = "p" }
             , smallText = Just [ t PartnersIntroDescription ]
-            , innerContent = Just (Theme.PartnersPage.viewPartners app.data)
+            , innerContent = Just (Theme.PartnersPage.viewPartners app.sharedData.partners)
             , outerContent = Nothing
             }
         ]
