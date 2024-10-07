@@ -160,6 +160,7 @@ humanTimeFromPosix timestamp =
             convertedIsoDateZone
             timestamp
 
+
 humanYearFromPosix : Time.Posix -> String
 humanYearFromPosix timestamp =
     if timestamp == defaultPosix then

@@ -7,7 +7,6 @@ module Route.Partners.Partner_ exposing (Model, Msg, RouteParams, route, Data, A
 -}
 
 import BackendTask
-import BackendTask.Custom
 import Browser.Dom
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -68,7 +67,7 @@ init :
     RouteBuilder.App Data ActionData RouteParams
     -> Shared.Model
     -> ( Model, Effect.Effect Msg )
-init app shared =
+init app _ =
     let
         urlFragment : Maybe String
         urlFragment =
@@ -110,7 +109,7 @@ update :
     -> Msg
     -> Model
     -> ( Model, Effect.Effect Msg )
-update app shared msg model =
+update app _ msg model =
     let
         aPartner =
             Data.PlaceCal.Partners.partnerFromSlug app.sharedData.partners app.routeParams.partner
@@ -208,7 +207,7 @@ view :
     -> Shared.Model
     -> Model
     -> View.View (PagesMsg.PagesMsg Msg)
-view app shared model =
+view app _ model =
     let
         aPartner =
             Data.PlaceCal.Partners.partnerFromSlug app.sharedData.partners app.routeParams.partner
