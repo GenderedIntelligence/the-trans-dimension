@@ -1,4 +1,4 @@
-module Theme.AboutPage exposing (viewIntro, viewSections)
+module Theme.Page.About exposing (viewIntro, viewSections)
 
 import Css exposing (Style, absolute, after, alignItems, auto, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize, batch, before, block, bottom, calc, center, column, display, displayFlex, flexDirection, flexShrink, height, important, int, justifyContent, left, margin, margin2, margin4, marginBottom, marginTop, minus, noRepeat, nthChild, padding, paddingBottom, paddingLeft, paddingRight, paddingTop, pct, position, property, px, relative, rem, right, spaceAround, top, url, vw, width, zIndex)
 import Css.Global exposing (descendants, typeSelector)

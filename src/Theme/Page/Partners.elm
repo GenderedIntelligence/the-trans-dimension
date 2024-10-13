@@ -1,4 +1,4 @@
-module Theme.PartnersPage exposing (viewPartners)
+module Theme.Page.Partners exposing (viewPartners)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

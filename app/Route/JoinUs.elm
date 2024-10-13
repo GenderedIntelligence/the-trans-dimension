@@ -16,18 +16,18 @@ import Html.Styled
 import PagesMsg
 import RouteBuilder
 import Shared
-import Theme.JoinUsPage
+import Theme.Page.JoinUs
 import Theme.PageTemplate
 import UrlPath
 import View exposing (View)
 
 
 type alias Model =
-    Theme.JoinUsPage.Model
+    Theme.Page.JoinUs.Model
 
 
 type alias Msg =
-    Theme.JoinUsPage.Msg
+    Theme.Page.JoinUs.Msg
 
 
 type alias RouteParams =
@@ -39,8 +39,8 @@ init :
     -> Shared.Model
     -> ( Model, Effect.Effect Msg )
 init _ _ =
-    ( { userInput = Theme.JoinUsPage.blankForm
-      , formState = Theme.JoinUsPage.Inputting
+    ( { userInput = Theme.Page.JoinUs.blankForm
+      , formState = Theme.Page.JoinUs.Inputting
       }
     , Effect.none
     )
@@ -58,7 +58,7 @@ route =
         |> RouteBuilder.buildWithLocalState
             { init = init
             , view = view
-            , update = Theme.JoinUsPage.update
+            , update = Theme.Page.JoinUs.update
             , subscriptions = subscriptions
             }
 
@@ -98,7 +98,7 @@ view _ _ model =
             , title = t JoinUsTitle
             , bigText = { text = t JoinUsSubtitle, node = "p" }
             , smallText = Just [ t JoinUsDescription ]
-            , innerContent = Just (Theme.JoinUsPage.view model)
+            , innerContent = Just (Theme.Page.JoinUs.view model)
             , outerContent = Nothing
             }
             |> Html.Styled.map PagesMsg.fromMsg

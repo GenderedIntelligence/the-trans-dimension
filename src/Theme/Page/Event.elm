@@ -1,4 +1,4 @@
-module Theme.EventPage exposing (viewButtons, viewEventInfo)
+module Theme.Page.Event exposing (viewButtons, viewEventInfo)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (isValidUrl, t)

@@ -1,4 +1,4 @@
-module Theme.EventsPage exposing (viewEvents, viewEventsList)
+module Theme.Page.Events exposing (viewEvents, viewEventsList)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

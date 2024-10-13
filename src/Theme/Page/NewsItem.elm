@@ -1,4 +1,4 @@
-module Theme.NewsItemPage exposing (viewArticle)
+module Theme.Page.NewsItem exposing (viewArticle)
 
 import Css exposing (Style, after, auto, batch, block, bold, borderRadius, center, display, firstChild, fontSize, fontWeight, height, margin, margin2, margin4, marginTop, maxWidth, pct, property, px, rem, textAlign, width)
 import Css.Global exposing (descendants, typeSelector)

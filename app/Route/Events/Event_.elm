@@ -16,7 +16,7 @@ import Head
 import PagesMsg
 import RouteBuilder
 import Shared
-import Theme.EventPage
+import Theme.Page.Event
 import Theme.PageTemplate
 import View
 
@@ -103,8 +103,8 @@ view app _ =
             , title = t EventsTitle
             , bigText = { text = event.name, node = "h3" }
             , smallText = Nothing
-            , innerContent = Just (Theme.EventPage.viewEventInfo eventWithPartner)
-            , outerContent = Just (Theme.EventPage.viewButtons event)
+            , innerContent = Just (Theme.Page.Event.viewEventInfo eventWithPartner)
+            , outerContent = Just (Theme.Page.Event.viewButtons event)
             }
         ]
     }

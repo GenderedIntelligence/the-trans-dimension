@@ -14,8 +14,8 @@ import Head
 import PagesMsg
 import RouteBuilder
 import Shared
+import Theme.Page.Partners
 import Theme.PageTemplate
-import Theme.PartnersPage
 import View
 
 
@@ -73,7 +73,7 @@ view app _ =
             , title = t PartnersTitle
             , bigText = { text = t PartnersIntroSummary, node = "p" }
             , smallText = Just [ t PartnersIntroDescription ]
-            , innerContent = Just (Theme.PartnersPage.viewPartners app.sharedData.partners)
+            , innerContent = Just (Theme.Page.Partners.viewPartners app.sharedData.partners)
             , outerContent = Nothing
             }
         ]
