@@ -7,7 +7,7 @@ Front-end for [The Trans Dimension](http://transdimension.uk/), an online commun
 Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodhub.co.uk/build-fund-2021). Read more about the project [here](https://gfsc.studio/2021/12/14/enter-trans-dimension.html).
 
 -  Staging url: https://transdimension.pages.dev
--  Production URL (holding page currently): http://transdimension.uk/
+-  Production URL: http://transdimension.uk/
 
 # Development
 
@@ -21,11 +21,11 @@ Funded by the [Comic Relief Tech for Good “Build” fund](https://techforgoodh
 - make sure you are using the correct node version with `nvm use`
 - install with `npm install`
 
-Make sure you copy `.env.example` over into `.env` and edit as appropriate! This must be done before any of the following will work as it generates `src/Constants.elm` which is used in a number of places in the code.
+Copy `.env.example` over into `.env` and edit as appropriate! This must be done before any of the following will work as it generates `src/Constants.elm` which is used in a number of places in the code.
 
 ## Build
 
-- `npm start` to start a dev server on http://localhost:3000
+- `npm start` to start a dev server on http://localhost:3030
 - `npm run build` generate a production build in `dist/`
 
 ## Formatting
@@ -52,19 +52,26 @@ We're using [elm-test-rs](https://github.com/mpizenberg/elm-test-rs) to run [elm
 - `elm.json` for elm packages used for site
 - `elm-tooling.json` for elm packages used for code
 - `.env` is used to generate `src/Constants.elm` for elm-pages
+- `script/*` contains CLI code generation scripts to generate boilerplate for new `elm-pages` routes
 - `.nvmrc` contains project node version
 - `package.json` for node scripts and packages
 - `package-lock.json` for current versions of node packages
 - `public/*` contains static files to be copied direct to build
-- `src/*` contains app source files
+- `app/*` contains core files required by `elm-pages`. These are boilerplate altered for this project.
+- `src/*` contains custom files. These are authoured from scratch for this project.
+  - `src/Data/PlaceCal` contains code for fetching, caching and decoding data from PlaceCal
+  - `src/Helpers/` contains utility code (e.g. for handling dates)
+  - `src/Theme/` contains view code like templates and shared styling
 - `tests/*` contains test files
 
 ### Content & Pages
 
-- Pages are in `Page/` and automatic route based on file name
-- Copy is not from a datasource (e.g. UI or SEO text) is in `Copy/Text.elm`
-- We use `[cCc] to denote placeholder copy`
-- We use `[fFf] to denote placeholder UI feature or section`
+- Routes in `app/Route/` automatically generate route based on file name
+- New routes can be generated via CLI
+  - e.g. create a new stateless route by running `npx elm-pages run AddStaticStatelessRoute MyRouteName`
+- Page templates are in `src/Theme/Page/`
+- About and Privacy pages are generated from markdown in `content/`
+- Copy is not from a datasource (e.g. UI or SEO text) is in `src/Copy/Text.elm`
 
 ### Styling & layouts
 
@@ -97,7 +104,7 @@ Deploys to Cloudflare Pages
 
 -  check the acceptance criteria have been met (with tests if appropriate)
 -  add comments & questions
--  once approved, leave for the author to squash and merge
+-  once approved, leave for the author to merge
 
 ## License
 
