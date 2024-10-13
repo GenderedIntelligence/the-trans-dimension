@@ -1,15 +1,25 @@
-module Theme.JoinUsPage exposing (FormInput, FormState(..), Msg(..), blankForm, emailBody, emailPostRequest, validateForm, view)
+module Theme.JoinUsPage exposing (FormInput, FormState(..), Model, Msg(..), blankForm, update, view)
 
 import Constants exposing (joinUsFunctionUrl)
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
 import Css exposing (Style, alignItems, auto, batch, block, borderBox, boxSizing, calc, center, color, column, display, displayFlex, em, flexDirection, flexShrink, flexWrap, fontSize, fontWeight, height, important, int, justifyContent, letterSpacing, lineHeight, margin, margin2, marginRight, marginTop, maxWidth, minus, padding2, pct, pseudoElement, px, rem, row, spaceBetween, textAlign, textTransform, uppercase, width, wrap)
+import Effect exposing (Effect)
 import Html.Styled exposing (Html, button, div, form, input, label, p, span, text, textarea)
 import Html.Styled.Attributes exposing (css, placeholder, type_, value)
 import Html.Styled.Events exposing (onInput, onSubmit)
 import Http
 import Json.Encode
+import RouteBuilder
+import Shared
+import Task
 import Theme.Global exposing (pink, pinkButtonOnDarkBackgroundStyle, textInputErrorStyle, textInputStyle, viewCheckbox, white, withMediaSmallDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+
+
+type alias Model =
+    { userInput : FormInput
+    , formState : FormState
+    }
 
 
 type FormInputType
@@ -180,6 +190,158 @@ blankForm =
         , required = Required
         }
     }
+
+
+run : Msg -> Effect Msg
+run m =
+    Task.perform (always m) (Task.succeed ())
+        |> Effect.fromCmd
+
+
+update :
+    RouteBuilder.App data actionData routeParams
+    -> Shared.Model
+    -> Msg
+    -> Model
+    -> ( Model, Effect.Effect Msg )
+update _ _ msg ({ userInput } as model) =
+    case msg of
+        UpdateName newString ->
+            let
+                oldField =
+                    userInput.name
+
+                newField =
+                    { oldField | value = newString }
+            in
+            ( { model | userInput = { userInput | name = newField } }, Effect.none )
+
+        UpdateEmail newString ->
+            let
+                oldField =
+                    model.userInput.email
+
+                newField =
+                    { oldField | value = newString }
+            in
+            ( { model | userInput = { userInput | email = newField } }, Effect.none )
+
+        UpdatePhone newString ->
+            let
+                oldField =
+                    userInput.phone
+
+                newField =
+                    { oldField | value = newString }
+            in
+            ( { model | userInput = { userInput | phone = newField } }, Effect.none )
+
+        UpdateJob newString ->
+            let
+                oldField =
+                    userInput.job
+
+                newField =
+                    { oldField | value = newString }
+            in
+            ( { model | userInput = { userInput | job = newField } }, Effect.none )
+
+        UpdateOrg newString ->
+            let
+                oldField =
+                    userInput.org
+
+                newField =
+                    { oldField | value = newString }
+            in
+            ( { model | userInput = { userInput | org = newField } }, Effect.none )
+
+        UpdateAddress newString ->
+            let
+                oldField =
+                    userInput.address
+
+                newField =
+                    { oldField | value = newString }
+            in
+            ( { model | userInput = { userInput | address = newField } }, Effect.none )
+
+        UpdateRingBack newBool ->
+            let
+                oldField =
+                    userInput.ringBack
+
+                newField =
+                    { oldField | value = newBool }
+            in
+            ( { model | userInput = { userInput | ringBack = newField } }, Effect.none )
+
+        UpdateMoreInfo newBool ->
+            let
+                oldField =
+                    userInput.moreInfo
+
+                newField =
+                    { oldField | value = newBool }
+            in
+            ( { model | userInput = { userInput | moreInfo = newField } }, Effect.none )
+
+        UpdateMessage newString ->
+            let
+                oldField =
+                    userInput.message
+
+                newField =
+                    { oldField | value = newString }
+            in
+            ( { model | userInput = { userInput | message = newField } }, Effect.none )
+
+        ErrorName errorType ->
+            let
+                oldField =
+                    userInput.name
+
+                newField =
+                    { oldField | error = Just errorType }
+            in
+            ( { model | userInput = { userInput | name = newField } }, Effect.none )
+
+        ErrorEmail errorType ->
+            let
+                oldField =
+                    userInput.email
+
+                newField =
+                    { oldField | error = Just errorType }
+            in
+            ( { model | userInput = { userInput | email = newField } }, Effect.none )
+
+        ErrorMessage errorType ->
+            let
+                oldField =
+                    userInput.message
+
+                newField =
+                    { oldField | error = Just errorType }
+            in
+            ( { model | userInput = { userInput | message = newField } }, Effect.none )
+
+        ClickSend ->
+            ( model, Effect.batch (List.map (\message -> run message) (validateForm model.userInput)) )
+
+        SendEmail ->
+            ( model, emailPostRequest (emailBody model.userInput) |> Effect.fromCmd )
+
+        SetFormState newState ->
+            ( { model | formState = newState }, Effect.none )
+
+        ReceiveEmailResponse result ->
+            case result of
+                Ok _ ->
+                    ( { userInput = blankForm, formState = Sent }, Effect.none )
+
+                Err _ ->
+                    ( { model | formState = SendingError }, Effect.none )
 
 
 view :
