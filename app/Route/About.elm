@@ -17,7 +17,7 @@ import Markdown.Block
 import PagesMsg
 import RouteBuilder
 import Shared
-import Theme.AboutPage
+import Theme.Page.About
 import Theme.PageTemplate
 import Theme.TransMarkdown
 import View
@@ -198,10 +198,10 @@ view app _ =
             , title = app.data.main.title
             , bigText = { text = app.data.main.subtitle, node = "p" }
             , smallText = Nothing
-            , innerContent = Just (Theme.AboutPage.viewIntro app.data.main.body)
+            , innerContent = Just (Theme.Page.About.viewIntro app.data.main.body)
             , outerContent =
                 Just
-                    (Theme.AboutPage.viewSections
+                    (Theme.Page.About.viewSections
                         { accessibilityData = app.data.accessibility
                         , makersData = app.data.makers
                         , aboutPlaceCalData = app.data.placecal

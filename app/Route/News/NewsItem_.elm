@@ -16,7 +16,7 @@ import Helpers.TransRoutes
 import PagesMsg
 import RouteBuilder
 import Shared
-import Theme.NewsItemPage
+import Theme.Page.NewsItem
 import Theme.PageTemplate
 import View
 
@@ -84,7 +84,7 @@ view app _ =
             , title = t NewsTitle
             , bigText = { text = article.title, node = "h3" }
             , smallText = Nothing
-            , innerContent = Just (Theme.NewsItemPage.viewArticle article)
+            , innerContent = Just (Theme.Page.NewsItem.viewArticle article)
             , outerContent = Nothing
             }
         ]

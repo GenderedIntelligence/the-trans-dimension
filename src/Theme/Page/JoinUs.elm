@@ -1,4 +1,4 @@
-module Theme.JoinUsPage exposing (FormInput, FormState(..), Model, Msg(..), blankForm, update, view)
+module Theme.Page.JoinUs exposing (FormInput, FormState(..), Model, Msg(..), blankForm, update, view)
 
 import Constants exposing (joinUsFunctionUrl)
 import Copy.Keys exposing (Key(..))

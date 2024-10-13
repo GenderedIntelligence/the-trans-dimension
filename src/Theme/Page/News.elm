@@ -1,4 +1,4 @@
-module Theme.NewsPage exposing (viewNewsArticle, viewNewsList)
+module Theme.Page.News exposing (viewNewsArticle, viewNewsList)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)

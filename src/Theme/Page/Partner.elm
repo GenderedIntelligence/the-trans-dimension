@@ -1,4 +1,4 @@
-module Theme.PartnerPage exposing (viewInfo)
+module Theme.Page.Partner exposing (viewInfo)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -7,8 +7,8 @@ import Data.PlaceCal.Events
 import Data.PlaceCal.Partners
 import Html.Styled exposing (Html, a, address, div, h3, hr, p, section, span, text)
 import Html.Styled.Attributes exposing (css, href, id, target)
-import Theme.EventsPage
 import Theme.Global exposing (hrStyle, introTextLargeStyle, linkStyle, normalFirstParagraphStyle, pink, smallInlineTitleStyle, white, withMediaMediumDesktopUp, withMediaTabletLandscapeUp, withMediaTabletPortraitUp)
+import Theme.Page.Events
 import Theme.TransMarkdown
 
 
@@ -53,7 +53,7 @@ viewPartnerEvents localModel { partner, events } =
         (if List.length events > 0 then
             if List.length events > 20 then
                 [ eventAreaTitle
-                , Theme.EventsPage.viewEvents localModel
+                , Theme.Page.Events.viewEvents localModel
                 ]
 
             else
@@ -67,7 +67,7 @@ viewPartnerEvents localModel { partner, events } =
                 [ if List.length futureEvents > 0 then
                     div []
                         [ eventAreaTitle
-                        , Theme.EventsPage.viewEventsList futureEvents
+                        , Theme.Page.Events.viewEventsList futureEvents
                         ]
 
                   else
@@ -75,7 +75,7 @@ viewPartnerEvents localModel { partner, events } =
                 , if List.length pastEvents > 0 then
                     div []
                         [ h3 [ css [ smallInlineTitleStyle, color white ] ] [ text (t (PartnerPreviousEventsText partner.name)) ]
-                        , Theme.EventsPage.viewEventsList pastEvents
+                        , Theme.Page.Events.viewEventsList pastEvents
                         ]
 
                   else

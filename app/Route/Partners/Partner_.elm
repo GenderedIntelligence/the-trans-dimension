@@ -23,9 +23,9 @@ import RouteBuilder
 import Shared
 import Task
 import Theme.Global
+import Theme.Page.Partner
 import Theme.PageTemplate
 import Theme.Paginator exposing (Msg(..))
-import Theme.PartnerPage
 import Time
 import UrlPath
 import View
@@ -221,7 +221,7 @@ view app _ model =
             , smallText = Nothing
             , innerContent =
                 Just
-                    (Theme.PartnerPage.viewInfo model
+                    (Theme.Page.Partner.viewInfo model
                         { partner = aPartner
                         , events = eventsFromPartnerId aPartner.id app.sharedData.events
                         }

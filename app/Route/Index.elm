@@ -14,7 +14,7 @@ import Head
 import PagesMsg
 import RouteBuilder
 import Shared
-import Theme.IndexPage
+import Theme.Page.Index
 import Theme.PageTemplate
 import View
 
@@ -67,5 +67,5 @@ view :
     -> View.View (PagesMsg.PagesMsg Msg)
 view app _ =
     { title = t SiteTitle
-    , body = [ Theme.IndexPage.view app.sharedData ]
+    , body = [ Theme.Page.Index.view app.sharedData ]
     }

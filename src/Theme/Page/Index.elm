@@ -1,4 +1,4 @@
-module Theme.IndexPage exposing (view)
+module Theme.Page.Index exposing (view)
 
 import Copy.Keys exposing (Key(..))
 import Copy.Text exposing (t)
@@ -9,9 +9,9 @@ import Helpers.TransRoutes
 import Html.Styled exposing (Html, a, div, h1, h2, img, p, section, text)
 import Html.Styled.Attributes exposing (alt, css, href, src)
 import Shared
-import Theme.EventsPage
 import Theme.Global
-import Theme.NewsPage
+import Theme.Page.Events
+import Theme.Page.News
 import Time
 
 
@@ -51,7 +51,7 @@ viewFeatured : Time.Posix -> List Data.PlaceCal.Events.Event -> Html msg
 viewFeatured fromTime eventList =
     section [ css [ sectionStyle, Theme.Global.darkBlueBackgroundStyle, eventsSectionStyle ] ]
         [ h2 [ css [ Theme.Global.smallFloatingTitleStyle ] ] [ text (t IndexFeaturedHeader) ]
-        , Theme.EventsPage.viewEventsList (Data.PlaceCal.Events.next4Events eventList fromTime)
+        , Theme.Page.Events.viewEventsList (Data.PlaceCal.Events.next4Events eventList fromTime)
         , p [ css [ Theme.Global.buttonFloatingWrapperStyle, width (calc (pct 100) minus (rem 2)) ] ]
             [ a
                 [ href (Helpers.TransRoutes.toAbsoluteUrl Helpers.TransRoutes.Events)
@@ -68,7 +68,7 @@ viewLatestNews maybeNewsItem title buttonText =
         [ h2 [ css [ Theme.Global.smallFloatingTitleStyle ] ] [ text title ]
         , case maybeNewsItem of
             Just news ->
-                Theme.NewsPage.viewNewsArticle news
+                Theme.Page.News.viewNewsArticle news
 
             Nothing ->
                 text ""

@@ -15,7 +15,7 @@ import Head
 import PagesMsg
 import RouteBuilder
 import Shared
-import Theme.NewsPage
+import Theme.Page.News
 import Theme.PageTemplate
 import View
 
@@ -77,7 +77,7 @@ view app _ =
             , innerContent = Nothing
             , outerContent =
                 Just
-                    (Theme.NewsPage.viewNewsList
+                    (Theme.Page.News.viewNewsList
                         (Data.PlaceCal.Articles.replacePartnerIdWithName app.sharedData.articles app.sharedData.partners)
                     )
             }
